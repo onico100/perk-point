@@ -39,7 +39,6 @@ export interface User {
     categories:ObjectId[];
     phoneNumber: String;
     registrationDate: Date;
-
     branches:Branch[];
     supplierLogo:string;
   }
