@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 
+
 export interface User {
     _id: string;
     username: string;
@@ -10,6 +11,7 @@ export interface User {
     city: string;
     isActive: boolean;
   }
+
 
   export interface Benefit {
     _id?: string;
@@ -37,7 +39,9 @@ export interface User {
     categories:ObjectId[];
     phoneNumber: String;
     registrationDate: Date;
+
     branches:Branch[];
     supplierLogo:string;
   }
-  
+
+

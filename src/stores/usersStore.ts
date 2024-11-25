@@ -1,3 +1,4 @@
+
 import { create } from 'zustand';
 import { User } from '../types/types';
 
@@ -8,6 +9,7 @@ interface UserStore {
 
 const useUserStore = create<UserStore>((set) => ({
   users: [], 
+
   setUsers: (users: User[]) => set({ users }),
 }));
 
