@@ -19,7 +19,10 @@ export async function insertDocument(
 
 export async function getAllDocuments(client: any, collection: string) {
   const db = client.db(databaseName);
-  const documents = await db.collection(collection).find().toArray();
+  const documents = await db
+    .collection(collection)
+    .find({ isActive: true })
+    .toArray();
   return documents;
 }
 
@@ -31,7 +34,7 @@ export async function getDocumentById(
   const db = client.db(databaseName);
   const document = await db
     .collection(collection)
-    .findOne({ _id: new ObjectId(id) });
+    .findOne({ _id: new ObjectId(id), isActive: true });
   return document;
 }
 
@@ -56,7 +59,7 @@ export async function deleteDocumentById(
   const db = client.db(databaseName);
   const result = await db
     .collection(collection)
-    .deleteOne({ _id: new ObjectId(id) });
+    .updateOne({ _id: ObjectId(id) }, { $set: { isActive: false } }); // Mark as inactive
   return result;
 }
 
