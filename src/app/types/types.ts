@@ -11,13 +11,14 @@ export interface User {
   }
 
   export interface Supplier {
-    providerName: String,
-    password: String,
-    email: String,
-    businessName: String,
-    categories:ObjectId[],
-    phoneNumber: String,
-    registrationDate: Date,
-    branches:ObjectId[],
-    supplierLogo:string,
+    _id: string;
+    providerName: String;
+    password: String;
+    email: String;
+    businessName: String;
+    categories:ObjectId[];
+    phoneNumber: String;
+    registrationDate: Date;
+    branches:ObjectId[];
+    supplierLogo:string;
   }
