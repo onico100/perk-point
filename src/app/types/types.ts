@@ -9,3 +9,20 @@ export interface User {
     isActive: boolean;
   }
 
+  export interface Benefit {
+    _id?: string;
+    supplierId: string;
+    clubId: string;
+    redemptionConditions: string;
+    description: string;
+    validity: Date;
+    clubLink: string;
+    branches: Branch[];
+    isActive: boolean;
+  }
+  
+  export interface Branch {
+    city: string;
+    address: string;
+  }
+  
