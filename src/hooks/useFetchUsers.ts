@@ -7,12 +7,14 @@ export const useFetchUsers = () => {
   const queryClient = useQueryClient();
   const setUsers = useUserStore((state:any) => state.setUsers);
 
+
   const { data: users, isLoading, isFetching } = useQuery({
     queryKey: ['users'],
     queryFn: getUsers,
     staleTime: 10000,
   });
   setUsers(users);
+
 
 
   const addUserMutation = useMutation({
