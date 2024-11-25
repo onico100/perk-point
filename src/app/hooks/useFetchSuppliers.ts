@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import useSupplierStore from '../stores/suppliersStore';
 import { Supplier } from '../types/types';
-import { useMutation, useQueryClient } from 'react-query';
+import { useIsMutating, useMutation, useQueryClient } from 'react-query';
 import {getAllSuppliers, addSupplier, deleteSupplier, updateSupplier} from "../services/supplier"
 
 export const useFetchSuppliers = () => {
@@ -46,6 +46,19 @@ export const useFetchSuppliers = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['suppliers'] }),
   })
 
+const deleteSupplierrMutation=useMutation({
+  mutationFn: deleteSupplier,
+  onMutate: async (supplierId: string) => {
+    await queryClient.cancelQueries({ queryKey: ['suppliers'] });
+    const previousSuppliers = queryClient.getQueryData<Supplier[]>(['suppliers']);
+    queryClient.setQueryData(['suppliers'], (old: any) => old?.filter((supplier: Supplier) => supplier._id!== supplierId));
+    return { previousSuppliers };
+  },
+  onError: (error, _, context: any) => { queryClient.setQueryData(['suppliers'], context.previousSuppliers);},
+  onSuccess: () => queryClient.invalidateQueries({ queryKey: ['suppliers'] }),
+ 
+})
+
 
   return{
     suppliers,
@@ -53,7 +66,7 @@ export const useFetchSuppliers = () => {
     isFetching,
     addSupplier: addSuplierMutation.mutate,
     updateSupplier: updateSupplierMutation.mutate,
-    // deleteUser: deleteSupplierrMutation.mutate,
+    deleteSupplier: deleteSupplierrMutation.mutate,
   }
 }
 
