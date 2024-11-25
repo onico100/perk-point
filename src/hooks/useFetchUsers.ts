@@ -14,8 +14,7 @@ export const useFetchUsers = () => {
     staleTime: 10000,
   });
   setUsers(users);
-  
-  
+
 
 
   const addUserMutation = useMutation({
