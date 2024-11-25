@@ -2,23 +2,24 @@ import { useQuery } from '@tanstack/react-query';
 import useSupplierStore from '../stores/suppliersStore';
 import { Supplier } from '../types/types';
 import { useIsMutating, useMutation, useQueryClient } from 'react-query';
-import {getAllSuppliers, addSupplier, deleteSupplier, updateSupplier} from "../services/supplier"
+import {getAllSuppliers, addSupplier, deleteSupplier, updateSupplier} from "@/services/suppliersServices"
+import { useEffect } from 'react';
 
 export const useFetchSuppliers = () => {
   const setSuppliers = useSupplierStore((state:any) => state.setSuppliers);
 
   const queryClient = useQueryClient()
 
-  const {data: suppliers, isLoading, isFetching} = useQuery({
+  const {data, isLoading, isFetching} = useQuery({
     queryKey: ["suppliers"],
     queryFn: getAllSuppliers,
-    staleTime: 10000,
-    
+    staleTime: 10000, 
   },);
 
-  if (suppliers) {
-    setSuppliers(suppliers);
-  }
+useEffect(()=>{
+  if(data)
+    setSuppliers(data) 
+},[data]);
 
 
   const addSuplierMutation=useMutation({
@@ -61,7 +62,7 @@ const deleteSupplierrMutation=useMutation({
 
 
   return{
-    suppliers,
+    data,
     isLoading,
     isFetching,
     addSupplier: addSuplierMutation.mutate,
