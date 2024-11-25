@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const http = axios.create({
+const my_http = axios.create({
     url: "/api",
     baseURL: "/api",
     headers: {
@@ -9,4 +9,4 @@ const http = axios.create({
     }
 });
 
-export default http;
+export default my_http;
