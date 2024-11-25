@@ -8,6 +8,7 @@ export interface User {
     registrationDate: string;
     savedBenefits: string[];
     city: string;
+    isActive: boolean;
   }
 
   export interface Supplier {
@@ -22,3 +23,4 @@ export interface User {
     branches:ObjectId[];
     supplierLogo:string;
   }
+
