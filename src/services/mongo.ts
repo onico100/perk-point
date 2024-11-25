@@ -23,7 +23,6 @@ export async function getAllDocuments(client: any, collection: string) {
   return documents;
 }
 
-//id ==objectid?
 export async function getDocumentById(
   client: any,
   collection: string,
@@ -32,7 +31,7 @@ export async function getDocumentById(
   const db = client.db(databaseName);
   const document = await db
     .collection(collection)
-    .findOne({ _id: ObjectId(id) });
+    .findOne({ _id: new ObjectId(id) });
   return document;
 }
 
@@ -45,7 +44,7 @@ export async function updateDocumentById(
   const db = client.db(databaseName);
   const result = await db
     .collection(collection)
-    .updateOne({ _id: ObjectId(id) }, { $set: updatedDocument });
+    .updateOne({ _id: new ObjectId(id) }, { $set: updatedDocument });
   return result;
 }
 
@@ -57,6 +56,6 @@ export async function deleteDocumentById(
   const db = client.db(databaseName);
   const result = await db
     .collection(collection)
-    .deleteOne({ _id: ObjectId(id) });
+    .deleteOne({ _id: new ObjectId(id) });
   return result;
 }
