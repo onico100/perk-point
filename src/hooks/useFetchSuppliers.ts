@@ -8,7 +8,6 @@ import {
   deleteSupplierById,
   updateSupplierById,
 } from "@/services/suppliersServices";
-import { useEffect } from "react";
 
 export const useFetchSuppliers = () => {
   const setSuppliers = useSupplierStore((state: any) => state.setSuppliers);
