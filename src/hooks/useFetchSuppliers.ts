@@ -1,73 +1,110 @@
-import { useQuery } from '@tanstack/react-query';
-import useSupplierStore from '../stores/suppliersStore';
-import { Supplier } from '../types/types';
-import { useIsMutating, useMutation, useQueryClient } from 'react-query';
-import {getAllSuppliers, addSupplier, deleteSupplier, updateSupplier} from "@/services/suppliersServices"
-import { useEffect } from 'react';
+import { useQuery } from "@tanstack/react-query";
+import useSupplierStore from "../stores/suppliersStore";
+import { Supplier } from "../types/types";
+import { useIsMutating, useMutation, useQueryClient } from "react-query";
+import {
+  getAllSuppliers,
+  addSupplier,
+  deleteSupplierById,
+  updateSupplierById,
+} from "@/services/suppliersServices";
+import { useEffect } from "react";
 
 export const useFetchSuppliers = () => {
-  const setSuppliers = useSupplierStore((state:any) => state.setSuppliers);
+  const setSuppliers = useSupplierStore((state: any) => state.setSuppliers);
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const {data, isLoading, isFetching} = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ["suppliers"],
-    queryFn: getAllSuppliers,
-    staleTime: 10000, 
-  },);
+    queryFn: async () => {
+      const suppliers = await getAllSuppliers();
+      setSuppliers(suppliers);
+      return suppliers;
+    },
+    staleTime: 10000,
+  });
 
-useEffect(()=>{
-  if(data)
-    setSuppliers(data) 
-},[data]);
-
-
-  const addSuplierMutation=useMutation({
+  const addSupplierMutation = useMutation({
     mutationFn: addSupplier,
-    onMutate: async (suplier: Omit<Supplier, '_id'>) => {
-      await queryClient.cancelQueries({ queryKey: ['suppliers'] });
-      const previousSuppliers = queryClient.getQueryData<Supplier[]>(['suppliers']);
-      queryClient.setQueryData(['suppliers'], (old:any) => [...(old || []), {...suplier, _id: 'temp-id' }]);
+    onMutate: async (supplier: Omit<Supplier, "_id">) => {
+      const { suppliers, setSuppliers } = useSupplierStore.getState();
+
+      const previousSuppliers = [...suppliers];
+
+      const newSupplier = { ...supplier, _id: "temp-id" };
+      setSuppliers([...suppliers, newSupplier]);
+
       return { previousSuppliers };
     },
-    onError: (error, _, context: any) => { queryClient.setQueryData(['suppliers'], context.previousSuppliers);},
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['suppliers'] }),
-  })
+    onError: (error, _, context: any) => {
+      const { setSuppliers } = useSupplierStore.getState();
 
-  const updateSupplierMutation=useMutation({
-    mutationFn: updateSupplier,
-    onMutate: async (updatedSupplier: Supplier) => {
-      await queryClient.cancelQueries({ queryKey: ['suppliers'] });
-      const previousSuppliers = queryClient.getQueryData<Supplier[]>(['suppliers']);
-      const updatedSuppliers = previousSuppliers?.map(supplier => supplier._id === updatedSupplier._id? updatedSupplier : supplier);
-      queryClient.setQueryData(['suppliers'], updatedSuppliers);
+      setSuppliers(context.previousSuppliers);
+    },
+    onSuccess: () => {
+      console.log("Supplier added successfully!");
+    },
+  });
+
+  const updateSupplierMutation = useMutation<
+    Supplier,
+    Error,
+    { id: string; updatedData: Partial<Supplier> }
+  >({
+    mutationFn: ({ id, updatedData }) => updateSupplierById(id, updatedData),
+    onMutate: async ({ id, updatedData }) => {
+      const { suppliers, setSuppliers } = useSupplierStore.getState();
+
+      const previousSuppliers = [...suppliers];
+
+      const updatedSuppliers = suppliers.map((supplier) =>
+        supplier._id === id ? { ...supplier, ...updatedData } : supplier
+      );
+      setSuppliers(updatedSuppliers);
+
       return { previousSuppliers };
     },
-    onError: (error, _, context: any) => { queryClient.setQueryData(['suppliers'], context.previousSuppliers);},
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['suppliers'] }),
-  })
+    onError: (_error, _variables, context: any) => {
+      const { setSuppliers } = useSupplierStore.getState();
 
-const deleteSupplierrMutation=useMutation({
-  mutationFn: deleteSupplier,
-  onMutate: async (supplierId: string) => {
-    await queryClient.cancelQueries({ queryKey: ['suppliers'] });
-    const previousSuppliers = queryClient.getQueryData<Supplier[]>(['suppliers']);
-    queryClient.setQueryData(['suppliers'], (old: any) => old?.filter((supplier: Supplier) => supplier._id!== supplierId));
-    return { previousSuppliers };
-  },
-  onError: (error, _, context: any) => { queryClient.setQueryData(['suppliers'], context.previousSuppliers);},
-  onSuccess: () => queryClient.invalidateQueries({ queryKey: ['suppliers'] }),
- 
-})
+      setSuppliers(context.previousSuppliers);
+    },
+    onSuccess: () => {
+      console.log("Supplier updated successfully!");
+    },
+  });
 
+  const deleteSupplierMutation = useMutation({
+    mutationFn: deleteSupplierById,
+    onMutate: async (supplierId: string) => {
+      const { suppliers, setSuppliers } = useSupplierStore.getState();
 
-  return{
+      const previousSuppliers = [...suppliers];
+
+      const updatedSuppliers = suppliers.filter(
+        (supplier) => supplier._id !== supplierId
+      );
+      setSuppliers(updatedSuppliers);
+
+      return { previousSuppliers };
+    },
+    onError: (error, _, context: any) => {
+      const { setSuppliers } = useSupplierStore.getState();
+
+      setSuppliers(context.previousSuppliers);
+    },
+    onSuccess: () => {
+      console.log("Supplier deleted successfully!");
+    },
+  });
+
+  return {
     data,
     isLoading,
     isFetching,
-    addSupplier: addSuplierMutation.mutate,
+    addSupplier: addSupplierMutation.mutate,
     updateSupplier: updateSupplierMutation.mutate,
-    deleteSupplier: deleteSupplierrMutation.mutate,
-  }
-}
-
+    deleteSupplier: deleteSupplierMutation.mutate,
+  };
+};
