@@ -11,6 +11,23 @@ export interface User {
     isActive: boolean;
   }
 
+  export interface Benefit {
+    _id?: string;
+    supplierId: string;
+    clubId: string;
+    redemptionConditions: string;
+    description: string;
+    validity: Date;
+    clubLink: string;
+    branches: Branch[];
+    isActive: boolean;
+  }
+  
+  export interface Branch {
+    city: string;
+    address: string;
+  }
+
   export interface Supplier {
     _id: string;
     providerName: String;
@@ -20,7 +37,8 @@ export interface User {
     categories:ObjectId[];
     phoneNumber: String;
     registrationDate: Date;
-    branches:ObjectId[];
+
+    branches:Branch[];
     supplierLogo:string;
   }
 
