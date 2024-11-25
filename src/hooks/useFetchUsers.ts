@@ -1,21 +1,23 @@
+"use client"
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { User } from '../types/types';
 import useUserStore from '../stores/usersStore';
 import { getUsers, addUser, updateUser, deleteUser } from '@/services/users';
+import { useEffect } from 'react';
 
 export const useFetchUsers = () => {
   const queryClient = useQueryClient();
   const setUsers = useUserStore((state:any) => state.setUsers);
 
-
-  const { data: users, isLoading, isFetching } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ['users'],
     queryFn: getUsers,
     staleTime: 10000,
   });
-  setUsers(users);
-
-
+  
+  useEffect(() => {
+    if (data) {setUsers(data);}
+  },[data, setUsers]);
 
   const addUserMutation = useMutation({
     mutationFn: addUser,
