@@ -19,7 +19,7 @@ export interface User {
     clubId: string;
     redemptionConditions: string;
     description: string;
-    validity: Date;
+    expirationDate: Date;
     clubLink: string;
     branches: Branch[];
     isActive: boolean;
