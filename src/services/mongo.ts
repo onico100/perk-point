@@ -59,3 +59,23 @@ export async function deleteDocumentById(
     .deleteOne({ _id: new ObjectId(id) });
   return result;
 }
+
+export async function getClientModeByNameAndPassword(
+  client: any,
+  collection: string,
+  name: string,
+  password: string,
+  mode: string
+) {
+  const db = client.db(databaseName);
+  if (mode === "supplier") {
+    const clientMode = await db
+      .collection(collection)
+      .findOne({ providerName: name, password: password });
+    return clientMode;
+  }
+  const clientMode = await db
+    .collection(collection)
+    .findOne({ username: name, password: password });
+  return clientMode;
+}
