@@ -2,24 +2,33 @@
 import { NextResponse } from "next/server";
 import { connectDatabase, getDocumentById } from "@/services/mongo";
 
-export async function GET(req: Request, { params }: { params: { id?: string } }) {
-    console.log("hey")
-    const client = await connectDatabase();
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+    let client;
     try {
-        if (!params.id) {
-            return NextResponse.json({ message: "ID is required" }, { status: 400 });
+        client = await connectDatabase();
+        if (!client) {
+            return NextResponse.json(
+                { error: "Failed to connect to the database" },
+                { status: 500 }
+            );
         }
-        console.log(params.id)
-        const club = await getDocumentById(client, "clubs_collection", params.id);
-        console.log(club)
-
+        const club = await getDocumentById(
+            client,
+            "clubs_collection",
+            params.id
+        );
         if (!club) {
-            return NextResponse.json({ message: "Club not found" }, { status: 404 });
+            return NextResponse.json(
+                { error: "club not found" },
+                { status: 404 }
+            );
         }
         return NextResponse.json(club);
-    } catch (error) {
-        return NextResponse.json({ message: "Failed to fetch club" }, { status: 500 });
+    } catch (error: unknown) {
+        const errorMessage =
+            error instanceof Error ? error.message : "An unknown error occurred";
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     } finally {
-        await client.close();
+        client?.close();
     }
 }
