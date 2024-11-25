@@ -14,6 +14,7 @@ export const useFetchUsers = () => {
   });
   setUsers(users);
 
+
   const addUserMutation = useMutation({
     mutationFn: addUser,
     onMutate: async (user: Omit<User, '_id'>) => {
