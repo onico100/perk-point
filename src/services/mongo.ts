@@ -59,7 +59,7 @@ export async function deleteDocumentById(
   const db = client.db(databaseName);
   const result = await db
     .collection(collection)
-    .updateOne({ _id: ObjectId(id) }, { $set: { isActive: false } }); // Mark as inactive
+    .updateOne({ _id: new ObjectId(id) }, { $set: { isActive: false } }); // Mark as inactive
   return result;
 }
 
