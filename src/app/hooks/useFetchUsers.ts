@@ -5,15 +5,17 @@ import { getUsers, addUser, updateUser, deleteUser } from '@/services/users';
 
 export const useFetchUsers = () => {
   const queryClient = useQueryClient();
-  const setUsers = useUserStore((state) => state.setUsers);
+  const setUsers = useUserStore((state:any) => state.setUsers);
 
 
-  const { data: users, isLoading, isFetching } = useQuery<User[]>({
+  const { data: users, isLoading, isFetching } = useQuery({
     queryKey: ['users'],
     queryFn: getUsers,
     staleTime: 10000,
-    onSuccess: (data) => setUsers(data),
   });
+  setUsers(users);
+  
+  
 
 
   const addUserMutation = useMutation({
@@ -21,7 +23,7 @@ export const useFetchUsers = () => {
     onMutate: async (user: Omit<User, '_id'>) => {
       await queryClient.cancelQueries({ queryKey: ['users'] });
       const previousUsers = queryClient.getQueryData<User[]>(['users']);
-      queryClient.setQueryData(['users'], (old) => [...(old || []), { ...user, _id: 'temp-id' }]);
+      queryClient.setQueryData<User[] | undefined>(['users'], (old) => [...(old || []), { ...user, _id: 'temp-id' }]);
       return { previousUsers };
     },
     onError: (error, _, context: any) => { queryClient.setQueryData(['users'], context.previousUsers);},
@@ -34,7 +36,7 @@ export const useFetchUsers = () => {
     onMutate: async ({ id, user }) => {
       await queryClient.cancelQueries({ queryKey: ['users'] });
       const previousUsers = queryClient.getQueryData<User[]>(['users']);
-      queryClient.setQueryData(['users'], (old) =>old?.map((existingUser) => (existingUser._id === id ? { ...existingUser, ...user } : existingUser)));
+      queryClient.setQueryData<User[] | undefined>(['users'], (old) =>old?.map((existingUser) => (existingUser._id === id ? { ...existingUser, ...user } : existingUser)));
       return { previousUsers };
     },
     onError: (error, _, context: any) => { queryClient.setQueryData(['users'], context.previousUsers);},
@@ -47,7 +49,7 @@ export const useFetchUsers = () => {
     onMutate: async (id: string) => {
       await queryClient.cancelQueries({ queryKey: ['users'] });
       const previousUsers = queryClient.getQueryData<User[]>(['users']);
-      queryClient.setQueryData(['users'], (old) => old?.filter((user) => user._id !== id));
+      queryClient.setQueryData<User[] | undefined>(['users'], (old) => old?.filter((user) => user._id !== id));
       return { previousUsers };
     },
     onError: (error, _, context: any) => {queryClient.setQueryData(['users'], context.previousUsers);},

@@ -6,4 +6,6 @@ export interface User {
     registrationDate: string;
     savedBenefits: string[];
     city: string;
+    isActive: boolean;
   }
+
