@@ -18,7 +18,6 @@ export interface User {
     redemptionConditions: string;
     description: string;
     expirationDate: Date;
-    clubLink: string;
     branches: Branch[];
     isActive: boolean;
   }
@@ -38,7 +37,9 @@ export interface User {
     phoneNumber: String;
     registrationDate: Date;
     branches:Branch[];
+    siteLink: String;
     supplierLogo:string;
+    isActive: boolean;
   }
 
   export interface Category {
@@ -49,6 +50,7 @@ export interface User {
   export interface Club {
     _id: string;
     clubName: String;
+    clubLink: String;
     isActive:Boolean;    
   }
 
