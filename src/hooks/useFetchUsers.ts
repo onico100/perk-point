@@ -1,8 +1,8 @@
 "use client"
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { User } from '../types/types';
-import useUserStore from '../stores/usersStore';
-import { getUsers, addUser, updateUser, deleteUser } from '@/services/users';
+import { User } from '@/types/types';
+import useUserStore from '@/stores/usersStore';
+import { getAllUsers, addUser, updateUserById, deleteUserById } from '@/services/usersServices';
 import { useEffect } from 'react';
 
 export const useFetchUsers = () => {
@@ -11,7 +11,7 @@ export const useFetchUsers = () => {
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['users'],
-    queryFn: getUsers,
+    queryFn: getAllUsers,
     staleTime: 10000,
   });
   
@@ -33,7 +33,7 @@ export const useFetchUsers = () => {
 
 
   const updateUserMutation = useMutation({
-    mutationFn: ({ id, user }: { id: string; user: Partial<User> }) => updateUser(id, user),
+    mutationFn: ({ id, user }: { id: string; user: Partial<User> }) => updateUserById(id, user),
     onMutate: async ({ id, user }) => {
       await queryClient.cancelQueries({ queryKey: ['users'] });
       const previousUsers = queryClient.getQueryData<User[]>(['users']);
@@ -46,7 +46,7 @@ export const useFetchUsers = () => {
 
 
   const deleteUserMutation = useMutation({
-    mutationFn: deleteUser,
+    mutationFn: deleteUserById,
     onMutate: async (id: string) => {
       await queryClient.cancelQueries({ queryKey: ['users'] });
       const previousUsers = queryClient.getQueryData<User[]>(['users']);
@@ -58,7 +58,7 @@ export const useFetchUsers = () => {
   });
 
   return {
-    users,
+    users: data,
     isLoading,
     isFetching,
     addUser: addUserMutation.mutate,
