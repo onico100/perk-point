@@ -1,8 +1,9 @@
-"use client"
-import type { Metadata } from "next";
+
+"use client"  
 import localFont from "next/font/local";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
+import TopBar from "@/components/Bars/TopBar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,16 +18,18 @@ const geistMono = localFont({
 
 
 
-
-export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   const queryClient = new QueryClient();
   return (
-    <html lang="en">  
-    <QueryClientProvider client={queryClient}>
-      <body>
-        {children}
-      </body>
-    </QueryClientProvider>
+    <html lang="he">
+      <QueryClientProvider client={queryClient}>
+        <body>
+          <TopBar />
+          {children}
+        </body>
+      </QueryClientProvider>
     </html>
   );
 }
