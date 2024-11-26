@@ -1,6 +1,5 @@
 import { ObjectId } from "mongodb";
 
-
 export interface User {
     _id: string;
     username: string;
@@ -11,7 +10,6 @@ export interface User {
     city: string;
     isActive: boolean;
   }
-
 
   export interface Benefit {
     _id?: string;
@@ -43,4 +41,26 @@ export interface User {
     supplierLogo:string;
   }
 
+  export interface Category {
+    _id: string;
+    categoryName: string;
+  }
 
+  export interface Club {
+    _id: string;
+    clubName: String;
+    isActive:Boolean;    
+  }
+
+  export enum clientMode {
+    general = "GENERAL",
+    connection = "CONNECTION",
+    supplier = "SUPPLIER",
+    user = "USER"
+  }
+
+  export enum preMode{
+    supplier = "SUPPLIER",
+    user = "USER",
+    none="NONE",
+  }
