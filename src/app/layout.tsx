@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,16 +21,15 @@ export const metadata: Metadata = {
 
 
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
+  const queryClient = new QueryClient();
   return (
     <html lang="en">  
+    <QueryClientProvider client={queryClient}>
       <body>
         {children}
       </body>
+    </QueryClientProvider>
     </html>
   );
 }

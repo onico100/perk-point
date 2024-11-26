@@ -1,68 +1,64 @@
-"use client"
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+"use client";
+import { useQuery, useMutation} from '@tanstack/react-query';
 import { User } from '../types/types';
 import useUserStore from '../stores/usersStore';
-import { getUsers, addUser, updateUser, deleteUser } from '@/services/users';
-import { useEffect } from 'react';
+import { addUser, updateUserById, deleteUserById, getUserById, getUserByCredentials } from '@/services/usersServices';
 
-export const useFetchUsers = () => {
-  const queryClient = useQueryClient();
-  const setUsers = useUserStore((state:any) => state.setUsers);
+// Fetch user by ID
+export const useGetUserById = (id: string) => {
+  const setUser = useUserStore((state) => state.setUser);
 
-  const { data, isLoading, isFetching } = useQuery({
-    queryKey: ['users'],
-    queryFn: getUsers,
+  return useQuery<User, Error>({
+    queryKey: ['user', id],
+    queryFn: async () => {
+      const user = await getUserById(id);
+      setUser(user); 
+      return user;
+    },
+    enabled: !!id,
     staleTime: 10000,
   });
-  
-  useEffect(() => {
-    if (data) {setUsers(data);}
-  },[data, setUsers]);
-
-  const addUserMutation = useMutation({
-    mutationFn: addUser,
-    onMutate: async (user: Omit<User, '_id'>) => {
-      await queryClient.cancelQueries({ queryKey: ['users'] });
-      const previousUsers = queryClient.getQueryData<User[]>(['users']);
-      queryClient.setQueryData<User[] | undefined>(['users'], (old) => [...(old || []), { ...user, _id: 'temp-id' }]);
-      return { previousUsers };
-    },
-    onError: (error, _, context: any) => { queryClient.setQueryData(['users'], context.previousUsers);},
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['users'] }),
-  });
-
-
-  const updateUserMutation = useMutation({
-    mutationFn: ({ id, user }: { id: string; user: Partial<User> }) => updateUser(id, user),
-    onMutate: async ({ id, user }) => {
-      await queryClient.cancelQueries({ queryKey: ['users'] });
-      const previousUsers = queryClient.getQueryData<User[]>(['users']);
-      queryClient.setQueryData<User[] | undefined>(['users'], (old) =>old?.map((existingUser) => (existingUser._id === id ? { ...existingUser, ...user } : existingUser)));
-      return { previousUsers };
-    },
-    onError: (error, _, context: any) => { queryClient.setQueryData(['users'], context.previousUsers);},
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['users'] }),
-  });
-
-
-  const deleteUserMutation = useMutation({
-    mutationFn: deleteUser,
-    onMutate: async (id: string) => {
-      await queryClient.cancelQueries({ queryKey: ['users'] });
-      const previousUsers = queryClient.getQueryData<User[]>(['users']);
-      queryClient.setQueryData<User[] | undefined>(['users'], (old) => old?.filter((user) => user._id !== id));
-      return { previousUsers };
-    },
-    onError: (error, _, context: any) => {queryClient.setQueryData(['users'], context.previousUsers);},
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['users'] }),
-  });
-
-  return {
-    users,
-    isLoading,
-    isFetching,
-    addUser: addUserMutation.mutate,
-    updateUser: updateUserMutation.mutate,
-    deleteUser: deleteUserMutation.mutate,
-  };
 };
+
+// Login user by credentials
+export const useLoginUser = () => {
+  const setUser = useUserStore((state) => state.setUser);
+  return useMutation<User, Error, { name: string; password: string }>({
+    mutationFn: ({ name, password }) => getUserByCredentials(name, password),
+    onSuccess: (user) => {
+      setUser(user); 
+    },
+  });
+};
+
+// Add new user
+export const useAddUser = () => {
+  return useMutation<User, Error, User>({
+    mutationFn: addUser,
+  });
+};
+
+// Update user by ID
+export const useUpdateUserById = () => {
+  const setUser = useUserStore((state) => state.setUser);
+
+  return useMutation<User, Error, { id: string; updatedData: Partial<User> }>({
+    mutationFn: ({ id, updatedData }) => updateUserById(id, updatedData),
+    onSuccess: (updatedUser) => {
+      setUser(updatedUser);
+    },
+  });
+};
+
+
+export const useDeleteUserById = () => {
+  const setUser = useUserStore((state) => state.setUser);
+
+  return useMutation<{ message: string }, Error, string>({
+    mutationFn: (id) => deleteUserById(id),
+    onSuccess: () => {
+      setUser(null);
+    },
+  });
+};
+
