@@ -45,6 +45,7 @@ export interface User {
   export interface Category {
     _id: string;
     categoryName: string;
+    isActive: boolean;
   }
 
   export interface Club {
