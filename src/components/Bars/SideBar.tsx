@@ -1,5 +1,7 @@
+'use client'
 import React from 'react';
 import useGeneralStore from '@/stores/generalStore'
+import styles from '@/styles/SideBar.module.css';
 
 const SideBar = () => {
     const { clientMode } = useGeneralStore();
@@ -17,16 +19,16 @@ const SideBar = () => {
     ];
 
     return (
-        <div>
+        <div className={styles.sidebar}>
             {clientMode === 'USER' ? (
                 userButtons.map((button, index) => (
-                    <div key={index}>
+                    <div key={index} className={styles.sidebarItem}>
                         {button}
                     </div>
                 ))
             ) : (
                 supplierButtons.map((button, index) => (
-                    <div key={index}>
+                    <div key={index} className={styles.sidebarItem}>
                         {button}
                     </div>
                 ))
