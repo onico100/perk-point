@@ -9,16 +9,9 @@ export async function DELETE(
     try {
         client = await connectDatabase();
         if (!client) {
-            return NextResponse.json(
-                { error: "Failed to connect to the database" },
-                { status: 500 }
-            );
+            return NextResponse.json( { error: "Failed to connect to the database" },{ status: 500 });
         }
-        const result = await deleteDocumentById(
-            client,
-            "benefits_collection",
-            params.id
-        );
+        const result = await deleteDocumentById(client,"benefits_collection", params.id);
         if (result.deletedCount === 0) {
             return NextResponse.json(
                 { error: "Benefit not found" },
