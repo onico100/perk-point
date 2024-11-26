@@ -14,6 +14,7 @@ export async function insertDocument(
 ) {
   const db = client.db(databaseName);
   const result = await db.collection(collection).insertOne(document);
+  
   return result;
 }
 
