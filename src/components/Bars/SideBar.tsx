@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import useGeneralStore from '@/stores/generalStore'
-import styles from '@/styles/SideBar.module.css';
+import styles from '@/styles/Bars/SideBar.module.css';
 
 const SideBar = () => {
     const { clientMode } = useGeneralStore();
