@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import useSupplierStore from "../stores/suppliersStore";
-import { Supplier } from "../types/types";
+import useSupplierStore from "@/stores/suppliersStore";
+import { Supplier } from "@/types/types";
 import { useIsMutating, useMutation, useQueryClient } from "react-query";
 import {
   getAllSuppliers,
@@ -99,7 +99,7 @@ export const useFetchSuppliers = () => {
   });
 
   return {
-    data,
+    suppliers: data,
     isLoading,
     isFetching,
     addSupplier: addSupplierMutation.mutate,
