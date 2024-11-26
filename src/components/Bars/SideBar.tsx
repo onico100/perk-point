@@ -14,27 +14,30 @@ const SideBar = () => {
     ];
 
     const supplierButtons = [
-        "הטבות זז החברה",
+        "הטבות החברה",
         "פרטים אישיים"
     ];
 
+    if (clientMode !== 'USER' && clientMode !== 'SUPPLIER') {
+        return null; 
+    }
+
+
     return (
         <div className={styles.sidebar}>
-            {clientMode === 'USER' ? (
-                userButtons.map((button, index) => (
-                    <div key={index} className={styles.sidebarItem}>
-                        {button}
-                    </div>
-                ))
-            ) : (
-                supplierButtons.map((button, index) => (
-                    <div key={index} className={styles.sidebarItem}>
-                        {button}
-                    </div>
-                ))
-            )}
+            {clientMode === 'USER' && userButtons.map((button, index) => (
+                <div key={index} className={styles.sidebarItem}>
+                    {button}
+                </div>
+            ))}
+            {clientMode === 'SUPPLIER' && supplierButtons.map((button, index) => (
+                <div key={index} className={styles.sidebarItem}>
+                    {button}
+                </div>
+            ))}
         </div>
     );
 };
 
 export default SideBar;
+
