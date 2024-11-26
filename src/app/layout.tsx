@@ -28,7 +28,6 @@ export default function RootLayout({
       <body className="font-heebo">
         <p>שלומות</p>
         {children}
-        <SideBar />
       </body>
     </QueryClientProvider>
     </html>
