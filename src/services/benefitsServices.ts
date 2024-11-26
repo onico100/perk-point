@@ -42,7 +42,7 @@ export async function updateBenefitById(id: string, updatedData: Benefit): Promi
     }
 }
 
-export async function addBenefit(newBenefit: Benefit): Promise<Benefit> {
+export async function addBenefit(newBenefit: Omit<Benefit, "_id">): Promise<Benefit> {
     try {
         const response = await my_http.post("/benefits", newBenefit);
         return response.data;
@@ -51,6 +51,7 @@ export async function addBenefit(newBenefit: Benefit): Promise<Benefit> {
         throw error;
     }
 }
+
 
 
 

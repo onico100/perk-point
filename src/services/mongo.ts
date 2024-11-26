@@ -22,6 +22,7 @@ export async function insertDocument(
     document.isActive = true;
   }
   const result = await db.collection(collection).insertOne(document);
+  
   return result;
 }
 
