@@ -2,7 +2,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
-import SideBar from "@/components/Bars/SideBar";
+import TopBar from "@/components/Bars/TopBar";
 
 //אל תמחקו, שישאר לדוגמא לשימוש שלנו
 const geistSans = localFont({
@@ -18,8 +18,9 @@ const heebo= localFont({
 });
 
 
-
-export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   const queryClient = new QueryClient();
   return (
     <html lang="en" className={`${geistSans.variable} ${heebo.variable}`}>  

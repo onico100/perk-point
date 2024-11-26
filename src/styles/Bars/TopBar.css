@@ -1,0 +1,41 @@
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f5f5f5;
+}
+
+.logo {
+  height: 40px; /* Adjust as needed */
+}
+
+.buttons {
+  display: flex;
+  gap: 15px; /* Space between buttons */
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  color: #555;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.3s;
+}
+
+.button:hover {
+  color: #000; /* Darker text on hover */
+}
+
+.special {
+  background-color: #d656d6; /* Pink background for special button */
+  color: #fff;
+  border-radius: 5px;
+  padding: 8px 15px;
+}
+
+.special:hover {
+  background-color: #b04cb0; /* Slightly darker on hover */
+}
