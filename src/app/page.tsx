@@ -3,7 +3,7 @@ export default function Home() {
   return (
     <div>   
           <SideBar />
-          <p>Hellooooo</p>
+          <p>Hello from page</p>
     </div>
   );
 }

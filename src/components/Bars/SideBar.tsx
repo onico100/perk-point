@@ -7,15 +7,15 @@ const SideBar = () => {
     const { clientMode } = useGeneralStore();
 
     const userButtons = [
-        "הטבות שלי",
+        "ההטבות שלי",
         "המועדונים שלי",
         "מועדפים",
-        "פרטים אישים"
+        "פרטים אישיים"
     ];
 
     const supplierButtons = [
-        "הטבות החברה",
-        "פרטים אישים"
+        "הטבות זז החברה",
+        "פרטים אישיים"
     ];
 
     return (

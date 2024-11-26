@@ -43,6 +43,7 @@ export const useFetchSuppliers = () => {
     },
     onSuccess: () => {
       console.log("Supplier added successfully!");
+      queryClient.invalidateQueries({ queryKey: ['suppliers'] })
     },
   });
 
@@ -71,6 +72,7 @@ export const useFetchSuppliers = () => {
     },
     onSuccess: () => {
       console.log("Supplier updated successfully!");
+      queryClient.invalidateQueries({ queryKey: ['suppliers'] })
     },
   });
 
@@ -95,6 +97,7 @@ export const useFetchSuppliers = () => {
     },
     onSuccess: () => {
       console.log("Supplier deleted successfully!");
+      queryClient.invalidateQueries({ queryKey: ['suppliers'] })
     },
   });
 
