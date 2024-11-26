@@ -26,7 +26,6 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${heebo.variable}`}>  
     <QueryClientProvider client={queryClient}>
       <body className="font-heebo">
-        <p>Hello from layout</p>
         <TopBar />
         {children}
       </body>
