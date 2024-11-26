@@ -2,6 +2,11 @@ export const databaseName = "benefits-site";
 
 const { MongoClient, ObjectId } = require("mongodb");
 
+interface DocumentWithActive {
+  isActive?: boolean; 
+  [key: string]: any;
+}
+
 export async function connectDatabase() {
   const dbConnection: any = process.env.PUBLIC_DB_CONNECTION;
   return await MongoClient.connect(dbConnection);
@@ -10,9 +15,12 @@ export async function connectDatabase() {
 export async function insertDocument(
   client: any,
   collection: string,
-  document: object
+  document: DocumentWithActive
 ) {
   const db = client.db(databaseName);
+  if (document.isActive === undefined) {
+    document.isActive = true;
+  }
   const result = await db.collection(collection).insertOne(document);
   
   return result;
