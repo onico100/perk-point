@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import TopBar from "@/components/Bars/TopBar";
+import SideBar from "@/components/Bars/SideBar";
 
 //אל תמחקו, שישאר לדוגמא לשימוש שלנו
 const geistSans = localFont({
@@ -25,6 +26,7 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
     <QueryClientProvider client={queryClient}>
       <body className="font-heebo">
         <TopBar />
+        <SideBar />
         {children}
       </body>
     </QueryClientProvider>
