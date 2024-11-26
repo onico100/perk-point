@@ -5,10 +5,7 @@ export async function getAllBenefits(): Promise<Benefit[]> {
     try {
         const response = await my_http.get("/benefits");
         const allBenefits: Benefit[] = response.data;
-        const currentDate = new Date();
-        const activeBenefits = allBenefits.filter(benefit => {
-            return new Date(benefit.expirationDate) >= currentDate && benefit.isActive;
-        });
+        const activeBenefits = allBenefits.filter(benefit => {benefit.isActive;});
         return activeBenefits;
     } catch (error) {
         console.error(error);

@@ -1,10 +1,10 @@
 import my_http from "./http";
 import { User } from "@/types/types";
 
-export async function getAllUsers(): Promise<User[]> {
-  const response = await my_http.get("/users/get");
-  return response.data;
-}
+// export async function getAllUsers(): Promise<User[]> {
+//   const response = await my_http.get("/users/get");
+//   return response.data;
+// }
 
 export async function getUserById(id: string): Promise<User> {
   const response = await my_http.get(`/users/get/${id}`);
