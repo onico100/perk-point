@@ -1,21 +1,21 @@
-
-"use client"  
+"use client"
 import localFont from "next/font/local";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import TopBar from "@/components/Bars/TopBar";
 
+//אל תמחקו, שישאר לדוגמא לשימוש שלנו
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
+
+const heebo= localFont({
+  src: "./fonts/HeeboVF.ttf",
+  variable: "--font-heebo",
   weight: "100 900",
 });
-
 
 
 export default function RootLayout({
@@ -23,13 +23,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const queryClient = new QueryClient();
   return (
-    <html lang="he">
-      <QueryClientProvider client={queryClient}>
-        <body>
-          <TopBar />
-          {children}
-        </body>
-      </QueryClientProvider>
+    <html lang="en" className={`${geistSans.variable} ${heebo.variable}`}>  
+    <QueryClientProvider client={queryClient}>
+      <body className="font-heebo">
+        <p>שלומות</p>
+        {children}
+      </body>
+    </QueryClientProvider>
     </html>
   );
 }
