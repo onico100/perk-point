@@ -21,7 +21,7 @@
 .sidebarItem:hover,
 .sidebarItem.active {
     background: linear-gradient(to right, #c752df, #7476EF); 
-    -webkit-background-clip: text;
+    /* -webkit-background-clip: text; */
     -webkit-text-fill-color: transparent; 
 }
 
