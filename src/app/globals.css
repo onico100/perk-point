@@ -30,6 +30,7 @@ body {
 }
 
 .main {
+  height: 100vh;
   display: flex;
   flex-direction: row;
   position: relative; /* Ensures proper stacking context */
