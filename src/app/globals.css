@@ -32,6 +32,7 @@ body {
 .main {
   height: 100vh;
   display: flex;
+  width: 100vw;
   flex-direction: row;
   position: relative; /* Ensures proper stacking context */
   z-index: 1; /* Keep this lower than the popup */
