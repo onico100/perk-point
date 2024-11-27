@@ -21,7 +21,8 @@ const TopBar: React.FC = () => {
             <TopBarButtons />
         </div>
     );
+
 };
 
 export default TopBar;
-7 
+ 
