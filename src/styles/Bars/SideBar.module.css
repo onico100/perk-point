@@ -10,32 +10,5 @@
     flex-direction: column;
 }
 
-.sidebarItem {
-    margin: 10px 0; 
-    padding: 10px; 
-    cursor: pointer; 
-    position: relative; 
-    font-size: 16px;
-}
-
-.sidebarItem:hover {
-    background: linear-gradient(to right, #c752df, #7476EF); 
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; 
-}
-
-.sidebarItem:hover::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 2px;
-    background: linear-gradient(to right, #c752df, #7476EF); 
-}
-
-.sidebarItem.active {
-    border-bottom: 2px solid; 
-}
 
 
