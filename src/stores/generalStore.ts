@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { Category, Club, ClientMode, PreMode } from "@/types/types";
 
-
 interface generalStore {
   categories: Category[];
   setCategories: (categories: Category[]) => void;
@@ -23,12 +22,11 @@ const useGeneralStore = create<generalStore>((set) => ({
   clubs: [],
   setClubs: (clubs: Club[]) => set({ clubs }),
 
-  clientMode: ClientMode.general,
+  clientMode: ClientMode.user,
   setClientMode: (clientMode: ClientMode) => set({ clientMode }),
 
   preMode: PreMode.none,
   setPreMode: (preMode: PreMode) => set({ preMode }),
-
 }));
 
 export default useGeneralStore;
