@@ -1,11 +1,17 @@
 import React , { useState } from "react";
-import "@/styles/Bars/TopBar.css";
+import styles from "@/styles/Bars/TopBar.module.css";
 import ModePopup from "./ModePopup";
+import useGeneralStore from "@/stores/generalStore";
+import useUserStore from "@/stores/usersStore";
+import useSupplierStore from "@/stores/supplierStore";
 
-import useGeneralStore from '@/stores/generalStore';
 
 
 const TopBarButtons: React.FC = () => {
+
+  const { clientMode } = useGeneralStore();
+  const { supplier } = useSupplierStore();
+  const { user } = useUserStore();
 
   const [popupVisible, setPopupVisible] = useState(false);
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
@@ -21,11 +27,29 @@ const TopBarButtons: React.FC = () => {
   };
 
   return (
-    <div className="buttons-container">
-      <button className="login-button" onClick={handleButtonClick}>התחברות</button>
-      <button className="register-button" onClick={handleButtonClick}>הרשמה</button>
-      {popupVisible && <ModePopup onClose={handleClosePopup} anchorElement={anchorElement} />}
-    </div>
+    <>
+    {clientMode === "GENERAL" && (
+      <div className={styles.buttonsContainer}>
+        <button className={styles.loginButton} onClick={handleButtonClick}>התחברות</button>
+        <button className={styles.registerButton} onClick={handleButtonClick}>הרשמה</button>
+        {popupVisible && <ModePopup onClose={handleClosePopup} anchorElement={anchorElement} />}
+      </div>
+    )}
+
+    {clientMode === "USER" && (
+      <div className={styles.buttonsContainer}>
+        <h1>{`שלום ${user?.username}`}</h1>
+        <button className={styles.registerButton}>התנתקות</button>
+      </div>
+    )}
+
+    {clientMode === "SUPPLIER" && (
+      <div className={styles.buttonsContainer}>
+        <h1>{`שלום ${supplier?.providerName}`}</h1>
+        <button className={styles.registerButton}>התנתקות</button>
+      </div>
+    )}
+  </>
   );
 };
 
