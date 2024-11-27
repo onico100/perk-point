@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Category, Club, clientMode, preMode } from '../types/types';
+import { Category, Club, clientMode, preMode } from '@/types/types';
 
 interface generalStore {
   categories: Category[];

@@ -11,7 +11,7 @@ const TopBar: React.FC = () => {
       <div className="right-side">
         <img src={logoLight.src} alt="Perk Point Logo" className="logo" />
         <Link href={"/benefits/0"}>הטבות</Link>
-        <Link href={"/clubs/0"}>מועודנים</Link>
+        <Link href={"/clubs/0"}>מועדונים</Link>
         <Link href={"/about"}>אודות</Link>
       </div>
       <TopBarButtons />

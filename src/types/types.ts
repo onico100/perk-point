@@ -29,15 +29,15 @@ export interface User {
 
   export interface Supplier {
     _id: string;
-    providerName: String;
-    password: String;
-    email: String;
-    businessName: String;
+    providerName: string;
+    password: string;
+    email: string;
+    businessName: string;
     categories:ObjectId[];
-    phoneNumber: String;
+    phoneNumber: string;
     registrationDate: Date;
     branches:Branch[];
-    siteLink: String;
+    siteLink: string;
     supplierLogo:string;
     isActive: boolean;
   }
@@ -50,8 +50,8 @@ export interface User {
 
   export interface Club {
     _id: string;
-    clubName: String;
-    clubLink: String;
+    clubName: string;
+    clubLink: string;
     isActive:Boolean;    
   }
 
