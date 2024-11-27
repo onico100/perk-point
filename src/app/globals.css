@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
   direction: rtl;
+  box-sizing: border-box;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +20,7 @@ body {
   color: var(--foreground);
   background: var(--background);
   direction: rtl;
-  font-family: var(--font-heebo),Arial,Helvetica, sans-serif;
+  font-family: var(--font-heebo), Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
@@ -29,12 +29,8 @@ body {
   }
 }
 
-.full-page {
-  height: 100vh; 
-  width: 100vw; 
+
+.main {
   display: flex;
-  justify-content: center; 
-  align-items: center;
-  background-color: var(--background); 
-  color: var(--foreground); 
 }
+
