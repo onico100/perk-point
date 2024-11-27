@@ -5,6 +5,7 @@ import "./globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import TopBar from "@/components/Bars/TopBar";
 import SideBar from "@/components/Bars/SideBar";
+import LoginPage from "@/app/login/page";
 
 //אל תמחקו, שישאר לדוגמא לשימוש שלנו
 const geistSans = localFont({
@@ -19,14 +20,17 @@ const heebo= localFont({
   weight: "100 900",
 });
 
+const queryClient = new QueryClient();
+
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
-  const queryClient = new QueryClient();
+  
   return (
-    <html lang="en" className={`${geistSans.variable} ${heebo.variable}`}>  
+    <html lang="en" className={` ${heebo.variable}`}>  
     <QueryClientProvider client={queryClient}>
       <body className="font-heebo">
         <TopBar />
         <SideBar />
+        <LoginPage />
         {children}
       </body>
     </QueryClientProvider>

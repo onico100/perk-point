@@ -9,6 +9,7 @@ export interface User {
     savedBenefits: string[];
     city: string;
     isActive: boolean;
+    password: String;
   }
 
   export interface Benefit {

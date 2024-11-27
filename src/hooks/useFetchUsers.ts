@@ -2,6 +2,7 @@
 import { useQuery, useMutation} from '@tanstack/react-query';
 import { User } from '../types/types';
 import useUserStore from '../stores/usersStore';
+import useGeneralStore from "@/stores/generalStore";
 import { addUser, updateUserById, deleteUserById, getUserById, getUserByCredentials } from '@/services/usersServices';
 
 // Fetch user by ID
@@ -23,9 +24,12 @@ export const useGetUserById = (id: string) => {
 // Login user by credentials
 export const useLoginUser = () => {
   const setUser = useUserStore((state) => state.setUser);
-  return useMutation<User, Error, { name: string; password: string }>({
-    mutationFn: ({ name, password }) => getUserByCredentials(name, password),
+  return useMutation<User, Error, { email: string; password: string }>({
+    mutationFn: ({ email, password }) => getUserByCredentials(email, password),
     onSuccess: (user) => {
+      // General Zustand Updating
+      const setCurrentUser = useGeneralStore.getState().setCurrentUser;
+      setCurrentUser(user);
       setUser(user); 
     },
   });

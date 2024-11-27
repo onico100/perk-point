@@ -1,19 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import useSupplierStore from "@/stores/suppliersStore";
 import { Supplier } from "@/types/types";
+import useGeneralStore from "@/stores/generalStore";
 import { useIsMutating, useMutation, useQueryClient } from "react-query";
 import {
   getAllSuppliers,
   addSupplier,
   deleteSupplierById,
   updateSupplierById,
+  getSupplierByCredentials,
 } from "@/services/suppliersServices";
 
 export const useFetchSuppliers = () => {
   const setSuppliers = useSupplierStore((state: any) => state.setSuppliers);
-
   const queryClient = useQueryClient();
-
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["suppliers"],
     queryFn: async () => {
@@ -24,21 +24,34 @@ export const useFetchSuppliers = () => {
     staleTime: 10000,
   });
 
+  // Login supplier by credentials
+  const loginSupplierMutation = useMutation<Supplier, Error, { email: string; password: string }>({
+    mutationFn: ({ email, password }) => getSupplierByCredentials(email, password),
+    onSuccess: (supplier) => {
+      console.log("Supplier login successful:", supplier);
+      // General Zustand Updating
+      const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
+      setCurrentSupplier(supplier);
+      alert(`Welcome, ${supplier.providerName}!`);
+    },
+    onError: (error) => {
+      console.error("Supplier login failed:", error);
+      alert("Invalid supplier credentials.");
+    },
+  });
+  
+
   const addSupplierMutation = useMutation({
     mutationFn: addSupplier,
     onMutate: async (supplier: Omit<Supplier, "_id">) => {
       const { suppliers, setSuppliers } = useSupplierStore.getState();
-
       const previousSuppliers = [...suppliers];
-
       const newSupplier = { ...supplier, _id: "temp-id" };
       setSuppliers([...suppliers, newSupplier]);
-
       return { previousSuppliers };
     },
     onError: (error, _, context: any) => {
       const { setSuppliers } = useSupplierStore.getState();
-
       setSuppliers(context.previousSuppliers);
     },
     onSuccess: () => {
@@ -55,19 +68,15 @@ export const useFetchSuppliers = () => {
     mutationFn: ({ id, updatedData }) => updateSupplierById(id, updatedData),
     onMutate: async ({ id, updatedData }) => {
       const { suppliers, setSuppliers } = useSupplierStore.getState();
-
       const previousSuppliers = [...suppliers];
-
       const updatedSuppliers = suppliers.map((supplier) =>
         supplier._id === id ? { ...supplier, ...updatedData } : supplier
       );
       setSuppliers(updatedSuppliers);
-
       return { previousSuppliers };
     },
     onError: (_error, _variables, context: any) => {
       const { setSuppliers } = useSupplierStore.getState();
-
       setSuppliers(context.previousSuppliers);
     },
     onSuccess: () => {
@@ -108,5 +117,6 @@ export const useFetchSuppliers = () => {
     addSupplier: addSupplierMutation.mutate,
     updateSupplier: updateSupplierMutation.mutate,
     deleteSupplier: deleteSupplierMutation.mutate,
+    loginSupplier: loginSupplierMutation.mutate,
   };
 };
