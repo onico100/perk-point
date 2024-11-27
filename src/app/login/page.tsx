@@ -1,9 +1,9 @@
+//src/app/login/page
 "use client";
-
 import { useState } from "react";
 import useGeneralStore from "@/stores/generalStore"; // Zustand Store
-import { useLoginUser } from "@/hooks/useFetchUsers"; // פונקציה עבור התחברות משתמש
-import { useFetchSuppliers } from "@/hooks/useFetchSuppliers"; // פונקציה עבור התחברות ספק
+import { useLoginUser } from "../../hooks/useFetchUsers";
+import { useFetchSuppliers } from "../../hooks/useFetchSuppliers";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -12,45 +12,28 @@ export default function LoginPage() {
   // Zustand: preMode
   const preMode = useGeneralStore((state) => state.preMode);
 
-  // React Query: התחברות משתמש
+  // React Query
   const loginUserMutation = useLoginUser();
 
-  // React Query: התחברות ספק
+  // React Query
   const { loginSupplier } = useFetchSuppliers();
 
-  // טיפול בטופס התחברות
+  
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (preMode === "USER") {
-      loginUserMutation.mutate(
-        { email, password },
-        {
-          onSuccess: (user) => {
-            alert(`Welcome, ${user.username}!`);
-          },
-          onError: (error) => {
-            console.error(error);
-            alert("Login failed: Invalid user credentials.");
-          },
-        }
-      );
-    } else if (preMode === "SUPPLIER") {
-      loginSupplier(
-        { email, password },
-        {
-          onSuccess: (supplier) => {
-            alert(`Welcome, ${supplier.providerName}!`);
-          },
-          onError: (error) => {
-            console.error(error);
-            alert("Login failed: Invalid supplier credentials.");
-          },
-        }
-      );
-    } else {
-      alert("Please select a mode (User or Supplier).");
-    }
+      loginUserMutation.mutate( { email, password },{
+          onSuccess: (user) => {alert(`Welcome, ${user.username}!`);},
+          onError: (error) => {console.error(error);alert("Login failed: Invalid user credentials.");},
+        } );
+    } 
+    else if (preMode === "SUPPLIER") {
+      loginSupplier({ email, password },{
+          onSuccess: (supplier) => {alert(`Welcome, ${supplier.providerName}!`); },
+          onError: (error) => {console.error(error);alert("Login failed: Invalid supplier credentials.");},
+        });
+    } 
+    else {alert("Please select a mode (User or Supplier).");}
   };
 
   return (

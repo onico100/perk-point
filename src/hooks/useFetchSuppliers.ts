@@ -1,8 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useSupplierStore from "@/stores/suppliersStore";
 import { Supplier } from "@/types/types";
 import useGeneralStore from "@/stores/generalStore";
-import { useIsMutating, useMutation, useQueryClient } from "react-query";
+//import { useIsMutating, useMutation, useQueryClient } from "react-query";
+
 import {
   getAllSuppliers,
   addSupplier,

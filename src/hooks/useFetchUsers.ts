@@ -23,6 +23,7 @@ export const useGetUserById = (id: string) => {
 
 // Login user by credentials
 export const useLoginUser = () => {
+  console.log("bla bla bla bla bla");
   const setUser = useUserStore((state) => state.setUser);
   return useMutation<User, Error, { email: string; password: string }>({
     mutationFn: ({ email, password }) => getUserByCredentials(email, password),
