@@ -1,12 +1,12 @@
 "use client";
 
 import localFont from "next/font/local";
-import Head from 'next/head';
+// import Head from 'next/head';
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import TopBar from "@/components/Bars/TopBar";
 import SideBar from "@/components/Bars/SideBar";
-import logoLight from "@/assets/logoLight.png";
+// import logoLight from "@/assets/logoLight.png";
 
 
 //אל תמחקו, שישאר לדוגמא לשימוש שלנו
@@ -30,9 +30,9 @@ export default function RootLayout({
   return (
     <QueryClientProvider client={queryClient}>
       <html lang="en" className={` ${heebo.variable}`}>
-      <Head>
+      {/* <Head>
         <link rel="icon" href={logoLight.src} type="image/png"/>
-      </Head>
+      </Head> */}
         <body className="font-heebo">
           <TopBar />
           <div className="main">
