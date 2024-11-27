@@ -28,3 +28,13 @@ body {
     text-wrap: balance;
   }
 }
+
+.full-page {
+  height: 100vh; 
+  width: 100vw; 
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  background-color: var(--background); 
+  color: var(--foreground); 
+}

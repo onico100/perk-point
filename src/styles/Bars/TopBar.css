@@ -2,13 +2,15 @@
 
 .top-bar {
   display: flex;
+  position: relative; 
   justify-content:space-between;
   align-items: center;
   background-color: #f5f5f5;
+  overflow: visible; 
 }
 
 .logo {
-  height: 100px; /* Adjust as needed */
+  height: 100px; 
 }
 
 .right-side {
@@ -24,14 +26,16 @@
 .buttons-container {
   margin-left: 10px;
   display: flex;
+  position: relative;
   height: 100%;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to right, #c752df, #9931c2); /* purple background */
+  background: linear-gradient(to right, #c752df, #9931c2); 
   padding: 20px 70px 20px 20px;
-  clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%); /* custom shape */
-  border-radius: 8px 10px 0px 0px; /* rounded corners */
+  clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%); 
+  border-radius: 8px 10px 0px 0px; 
   margin-bottom: 0px;
+  z-index: 10; 
 }
 
 /* Style for the register button */
