@@ -1,4 +1,5 @@
-'use client'
+"use client";
+
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -13,7 +14,7 @@ const geistSans = localFont({
   weight: "100 900",
 });
 
-const heebo= localFont({
+const heebo = localFont({
   src: "./fonts/HeeboVF.ttf",
   variable: "--font-heebo",
   weight: "100 900",

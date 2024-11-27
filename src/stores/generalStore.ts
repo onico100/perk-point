@@ -8,8 +8,8 @@ interface generalStore {
   clubs: Club[];
   setClubs: (clubs: Club[]) => void;
 
-  clientMode: clientMode;
-  setClientMode: (clientMode: clientMode) => void;
+  clientMode: ClientMode;
+  setClientMode: (clientMode: ClientMode) => void;
 
   preMode: preMode;
   setPreMode: (preMode: preMode) => void;
@@ -28,8 +28,8 @@ const useGeneralStore = create<generalStore>((set) => ({
   clubs: [],
   setClubs: (clubs: Club[]) => set({ clubs }),
 
-  clientMode: clientMode.general,
-  setClientMode: (clientMode: clientMode) => set({ clientMode }),
+  clientMode: ClientMode.general,
+  setClientMode: (clientMode: ClientMode) => set({ clientMode }),
 
   preMode: preMode.supplier,
   setPreMode: (preMode: preMode) => set({ preMode }),

@@ -1,0 +1,38 @@
+/* Popup container styling */
+.popup {
+  position: absolute; /* Ensures precise positioning relative to the button */
+  background-color: #fff; /* White background for contrast */
+  border: 1px solid #ddd; /* Light border for subtle definition */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Elevation effect */
+  padding: 10px; /* Spacing inside the popup */
+  z-index: 9999; /* Places the popup above all other elements */
+  min-width: 150px; /* Ensures a reasonable width for the popup */
+}
+
+/* Button styling */
+.popup button {
+  display: block; /* Buttons stack vertically */
+  width: 100%; /* Full width of the popup */
+  padding: 10px 15px; /* Spacing inside the button */
+  margin: 5px 0; /* Space between buttons */
+  border: none; /* Remove default borders */
+  border-radius: 5px; /* Rounded corners for buttons */
+  background-color: #c752df; /* Primary purple color */
+  color: #fff; /* White text */
+  font-size: 16px; /* Readable text size */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+/* Button hover state */
+.popup button:hover {
+  background-color: #8e24aa; /* Lighter purple on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+/* Button active (click) state */
+.popup button:active {
+  background-color: #4a148c; /* Darker purple on click */
+  transform: scale(0.98); /* Slightly shrink on click */
+}
