@@ -9,6 +9,7 @@ export interface User {
     savedBenefits: string[];
     city: string;
     isActive: boolean;
+    password: String;
   }
 
   export interface Benefit {
@@ -55,14 +56,14 @@ export interface User {
     isActive:Boolean;    
   }
 
-  export enum clientMode {
+  export enum ClientMode {
     general = "GENERAL",
     connection = "CONNECTION",
     supplier = "SUPPLIER",
     user = "USER"
   }
 
-  export enum preMode{
+  export enum PreMode{
     supplier = "SUPPLIER",
     user = "USER",
     none="NONE",

@@ -1,11 +1,11 @@
 
 @tailwind utilities;
 
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
   direction: rtl;
+  box-sizing: border-box;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,11 +19,20 @@ body {
   color: var(--foreground);
   background: var(--background);
   direction: rtl;
-  font-family: var(--font-heebo),Arial,Helvetica, sans-serif;
+  font-family: var(--font-heebo), Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.main {
+  height: 100vh;
+  display: flex;
+  width: 100vw;
+  flex-direction: row;
+  position: relative; /* Ensures proper stacking context */
+  z-index: 1; /* Keep this lower than the popup */
 }

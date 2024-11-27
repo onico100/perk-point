@@ -13,11 +13,11 @@ export async function getSupplierById(id: string): Promise<Supplier> {
 }
 
 export async function getSupplierByCredentials(
-  name: string,
+  email: string,
   password: string
 ): Promise<Supplier> {
   const response = await my_http.post("/suppliers/get/login", {
-    name,
+    email,
     password,
   });
   return response.data;
