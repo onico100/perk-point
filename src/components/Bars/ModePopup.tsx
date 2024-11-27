@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import { useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
@@ -10,6 +10,7 @@ const ModePopup: React.FC<{
   anchorElement: HTMLElement | null;
 }> = ({ onClose, anchorElement }) => {
   const router = useRouter();
+  const popupRef = useRef<HTMLDivElement>(null);
 
   const setClientMode = useGeneralStore((state) => state.setClientMode);
   const setPreMode = useGeneralStore((state) => state.setPreMode);
@@ -20,6 +21,25 @@ const ModePopup: React.FC<{
     onClose();
     router.push("/login");
   };
+
+  // Close the popup when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node) &&
+        anchorElement &&
+        !anchorElement.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose, anchorElement]);
 
   // Early return if the anchor element is missing
   if (!anchorElement) return null;
@@ -37,7 +57,7 @@ const ModePopup: React.FC<{
 
   // Use React Portal to render the popup at the root level
   return ReactDOM.createPortal(
-    <div className={style.popup} style={popupStyle}>
+    <div className={style.popup} style={popupStyle} ref={popupRef}>
       <button onClick={() => handleSelect(ClientMode.user)}>לקוח</button>
       <button onClick={() => handleSelect(ClientMode.supplier)}>ספק</button>
     </div>,
