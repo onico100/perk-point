@@ -7,6 +7,9 @@ import LoginPage from "@/app/login/page";
 import Link from "next/link";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import TopBar from "@/components/Bars/TopBar";
+import SideBar from "@/components/Bars/SideBar";
+
 //אל תמחקו, שישאר לדוגמא לשימוש שלנו
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,14 +25,19 @@ const heebo = localFont({
 
 const queryClient = new QueryClient();
 
-export default function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
-  
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <QueryClientProvider client={queryClient}>
-      <html lang="en" className={` ${heebo.variable}`}>  
-          <body className="font-heebo">
+      <html lang="en" className={` ${heebo.variable}`}>
+        <body className="font-heebo">
+          <TopBar />
+          <div className="main">
+            <SideBar />
             {children}
-          </body>
+          </div>
+        </body>
       </html>
     </QueryClientProvider>
   );
