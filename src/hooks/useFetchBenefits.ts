@@ -8,10 +8,12 @@ import {
   updateBenefitById,
 } from "@/services/benefitsServices";
 
+
 export const useFetchBenefits = () => {
   const setBenefits = useBenefitStore((state) => state.setBenefits); // Zustand setter
+ console.log("14")
   const queryClient = useQueryClient();
-
+  console.log("16")
   // Fetch all benefits
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["benefits"],

@@ -1,5 +1,9 @@
-export default function ClientId(){
+"use client";
+import BenefitsContainer from "@/components/BenefitsContainer";
 
-    return <div>clientId</div>
+export default function ClientId() {
 
+  return (
+      <BenefitsContainer></BenefitsContainer>
+  );
 }
