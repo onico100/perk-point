@@ -22,7 +22,7 @@ const useGeneralStore = create<generalStore>((set) => ({
   clubs: [],
   setClubs: (clubs: Club[]) => set({ clubs }),
 
-  clientMode: clientMode.general,
+  clientMode: clientMode.user,
   setClientMode: (clientMode: clientMode) => set({ clientMode }),
 
   preMode: preMode.none,

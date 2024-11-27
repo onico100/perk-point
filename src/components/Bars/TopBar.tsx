@@ -6,6 +6,7 @@ import Link from "next/link";
 import logoLight from "@/assets/logoLight.png";
 
 const TopBar: React.FC = () => {
+
   return (
     <div className="top-bar">
       <div className="right-side">
@@ -17,6 +18,7 @@ const TopBar: React.FC = () => {
       <TopBarButtons />
     </div>
   );
+
 };
 
 export default TopBar;
