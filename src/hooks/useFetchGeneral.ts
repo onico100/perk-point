@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import useGeneralStore from "@/stores/generalStore";
 import { getAllCategories } from "@/services/categoriesService";
 import { getAllClubs } from "@/services/clubsService";
@@ -17,7 +17,7 @@ export const useFetchGeneral = () => {
       setCategories(categories);
       const clubs = await getAllClubs();
       setClubs(clubs);
-      return {categories,clubs};
+      return { categories, clubs };
     },
     staleTime: 10000,
   });
