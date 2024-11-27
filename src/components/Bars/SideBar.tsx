@@ -46,9 +46,8 @@ const SideBar = () => {
           <Link
             key={index}
             href={button.link}
-            className={`${linkStiles.barItem} ${
-              pathname === button.link ? linkStiles.active : ""
-            }`}
+            className={`${linkStiles.barItem} ${pathname === button.link ? linkStiles.active : ""
+              }`}
           >
             {button.label}
           </Link>
@@ -58,9 +57,8 @@ const SideBar = () => {
           <Link
             key={index}
             href={button.link}
-            className={`${linkStiles.barItem} ${
-              pathname === button.link ? linkStiles.active : ""
-            }`}
+            className={`${linkStiles.barItem} ${pathname === button.link ? linkStiles.active : ""
+              }`}
           >
             {button.label}
           </Link>

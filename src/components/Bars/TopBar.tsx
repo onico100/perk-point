@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import TopBarButtons from "./TopBarButtons"; // Import the Buttons component
+import TopBarButtons from "./TopBarButtons";
 import Link from "next/link";
 import logoLight from "@/assets/logoLight.png";
 import linkStyle from "@/styles/Bars/Links.module.css";
@@ -24,25 +24,22 @@ const TopBar: React.FC = () => {
           onClick={goToHome}
         />
         <Link
-          className={`${linkStyle.barItem}  ${
-            pathname === "/benefits/0" ? linkStyle.active : ""
-          }`}
+          className={`${linkStyle.barItem}  ${pathname === "/benefits/0" ? linkStyle.active : ""
+            }`}
           href={"/benefits/0"}
         >
           הטבות
         </Link>
         <Link
-          className={`${linkStyle.barItem}  ${
-            pathname === "/clubs/0" ? linkStyle.active : ""
-          }`}
+          className={`${linkStyle.barItem}  ${pathname === "/clubs/0" ? linkStyle.active : ""
+            }`}
           href={"/clubs/0"}
         >
           מועודנים
         </Link>
         <Link
-          className={`${linkStyle.barItem}  ${
-            pathname === "/about" ? linkStyle.active : ""
-          }`}
+          className={`${linkStyle.barItem}  ${pathname === "/about" ? linkStyle.active : ""
+            }`}
           href={"/about"}
         >
           אודות
