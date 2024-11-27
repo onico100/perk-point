@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { Category, Club, clientMode, preMode } from '@/types/types';
+import { create } from "zustand";
+import { Category, Club, clientMode, preMode } from "@/types/types";
 
 interface generalStore {
   categories: Category[];
@@ -27,7 +27,6 @@ const useGeneralStore = create<generalStore>((set) => ({
 
   preMode: preMode.none,
   setPreMode: (preMode: preMode) => set({ preMode }),
-
 }));
 
 export default useGeneralStore;
