@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import localFont from "next/font/local";
 import "./globals.css";
@@ -13,23 +13,27 @@ const geistSans = localFont({
   weight: "100 900",
 });
 
-const heebo= localFont({
+const heebo = localFont({
   src: "./fonts/HeeboVF.ttf",
   variable: "--font-heebo",
   weight: "100 900",
 });
 
-export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   const queryClient = new QueryClient();
   return (
-    <html lang="en" className={`${geistSans.variable} ${heebo.variable}`}>  
-    <QueryClientProvider client={queryClient}>
-      <body className="font-heebo">
-        <TopBar />
-        <SideBar />
-        {children}
-      </body>
-    </QueryClientProvider>
+    <html lang="en" className={`${geistSans.variable} ${heebo.variable}`}>
+      <QueryClientProvider client={queryClient}>
+        <body className="font-heebo">
+          <TopBar />
+          <div className="main">
+            <SideBar />
+            {children}
+          </div>
+        </body>
+      </QueryClientProvider>
     </html>
   );
 }
