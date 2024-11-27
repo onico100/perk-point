@@ -9,6 +9,8 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [sup,setSup] = useState("");
+
   // Zustand: preMode
   const preMode = useGeneralStore((state) => state.preMode);
 
@@ -28,6 +30,7 @@ export default function LoginPage() {
         } );
     } 
     else if (preMode === "SUPPLIER") {
+      console.log("Supplier loginL ",email,"pass",password);
       loginSupplier({ email, password },{
           onSuccess: (supplier) => {alert(`Welcome, ${supplier.providerName}!`); },
           onError: (error) => {console.error(error);alert("Login failed: Invalid supplier credentials.");},

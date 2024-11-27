@@ -76,8 +76,8 @@ export const useFetchSupplier = (id:string) => {
     },
   });
 
-    const loginSupplierMutation = useMutation<Supplier, Error, { email: string; password: string }>({
-    mutationFn: ({ email, password }) => getSupplierByCredentials(email, password),
+  const loginSupplierMutation = useMutation<Supplier, Error, { email: string; password: string }>({
+    mutationFn:({ email, password }) => getSupplierByCredentials(email, password),
     onSuccess: (supplier) => {
       console.log("Supplier login successful:", supplier);
       // General Zustand Updating
