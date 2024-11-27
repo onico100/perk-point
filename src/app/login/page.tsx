@@ -3,7 +3,7 @@
 import { useState } from "react";
 import useGeneralStore from "@/stores/generalStore"; // Zustand Store
 import { useLoginUser } from "../../hooks/useFetchUsers";
-import { useFetchSuppliers } from "../../hooks/useFetchSuppliers";
+import  {useFetchSupplier}  from "../../hooks/useFetchSupplier";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -16,7 +16,7 @@ export default function LoginPage() {
   const loginUserMutation = useLoginUser();
 
   // React Query
-  const { loginSupplier } = useFetchSuppliers();
+  const { loginSupplier } = useFetchSupplier("");
 
   
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
