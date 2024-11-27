@@ -2,9 +2,10 @@
 
 import localFont from "next/font/local";
 import "./globals.css";
-import { QueryClient, QueryClientProvider } from "react-query";
-import TopBar from "@/components/Bars/TopBar";
-import SideBar from "@/components/Bars/SideBar";
+
+import LoginPage from "@/app/login/page";
+import Link from "next/link";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 //אל תמחקו, שישאר לדוגמא לשימוש שלנו
 const geistSans = localFont({
@@ -19,21 +20,17 @@ const heebo = localFont({
   weight: "100 900",
 });
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
-  const queryClient = new QueryClient();
+const queryClient = new QueryClient();
+
+export default function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
+  
   return (
-    <html lang="en" className={`${geistSans.variable} ${heebo.variable}`}>
-      <QueryClientProvider client={queryClient}>
-        <body className="font-heebo">
-          <TopBar />
-          <div className="main">
-            <SideBar />
+    <QueryClientProvider client={queryClient}>
+      <html lang="en" className={` ${heebo.variable}`}>  
+          <body className="font-heebo">
             {children}
-          </div>
-        </body>
-      </QueryClientProvider>
-    </html>
+          </body>
+      </html>
+    </QueryClientProvider>
   );
 }

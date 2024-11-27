@@ -12,11 +12,11 @@ export async function getUserById(id: string): Promise<User> {
 }
 
 export async function getUserByCredentials(
-  name: string,
+  email: string,
   password: string
 ): Promise<User> {
   const response = await my_http.post("/users/get/login", {
-    name,
+    email,
     password,
   });
   return response.data;
