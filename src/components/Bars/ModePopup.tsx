@@ -22,7 +22,6 @@ const ModePopup: React.FC<{
     router.push("/login");
   };
 
-  // Close the popup when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -44,7 +43,6 @@ const ModePopup: React.FC<{
   // Early return if the anchor element is missing
   if (!anchorElement) return null;
 
-  // Calculate the position of the popup relative to the anchor element
   const { bottom, left, width } = anchorElement.getBoundingClientRect();
 
   const popupStyle: React.CSSProperties = {
@@ -52,16 +50,15 @@ const ModePopup: React.FC<{
     top: `${bottom + window.scrollY}px`,
     left: `${left + window.scrollX}px`,
     minWidth: `${width}px`,
-    zIndex: 9999, // Ensure popup appears above all elements
+    zIndex: 9999,
   };
 
-  // Use React Portal to render the popup at the root level
   return ReactDOM.createPortal(
     <div className={style.popup} style={popupStyle} ref={popupRef}>
       <button onClick={() => handleSelect(ClientMode.user)}>לקוח</button>
       <button onClick={() => handleSelect(ClientMode.supplier)}>ספק</button>
     </div>,
-    document.body // Mount the popup directly onto the body element
+    document.body
   );
 };
 
