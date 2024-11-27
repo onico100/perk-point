@@ -5,7 +5,8 @@ import useUserStore from '@/stores/usersStore';
 // import useSupplierStore from '@/stores/suppliersStore'
 import styles from '@/styles/Bars/SideBar.module.css';
 import Link from "next/link";
-import { usePathname } from "next/navigation"; 
+import { usePathname } from "next/navigation";
+import linkStiles from '@/styles/Bars/Links.module.css' 
 
 
 const SideBar = () => {
@@ -45,12 +46,12 @@ const SideBar = () => {
     return (
         <div className={styles.sidebar}>
             {clientMode === 'USER' && userButtons.map((button, index) => (
-                <Link key={index} href={button.link} className={`${styles.sidebarItem} ${pathname === button.link ? styles.active : ''}`}>
+                <Link key={index} href={button.link} className={`${linkStiles.barItem} ${pathname === button.link ? linkStiles.active : ''}`}>
                     {button.label}
                 </Link>
             ))}
             {clientMode === 'SUPPLIER' && supplierButtons.map((button, index) => (
-                <Link key={index} href={button.link} className={`${styles.sidebarItem} ${pathname === button.link ? styles.active : ''}`}>
+                <Link key={index} href={button.link} className={`${linkStiles.barItem} ${pathname === button.link ? linkStiles.active : ''}`}>
                     {button.label}
                 </Link>
             ))}

@@ -1,11 +1,11 @@
 import React from "react";
-import "@/styles/Bars/TopBar.css";
+import styles from '@/styles/Bars/TopBar.module.css'
 
 const TopBarButtons: React.FC = () => {
   return (
-    <div className="buttons-container">
-      <button className="login-button">התחברות</button>
-      <button className="register-button">הרשמה</button>
+    <div className={styles.buttonsContainer}>
+      <button className={styles.loginButton}>התחברות</button>
+      <button className={styles.registerButton}>הרשמה</button>
     </div>
   );
 };
