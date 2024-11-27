@@ -18,13 +18,15 @@
     font-size: 16px;
 }
 
-.sidebarItem:hover {
+.sidebarItem:hover,
+.sidebarItem.active {
     background: linear-gradient(to right, #c752df, #7476EF); 
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; 
 }
 
-.sidebarItem:hover::after {
+.sidebarItem:hover::after,
+.sidebarItem.active::after {
     content: '';
     position: absolute;
     left: 0;
@@ -32,10 +34,6 @@
     bottom: 0;
     height: 2px;
     background: linear-gradient(to right, #c752df, #7476EF); 
-}
-
-.sidebarItem.active {
-    border-bottom: 2px solid; 
 }
 
 
