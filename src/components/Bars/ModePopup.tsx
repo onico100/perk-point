@@ -1,10 +1,13 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 import useGeneralStore from '@/stores/generalStore';
 import { ClientMode, PreMode } from '@/types/types';
 import style from '@/styles/Bars/ModePopup.module.css'
 
 
 const ModePopup: React.FC<{ onClose: () => void; anchorElement: HTMLElement | null }> = ({ onClose, anchorElement }) => {
+    const router = useRouter();
+
     const setClientMode = useGeneralStore((state) => state.setClientMode);
     const setPreMode = useGeneralStore((state) => state.setPreMode);
 
@@ -12,6 +15,7 @@ const ModePopup: React.FC<{ onClose: () => void; anchorElement: HTMLElement | nu
         setClientMode(ClientMode.connection);
         setPreMode(mode === ClientMode.user ? PreMode.user : PreMode.supplier);
         onClose();
+        router.push('/login');
     };
 
     if (!anchorElement)
