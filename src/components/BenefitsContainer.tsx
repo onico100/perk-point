@@ -1,7 +1,5 @@
 "use client"
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
-import { getAllBenefits } from "@/services/benefitsServices";
-import { useEffect, useState } from "react";
 import BenefitsCard from "./BenefitCard";
 
 const BenefitsContainer = () => {

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import styles from "@/styles/Bars/TopBar.module.css";
-import ModePopup from "./ModePopup";
+import {ModePopup} from "../index";
 import useGeneralStore from "@/stores/generalStore";
-// import useUserStore from "@/stores/usersStore";
-// import useSupplierStore from "@/stores/supplierStore";
 
 const TopBarButtons: React.FC = () => {
   const { clientMode,currentSupplier,currentUser } = useGeneralStore();

@@ -1,6 +1,7 @@
 "use client";
 
-import BenefitsContainer from "@/components/BenefitsContainer";
+import { BenefitsContainer } from "@/components";
+
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode, PreMode } from "@/types/types";
 export default function ClientId() {
