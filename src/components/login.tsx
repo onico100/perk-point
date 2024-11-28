@@ -2,7 +2,7 @@
 import { useState } from "react";
 import useGeneralStore from "@/stores/generalStore";
 import { useLoginUser } from "@/hooks/useFetchUsers";
-import { useFetchSupplier } from "@/hooks/useFetchSuppliers";
+import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import Link from "next/link";
 
 export default function Login() {
@@ -10,7 +10,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const preMode = useGeneralStore((state) => state.preMode);
   const loginUserMutation = useLoginUser();
-  const { loginSupplier } = useFetchSupplier();
+  const { loginSupplier } = useFetchSuppliers();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
