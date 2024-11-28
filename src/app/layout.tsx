@@ -4,8 +4,7 @@ import localFont from "next/font/local";
 import Head from 'next/head';
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import TopBar from "@/components/Bars/TopBar";
-import SideBar from "@/components/Bars/SideBar";
+import {SideBar, TopBar} from '@/components/index'
 
 
 //אל תמחקו, שישאר לדוגמא לשימוש שלנו
@@ -31,9 +30,9 @@ export default function RootLayout({
   return (
     <QueryClientProvider client={queryClient}>
       <html lang="en" className={` ${heebo.variable}`}>
-      <Head>
-        <link rel="icon" href='/favicon.ico' />
-      </Head>
+        <Head>
+          <link rel="icon" href='/favicon.ico' />
+        </Head>
         <body className="font-heebo">
           <TopBar />
           <div className="main">
