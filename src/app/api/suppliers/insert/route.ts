@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     };
 
     const result = await insertDocument(client, "suppliers_collection", newSupplier);
-    return NextResponse.json({ insertedId: result.insertedId });
+    return NextResponse.json(newSupplier);
   } catch (error: unknown) {
     // Ensure 'error' is safely handled
     const errorMessage =

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useSupplierStore from "@/stores/suppliersStore";
-import { Supplier } from "@/types/types";
+import { ClientMode, Supplier } from "@/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getAllSuppliers,
@@ -12,6 +12,9 @@ import {
 import useGeneralStore from "@/stores/generalStore";
 export const useFetchSuppliers = () => {
   const { setSuppliers } = useSupplierStore.getState();
+  const setClientMode = useGeneralStore.getState().setClientMode;
+  const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
+  const currentSupplier = useGeneralStore.getState().currentSupplier;
   //const {setCurrentSupplier, currentSupplier}=useGeneralStore.getState()
 
   const queryClient = useQueryClient();
@@ -27,25 +30,33 @@ export const useFetchSuppliers = () => {
     staleTime: 10000,
   });
 
-  const addSupplierMutation = useMutation({
-    mutationFn: addSupplier,
-    onMutate: async (nSupplier: Supplier) => {
-      const { suppliers } = useSupplierStore.getState();
-      const newSupplier = { ...nSupplier, _id: "temp-id" };
-      const existingSupplier = suppliers.find(
-        (s) => s.email === nSupplier.email
-      );
-      if (!existingSupplier) {setSuppliers([...suppliers, newSupplier]);}
-      return { previousSuppliers: suppliers };
-    },
-    onError: (error, _, context: any) => {
-      if (context?.previousSuppliers) {
-        const { setSuppliers } = useSupplierStore.getState();
-        setSuppliers(context.previousSuppliers);
-      }
-    },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["suppliers"] });},
-  });
+
+const addSupplierMutation = useMutation({
+  mutationFn: addSupplier,
+  onMutate: async (nSupplier: Supplier) => {
+    const { suppliers } = useSupplierStore.getState();
+    const newSupplier = { ...nSupplier, _id: "temp-id" };
+    const existingSupplier = suppliers.find(
+      (s) => s.email === nSupplier.email
+    );
+    if (!existingSupplier) {
+      setSuppliers([...suppliers, newSupplier]);
+    }
+    return { previousSuppliers: suppliers };
+  },
+  onError: (error, _, context: any) => {
+    if (context?.previousSuppliers) {
+      const { setSuppliers } = useSupplierStore.getState();
+      setSuppliers(context.previousSuppliers);
+    }
+  },
+  onSuccess: (supplier) => {
+    setCurrentSupplier(supplier); 
+    setClientMode(ClientMode.supplier);
+    queryClient.invalidateQueries({ queryKey: ["suppliers"] });
+    console.log("Supplier added and stored successfully!", currentSupplier);
+  },
+});
 
   const updateSupplierMutation = useMutation<
     Supplier,
@@ -81,8 +92,6 @@ export const useFetchSuppliers = () => {
     getSupplierByCredentials(email, password),
   onSuccess: (supplier) => {
     console.log("Supplier login successful:", supplier);
-      console.log("Supplier login successful:", supplier);
-     
       const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
       setCurrentSupplier(supplier);
       alert(`Welcome, ${supplier.providerName}!`);

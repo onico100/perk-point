@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFetchSupplier } from "@/hooks/useFetchSupplier";
+import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 
 const supplierSchema = z.object({
   providerName: z.string().min(3, "Provider name must be at least 3 characters."),
@@ -17,7 +17,7 @@ const supplierSchema = z.object({
 type SupplierFormValues = z.infer<typeof supplierSchema>;
 
 export default function AddSupplier() {
-  const { addSupplier } = useFetchSupplier(); // שימוש ב-Hook הקיים
+  const { addSupplier } = useFetchSuppliers(); // שימוש ב-Hook הקיים
 
   const {
     register,
@@ -29,7 +29,9 @@ export default function AddSupplier() {
 
   const onSubmit = (data: SupplierFormValues) => {
     addSupplier(data, {
-      onSuccess: () => { alert("Supplier added successfully!");},
+      onSuccess: (supplier) => { 
+        alert("Supplier added successfully!");
+        console.log("Current supplier stored in Zustand:", supplier);},
       onError: (error) => {
         console.error(error);
         alert("Failed to add supplier.");

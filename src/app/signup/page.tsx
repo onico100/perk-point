@@ -1,5 +1,5 @@
 "use client"
-import { AddSupplier } from "@/components";
+import { AddSupplier } from "@/components/index";
 
 export default function SignUp(){
 
