@@ -10,7 +10,7 @@ import {
   getSupplierByCredentials,
 } from "@/services/suppliersServices";
 import useGeneralStore from "@/stores/generalStore";
-export const useFetchSupplier = () => {
+export const useFetchSuppliers = () => {
   const { setSuppliers } = useSupplierStore.getState();
   //const {setCurrentSupplier, currentSupplier}=useGeneralStore.getState()
 
@@ -21,6 +21,7 @@ export const useFetchSupplier = () => {
     queryFn: async () => {
       const suppliers = await getAllSuppliers();
       setSuppliers(suppliers);
+      console.log(suppliers);
       return suppliers;
     },
     staleTime: 10000,
