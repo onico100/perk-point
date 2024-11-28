@@ -2,8 +2,11 @@
 import { useState } from "react";
 import useGeneralStore from "@/stores/generalStore";
 import { useLoginUser } from "@/hooks/useFetchUsers";
-import { useFetchSupplier } from "@/hooks/useFetchSupplier";
+
 import styles from "@/styles/login.module.css"; // Import the CSS module
+
+import { useFetchSupplier } from "@/hooks/useFetchSuppliers";
+
 import Link from "next/link";
 
 export default function Login() {
@@ -11,7 +14,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const preMode = useGeneralStore((state) => state.preMode);
   const loginUserMutation = useLoginUser();
-  const { loginSupplier } = useFetchSupplier("");
+  const { loginSupplier } = useFetchSupplier();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,10 +50,12 @@ export default function Login() {
   };
 
   return (
+
     <div className={styles.loginPage}>
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <div className={styles.formGroup}>
           <label htmlFor="email">Email:</label>
+
           <input
             id="email"
             type="email"
@@ -59,6 +64,7 @@ export default function Login() {
             required
           />
         </div>
+
         <div className={styles.formGroup}>
           <label htmlFor="password">Password:</label>
           <input
@@ -76,6 +82,7 @@ export default function Login() {
           </Link>
         </div>
         <button type="submit">התחברות</button>
+
       </form>
     </div>
   );

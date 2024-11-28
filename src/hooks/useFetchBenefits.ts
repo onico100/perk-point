@@ -108,8 +108,8 @@ export const useFetchBenefits = () => {
 
   return {
     benefits: data,
-    isLoading,
-    isFetching,
+    isLoadingB: isLoading,
+    isFetchingB: isFetching,
     addBenefit: addBenefitMutation.mutate,
     updateBenefit: updateBenefitMutation.mutate,
     deleteBenefit: deleteBenefitMutation.mutate,
