@@ -13,9 +13,12 @@ import {
 import useGeneralStore from "@/stores/generalStore";
 
 export const useFetchSupplier = (id:string) => {
+
   const setSupplier = useSupplierStore((state: any) => state.setSupplier);
 
   const queryClient = useQueryClient();
+
+  console.log("useFetchSupplier id: ",id); 
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["suppliers", id],
@@ -27,6 +30,7 @@ export const useFetchSupplier = (id:string) => {
     staleTime: 10000,
   });
 
+  console.log(" 2 useFetchSupplier id: ",id); 
   const addSupplierMutation = useMutation({
     mutationFn: addSupplier,
     onMutate: async (nSupplier: Omit<Supplier, "_id">) => {
@@ -86,7 +90,7 @@ export const useFetchSupplier = (id:string) => {
       alert(`Welcome, ${supplier.providerName}!`);
     },
     onError: (error) => {
-      console.error("Supplier login failed:", error);
+      console.error("Hello Supplier login failed:", error);
       alert("Invalid supplier credentials.");
     },
   });

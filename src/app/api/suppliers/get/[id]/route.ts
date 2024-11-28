@@ -5,6 +5,7 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  console.log("GET /api/suppliers/[id]");
   let client;
   try {
     client = await connectDatabase();
