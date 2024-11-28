@@ -78,15 +78,13 @@ export const useFetchSupplier = (id:string) => {
 
       // General Zustand Updating
       const setClientMode= useGeneralStore.getState().setClientMode;
-      setClientMode(ClientMode.supplier);
-
-      const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
-      setCurrentSupplier(supplier);
       alert(`Welcome, ${supplier.providerName}!`);
+      setClientMode(ClientMode.supplier);
+      setCurrentSupplier(supplier);
+      console.log("general zustand current Supplier", currentSupplier)
     },
     onError: (error) => {
       console.error("Hello Supplier login failed:", error);
-      alert("Invalid supplier credentials.");
     },
   });
 

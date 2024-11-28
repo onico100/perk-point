@@ -8,7 +8,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [sup,setSup] = useState("");
 
   const preMode = useGeneralStore((state) => state.preMode);
 
