@@ -92,6 +92,7 @@ const BenefitDetails = () => {
             </div>
         </div>
     );
+
 };
 
 export default BenefitDetails;
