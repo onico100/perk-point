@@ -3,6 +3,7 @@ import { useState } from "react";
 import useGeneralStore from "@/stores/generalStore"; 
 import { useLoginUser } from '@/hooks/useFetchUsers'
 import  {useFetchSupplier}  from "@/hooks/useFetchSupplier";
+import Link from "next/link";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -58,9 +59,11 @@ export default function Login() {
           type="submit"
           className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition"
         >Login</button>
+
+        <Link href={"/signup"}>חדש באתר? להרשמה</Link>
       </form>
 
-      
+
     </div>
   );
 }
