@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { Category, Club, ClientMode, PreMode,User, Supplier  } from "@/types/types";
+import { persist } from "zustand/middleware";
+import { Category, Club, ClientMode, PreMode, User, Supplier } from "@/types/types";
 
-
-interface generalStore {
+interface GeneralStore {
   categories: Category[];
   setCategories: (categories: Category[]) => void;
 
@@ -14,33 +14,39 @@ interface generalStore {
 
   preMode: PreMode;
   setPreMode: (preMode: PreMode) => void;
-  
+
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
 
   currentSupplier: Supplier | null;
   setCurrentSupplier: (supplier: Supplier | null) => void;
-
 }
 
-const useGeneralStore = create<generalStore>((set) => ({
-  categories: [],
-  setCategories: (categories: Category[]) => set({ categories }),
+const useGeneralStore = create<GeneralStore>()(
+  persist(
+    (set) => ({
+      categories: [],
+      setCategories: (categories: Category[]) => set({ categories }),
 
-  clubs: [],
-  setClubs: (clubs: Club[]) => set({ clubs }),
+      clubs: [],
+      setClubs: (clubs: Club[]) => set({ clubs }),
 
-  clientMode: ClientMode.general,
-  setClientMode: (clientMode: ClientMode) => set({ clientMode }),
+      clientMode: ClientMode.general,
+      setClientMode: (clientMode: ClientMode) => set({ clientMode }),
 
-  preMode: PreMode.supplier,
-  setPreMode: (preMode: PreMode) => set({ preMode }),
-  currentUser: null,
-  setCurrentUser: (user: User | null) => set({ currentUser: user }),
+      preMode: PreMode.supplier,
+      setPreMode: (preMode: PreMode) => set({ preMode }),
 
-  currentSupplier: null,
-  setCurrentSupplier: (supplier: Supplier | null) => set({ currentSupplier: supplier }),
+      currentUser: null,
+      setCurrentUser: (user: User | null) => set({ currentUser: user }),
 
-}));
+      currentSupplier: null,
+      setCurrentSupplier: (supplier: Supplier | null) => set({ currentSupplier: supplier }),
+    }),
+    {
+      name: "general-store", 
+    }
+  )
+);
 
 export default useGeneralStore;

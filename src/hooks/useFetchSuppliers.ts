@@ -6,13 +6,11 @@ import {
   getAllSuppliers,
   addSupplier,
   updateSupplierById,
-  getSupplierById,
   getSupplierByCredentials,
 } from "@/services/suppliersServices";
 import useGeneralStore from "@/stores/generalStore";
 export const useFetchSuppliers = () => {
   const { setSuppliers } = useSupplierStore.getState();
-  //const {setCurrentSupplier, currentSupplier}=useGeneralStore.getState()
 
   const queryClient = useQueryClient();
 
