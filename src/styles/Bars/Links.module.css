@@ -5,6 +5,8 @@
   position: relative;
   font-size: 16px;
   box-sizing: border-box;
+  margin-right: 15px;
+  margin-left: 15px;
 }
 
 .barItem:hover,
