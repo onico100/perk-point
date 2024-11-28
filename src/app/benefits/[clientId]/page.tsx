@@ -1,6 +1,6 @@
 "use client";
 
-import { BenefitsContainer, BenefitDetails } from "@/components";
+import { BenefitsContainer } from "@/components";
 
 
 import useGeneralStore from "@/stores/generalStore";
