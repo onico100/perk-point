@@ -29,18 +29,18 @@ export interface User {
   }
 
   export interface Supplier {
-    _id: string;
+    _id?: string;
     providerName: string;
     password: string;
     email: string;
     businessName: string;
-    categories:ObjectId[];
+    categories?:ObjectId[];
     phoneNumber: string;
-    registrationDate: Date;
-    branches:Branch[];
-    siteLink: string;
-    supplierLogo:string;
-    isActive: boolean;
+    registrationDate?: Date;
+    branches?:Branch[];
+    siteLink?: string;
+    supplierLogo?:string;
+    isActive?: boolean;
   }
 
   export interface Category {

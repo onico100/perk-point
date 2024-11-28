@@ -1,5 +1,5 @@
 "use client";
-import { Login } from "@/components";
+import { Login, TabSign } from "@/components/index";
 
 export default function LoginPage() {
   return <div>

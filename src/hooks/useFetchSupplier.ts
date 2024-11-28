@@ -28,18 +28,13 @@ export const useFetchSupplier = () => {
 
   const addSupplierMutation = useMutation({
     mutationFn: addSupplier,
-    onMutate: async (nSupplier: Omit<Supplier, "_id">) => {
+    onMutate: async (nSupplier: Supplier) => {
       const { suppliers } = useSupplierStore.getState();
-
       const newSupplier = { ...nSupplier, _id: "temp-id" };
-
       const existingSupplier = suppliers.find(
         (s) => s.email === nSupplier.email
       );
-      if (!existingSupplier) {
-        setSuppliers([...suppliers, newSupplier]);
-      }
-
+      if (!existingSupplier) {setSuppliers([...suppliers, newSupplier]);}
       return { previousSuppliers: suppliers };
     },
     onError: (error, _, context: any) => {
@@ -48,10 +43,7 @@ export const useFetchSupplier = () => {
         setSuppliers(context.previousSuppliers);
       }
     },
-    onSuccess: () => {
-      console.log("Supplier added successfully!");
-      queryClient.invalidateQueries({ queryKey: ["suppliers"] });
-    },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["suppliers"] });},
   });
 
   const updateSupplierMutation = useMutation<
@@ -62,19 +54,15 @@ export const useFetchSupplier = () => {
     mutationFn: ({ id, updatedData }) => updateSupplierById(id, updatedData),
     onMutate: async ({ id, updatedData }) => {
       const { suppliers } = useSupplierStore.getState();
-
       const updatedSupplier: Supplier = {
         ...suppliers.find((s) => s._id === id),
         ...updatedData,
       } as Supplier;
-
       setSuppliers(suppliers.map((s) => (s._id === id ? updatedSupplier : s)));
-
       return { previousSuppliers: suppliers };
     },
     onError: (_error, _variables, context: any) => {
       setSuppliers(context.previousSuppliers);
-
       console.error("Failed to update supplier.");
     },
     onSuccess: () => {
