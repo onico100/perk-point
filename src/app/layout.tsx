@@ -25,7 +25,9 @@ const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{ children: React.ReactNode }>){ 
+  const queryClient = new QueryClient();
+
   return (
     <QueryClientProvider client={queryClient}>
       <html lang="en" className={` ${heebo.variable}`}>
@@ -41,5 +43,6 @@ export default function RootLayout({
         </body>
       </html>
     </QueryClientProvider>
+
   );
 }

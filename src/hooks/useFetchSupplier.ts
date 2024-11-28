@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import useSupplierStore from "@/stores/supplierStore";
 import { Supplier } from "@/types/types";
@@ -5,24 +7,34 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getAllSuppliers,
   addSupplier,
-  deleteSupplierById,
   updateSupplierById,
   getSupplierById,
   getSupplierByCredentials,
 } from "@/services/suppliersServices";
 import useGeneralStore from "@/stores/generalStore";
 
-export const useFetchSupplier = (id:string) => {
-  const setSupplier = useSupplierStore((state: any) => state.setSupplier);
+export const useFetchSupplier = (id: string) => {
+  const { setSupplier, setSuppliers } = useSupplierStore.getState();
 
   const queryClient = useQueryClient();
 
+  // const { data, isLoading, isFetching } = useQuery({
+  //   queryKey: ["suppliers", id],
+  //   queryFn: async () => {
+  //     const supplier = await getSupplierById(id);
+  //     setSupplier(supplier);
+  //     return supplier;
+  //   },
+  //   staleTime: 10000,
+  // });
+
   const { data, isLoading, isFetching } = useQuery({
-    queryKey: ["suppliers", id],
+    queryKey: ["suppliers"],
     queryFn: async () => {
-      const supplier = await getSupplierById(id);
-      setSupplier(supplier);
-      return supplier;
+      const suppliers = await getAllSuppliers();
+      setSuppliers(suppliers);
+      setSupplier(suppliers?.filter((s) => s._id == id)[0]);
+      return suppliers;
     },
     staleTime: 10000,
   });
@@ -30,10 +42,16 @@ export const useFetchSupplier = (id:string) => {
   const addSupplierMutation = useMutation({
     mutationFn: addSupplier,
     onMutate: async (nSupplier: Omit<Supplier, "_id">) => {
-      const { supplier, setSupplier } = useSupplierStore.getState();
+      const { supplier, suppliers } = useSupplierStore.getState();
 
       const newSupplier = { ...nSupplier, _id: "temp-id" };
-      setSupplier( newSupplier);
+      setSupplier(newSupplier);
+
+      const existingSupplier = suppliers.find(
+        (s) => s.email === nSupplier.email
+      );
+
+      if (existingSupplier) setSuppliers([...suppliers, newSupplier]);
 
       return { supplier };
     },
@@ -55,10 +73,17 @@ export const useFetchSupplier = (id:string) => {
   >({
     mutationFn: ({ id, updatedData }) => updateSupplierById(id, updatedData),
     onMutate: async ({ id, updatedData }) => {
-      const { supplier, setSupplier } = useSupplierStore.getState();
-      
-      const updatedSupplier: Supplier = { ...supplier, _id: id, ...updatedData } as Supplier;
+      const { supplier, suppliers } = useSupplierStore.getState();
+
+      const updatedSupplier: Supplier = {
+        ...supplier,
+        _id: id,
+        ...updatedData,
+      } as Supplier;
       setSupplier(updatedSupplier);
+      setSuppliers(
+        suppliers.map((s) => (s._id == id ? updatedSupplier : s))
+      );
 
       return { supplier };
     },
@@ -76,8 +101,13 @@ export const useFetchSupplier = (id:string) => {
     },
   });
 
-    const loginSupplierMutation = useMutation<Supplier, Error, { email: string; password: string }>({
-    mutationFn: ({ email, password }) => getSupplierByCredentials(email, password),
+  const loginSupplierMutation = useMutation<
+    Supplier,
+    Error,
+    { email: string; password: string }
+  >({
+    mutationFn: ({ email, password }) =>
+      getSupplierByCredentials(email, password),
     onSuccess: (supplier) => {
       console.log("Supplier login successful:", supplier);
       // General Zustand Updating
@@ -143,7 +173,6 @@ export const useFetchSupplier = (id:string) => {
 //       alert("Invalid supplier credentials.");
 //     },
 //   });
-  
 
 //   const addSupplierMutation = useMutation({
 //     mutationFn: addSupplier,
