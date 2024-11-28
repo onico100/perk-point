@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-//import useSupplierStore from "@/stores/supplierStore";
+import useSuppliersStore from "@/stores/suppliersStore";
 import { ClientMode, Supplier } from "@/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useGeneralStore from "@/stores/generalStore"; 
@@ -16,17 +16,11 @@ import {
 
 
 export const useFetchSupplier = (id:string) => {
-
   const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
   const currentSupplier= useGeneralStore.getState().currentSupplier;
   //const setSupplier = useSupplierStore((state: any) => state.setSupplier);
-export const useFetchSupplier = (id: string) => {
-  const { setSupplier, setSuppliers } = useSupplierStore.getState();
-
+  const { setSuppliers } = useSuppliersStore.getState();
   const queryClient = useQueryClient();
-
-  console.log("useFetchSupplier id: ",id); 
-
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["suppliers"],
     queryFn: async () => {
@@ -105,3 +99,4 @@ export const useFetchSupplier = (id: string) => {
     loginSupplier: loginSupplierMutation.mutate,
   };
 };
+
