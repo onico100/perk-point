@@ -6,7 +6,6 @@ import {
   getAllSuppliers,
   addSupplier,
   updateSupplierById,
-  getSupplierById,
   getSupplierByCredentials,
 } from "@/services/suppliersServices";
 import useGeneralStore from "@/stores/generalStore";

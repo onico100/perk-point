@@ -1,14 +1,22 @@
-import { create } from 'zustand';
-import { Supplier } from '@/types/types';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { Supplier } from "@/types/types";
 
 interface SupplierStore {
-  suppliers: Supplier[]
-  setSuppliers: (suppliers: Supplier[]) => void; 
+  suppliers: Supplier[];
+  setSuppliers: (suppliers: Supplier[]) => void;
 }
 
-const useSupplierStore = create<SupplierStore>((set) => ({
-  suppliers:[], 
-  setSuppliers: (suppliers: Supplier[]) => set({ suppliers }),
-}));
+const useSupplierStore = create<SupplierStore>()(
+  persist(
+    (set) => ({
+      suppliers: [],
+      setSuppliers: (suppliers: Supplier[]) => set({ suppliers }),
+    }),
+    {
+      name: "supplier-store", 
+    }
+  )
+);
 
 export default useSupplierStore;
