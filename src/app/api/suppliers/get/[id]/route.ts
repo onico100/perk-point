@@ -5,6 +5,7 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  console.log("GET /api/suppliers/[id]");
   let client;
   try {
     client = await connectDatabase();
@@ -14,11 +15,7 @@ export async function GET(
         { status: 500 }
       );
     }
-    const supplier = await getDocumentById(
-      client,
-      "suppliers_collection",
-      params.id
-    );
+    const supplier = await getDocumentById(client,"suppliers_collection",params.id);
     if (!supplier) {
       return NextResponse.json(
         { error: "Supplier not found" },

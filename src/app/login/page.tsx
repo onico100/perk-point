@@ -8,6 +8,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+
   const preMode = useGeneralStore((state) => state.preMode);
 
   const loginUserMutation = useLoginUser();
@@ -16,6 +17,8 @@ export default function LoginPage() {
 
   
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("preMode: ",preMode);
+    console.log("email: ",email);
     e.preventDefault();
     if (preMode === "USER") {
       loginUserMutation.mutate( { email, password },{
@@ -24,6 +27,7 @@ export default function LoginPage() {
         } );
     } 
     else if (preMode === "SUPPLIER") {
+      console.log("Supplier loginL ",email,"pass",password);
       loginSupplier({ email, password },{
           onSuccess: (supplier) => {alert(`Welcome, ${supplier.providerName}!`); },
           onError: (error) => {console.error(error);alert("Login failed: Invalid supplier credentials.");},
