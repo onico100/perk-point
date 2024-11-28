@@ -18,6 +18,8 @@ export default function LoginPage() {
 
   
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("preMode: ",preMode);
+    console.log("email: ",email);
     e.preventDefault();
     if (preMode === "USER") {
       loginUserMutation.mutate( { email, password },{

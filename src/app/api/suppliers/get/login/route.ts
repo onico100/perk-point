@@ -5,16 +5,11 @@ import {
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  console.log("POST /api/suppliers/login");
   let client;
-
-  console.log(request.json());
   try {
     // Parse the request body
     const body = await request.json();
     const { email, password } = body;
-    console.log("email", email);
-
     // Validate input
     if (!email || !password) {
       return NextResponse.json(
@@ -38,7 +33,6 @@ export async function POST(request: Request) {
       "suppliers_collection",
       email,
       password,
-      "supplier"
     );
 
     if (!supplier) {

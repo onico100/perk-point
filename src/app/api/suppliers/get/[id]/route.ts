@@ -15,11 +15,7 @@ export async function GET(
         { status: 500 }
       );
     }
-    const supplier = await getDocumentById(
-      client,
-      "suppliers_collection",
-      params.id
-    );
+    const supplier = await getDocumentById(client,"suppliers_collection",params.id);
     if (!supplier) {
       return NextResponse.json(
         { error: "Supplier not found" },

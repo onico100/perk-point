@@ -14,6 +14,7 @@ interface generalStore {
 
   preMode: PreMode;
   setPreMode: (preMode: PreMode) => void;
+  
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
 

@@ -16,10 +16,7 @@ export async function getSupplierByCredentials(
   email: string,
   password: string
 ): Promise<Supplier> {
-  const response = await my_http.post("/suppliers/get/login", {
-    email,
-    password,
-  });
+  const response = await my_http.post("/suppliers/get/login", {email,password});
   return response.data;
 }
 
