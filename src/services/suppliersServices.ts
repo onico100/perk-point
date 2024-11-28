@@ -1,5 +1,4 @@
 import my_http from "./http";
-
 import { Supplier } from "@/types/types";
 
 export async function getAllSuppliers(): Promise<Supplier[]> {
