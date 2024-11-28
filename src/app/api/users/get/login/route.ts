@@ -29,16 +29,15 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find the supplier
-    const supplier = await getClientModeByEmailAndPassword(
+    // Find the user
+    const user = await getClientModeByEmailAndPassword(
       client,
       "users_collection",
       email,
       password,
-      "user"
     );
 
-    if (!supplier) {
+    if (!user) {
       return NextResponse.json(
         { error: "Invalid email or password" },
         { status: 404 }
@@ -46,7 +45,7 @@ export async function POST(request: Request) {
     }
 
     // Return the supplier
-    return NextResponse.json(supplier, { status: 200 });
+    return NextResponse.json(user, { status: 200 });
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";

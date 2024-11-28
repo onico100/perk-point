@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Benefit } from "@/types/types"; // Adjust the import path as necessary
+import { Benefit } from "@/types/types";
 
 interface BenefitsCardProps {
   benefit: Benefit;

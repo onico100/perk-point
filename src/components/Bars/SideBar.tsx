@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import useGeneralStore from "@/stores/generalStore";
-// import useUserStore from "@/stores/usersStore";
-// import useSupplierStore from "@/stores/supplierStore";
 import styles from "@/styles/Bars/SideBar.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

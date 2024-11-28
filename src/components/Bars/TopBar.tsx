@@ -4,9 +4,8 @@ import TopBarButtons from "./TopBarButtons";
 import Link from "next/link";
 import logoLight from "@/assets/logoLight.png";
 import linkStyle from "@/styles/Bars/Links.module.css";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import styles from "@/styles/Bars/TopBar.module.css";
-import { useRouter } from "next/navigation";
 
 const TopBar: React.FC = () => {
   const router = useRouter();
