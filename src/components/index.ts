@@ -6,8 +6,6 @@ import Login from "./login";
 import ModePopup from "./Bars/ModePopup";
 import BenefitsCard from "./Benefits/BenefitCard";
 import BenefitsContainer from "./Benefits/BenefitsContainer";
-import BenefitDetails from "./Benefits/BenefitDetails";
+import BenefitsDetails from "./Benefits/BenefitDetails";
 
-
-
-export { SideBar, TopBar, TopBarButtons, TabSign, Login, ModePopup , BenefitsCard, BenefitsContainer, BenefitDetails };
+export { SideBar, TopBar, TopBarButtons, TabSign, Login, ModePopup , BenefitsCard, BenefitsContainer, BenefitsDetails };
