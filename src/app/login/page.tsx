@@ -1,9 +1,8 @@
-//src/app/login/page
 "use client";
 import { useState } from "react";
-import useGeneralStore from "@/stores/generalStore"; // Zustand Store
-import { useLoginUser } from "../../hooks/useFetchUsers";
-import  {useFetchSupplier}  from "../../hooks/useFetchSupplier";
+import useGeneralStore from "@/stores/generalStore"; 
+import { useLoginUser } from '@/hooks/useFetchUsers'
+import  {useFetchSupplier}  from "@/hooks/useFetchSupplier";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -11,13 +10,10 @@ export default function LoginPage() {
 
   const [sup,setSup] = useState("");
 
-  // Zustand: preMode
   const preMode = useGeneralStore((state) => state.preMode);
 
-  // React Query
   const loginUserMutation = useLoginUser();
 
-  // React Query
   const { loginSupplier } = useFetchSupplier("");
 
   

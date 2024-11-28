@@ -38,3 +38,15 @@
   align-items: center;
   gap: 8px;
 }
+
+/* about.module.css */
+
+.contactUs li {
+  display: flex;
+  align-items: center;
+  font-size: 16px; /* Adjust font size if necessary */
+}
+
+.contactUs li svg {
+  margin: 8px; /* Adds space between the icon and the phone number */
+}

@@ -1,7 +1,21 @@
+"use client";
 import React from "react";
 import styles from "@/styles/about.module.css";
+import useGeneralStore from "@/stores/generalStore";
+import { ClientMode, PreMode } from "@/types/types";
+import { FaPhoneAlt } from "react-icons/fa";
+import { IoIosMail } from "react-icons/io";
 
 const About = () => {
+  const setClientMode = useGeneralStore((state) => state.setClientMode);
+  const setPreMode = useGeneralStore((state) => state.setPreMode);
+  const { clientMode } = useGeneralStore();
+
+  if (clientMode == ClientMode.connection) {
+    setClientMode(ClientMode.general);
+    setPreMode(PreMode.none);
+  }
+
   return (
     <div className={styles.aboutPage}>
       <div className={styles.container}>
@@ -20,8 +34,12 @@ const About = () => {
           </div>
           <div className={styles.contactUs}>
             <h2>צור קשר</h2>
-            <p>055-999-99999 📞</p>
-            <p>fakeSite@perk.com 📧</p>
+            <li>
+              <FaPhoneAlt /> 0599999999
+            </li>
+            <li>
+              <IoIosMail /> 999999999@example.com
+            </li>
           </div>
         </div>
       </div>
