@@ -106,8 +106,8 @@ export const useFetchSupplier = (id: string) => {
 
   return {
     suppliers: data,
-    isLoading,
-    isFetching,
+    isLoadingS: isLoading,
+    isFetchingS: isFetching,
     addSupplier: addSupplierMutation.mutate,
     updateSupplier: updateSupplierMutation.mutate,
     loginSupplier: loginSupplierMutation.mutate,
