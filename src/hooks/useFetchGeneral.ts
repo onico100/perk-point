@@ -27,7 +27,7 @@ export const useFetchGeneral = () => {
   return {
     categories: data?.categories,
     clubs: data?.clubs,
-    isLoading,
-    isFetching,
+    isLoadingC: isLoading,
+    isFetchingC: isFetching,
   };
 };
