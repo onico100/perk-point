@@ -2,6 +2,7 @@
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import { useEffect } from "react";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
+<<<<<<< HEAD
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { Benefit, Supplier, Club, Branch } from "@/types/types";
 import styles from "@/styles/Benefits/BenefitDetais.module.css";
@@ -10,6 +11,18 @@ const BenefitDetails = () => {
   const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
   const { suppliers, isLoadingS, isFetchingS } = useFetchSuppliers();
   const { clubs, isLoadingC, isFetchingC } = useFetchGeneral();
+=======
+import { useFetchGeneral } from "@/hooks/useFetchGeneral"
+import { Benefit, Supplier, Club, Branch } from "@/types/types";
+import styles from "@/styles/Benefits/BenefitDetais.module.css"
+import { usePathname } from 'next/navigation';
+
+
+const BenefitDetails = () => {
+    const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
+    const { suppliers, isLoadingS, isFetchingS } = useFetchSuppliers();
+    const { clubs, isLoadingC, isFetchingC } = useFetchGeneral();
+>>>>>>> 964be2aabbca752196d1d16b8f4ceead8c084e06
 
   if (
     isLoadingB ||
@@ -23,6 +36,7 @@ const BenefitDetails = () => {
 
   const specificBenefitId = "673f0042d993d72c4c06490c";
 
+<<<<<<< HEAD
   const specificBenefit: Benefit | undefined = benefits?.find(
     (benefit) => benefit._id === specificBenefitId
   );
@@ -32,6 +46,12 @@ const BenefitDetails = () => {
   const specificClub = clubs?.find(
     (club: Club) => club._id === specificBenefit?.clubId
   );
+=======
+    const pathname = usePathname(); 
+    const specificBenefitId = pathname.split('/')[3]; 
+
+
+>>>>>>> 964be2aabbca752196d1d16b8f4ceead8c084e06
 
   return (
     <div className={styles.container}>
