@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 //import useSupplierStore from "@/stores/supplierStore";
 import { ClientMode, Supplier } from "@/types/types";
@@ -7,7 +9,6 @@ import useGeneralStore from "@/stores/generalStore";
 import {
   getAllSuppliers,
   addSupplier,
-  deleteSupplierById,
   updateSupplierById,
   getSupplierById,
   getSupplierByCredentials,
@@ -19,13 +20,15 @@ export const useFetchSupplier = (id:string) => {
   const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
   const currentSupplier= useGeneralStore.getState().currentSupplier;
   //const setSupplier = useSupplierStore((state: any) => state.setSupplier);
+export const useFetchSupplier = (id: string) => {
+  const { setSupplier, setSuppliers } = useSupplierStore.getState();
 
   const queryClient = useQueryClient();
 
   console.log("useFetchSupplier id: ",id); 
 
   const { data, isLoading, isFetching } = useQuery({
-    queryKey: ["suppliers", id],
+    queryKey: ["suppliers"],
     queryFn: async () => {
       const supplier = await getSupplierById(id);
       setCurrentSupplier(supplier);
