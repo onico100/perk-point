@@ -14,6 +14,7 @@ interface generalStore {
 
   preMode: PreMode;
   setPreMode: (preMode: PreMode) => void;
+  
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
 
@@ -32,7 +33,7 @@ const useGeneralStore = create<generalStore>((set) => ({
   clientMode: ClientMode.general,
   setClientMode: (clientMode: ClientMode) => set({ clientMode }),
 
-  preMode: PreMode.none,
+  preMode: PreMode.supplier,
   setPreMode: (preMode: PreMode) => set({ preMode }),
   currentUser: null,
   setCurrentUser: (user: User | null) => set({ currentUser: user }),

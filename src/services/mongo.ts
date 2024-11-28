@@ -77,15 +77,8 @@ export async function getClientModeByEmailAndPassword(
   collection: string,
   email: string,
   password: string,
-  mode: string
 ) {
   const db = client.db(databaseName);
-  if (mode === "supplier") {
-    const clientMode = await db
-      .collection(collection)
-      .findOne({ providerEmail: email, password: password });
-    return clientMode;
-  }
   const clientMode = await db
     .collection(collection)
     .findOne({ email: email, password: password });

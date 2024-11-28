@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import styles from "@/styles/Bars/TopBar.module.css";
 import ModePopup from "./ModePopup";
 import useGeneralStore from "@/stores/generalStore";
-import useUserStore from "@/stores/usersStore";
-import useSupplierStore from "@/stores/supplierStore";
+// import useUserStore from "@/stores/usersStore";
+// import useSupplierStore from "@/stores/supplierStore";
 
 const TopBarButtons: React.FC = () => {
-  const { clientMode } = useGeneralStore();
-  const { supplier } = useSupplierStore();
-  const { user } = useUserStore();
+  const { clientMode,currentSupplier,currentUser } = useGeneralStore();
 
   const [popupVisible, setPopupVisible] = useState(false);
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
@@ -44,14 +42,14 @@ const TopBarButtons: React.FC = () => {
 
       {clientMode === "USER" && (
         <div className={styles.buttonsContainer}>
-          <h1>{`שלום ${user?.username}`}</h1>
+          <h1>{`שלום ${currentUser?.username}`}</h1>
           <button className={styles.registerButton}>התנתקות</button>
         </div>
       )}
 
       {clientMode === "SUPPLIER" && (
         <div className={styles.buttonsContainer}>
-          <h1>{`שלום ${supplier?.providerName}`}</h1>
+          <h1>{`שלום ${currentSupplier?.providerName}`}</h1>
           <button className={styles.registerButton}>התנתקות</button>
         </div>
       )}
