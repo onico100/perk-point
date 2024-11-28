@@ -1,21 +1,26 @@
 "use client";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import { useEffect } from "react";
-import { useFetchSupplier } from "@/hooks/useFetchSupplier";
+import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral"
 import { Benefit, Supplier, Club, Branch } from "@/types/types";
 import styles from "@/styles/Benefits/BenefitDetais.module.css"
+import { usePathname } from 'next/navigation';
+
 
 const BenefitDetails = () => {
     const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
-    const { suppliers, isLoadingS, isFetchingS } = useFetchSupplier();
+    const { suppliers, isLoadingS, isFetchingS } = useFetchSuppliers();
     const { clubs, isLoadingC, isFetchingC } = useFetchGeneral();
 
 
     if (isLoadingB || isFetchingB || isLoadingS || isFetchingS || isLoadingC || isFetchingC)
         return <div>Loading...</div>;
 
-    const specificBenefitId = "673f0042d993d72c4c06490c";
+    const pathname = usePathname(); 
+    const specificBenefitId = pathname.split('/')[3]; 
+
+
 
     const specificBenefit: Benefit | undefined = benefits?.find(benefit => benefit._id === specificBenefitId);
     const specificSupplier: Supplier | undefined = suppliers?.find(supplier => supplier._id === specificBenefit?.supplierId);
