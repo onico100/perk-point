@@ -1,0 +1,51 @@
+.benefitCard {
+    width: 300px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    margin:5vw
+  }
+  
+  .logo {
+    width: 100px;
+    height: auto;
+    margin: 0 auto;
+  }
+  
+  .divider {
+    margin: 20px 0;
+    border: none;
+    height: 1px;
+    background-color: #ddd;
+  }
+  
+  .discount {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .description {
+    font-size: 16px;
+    color: #666;
+    margin: 10px 0 20px;
+  }
+  
+  .button {
+    background: linear-gradient(to right, #6a1b9a, #a45ee5);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+  }
+  
+  .button:hover {
+    background: linear-gradient(to right, #4a148c, #8e44ad);
+  }
+  

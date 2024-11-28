@@ -8,7 +8,6 @@ import {
   getAllSuppliers,
   addSupplier,
   updateSupplierById,
-  getSupplierById,
   getSupplierByCredentials,
 } from "@/services/suppliersServices";
 import useGeneralStore from "@/stores/generalStore";
@@ -17,16 +16,6 @@ export const useFetchSupplier = (id: string) => {
   const { setSupplier, setSuppliers } = useSupplierStore.getState();
 
   const queryClient = useQueryClient();
-
-  // const { data, isLoading, isFetching } = useQuery({
-  //   queryKey: ["suppliers", id],
-  //   queryFn: async () => {
-  //     const supplier = await getSupplierById(id);
-  //     setSupplier(supplier);
-  //     return supplier;
-  //   },
-  //   staleTime: 10000,
-  // });
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["suppliers"],
