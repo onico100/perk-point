@@ -1,3 +1,5 @@
+"use client"
+
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useBenefitStore from "@/stores/benefitsStore";
 import { Benefit } from "@/types/types";
@@ -8,8 +10,10 @@ import {
   updateBenefitById,
 } from "@/services/benefitsServices";
 
+
 export const useFetchBenefits = () => {
   const setBenefits = useBenefitStore((state) => state.setBenefits); // Zustand setter
+
   const queryClient = useQueryClient();
 
   // Fetch all benefits
