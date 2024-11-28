@@ -6,7 +6,7 @@
   align-items: center;
   background-color: #f5f5f5;
   color: black;
-  height: 80px;
+  height: 1000px;
   width: 100vw;
   padding: 5px;
 }
@@ -24,7 +24,7 @@
 
 .buttonsContainer {
   display: flex;
-  height: 90%;
+  height: 100px;
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(to right, #b247e8, #ac5ceb);
@@ -33,7 +33,6 @@
   border-radius: 8px 10px 0px 0px;
   margin: 0;
   color: #f5f5f5;
-  margin-left: 20px;
 }
 
 .registerButton {
@@ -48,6 +47,9 @@
   margin: 0 20px 0 0;
 }
 
+.registerButton:hover {
+  background: #f5f5f5;
+}
 
 .loginButton {
   background-color: transparent;
@@ -58,4 +60,9 @@
   font-size: 13px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.loginButton:hover {
+  background: black;
+  color: #000001;
 }
