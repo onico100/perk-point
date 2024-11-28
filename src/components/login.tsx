@@ -10,7 +10,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const preMode = useGeneralStore((state) => state.preMode);
   const loginUserMutation = useLoginUser();
-  const { loginSupplier } = useFetchSupplier("");
+  const { loginSupplier } = useFetchSupplier();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

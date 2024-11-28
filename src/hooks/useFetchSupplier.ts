@@ -10,7 +10,7 @@ import {
   getSupplierByCredentials,
 } from "@/services/suppliersServices";
 import useGeneralStore from "@/stores/generalStore";
-export const useFetchSupplier = (id: string) => {
+export const useFetchSupplier = () => {
   const { setSuppliers } = useSupplierStore.getState();
   //const {setCurrentSupplier, currentSupplier}=useGeneralStore.getState()
 
