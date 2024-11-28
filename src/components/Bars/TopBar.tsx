@@ -34,7 +34,7 @@ const TopBar: React.FC = () => {
             }`}
           href={"/clubs/0"}
         >
-          מועודנים
+          מועדונים
         </Link>
         <Link
           className={`${linkStyle.barItem}  ${pathname === "/about" ? linkStyle.active : ""
