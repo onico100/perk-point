@@ -45,7 +45,7 @@ export default function Login() {
         }
       );
     } else {
-      alert("Please select a mode (User or Supplier).");
+      alert("No mode is selected (User or Supplier).");
     }
   };
 
