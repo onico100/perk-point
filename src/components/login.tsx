@@ -8,6 +8,7 @@ import styles from "@/styles/login.module.css"; // Import the CSS module
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -24,6 +25,9 @@ export default function Login() {
         {
           onSuccess: (user) => {
             alert(`Welcome, ${user.username}!`);
+            const router = useRouter();
+            router.push(`benefits/${user._id}`);
+            console.log(`Welcome, ${user.username}!)!`);
           },
           onError: (error) => {
             console.error(error);
@@ -37,6 +41,8 @@ export default function Login() {
         {
           onSuccess: (supplier) => {
             alert(`Welcome, ${supplier.providerName}!`);
+            const router = useRouter();
+            router.push(`benefits/${supplier._id}`);
           },
           onError: (error) => {
             console.error(error);
@@ -50,7 +56,6 @@ export default function Login() {
   };
 
   return (
-
     <div className={styles.loginPage}>
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <div className={styles.formGroup}>
@@ -82,7 +87,6 @@ export default function Login() {
           </Link>
         </div>
         <button type="submit">התחברות</button>
-
       </form>
     </div>
   );
