@@ -34,7 +34,7 @@ const useGeneralStore = create<GeneralStore>()(
       clientMode: ClientMode.general,
       setClientMode: (clientMode: ClientMode) => set({ clientMode }),
 
-      preMode: PreMode.supplier,
+      preMode: PreMode.none,
       setPreMode: (preMode: PreMode) => set({ preMode }),
 
       currentUser: null,

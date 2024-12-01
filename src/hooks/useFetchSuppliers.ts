@@ -90,7 +90,6 @@ const addSupplierMutation = useMutation({
   mutationFn: ({ email, password }) =>
     getSupplierByCredentials(email, password),
   onSuccess: (supplier) => {
-    console.log("Supplier login successful:", supplier);
       const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
       setCurrentSupplier(supplier);
       alert(`Welcome, ${supplier.providerName}!`);
