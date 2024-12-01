@@ -50,7 +50,7 @@ export async function deleteBenefitById(id: string): Promise<{ message: string }
 }
 export async function updateBenefitById(id: string, updatedData: Benefit): Promise<Benefit> {
     try {
-        const response = await my_http.put(`/benefits/update/${id}`, updatedData);
+        const response = await my_http.patch(`/benefits/update/${id}`, updatedData);
         return response.data;
     } catch (error) {
         console.error(`Error updating benefit with ID ${id}:`, error);
