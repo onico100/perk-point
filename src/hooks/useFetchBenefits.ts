@@ -62,15 +62,15 @@ export const useFetchBenefits = () => {
     { id: string; updatedData: Partial<Benefit> }
   >({
     mutationFn: ({ id, updatedData }) => {
-      const validData: Benefit = {
+      console.log("updatedData",updatedData)
+      const validData = {
         ...updatedData,
-        _id: id,
-        supplierId: updatedData.supplierId || "defaultSupplierId",
-        clubId: updatedData.clubId || "defaultClubId",
-        redemptionConditions: updatedData.redemptionConditions || "",
-        description: updatedData.description || "",
-        expirationDate: updatedData.expirationDate || new Date(),
-        branches: updatedData.branches || [],
+        supplierId: updatedData?.supplierId,
+        clubId: updatedData?.clubId,
+        redemptionConditions: updatedData?.redemptionConditions,
+        description: updatedData?.description,
+        expirationDate: updatedData?.expirationDate,
+        branches: updatedData?.branches,
         isActive: updatedData.isActive !== undefined ? updatedData.isActive : true,
       };
       return updateBenefitById(id, validData);

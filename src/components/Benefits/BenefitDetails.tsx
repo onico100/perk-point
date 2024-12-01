@@ -13,7 +13,7 @@ const BenefitDetails = () => {
     const { suppliers, isLoadingS, isFetchingS } = useFetchSuppliers();
     const { clubs, isLoadingC, isFetchingC } = useFetchGeneral();
     const clientMode = useGeneralStore(state => state.clientMode);
-    const currentSupplier = useGeneralStore(state => state.currentSupplier); 
+    const currentSupplier = useGeneralStore(state => state.currentSupplier);
 
 
     const [isUpdateMode, setIsUpdateMode] = useState(false);
@@ -46,7 +46,7 @@ const BenefitDetails = () => {
                         branches: updatedBenefit.branches,
                         isActive: updatedBenefit.isActive,
                     },
-                }); 
+                });
                 console.log("Benefit updated successfully");
             } catch (error) {
                 console.error("Error updating benefit:", error);
@@ -61,6 +61,24 @@ const BenefitDetails = () => {
         }
     };
 
+    const handleAddBranch = (newBranch: Branch) => {
+        if (updatedBenefit) {
+            setUpdatedBenefit({
+                ...updatedBenefit,
+                branches: [...updatedBenefit.branches, newBranch],
+            });
+        }
+    };
+
+    const handleDeleteBranch = (branchToDelete: Branch) => {
+        if (updatedBenefit) {
+            setUpdatedBenefit({
+                ...updatedBenefit,
+                branches: updatedBenefit.branches.filter(branch => branch !== branchToDelete),
+            });
+        }
+    };
+
     if (isLoadingB || isFetchingB || isLoadingS || isFetchingS || isLoadingC || isFetchingC)
         return <div>Loading...</div>;
 
@@ -68,16 +86,16 @@ const BenefitDetails = () => {
 
     return (
         <div className={styles.container}>
-            {clientMode === ClientMode.supplier  && isCurrentSupplierBenefit && !isUpdateMode && (
+            {clientMode === ClientMode.supplier && isCurrentSupplierBenefit && !isUpdateMode && (
                 <div className={styles.updateButtons}>
                     <button className={styles.updateButton} onClick={() => setIsUpdateMode(true)}>עידכון</button>
                 </div>
             )}
             {isUpdateMode && (
                 <div className={styles.updateButtons}>
-                <button className={styles.saveButton} onClick={handleSave}>שמירה</button>
-                <button className={styles.cancelButton} onClick={() => setIsUpdateMode(false)}>ביטול</button>
-            </div>
+                    <button className={styles.saveButton} onClick={handleSave}>שמירה</button>
+                    <button className={styles.cancelButton} onClick={() => setIsUpdateMode(false)}>ביטול</button>
+                </div>
             )}
             <h1 className={styles.title}>פרטי ההטבה</h1>
             <div className={styles.supplierLogo}>
@@ -107,7 +125,7 @@ const BenefitDetails = () => {
                     <strong>מועדון:</strong><br />
                     {specificClub ? specificClub.clubName : 'Not Available'}
                 </div>
-                <div className={styles.gridItem}>
+                {/* <div className={styles.gridItem}>
                     <strong>סניפים:</strong><br />
                     {specificBenefit?.branches && specificBenefit.branches.length > 0 ? (
                         <ul>
@@ -120,8 +138,28 @@ const BenefitDetails = () => {
                     ) : (
                         <div>No branches available.</div>
                     )}
-                </div>
+                </div> */}
                 <div className={styles.gridItem}>
+                    <strong>סניפים:</strong><br />
+                    {specificBenefit?.branches && specificBenefit.branches.length > 0 ? (
+                        <ul>
+                            {specificBenefit.branches.map((branch, index) => (
+                                <li key={index}>
+                                    {branch.city}, {branch.address}
+                                    {isUpdateMode && (
+                                        <button onClick={() => handleDeleteBranch(branch)}>Delete</button> // **Delete Button**
+                                    )}
+                                </li>
+                            ))}
+                            {isUpdateMode && (
+                                <button onClick={() => handleAddBranch({ city: "New City", address: "New Address" })}>Add Branch</button> // **Add Branch Button**
+                            )}
+                        </ul>
+                    ) : (
+                        <div>כול הסניפים.</div>
+                    )}
+                </div>
+                {/* <div className={styles.gridItem}>
                     <strong>תוקף:</strong><br />
                     {specificBenefit?.expirationDate ?
                         new Date(specificBenefit.expirationDate).toLocaleDateString('he-IL', {
@@ -130,6 +168,23 @@ const BenefitDetails = () => {
                             day: 'numeric'
                         })
                         : 'Not Available'}
+                </div> */}
+                <div className={styles.gridItem}>
+                    <strong>תוקף:</strong><br />
+                    {isUpdateMode ? (
+                        <input
+                            type="date"
+                            value={updatedBenefit?.expirationDate?.toISOString().split('T')[0]}
+                            onChange={(e) => handleChange('expirationDate', e.target.value)}
+                        />
+                    ) : (
+                        specificBenefit?.expirationDate ?
+                            new Date(specificBenefit.expirationDate).toLocaleDateString('he-IL', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            }) : 'Not Available'
+                    )}
                 </div>
                 <div className={styles.gridItem}>
                     <strong>הגבלות:</strong><br />
@@ -152,7 +207,7 @@ const BenefitDetails = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    למעבר לבית העסק 
+                                    למעבר לבית העסק
                                 </a>
                             </div>
                         ) : (
