@@ -36,7 +36,7 @@ export default function SignSupplierComponent() {
     try {
       setLoading(true);
       console.log("query:", textQuery);
-      const response = await my_http.post(`/googleAutocomplete/get`, {textQuery: textQuery });
+      const response = await my_http.post(`/googleAutocomplete/post`, {textQuery: textQuery });
       console.log("Response:", response.data); 
       setSuggestions(response.data.placePredictions.map((p: any) => p.structuredFormat.mainText.text));
     } 

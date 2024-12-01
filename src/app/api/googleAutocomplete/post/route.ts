@@ -1,14 +1,9 @@
-import { console } from "inspector";
 import { NextResponse } from "next/server";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 export async function POST(req: any) {
-  
-  if(true)
-    
-  
-  
-  console.log('===============================');
+
+
   try {
     const body = await req.json();
     const textQuery = body.textQuery;
@@ -32,29 +27,25 @@ export async function POST(req: any) {
         //"X-Goog-FieldMask": "*", 
         "X-Goog-FieldMask": "places.displayName,places.types",
       },
-      body: JSON.stringify({
-        textQuery,
-        languageCode: "iw",
-      }),
+      body: JSON.stringify({ textQuery, languageCode: "iw" }),
     });
 
-    if (!response.ok) {
-      const errorDetails = await response.json();
-      return NextResponse.json(
-        { error: "Error from Google API", details: errorDetails },
-        { status: response.status }
-      );
-    }
+    // if (!response.ok) {
+    //   const errorDetails = await response.json();
+    //   return NextResponse.json(
+    //     { error: "Error from Google API", details: errorDetails },
+    //     { status: response.status }
+    //   );
+    // }
 
     const data = await response.json();
-    console.log('------', data);
 
-    const filteredPlaces = data.places.filter(
-      (place: any) =>
-        place.types.includes("locality") && place.displayName.text.includes("בית")
-    );
+    const filteredPlaces = data.places.filter((place: any) => place.types.includes("locality"));
 
     return NextResponse.json({ places: filteredPlaces }, { status: 200 });
+
+
+
   } catch (error) {
     console.error("Unexpected error:", error);
     return NextResponse.json(
