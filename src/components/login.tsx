@@ -25,9 +25,6 @@ export default function Login() {
         {
           onSuccess: (user) => {
             alert(`Welcome, ${user.username}!`);
-            const router = useRouter();
-            router.push(`benefits/${user._id}`);
-            console.log(`Welcome, ${user.username}!)!`);
           },
           onError: (error) => {
             console.error(error);
@@ -43,6 +40,7 @@ export default function Login() {
             alert(`Welcome, ${supplier.providerName}!`);
             const router = useRouter();
             router.push(`benefits/${supplier._id}`);
+            console.log(22, `Welcome, ${supplier.providerName}!)!`);
           },
           onError: (error) => {
             console.error(error);
