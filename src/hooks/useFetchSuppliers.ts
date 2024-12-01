@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useSupplierStore from "@/stores/suppliersStore";
-import { Supplier } from "@/types/types";
+import { ClientMode, Supplier } from "@/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getAllSuppliers,
@@ -83,19 +83,20 @@ export const useFetchSuppliers = () => {
   });
 
   const loginSupplierMutation = useMutation<
-  Supplier,
-  Error,
-  { email: string; password: string }
+    Supplier,
+    Error,
+    { email: string; password: string }
   >({
-  mutationFn: ({ email, password }) =>
-    getSupplierByCredentials(email, password),
-  onSuccess: (supplier) => {
-    console.log("Supplier login successful:", supplier);
+    mutationFn: ({ email, password }) =>
+      getSupplierByCredentials(email, password),
+    onSuccess: (supplier) => {
       console.log("Supplier login successful:", supplier);
-     
+      console.log("Supplier login successful:", supplier);
+
       const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
+      const setClientMode = useGeneralStore.getState().setClientMode;
+      setClientMode(ClientMode.supplier);
       setCurrentSupplier(supplier);
-      alert(`Welcome, ${supplier.providerName}!`);
     },
     onError: (error) => {
       console.error("Supplier login failed:", error);
@@ -112,4 +113,3 @@ export const useFetchSuppliers = () => {
     loginSupplier: loginSupplierMutation.mutate,
   };
 };
-
