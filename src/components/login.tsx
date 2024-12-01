@@ -2,7 +2,11 @@
 import { useState } from "react";
 import useGeneralStore from "@/stores/generalStore";
 import { useLoginUser } from "@/hooks/useFetchUsers";
+
+import styles from "@/styles/login.module.css"; // Import the CSS module
+
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
+
 import Link from "next/link";
 
 export default function Login() {
@@ -46,46 +50,39 @@ export default function Login() {
   };
 
   return (
-    <div className="login-page">
-      <h1 className="text-center text-2xl font-bold">Login</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 max-w-md mx-auto"
-      >
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium">
-            Email:
-          </label>
+
+    <div className={styles.loginPage}>
+      <form onSubmit={handleSubmit} className={styles.formContainer}>
+        <div className={styles.formGroup}>
+          <label htmlFor="email">Email:</label>
+
           <input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full border rounded px-2 py-1"
           />
         </div>
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium">
-            Password:
-          </label>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="password">Password:</label>
           <input
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full border rounded px-2 py-1"
           />
         </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition"
-        >
-          Login
-        </button>
+        <div className={styles.inlineContainer}>
+          <p>איך לך עדיין משתמש?</p>
+          <Link className={styles.link} href={"/signup"}>
+            הירשם
+          </Link>
+        </div>
+        <button type="submit">התחברות</button>
 
-        <Link href={"/signup"}>חדש באתר? להרשמה</Link>
       </form>
     </div>
   );

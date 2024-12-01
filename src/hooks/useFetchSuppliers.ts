@@ -83,16 +83,17 @@ const addSupplierMutation = useMutation({
   });
 
   const loginSupplierMutation = useMutation<
-  Supplier,
-  Error,
-  { email: string; password: string }
+    Supplier,
+    Error,
+    { email: string; password: string }
   >({
   mutationFn: ({ email, password }) =>
     getSupplierByCredentials(email, password),
   onSuccess: (supplier) => {
       const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
+      const setClientMode = useGeneralStore.getState().setClientMode;
+      setClientMode(ClientMode.supplier);
       setCurrentSupplier(supplier);
-      alert(`Welcome, ${supplier.providerName}!`);
     },
     onError: (error) => {
       console.error("Supplier login failed:", error);
@@ -109,4 +110,3 @@ const addSupplierMutation = useMutation({
     loginSupplier: loginSupplierMutation.mutate,
   };
 };
-
