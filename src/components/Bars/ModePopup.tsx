@@ -8,7 +8,8 @@ import style from "@/styles/Bars/ModePopup.module.css";
 const ModePopup: React.FC<{
   onClose: () => void;
   anchorElement: HTMLElement | null;
-}> = ({ onClose, anchorElement }) => {
+  actionType: "login" | "register";
+}> = ({ onClose, anchorElement , actionType}) => {
   const router = useRouter();
   const popupRef = useRef<HTMLDivElement>(null);
 
@@ -19,7 +20,7 @@ const ModePopup: React.FC<{
     setClientMode(ClientMode.connection);
     setPreMode(mode === ClientMode.user ? PreMode.user : PreMode.supplier);
     onClose();
-    router.push("/login");
+    router.push(`/${actionType}`); 
   };
 
   useEffect(() => {
@@ -40,11 +41,9 @@ const ModePopup: React.FC<{
     };
   }, [onClose, anchorElement]);
 
-  // Early return if the anchor element is missing
+
   if (!anchorElement) return null;
-
   const { bottom, left, width } = anchorElement.getBoundingClientRect();
-
   const popupStyle: React.CSSProperties = {
     position: "absolute",
     top: `${bottom + window.scrollY}px`,
@@ -55,8 +54,12 @@ const ModePopup: React.FC<{
 
   return ReactDOM.createPortal(
     <div className={style.popup} style={popupStyle} ref={popupRef}>
-      <button onClick={() => handleSelect(ClientMode.user)}>לקוח</button>
-      <button onClick={() => handleSelect(ClientMode.supplier)}>ספק</button>
+      <button onClick={() => handleSelect(ClientMode.user)}>
+        {actionType === "login" ? "לקוח" : "לקוח"}
+      </button>
+      <button onClick={() => handleSelect(ClientMode.supplier)}>
+        {actionType === "login" ? "ספק" : "ספק"}
+      </button>
     </div>,
     document.body
   );
