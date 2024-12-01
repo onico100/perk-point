@@ -1,14 +1,21 @@
-import { create } from 'zustand';
-import { Benefit } from '../types/types';
+import { create } from "zustand";
+import { Benefit } from "@/types/types";
+import { persist } from "zustand/middleware";
 
 interface BenefitStore {
-  benefits: Benefit[]; 
-  setBenefits: (benefits: Benefit[]) => void; 
+  benefits: Benefit[];
+  setBenefits: (benefits: Benefit[]) => void;
 }
 
-const useBenefitStore = create<BenefitStore>((set) => ({
-  benefits: [], 
-  setBenefits: (benefits: Benefit[]) => set({ benefits }),
-}));
+export const useBenefitStore = create<BenefitStore>()(
+  persist(
+    (set) => ({
+      benefits: [],
+      setBenefits: (benefits: Benefit[]) => set({ benefits }),
+    }),
+    {
+      name: "benefits-storage",
+    }
+  )
+);
 
-export default useBenefitStore;

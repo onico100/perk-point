@@ -1,18 +1,26 @@
 "use client";
-import { useQuery, useMutation} from '@tanstack/react-query';
-import { User } from '../types/types';
-import useUserStore from '../stores/usersStore';
-import { addUser, updateUserById, deleteUserById, getUserById, getUserByCredentials } from '@/services/usersServices';
-
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { ClientMode, User } from "../types/types";
+import useGeneralStore from "@/stores/generalStore";
+import {
+  addUser,
+  updateUserById,
+  deleteUserById,
+  getUserById,
+  getUserByCredentials,
+} from "@/services/usersServices";
+import { useRouter } from "next/router";
+//import useUserStore from '../stores/usersStore';
+//const setUser = useUserStore((state) => state.setUser);
+const setCurrentUser = useGeneralStore.getState().setCurrentUser;
 // Fetch user by ID
 export const useGetUserById = (id: string) => {
-  const setUser = useUserStore((state) => state.setUser);
-
   return useQuery<User, Error>({
-    queryKey: ['user', id],
+    queryKey: ["user", id],
     queryFn: async () => {
       const user = await getUserById(id);
-      setUser(user); 
+      //setUser(user);
+      setCurrentUser(user);
       return user;
     },
     enabled: !!id,
@@ -22,11 +30,16 @@ export const useGetUserById = (id: string) => {
 
 // Login user by credentials
 export const useLoginUser = () => {
-  const setUser = useUserStore((state) => state.setUser);
-  return useMutation<User, Error, { name: string; password: string }>({
-    mutationFn: ({ name, password }) => getUserByCredentials(name, password),
+  return useMutation<User, Error, { email: string; password: string }>({
+    mutationFn: ({ email, password }) => getUserByCredentials(email, password),
     onSuccess: (user) => {
-      setUser(user); 
+      console.log("User login successful:", user);
+      const setClientMode = useGeneralStore.getState().setClientMode;
+      setClientMode(ClientMode.user);
+      setCurrentUser(user);
+      const router = useRouter();
+      router.push(`benefits/${user._id}`);
+      console.log(22, `Welcome, ${user.username}!)!`);
     },
   });
 };
@@ -40,25 +53,25 @@ export const useAddUser = () => {
 
 // Update user by ID
 export const useUpdateUserById = () => {
-  const setUser = useUserStore((state) => state.setUser);
-
   return useMutation<User, Error, { id: string; updatedData: Partial<User> }>({
     mutationFn: ({ id, updatedData }) => updateUserById(id, updatedData),
     onSuccess: (updatedUser) => {
-      setUser(updatedUser);
+      // General Zustand Updating
+      setCurrentUser(updatedUser);
+      //setUser(updatedUser);
     },
   });
 };
 
-
 export const useDeleteUserById = () => {
-  const setUser = useUserStore((state) => state.setUser);
-
   return useMutation<{ message: string }, Error, string>({
     mutationFn: (id) => deleteUserById(id),
     onSuccess: () => {
-      setUser(null);
+      //setCurrentUser(updatedUser);
+      const setClientMode = useGeneralStore.getState().setClientMode;
+      setClientMode(ClientMode.general);
+      setCurrentUser(null);
+      //setUser(null);
     },
   });
 };
-

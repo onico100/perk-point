@@ -1,33 +1,60 @@
-import { create } from 'zustand';
-import { Category, Club, clientMode, preMode } from '../types/types';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import {
+  Category,
+  Club,
+  ClientMode,
+  PreMode,
+  User,
+  Supplier,
+} from "@/types/types";
 
-interface generalStore {
+interface GeneralStore {
   categories: Category[];
   setCategories: (categories: Category[]) => void;
 
   clubs: Club[];
   setClubs: (clubs: Club[]) => void;
 
-  clientMode: clientMode;
-  setClientMode: (clientMode: clientMode) => void;
+  clientMode: ClientMode;
+  setClientMode: (clientMode: ClientMode) => void;
 
-  preMode: preMode;
-  setPreMode: (preMode: preMode) => void;
+  preMode: PreMode;
+  setPreMode: (preMode: PreMode) => void;
+
+  currentUser: User | null;
+  setCurrentUser: (user: User | null) => void;
+
+  currentSupplier: Supplier | null;
+  setCurrentSupplier: (supplier: Supplier | null) => void;
 }
 
-const useGeneralStore = create<generalStore>((set) => ({
-  categories: [],
-  setCategories: (categories: Category[]) => set({ categories }),
+const useGeneralStore = create<GeneralStore>()(
+  persist(
+    (set) => ({
+      categories: [],
+      setCategories: (categories: Category[]) => set({ categories }),
 
-  clubs: [],
-  setClubs: (clubs: Club[]) => set({ clubs }),
+      clubs: [],
+      setClubs: (clubs: Club[]) => set({ clubs }),
 
-  clientMode: clientMode.general,
-  setClientMode: (clientMode: clientMode) => set({ clientMode }),
+      clientMode: ClientMode.general,
+      setClientMode: (clientMode: ClientMode) => set({ clientMode }),
 
-  preMode: preMode.none,
-  setPreMode: (preMode: preMode) => set({ preMode }),
+      preMode: PreMode.none,
+      setPreMode: (preMode: PreMode) => set({ preMode }),
 
-}));
+      currentUser: null,
+      setCurrentUser: (user: User | null) => set({ currentUser: user }),
+
+      currentSupplier: null,
+      setCurrentSupplier: (supplier: Supplier | null) =>
+        set({ currentSupplier: supplier }),
+    }),
+    {
+      name: "general-store",
+    }
+  )
+);
 
 export default useGeneralStore;

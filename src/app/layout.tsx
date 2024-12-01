@@ -1,10 +1,11 @@
-'use client'
+"use client";
 
 import localFont from "next/font/local";
+import Head from 'next/head';
 import "./globals.css";
-import { QueryClient, QueryClientProvider } from "react-query";
-import TopBar from "@/components/Bars/TopBar";
-import SideBar from "@/components/Bars/SideBar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {SideBar, TopBar} from '@/components/index'
+
 
 //אל תמחקו, שישאר לדוגמא לשימוש שלנו
 const geistSans = localFont({
@@ -13,23 +14,34 @@ const geistSans = localFont({
   weight: "100 900",
 });
 
-const heebo= localFont({
+const heebo = localFont({
   src: "./fonts/HeeboVF.ttf",
   variable: "--font-heebo",
   weight: "100 900",
 });
 
-export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
+const queryClient = new QueryClient();
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>){ 
   const queryClient = new QueryClient();
+
   return (
-    <html lang="en" className={`${geistSans.variable} ${heebo.variable}`}>  
     <QueryClientProvider client={queryClient}>
-      <body className="font-heebo">
-        <TopBar />
-        <SideBar />
-        {children}
-      </body>
+      <html lang="en" className={` ${heebo.variable}`}>
+        <Head>
+          <link rel="icon" href='/favicon.ico' />
+        </Head>
+        <body className="font-heebo">
+          <TopBar />
+          <div className="main">
+            <SideBar />
+            {children}
+          </div>
+        </body>
+      </html>
     </QueryClientProvider>
-    </html>
+
   );
 }

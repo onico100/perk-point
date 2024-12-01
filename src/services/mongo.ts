@@ -72,22 +72,15 @@ export async function deleteDocumentById(
   return result;
 }
 
-export async function getClientModeByNameAndPassword(
+export async function getClientModeByEmailAndPassword(
   client: any,
   collection: string,
-  name: string,
+  email: string,
   password: string,
-  mode: string
 ) {
   const db = client.db(databaseName);
-  if (mode === "supplier") {
-    const clientMode = await db
-      .collection(collection)
-      .findOne({ providerName: name, password: password });
-    return clientMode;
-  }
   const clientMode = await db
     .collection(collection)
-    .findOne({ username: name, password: password });
+    .findOne({ email: email, password: password });
   return clientMode;
 }

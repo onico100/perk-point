@@ -1,5 +1,4 @@
 import my_http from "./http";
-
 import { Supplier } from "@/types/types";
 
 export async function getAllSuppliers(): Promise<Supplier[]> {
@@ -13,13 +12,10 @@ export async function getSupplierById(id: string): Promise<Supplier> {
 }
 
 export async function getSupplierByCredentials(
-  name: string,
+  email: string,
   password: string
 ): Promise<Supplier> {
-  const response = await my_http.post("/suppliers/get/login", {
-    name,
-    password,
-  });
+  const response = await my_http.post("/suppliers/get/login", {email,password});
   return response.data;
 }
 

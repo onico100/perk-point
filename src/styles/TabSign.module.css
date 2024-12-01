@@ -1,0 +1,49 @@
+.tabContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.tabHeader {
+  display: flex;
+}
+
+.tab {
+  padding: 20px 80px;
+  cursor: pointer;
+  font-weight: normal;
+  transition: color 0.3s, border-bottom 0.3s;
+  background: linear-gradient(to right, #c752df, #7476ef);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* Gradient text */
+}
+
+.activeTab2 {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  background: linear-gradient(to right, #b24ce9, #a965ec);
+  clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);
+  border-radius: 8px 10px 0px 0px;
+  margin: 0;
+  color: #f5f5f5; /* Ensures text is white */
+  -webkit-background-clip: unset; /* Removes gradient text effect */
+  -webkit-text-fill-color: #f5f5f5; /* Sets text to white explicitly */
+}
+
+.activeTab1 {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  text-align: center;
+  background: linear-gradient(to right, #a76bed, #9d8af1);
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+  border-radius: 8px 10px 0px 0px;
+  margin: 0;
+  color: #f5f5f5; /* Ensures text is white */
+  -webkit-background-clip: unset; /* Removes gradient text effect */
+  -webkit-text-fill-color: #f5f5f5; /* Sets text to white explicitly */
+}
+
+.tabContent {
+  margin-top: 20px;
+}

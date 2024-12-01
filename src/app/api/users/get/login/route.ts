@@ -1,6 +1,6 @@
 import {
   connectDatabase,
-  getClientModeByNameAndPassword,
+  getClientModeByEmailAndPassword,
 } from "@/services/mongo";
 import { NextResponse } from "next/server";
 
@@ -10,12 +10,12 @@ export async function POST(request: Request) {
   try {
     // Parse the request body
     const body = await request.json();
-    const { name, password } = body;
+    const { email, password } = body;
 
     // Validate input
-    if (!name || !password) {
+    if (!email || !password) {
       return NextResponse.json(
-        { error: "Both name and password are required" },
+        { error: "Both email and password are required" },
         { status: 400 }
       );
     }
@@ -29,24 +29,23 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find the supplier
-    const supplier = await getClientModeByNameAndPassword(
+    // Find the user
+    const user = await getClientModeByEmailAndPassword(
       client,
       "users_collection",
-      name,
+      email,
       password,
-      "user"
     );
 
-    if (!supplier) {
+    if (!user) {
       return NextResponse.json(
-        { error: "Invalid name or password" },
+        { error: "Invalid email or password" },
         { status: 404 }
       );
     }
 
     // Return the supplier
-    return NextResponse.json(supplier, { status: 200 });
+    return NextResponse.json(user, { status: 200 });
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";

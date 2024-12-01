@@ -9,6 +9,7 @@ export interface User {
     savedBenefits: string[];
     city: string;
     isActive: boolean;
+    password: String;
   }
 
   export interface Benefit {
@@ -29,15 +30,15 @@ export interface User {
 
   export interface Supplier {
     _id: string;
-    providerName: String;
-    password: String;
-    email: String;
-    businessName: String;
+    providerName: string;
+    password: string;
+    email: string;
+    businessName: string;
     categories:ObjectId[];
-    phoneNumber: String;
+    phoneNumber: string;
     registrationDate: Date;
     branches:Branch[];
-    siteLink: String;
+    siteLink: string;
     supplierLogo:string;
     isActive: boolean;
   }
@@ -50,19 +51,19 @@ export interface User {
 
   export interface Club {
     _id: string;
-    clubName: String;
-    clubLink: String;
+    clubName: string;
+    clubLink: string;
     isActive:Boolean;    
   }
 
-  export enum clientMode {
+  export enum ClientMode {
     general = "GENERAL",
     connection = "CONNECTION",
     supplier = "SUPPLIER",
     user = "USER"
   }
 
-  export enum preMode{
+  export enum PreMode{
     supplier = "SUPPLIER",
     user = "USER",
     none="NONE",

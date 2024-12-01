@@ -1,5 +1,7 @@
+"use client";
+
+import { BenefitsDetails } from "@/components";
+
 export default function BenefitId(){
-
-    return <div>benefitId</div>
-
+    return <div><BenefitsDetails/></div>
 }

@@ -1,19 +1,17 @@
 import {
   connectDatabase,
-  getClientModeByNameAndPassword,
+  getClientModeByEmailAndPassword,
 } from "@/services/mongo";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   let client;
-
   try {
     // Parse the request body
     const body = await request.json();
-    const { name, password } = body;
-
+    const { email, password } = body;
     // Validate input
-    if (!name || !password) {
+    if (!email || !password) {
       return NextResponse.json(
         { error: "Both name and password are required" },
         { status: 400 }
@@ -30,17 +28,16 @@ export async function POST(request: Request) {
     }
 
     // Find the supplier
-    const supplier = await getClientModeByNameAndPassword(
+    const supplier = await getClientModeByEmailAndPassword(
       client,
       "suppliers_collection",
-      name,
+      email,
       password,
-      "supplier"
     );
 
     if (!supplier) {
       return NextResponse.json(
-        { error: "Invalid name or password" },
+        { error: "Invalid email or password" },
         { status: 404 }
       );
     }
