@@ -12,12 +12,12 @@ const SideBar = () => {
   let currentSupplierId = "0";
   let currentUserId = "0";
 
-  if (clientMode === "SUPPLIER" && currentSupplier !== null) {
-    currentSupplierId = currentSupplier._id;
+  if (clientMode === "SUPPLIER" && currentSupplier) {
+    currentSupplierId = currentSupplier._id || "0";
   }
 
   if (clientMode === "USER" && currentUser !== null) {
-    currentUserId = currentUser._id;
+    currentUserId = currentUser._id || "0";
   }
 
   const userButtons = [

@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 
 export interface User {
-  _id: string;
+  _id?: string;
   username: string;
   email: string;
   clubs: string[];
@@ -29,7 +29,7 @@ export interface Branch {
 }
 
 export interface Supplier {
-  _id: string;
+  _id?: string;
   providerName: string;
   password: string;
   email: string;
