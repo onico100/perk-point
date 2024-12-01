@@ -8,7 +8,7 @@ import styles from "@/styles/login.module.css"; // Import the CSS module
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -16,6 +16,8 @@ export default function Login() {
   const preMode = useGeneralStore((state) => state.preMode);
   const loginUserMutation = useLoginUser();
   const { loginSupplier } = useFetchSuppliers();
+
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,6 +27,7 @@ export default function Login() {
         {
           onSuccess: (user) => {
             alert(`Welcome, ${user.username}!`);
+            router.push(`benefits/${user._id}`);
           },
           onError: (error) => {
             console.error(error);
@@ -38,7 +41,7 @@ export default function Login() {
         {
           onSuccess: (supplier) => {
             alert(`Welcome, ${supplier.providerName}!`);
-            const router = useRouter();
+            
             router.push(`benefits/${supplier._id}`);
             console.log(22, `Welcome, ${supplier.providerName}!)!`);
           },
