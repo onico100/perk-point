@@ -2,7 +2,7 @@
 import ClubCard from "@/components/Clubs/ClubCard";
 import { Club, Supplier } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
-import styles from "@/styles/clubs/ClubsContainer.module.css";
+import styles from "@/styles/Clubs/ClubsContainer.module.css";
 
 const ClubsContainer = () => {
   const { clubs ,isLoadingC,isFetchingC} = useFetchGeneral();
