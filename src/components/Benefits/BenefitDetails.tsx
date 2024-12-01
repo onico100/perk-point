@@ -3,22 +3,19 @@ import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import { useEffect, useState } from "react";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
-import { Benefit, Supplier, Club, ClientMode, Branch } from "@/types/types"; 
+import { Benefit, Supplier, Club, ClientMode, Branch } from "@/types/types";
 import styles from "@/styles/Benefits/BenefitDetais.module.css";
 import { usePathname } from 'next/navigation';
-import useGeneralStore from "@/stores/generalStore"; 
+import useGeneralStore from "@/stores/generalStore";
 
 const BenefitDetails = () => {
-    const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
+    const { benefits, isLoadingB, isFetchingB, updateBenefit } = useFetchBenefits();
     const { suppliers, isLoadingS, isFetchingS } = useFetchSuppliers();
     const { clubs, isLoadingC, isFetchingC } = useFetchGeneral();
     const clientMode = useGeneralStore(state => state.clientMode);
 
     const [isUpdateMode, setIsUpdateMode] = useState(false);
     const [updatedBenefit, setUpdatedBenefit] = useState<Benefit | undefined>(undefined);
-
-    if (isLoadingB || isFetchingB || isLoadingS || isFetchingS || isLoadingC || isFetchingC)
-        return <div>Loading...</div>;
 
     const pathname = usePathname();
     const specificBenefitId = pathname.split('/')[3];
@@ -30,13 +27,30 @@ const BenefitDetails = () => {
     useEffect(() => {
         if (isUpdateMode) {
             setUpdatedBenefit(specificBenefit);
+        } else {
+            setUpdatedBenefit(specificBenefit);
         }
     }, [isUpdateMode, specificBenefit]);
 
-    const handleSave = () => {
-        console.log("Saving updated benefit...", updatedBenefit);
-        // Add your saving logic here
-        setIsUpdateMode(false); // Exit update mode after saving
+    const handleSave = async () => {
+        if (updatedBenefit) {
+            try {
+                updateBenefit({
+                    id: updatedBenefit._id,
+                    updatedData: {
+                        description: updatedBenefit.description,
+                        redemptionConditions: updatedBenefit.redemptionConditions,
+                        expirationDate: updatedBenefit.expirationDate,
+                        branches: updatedBenefit.branches,
+                        isActive: updatedBenefit.isActive,
+                    },
+                });
+                console.log("Benefit updated successfully");
+            } catch (error) {
+                console.error("Error updating benefit:", error);
+            }
+        }
+        setIsUpdateMode(false);
     };
 
     const handleChange = (field: keyof Benefit, value: string) => {
@@ -45,16 +59,21 @@ const BenefitDetails = () => {
         }
     };
 
+    if (isLoadingB || isFetchingB || isLoadingS || isFetchingS || isLoadingC || isFetchingC)
+        return <div>Loading...</div>;
+
     return (
         <div className={styles.container}>
             {clientMode === ClientMode.supplier && !isUpdateMode && (
-                <button className={styles.updateButton} onClick={() => setIsUpdateMode(true)}>עידכון</button>
+                <div className={styles.updateButtons}>
+                    <button className={styles.updateButton} onClick={() => setIsUpdateMode(true)}>עידכון</button>
+                </div>
             )}
             {isUpdateMode && (
                 <div className={styles.updateButtons}>
-                    <button className={styles.saveButton} onClick={handleSave}>Save</button>
-                    <button className={styles.cancelButton} onClick={() => setIsUpdateMode(false)}>Cancel</button>
-                </div>
+                <button className={styles.saveButton} onClick={handleSave}>שמירה</button>
+                <button className={styles.cancelButton} onClick={() => setIsUpdateMode(false)}>ביטול</button>
+            </div>
             )}
             <h1 className={styles.title}>פרטי ההטבה</h1>
             <div className={styles.supplierLogo}>
@@ -72,8 +91,8 @@ const BenefitDetails = () => {
                 <div className={styles.gridItem}>
                     <strong>תיאור:</strong> <br />
                     {isUpdateMode ? (
-                        <textarea 
-                            value={updatedBenefit?.description} 
+                        <textarea
+                            value={updatedBenefit?.description}
                             onChange={(e) => handleChange('description', e.target.value)}
                         />
                     ) : (
@@ -111,8 +130,8 @@ const BenefitDetails = () => {
                 <div className={styles.gridItem}>
                     <strong>הגבלות:</strong><br />
                     {isUpdateMode ? (
-                        <textarea 
-                            value={updatedBenefit?.redemptionConditions} 
+                        <textarea
+                            value={updatedBenefit?.redemptionConditions}
                             onChange={(e) => handleChange('redemptionConditions', e.target.value)}
                         />
                     ) : (

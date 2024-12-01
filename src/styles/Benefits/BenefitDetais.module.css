@@ -40,3 +40,43 @@
     font-weight: bold;
     text-decoration: underline; 
 }
+
+.updateButton,
+.saveButton,
+.cancelButton {
+    background: linear-gradient(to bottom , #b346e8, #87cdfa);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 25px; 
+    cursor: pointer;
+    font-size: 16px; 
+    transition: background 0.3s ease;
+    margin: 5px;
+    display: block; 
+}
+
+.updateButtons {
+    display: flex;
+    justify-content: flex-start; 
+    margin-bottom: 20px; 
+    position: absolute; 
+    left: 30px; 
+    top: 50px; 
+}
+
+
+.updateButton:hover,
+.saveButton:hover,
+.cancelButton:hover {
+    background: linear-gradient(to bottom, #a404f5, #0497f2);
+}
+
+.cancelButton {
+    background: linear-gradient(to bottom, #dc3545, #f56363);
+}
+
+.cancelButton:hover {
+    background: linear-gradient(to bottom, #c82333, #d9534f);
+}
+
