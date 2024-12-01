@@ -23,7 +23,7 @@ export const useFetchSuppliers = () => {
     queryFn: async () => {
       const suppliers = await getAllSuppliers();
       setSuppliers(suppliers);
-      console.log(suppliers);
+      // console.log(suppliers);
       return suppliers;
     },
     staleTime: 10000,

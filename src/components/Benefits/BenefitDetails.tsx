@@ -13,6 +13,8 @@ const BenefitDetails = () => {
     const { suppliers, isLoadingS, isFetchingS } = useFetchSuppliers();
     const { clubs, isLoadingC, isFetchingC } = useFetchGeneral();
     const clientMode = useGeneralStore(state => state.clientMode);
+    const currentSupplier = useGeneralStore(state => state.currentSupplier); 
+
 
     const [isUpdateMode, setIsUpdateMode] = useState(false);
     const [updatedBenefit, setUpdatedBenefit] = useState<Benefit | undefined>(undefined);
@@ -35,7 +37,7 @@ const BenefitDetails = () => {
     const handleSave = async () => {
         if (updatedBenefit) {
             try {
-                updateBenefit({
+                await updateBenefit({
                     id: updatedBenefit._id,
                     updatedData: {
                         description: updatedBenefit.description,
@@ -44,7 +46,7 @@ const BenefitDetails = () => {
                         branches: updatedBenefit.branches,
                         isActive: updatedBenefit.isActive,
                     },
-                });
+                }); 
                 console.log("Benefit updated successfully");
             } catch (error) {
                 console.error("Error updating benefit:", error);
@@ -62,9 +64,11 @@ const BenefitDetails = () => {
     if (isLoadingB || isFetchingB || isLoadingS || isFetchingS || isLoadingC || isFetchingC)
         return <div>Loading...</div>;
 
+    const isCurrentSupplierBenefit = currentSupplier && specificSupplier && currentSupplier._id === specificSupplier._id;
+
     return (
         <div className={styles.container}>
-            {clientMode === ClientMode.supplier && !isUpdateMode && (
+            {clientMode === ClientMode.supplier  && isCurrentSupplierBenefit && !isUpdateMode && (
                 <div className={styles.updateButtons}>
                     <button className={styles.updateButton} onClick={() => setIsUpdateMode(true)}>עידכון</button>
                 </div>
@@ -148,7 +152,7 @@ const BenefitDetails = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    למעבר לבית העסק
+                                    למעבר לבית העסק 
                                 </a>
                             </div>
                         ) : (
