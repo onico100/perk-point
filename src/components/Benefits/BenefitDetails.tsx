@@ -1,9 +1,9 @@
 "use client";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
-import { useEffect, useState } from "react"; // Import useState
+import { useEffect, useState } from "react";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
-import { Benefit, Supplier, Club, ClientMode } from "@/types/types";
+import { Benefit, Supplier, Club, ClientMode, Branch } from "@/types/types"; 
 import styles from "@/styles/Benefits/BenefitDetais.module.css";
 import { usePathname } from 'next/navigation';
 import useGeneralStore from "@/stores/generalStore"; 
@@ -36,7 +36,13 @@ const BenefitDetails = () => {
     const handleSave = () => {
         console.log("Saving updated benefit...", updatedBenefit);
         // Add your saving logic here
-        setIsUpdateMode(false); 
+        setIsUpdateMode(false); // Exit update mode after saving
+    };
+
+    const handleChange = (field: keyof Benefit, value: string) => {
+        if (updatedBenefit) {
+            setUpdatedBenefit({ ...updatedBenefit, [field]: value });
+        }
     };
 
     return (
@@ -68,7 +74,7 @@ const BenefitDetails = () => {
                     {isUpdateMode ? (
                         <textarea 
                             value={updatedBenefit?.description} 
-                            onChange={(e) => setUpdatedBenefit({ ...updatedBenefit, description: e.target.value })}
+                            onChange={(e) => handleChange('description', e.target.value)}
                         />
                     ) : (
                         specificBenefit?.description
@@ -107,7 +113,7 @@ const BenefitDetails = () => {
                     {isUpdateMode ? (
                         <textarea 
                             value={updatedBenefit?.redemptionConditions} 
-                            onChange={(e) => setUpdatedBenefit({ ...updatedBenefit, redemptionConditions: e.target.value })}
+                            onChange={(e) => handleChange('redemptionConditions', e.target.value)}
                         />
                     ) : (
                         specificBenefit?.redemptionConditions
