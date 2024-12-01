@@ -1,3 +1,4 @@
+'use client'
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode, PreMode } from "@/types/types";
 
