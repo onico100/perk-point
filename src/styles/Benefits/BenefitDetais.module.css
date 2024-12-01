@@ -38,8 +38,18 @@
 
 .link {
     font-weight: bold;
-    text-decoration: underline; 
+    background: linear-gradient(to right, #b346e8, #87cdfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
+
+.link:hover{
+    background: linear-gradient(to right, #a404f5, #0497f2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
 
 .updateButton,
 .saveButton,
@@ -79,4 +89,3 @@
 .cancelButton:hover {
     background: linear-gradient(to bottom, #c82333, #d9534f);
 }
-
