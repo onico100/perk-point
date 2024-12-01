@@ -1,12 +1,12 @@
 "use client";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { useFetchGeneral } from "@/hooks/useFetchGeneral"
-import { Benefit, Supplier, Club, ClientMode } from "@/types/types";
-import styles from "@/styles/Benefits/BenefitDetais.module.css"
+import { useFetchGeneral } from "@/hooks/useFetchGeneral";
+import { Benefit, Supplier, Club, ClientMode, Branch } from "@/types/types"; 
+import styles from "@/styles/Benefits/BenefitDetais.module.css";
 import { usePathname } from 'next/navigation';
-import useGeneralStore from "@/stores/generalStore"; // Import the store
+import useGeneralStore from "@/stores/generalStore"; 
 
 const BenefitDetails = () => {
     const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
@@ -14,6 +14,8 @@ const BenefitDetails = () => {
     const { clubs, isLoadingC, isFetchingC } = useFetchGeneral();
     const clientMode = useGeneralStore(state => state.clientMode);
 
+    const [isUpdateMode, setIsUpdateMode] = useState(false);
+    const [updatedBenefit, setUpdatedBenefit] = useState<Benefit | undefined>(undefined);
 
     if (isLoadingB || isFetchingB || isLoadingS || isFetchingS || isLoadingC || isFetchingC)
         return <div>Loading...</div>;
@@ -21,16 +23,38 @@ const BenefitDetails = () => {
     const pathname = usePathname();
     const specificBenefitId = pathname.split('/')[3];
 
-
-
     const specificBenefit: Benefit | undefined = benefits?.find(benefit => benefit._id === specificBenefitId);
     const specificSupplier: Supplier | undefined = suppliers?.find(supplier => supplier._id === specificBenefit?.supplierId);
     const specificClub = clubs?.find((club: Club) => club._id === specificBenefit?.clubId);
 
+    useEffect(() => {
+        if (isUpdateMode) {
+            setUpdatedBenefit(specificBenefit);
+        }
+    }, [isUpdateMode, specificBenefit]);
+
+    const handleSave = () => {
+        console.log("Saving updated benefit...", updatedBenefit);
+        // Add your saving logic here
+        setIsUpdateMode(false); // Exit update mode after saving
+    };
+
+    const handleChange = (field: keyof Benefit, value: string) => {
+        if (updatedBenefit) {
+            setUpdatedBenefit({ ...updatedBenefit, [field]: value });
+        }
+    };
+
     return (
         <div className={styles.container}>
-            {clientMode === ClientMode.supplier && (
-                <button className={styles.updateButton}>עידכון</button>
+            {clientMode === ClientMode.supplier && !isUpdateMode && (
+                <button className={styles.updateButton} onClick={() => setIsUpdateMode(true)}>עידכון</button>
+            )}
+            {isUpdateMode && (
+                <div className={styles.updateButtons}>
+                    <button className={styles.saveButton} onClick={handleSave}>Save</button>
+                    <button className={styles.cancelButton} onClick={() => setIsUpdateMode(false)}>Cancel</button>
+                </div>
             )}
             <h1 className={styles.title}>פרטי ההטבה</h1>
             <div className={styles.supplierLogo}>
@@ -46,7 +70,15 @@ const BenefitDetails = () => {
             </div>
             <div className={styles.grid}>
                 <div className={styles.gridItem}>
-                    <strong>תיאור:</strong> <br />{specificBenefit?.description}
+                    <strong>תיאור:</strong> <br />
+                    {isUpdateMode ? (
+                        <textarea 
+                            value={updatedBenefit?.description} 
+                            onChange={(e) => handleChange('description', e.target.value)}
+                        />
+                    ) : (
+                        specificBenefit?.description
+                    )}
                 </div>
                 <div className={styles.gridItem}>
                     <strong>מועדון:</strong><br />
@@ -78,7 +110,14 @@ const BenefitDetails = () => {
                 </div>
                 <div className={styles.gridItem}>
                     <strong>הגבלות:</strong><br />
-                    {specificBenefit?.redemptionConditions}
+                    {isUpdateMode ? (
+                        <textarea 
+                            value={updatedBenefit?.redemptionConditions} 
+                            onChange={(e) => handleChange('redemptionConditions', e.target.value)}
+                        />
+                    ) : (
+                        specificBenefit?.redemptionConditions
+                    )}
                 </div>
                 <div className={styles.gridItem}>
                     <div className={styles.gridItem}>
