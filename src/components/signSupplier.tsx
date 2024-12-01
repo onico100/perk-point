@@ -1,42 +1,56 @@
-"use client";
+'use client';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
+import { useState } from "react";
+import debounce from "lodash.debounce";
+import my_http from "@/services/http";
 
 const supplierSchema = z.object({
-  providerName: z.string().min(3, "Provider name must be at least 3 characters."),
-  email: z.string().email("Invalid email address."),
-  password: z.string().min(6, "Password must be at least 6 characters."),
-  businessName: z.string().min(3, "Business name must be at least 3 characters."),
-  phoneNumber: z.string().regex(/^\d{10}$/, "Phone number must be 10 digits."),
-  siteLink: z.string().url("Invalid URL."),
-  supplierLogo: z.string().url("Invalid URL."),
+  providerName: z.string().min(3, "שם הספק חייב להיות לפחות 3 תווים."),
+  email: z.string().email("כתובת אימייל אינה חוקית."),
+  password: z.string().min(6, "סיסמה חייבת להכיל לפחות 6 תווים."),
+  businessName: z.string().min(3, "יש להזין שם עסק בעל לפחות 3 תווים."),
+  phoneNumber: z.string().regex(/^\d{10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
+  siteLink: z.string().url("כתובת האתר אינה חוקית."),
+  supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
+  city: z.string().min(1, "יש לבחור עיר מרשימת הערים."),
 });
 
 type SupplierFormValues = z.infer<typeof supplierSchema>;
 
-export default function SignSupllierComponent() {
-  const { addSupplier } = useFetchSuppliers(); // שימוש ב-Hook הקיים
+export default function SignSupplierComponent() {
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SupplierFormValues>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<SupplierFormValues>({
     resolver: zodResolver(supplierSchema),
   });
 
+  const fetchCities = debounce(async (textQuery: string) => {
+    if (!textQuery) {
+      setSuggestions([]);
+      return;
+    }
+  
+    try {
+      setLoading(true);
+      console.log("query:", textQuery);
+      const response = await my_http.post(`/googleAutocomplete/get`, {textQuery: textQuery });
+      console.log("Response:", response.data); 
+      setSuggestions(response.data.placePredictions.map((p: any) => p.structuredFormat.mainText.text));
+    } 
+    catch (error) {
+      console.error("Error fetching suggestions:", error);
+      setSuggestions([]);
+    } finally {
+      setLoading(false);
+    }
+  }, 300);
+  
+
   const onSubmit = (data: SupplierFormValues) => {
-    addSupplier(data, {
-      onSuccess: (supplier) => { 
-        alert("Supplier added successfully!");
-        console.log("Current supplier stored in Zustand:", supplier);},
-      onError: (error) => {
-        console.error(error);
-        alert("Failed to add supplier.");
-      },
-    });
+    console.log("Form Data:", data);
   };
 
   return (
@@ -44,101 +58,33 @@ export default function SignSupllierComponent() {
       <h1 className="text-center text-2xl font-bold">Add New Supplier</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 max-w-md mx-auto">
         <div>
-          <label htmlFor="providerName" className="block text-sm font-medium">
-            Provider Name:
-          </label>
+          <label htmlFor="city" className="block text-sm font-medium">עיר:</label>
           <input
-            id="providerName"
+            id="city"
             type="text"
-            {...register("providerName")}
             className="w-full border rounded px-2 py-1"
+            onChange={(e) => fetchCities(e.target.value)}
           />
-          {errors.providerName && <p className="text-red-500 text-sm">{errors.providerName.message}</p>}
+          {loading && <p>Loading...</p>}
+          <ul className="border border-gray-300 rounded mt-1 max-h-40 overflow-y-auto">
+            {suggestions.map((city, index) => (
+              <li
+                key={index}
+                className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+                onClick={() => {
+                  setValue("city", city);
+                  setSuggestions([]);
+                }}
+              >
+                {city}
+              </li>
+            ))}
+          </ul>
+          {errors.city && <p className="text-red-500 text-sm">{errors.city.message}</p>}
         </div>
 
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium">
-            Email:
-          </label>
-          <input
-            id="email"
-            type="email"
-            {...register("email")}
-            className="w-full border rounded px-2 py-1"
-          />
-          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
-        </div>
-
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium">
-            Password:
-          </label>
-          <input
-            id="password"
-            type="password"
-            {...register("password")}
-            className="w-full border rounded px-2 py-1"
-          />
-          {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
-        </div>
-
-        <div>
-          <label htmlFor="businessName" className="block text-sm font-medium">
-            Business Name:
-          </label>
-          <input
-            id="businessName"
-            type="text"
-            {...register("businessName")}
-            className="w-full border rounded px-2 py-1"
-          />
-          {errors.businessName && <p className="text-red-500 text-sm">{errors.businessName.message}</p>}
-        </div>
-
-        <div>
-          <label htmlFor="phoneNumber" className="block text-sm font-medium">
-            Phone Number:
-          </label>
-          <input
-            id="phoneNumber"
-            type="text"
-            {...register("phoneNumber")}
-            className="w-full border rounded px-2 py-1"
-          />
-          {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>}
-        </div>
-
-        <div>
-          <label htmlFor="siteLink" className="block text-sm font-medium">
-            Website Link:
-          </label>
-          <input
-            id="siteLink"
-            type="url"
-            {...register("siteLink")}
-            className="w-full border rounded px-2 py-1"
-          />
-          {errors.siteLink && <p className="text-red-500 text-sm">{errors.siteLink.message}</p>}
-        </div>
-
-        <div>
-          <label htmlFor="supplierLogo" className="block text-sm font-medium">
-            Supplier Logo (URL):
-          </label>
-          <input
-            id="supplierLogo"
-            type="url"
-            {...register("supplierLogo")}
-            className="w-full border rounded px-2 py-1"
-          />
-          {errors.supplierLogo && <p className="text-red-500 text-sm">{errors.supplierLogo.message}</p>}
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition"
-        >
-          Add Supplier
+        <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition">
+          קדימה, תרשמו אותי!
         </button>
       </form>
     </div>

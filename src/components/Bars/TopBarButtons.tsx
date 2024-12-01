@@ -9,14 +9,14 @@ const TopBarButtons: React.FC = () => {
 
   const [popupVisible, setPopupVisible] = useState(false);
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
-  const [actionType, setActionType] = useState<"login" | "register">("login");
+  const [actionType, setActionType] = useState<"login" | "signup">("login");
 
   const handleButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>,
-    type: "login" | "register"
+    type: "login" | "signup"
   ) => {
     setAnchorElement(event.currentTarget);
-    setActionType(type); // Update action type (login/register)
+    setActionType(type); 
     setPopupVisible(true);
   };
 
@@ -43,7 +43,7 @@ const TopBarButtons: React.FC = () => {
           <button className={styles.loginButton}onClick={(e) => handleButtonClick(e, "login")}>
             התחברות
           </button>
-          <button className={styles.registerButton}onClick={(e) => handleButtonClick(e, "register")}>
+          <button className={styles.signupButton}onClick={(e) => handleButtonClick(e, "signup")}>
             הרשמה
           </button>
           {popupVisible && (
@@ -59,7 +59,7 @@ const TopBarButtons: React.FC = () => {
       {clientMode === "USER" && (
         <div className={styles.buttonsContainer}>
           <h1>{`שלום ${currentUser?.username}`}</h1>
-          <button className={styles.registerButton} onClick={handleDisconnect}>
+          <button className={styles.signupButton} onClick={handleDisconnect}>
             התנתקות
           </button>
         </div>
@@ -68,7 +68,7 @@ const TopBarButtons: React.FC = () => {
       {clientMode === "SUPPLIER" && (
         <div className={styles.buttonsContainer}>
           <h1>{`שלום ${currentSupplier?.providerName}`}</h1>
-          <button className={styles.registerButton} onClick={handleDisconnect}>
+          <button className={styles.signupButton} onClick={handleDisconnect}>
             התנתקות
           </button>
         </div>
