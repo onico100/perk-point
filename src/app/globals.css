@@ -29,4 +29,5 @@ body {
   flex-direction: row;
   position: relative; /* Ensures proper stacking context */
   z-index: 1; /* Keep this lower than the popup */
+  background-color: #f5f5f5;
 }

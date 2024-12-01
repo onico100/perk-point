@@ -53,6 +53,7 @@ export interface Club {
   _id: string;
   clubName: string;
   clubLink: string;
+  clubLogo:string;
   isActive: Boolean;
 }
 

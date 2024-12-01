@@ -1,4 +1,5 @@
 'use client'
+import ClubsContainer from "@/components/Clubs/ClubsContainer";
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode, PreMode } from "@/types/types";
 export default function Clubs(){
@@ -12,7 +13,7 @@ export default function Clubs(){
         setPreMode(PreMode.none);
     }
 
-    return <div>Clubs</div>
+    return <ClubsContainer></ClubsContainer>
 
 }
 
