@@ -3,14 +3,17 @@ import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import { useEffect } from "react";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral"
-import { Benefit, Supplier, Club, Branch } from "@/types/types";
+import { Benefit, Supplier, Club, ClientMode } from "@/types/types";
 import styles from "@/styles/Benefits/BenefitDetais.module.css"
 import { usePathname } from 'next/navigation';
+import useGeneralStore from "@/stores/generalStore"; // Import the store
 
 const BenefitDetails = () => {
     const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
     const { suppliers, isLoadingS, isFetchingS } = useFetchSuppliers();
     const { clubs, isLoadingC, isFetchingC } = useFetchGeneral();
+    const clientMode = useGeneralStore(state => state.clientMode);
+
 
     if (isLoadingB || isFetchingB || isLoadingS || isFetchingS || isLoadingC || isFetchingC)
         return <div>Loading...</div>;
@@ -26,6 +29,9 @@ const BenefitDetails = () => {
 
     return (
         <div className={styles.container}>
+            {clientMode === ClientMode.supplier && (
+                <button className={styles.updateButton}>עידכון</button>
+            )}
             <h1 className={styles.title}>פרטי ההטבה</h1>
             <div className={styles.supplierLogo}>
                 {specificSupplier && specificSupplier.supplierLogo ? (
