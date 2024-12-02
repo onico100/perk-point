@@ -9,7 +9,6 @@ import {
   getUserById,
   getUserByCredentials,
 } from "@/services/usersServices";
-import { useRouter } from "next/router";
 //import useUserStore from '../stores/usersStore';
 //const setUser = useUserStore((state) => state.setUser);
 const setCurrentUser = useGeneralStore.getState().setCurrentUser;
@@ -33,13 +32,9 @@ export const useLoginUser = () => {
   return useMutation<User, Error, { email: string; password: string }>({
     mutationFn: ({ email, password }) => getUserByCredentials(email, password),
     onSuccess: (user) => {
-      console.log("User login successful:", user);
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.user);
       setCurrentUser(user);
-      const router = useRouter();
-      router.push(`benefits/${user._id}`);
-      console.log(22, `Welcome, ${user.username}!)!`);
     },
   });
 };
