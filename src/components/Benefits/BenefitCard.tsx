@@ -3,24 +3,22 @@
 import React from "react";
 import { Benefit, Club, Supplier } from "@/types/types";
 import styles from "@/styles/Benefits/benefitCard.module.css";
+
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
 import { MdDelete } from "react-icons/md";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 
+
 interface BenefitsCardProps {
   benefit: Benefit;
-  supplier: Supplier | undefined;
-  club: Club;
+  supplier:Supplier | undefined
+  club: Club
 }
 
-const BenefitsCard: React.FC<BenefitsCardProps> = ({
-  benefit,
-  supplier,
-  club,
-}) => {
+const BenefitsCard: React.FC<BenefitsCardProps> = ({ benefit, supplier, club }) => {
   const router = useRouter();
-  const params = useParams();
+
 
   const { deleteBenefit } = useFetchBenefits();
 
@@ -51,6 +49,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
       <hr className={styles.divider} />
       <p className={styles.description}>{benefit.description}</p>
       <div className={styles.clubName}>{club?.clubName}</div>
+
       {id != "0" && clientMode == "SUPPLIER" && (
         <div className={styles.deleteButton} onClick={deleteBenefitFunc}>
           <MdDelete />

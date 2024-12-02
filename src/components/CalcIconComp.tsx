@@ -1,10 +1,11 @@
 import React from "react";
 import { FaCalculator } from "react-icons/fa";
 
-const CalcButton: React.FC = () => {
+// Accept onClick prop to control visibility
+const CalcButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   return (
     <div style={styles.container}>
-      <button style={styles.button}>
+      <button style={styles.button} onClick={onClick}>
         <FaCalculator style={styles.icon} />
       </button>
     </div>
@@ -22,7 +23,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     height: "60px",
     borderRadius: "50%",
     border: "none",
-    background: "linear-gradient(to bottom right, #b346e8, #87cdfa)", // Corrected here
+    background: "linear-gradient(to bottom right, #b346e8, #87cdfa)",
     color: "white",
     display: "flex",
     justifyContent: "center",
