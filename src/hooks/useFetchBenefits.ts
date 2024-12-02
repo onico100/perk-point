@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {useBenefitStore} from "@/stores/benefitsStore";
+import { useBenefitStore } from "@/stores/benefitsStore";
 import { Benefit } from "@/types/types";
 import {
   getAllBenefits,
@@ -12,7 +12,7 @@ import {
 
 
 export const useFetchBenefits = () => {
-  const setBenefits = useBenefitStore((state:any) => state.setBenefits); // Zustand setter
+  const setBenefits = useBenefitStore((state: any) => state.setBenefits); // Zustand setter
 
   const queryClient = useQueryClient();
 
@@ -44,7 +44,7 @@ export const useFetchBenefits = () => {
     onMutate: async (newBenefit: Omit<Benefit, "_id">) => {
       const { benefits, setBenefits } = useBenefitStore.getState();
       const previousBenefits = [...benefits];
-      const tempBenefit = { ...newBenefit, _id: "temp-id" }; 
+      const tempBenefit = { ...newBenefit, _id: "temp-id" };
       setBenefits([...benefits, tempBenefit]);
       return { previousBenefits };
     },
@@ -52,7 +52,7 @@ export const useFetchBenefits = () => {
       const { setBenefits } = useBenefitStore.getState();
       setBenefits(context.previousBenefits)
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] })},
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] }) },
   });
 
   // Update benefit
@@ -61,32 +61,23 @@ export const useFetchBenefits = () => {
     Error,
     { id: string; updatedData: Partial<Benefit> }
   >({
-    mutationFn: ({ id, updatedData }) => {
-      console.log("updatedData",updatedData)
-      const validData = {
-        ...updatedData,
-        supplierId: updatedData?.supplierId,
-        clubId: updatedData?.clubId,
-        redemptionConditions: updatedData?.redemptionConditions,
-        description: updatedData?.description,
-        expirationDate: updatedData?.expirationDate,
-        branches: updatedData?.branches,
-        isActive: updatedData.isActive !== undefined ? updatedData.isActive : true,
-      };
-      return updateBenefitById(id, validData);
-    },
+    mutationFn: ({ id, updatedData }) =>
+
+      updateBenefitById(id, updatedData)
+    ,
     onMutate: async ({ id, updatedData }) => {
       const { benefits, setBenefits } = useBenefitStore.getState();
       const previousBenefits = [...benefits];
       const updatedBenefits = benefits.map((benefit) => benefit._id === id ? { ...benefit, ...updatedData } : benefit);
       setBenefits(updatedBenefits);
+      console.log(222);
       return { previousBenefits };
     },
     onError: (_error, _variables, context: any) => {
       const { setBenefits } = useBenefitStore.getState();
       setBenefits(context.previousBenefits); // Revert to previous state
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] })},
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] }) },
   });
 
   // Delete benefit
@@ -103,7 +94,7 @@ export const useFetchBenefits = () => {
       const { setBenefits } = useBenefitStore.getState();
       setBenefits(context.previousBenefits);
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] })},
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] }) },
   });
 
   return {
