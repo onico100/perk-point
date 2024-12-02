@@ -28,8 +28,11 @@ export default function RootLayout({
     <QueryClientProvider client={queryClient}>
       <html lang="en" className={` ${heebo.variable}`}>
         <Head>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/favicon.ico" sizes="any" />
+          <link rel="icon" type="image/png" href="/logoLight.png" />
+          <link rel="icon" type="image/svg+xml" href="/logoLight.svg" />
         </Head>
+
         <body className="font-heebo">
           <TopBar />
           <div className="main">
