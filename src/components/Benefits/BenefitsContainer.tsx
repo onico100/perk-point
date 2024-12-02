@@ -42,10 +42,7 @@ const BenefitsContainer = () => {
     } else {
       setBenefitsToShow(benefits || []);
     }
-    // console.log("currentUser?.clubs: ",currentUser?.clubs)
-    // console.log("benefits: ",benefits)
-    // console.log("benefitsToShow: ",benefitsToShow)
-    // console.log("id: ",id)
+
   }, [benefits]);
 
   if (isLoadingB || isFetchingB) return <div>Loading...</div>;
@@ -54,7 +51,7 @@ const BenefitsContainer = () => {
     <div className={styles.mainContainer}>
       <div className={styles.title}>{currentTitle}</div>
       <div className={styles.cardsContainer}>
-        {benefitsToShow.map((benefit) => (
+        {benefitsToShow?.map((benefit) => (
           <BenefitsCard
             key={benefit._id}
             benefit={benefit}
