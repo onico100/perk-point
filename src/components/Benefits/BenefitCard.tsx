@@ -5,7 +5,7 @@ import { Benefit, Club, Supplier } from "@/types/types";
 import styles from "@/styles/Benefits/benefitCard.module.css";
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
-import { RiDeleteBinLine } from "react-icons/ri";
+import { MdDelete } from "react-icons/md";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 
 interface BenefitsCardProps {
@@ -36,7 +36,6 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
       deleteBenefit(benefit._id);
     }
   };
-  
 
   return (
     <div className={styles.benefitCard}>
@@ -54,7 +53,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
       <div className={styles.clubName}>{club?.clubName}</div>
       {id != "0" && clientMode == "SUPPLIER" && (
         <div className={styles.deleteButton} onClick={deleteBenefitFunc}>
-          <RiDeleteBinLine />
+          <MdDelete />
         </div>
       )}
       <button className={styles.button} onClick={goToBenefitDetails}>

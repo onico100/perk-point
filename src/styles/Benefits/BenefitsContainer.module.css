@@ -18,3 +18,16 @@
   margin-bottom: 10px;
   margin-right: 2vw;
 }
+
+.addButton {
+  width: 280px;
+  height: 300px;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+.addButton svg { 
+  font-size: 100px; 
+  color: #474747;
+}
