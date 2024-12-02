@@ -9,7 +9,8 @@ import Login from "./SighPages/login";
 import SignSupllierComponent from "./signSupplier";
 import signUser from "./signUser";
 import TabSign from "./Bars/TabSign";
-import CalcButton from "./CalcIconComp";
+import CalcButton from "./Calcutre/CalcButton";
+import CakcPage from "./Calcutre/CalcPage";
 
 export {
   SideBar,
@@ -24,4 +25,5 @@ export {
   signUser,
   SignSupllierComponent,
   CalcButton,
+  CakcPage,
 };

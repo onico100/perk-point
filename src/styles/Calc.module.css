@@ -1,0 +1,66 @@
+/* CalcPageSidebar.module.css */
+.calcSidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px; /* Adjust width as needed */
+  height: 100vh; /* Full height of the viewport */
+  background-color: #f9f9f9; /* Sidebar background color */
+  border-right: 1px solid #ddd; /* Subtle border for separation */
+  padding: 20px;
+  overflow-y: auto; /* Scrollable content */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Add depth */
+}
+
+.calcSidebar h1 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.calcSidebar button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+}
+
+.discountSection {
+  margin-top: 30px;
+}
+
+.productList {
+  margin-top: 20px;
+}
+
+.productList ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.productList li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.productList li:last-child {
+  border-bottom: none;
+}
+
+.calcSidebar .closeButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #333;
+  color: white;
+  font-size: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 5px;
+}

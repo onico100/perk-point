@@ -1,3 +1,13 @@
+.container {
+  padding:0px;
+  margin: 0px;
+}
+.searchBar{
+  padding: 10px;
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+
+}
+
 .mainContainer {
   display: flex;
   flex-direction: column; 

@@ -7,6 +7,7 @@ import useGeneralStore from "@/stores/generalStore";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
+
 const ClubsContainer = () => {
   const params = useParams();
 
@@ -33,8 +34,8 @@ const ClubsContainer = () => {
     }
   }, [clubs]);
 
-  if (isLoadingC || isFetchingC) return <div>Loading...</div>;
 
+  if (isLoadingC || isFetchingC) return <div>Loading...</div>;
   return (
     <div className={styles.mainContainer}>
       <div className={styles.title}>{currentTitle}</div>

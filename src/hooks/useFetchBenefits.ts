@@ -55,11 +55,37 @@ export const useFetchBenefits = () => {
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] }) },
   });
 
+  // Update benefit
+  // const updateBenefitMutation = useMutation<
+  //   Benefit,
+  //   Error,
+  //   { id: string; updatedData: Partial<Benefit> }
+  // >({
+  //   mutationFn: ({ id, updatedData }) =>
+
+  //     updateBenefitById(id, updatedData)
+  //   ,
+  //   onMutate: async ({ id, updatedData }) => {
+  //     const { benefits, setBenefits } = useBenefitStore.getState();
+  //     const previousBenefits = [...benefits];
+  //     const updatedBenefits = benefits.map((benefit) => benefit._id === id ? { ...benefit, ...updatedData } : benefit);
+  //     setBenefits(updatedBenefits);
+  //     console.log(222);
+  //     return { previousBenefits };
+  //   },
+  //   onError: (_error, _variables, context: any) => {
+  //     const { setBenefits } = useBenefitStore.getState();
+  //     setBenefits(context.previousBenefits); // Revert to previous state
+  //   },
+  //   onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] }) },
+  // });
+
+
+
   const updateBenefitMutation = useMutation<
     Benefit,
     Error,
-    { id: string; updatedData: Partial<Benefit> },
-    { previousBenefits: Benefit[] }
+    { id: string; updatedData: Partial<Benefit> }
   >({
     mutationFn: ({ id, updatedData }) => updateBenefitById(id, updatedData),
 
@@ -79,7 +105,7 @@ export const useFetchBenefits = () => {
       return { previousBenefits };
     },
     onError: (_error, _data, context) => {
-      queryClient.setQueryData<Benefit[]>(["benefits"], context?.previousBenefits);
+      //queryClient.setQueryData<Benefit[]>(["benefits"], context?.previousBenefits);
     },
 
   });
@@ -87,46 +113,22 @@ export const useFetchBenefits = () => {
 
 
   // Delete benefit
-  //was
-  // const deleteBenefitMutation = useMutation({
-  //   mutationFn: deleteBenefitById,
-  //   onMutate: async (benefitId: string) => {
-  //     const { benefits, setBenefits } = useBenefitStore.getState();
-  //     const previousBenefits = [...benefits];
-  //     const updatedBenefits = benefits.filter((benefit) => benefit._id !== benefitId);
-  //     setBenefits(updatedBenefits);
-  //     return { previousBenefits };
-  //   },
-  //   onError: (_error, _variables, context: any) => {
-  //     const { setBenefits } = useBenefitStore.getState();
-  //     setBenefits(context.previousBenefits);
-  //   },
-  //   onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] }) },
-  // });
-
   const deleteBenefitMutation = useMutation({
     mutationFn: deleteBenefitById,
     onMutate: async (benefitId: string) => {
-
-      await queryClient.cancelQueries({ queryKey: ["benefits"] });
       const { benefits, setBenefits } = useBenefitStore.getState();
       const previousBenefits = [...benefits];
-
-      queryClient.setQueryData<Benefit[]>(["benefits"], (oldBenefits) =>
-        oldBenefits
-          ? oldBenefits.filter((benefit) =>
-            benefit._id !== benefitId 
-          ): []
-      );
-
+      const updatedBenefits = benefits.filter((benefit) => benefit._id !== benefitId);
+      setBenefits(updatedBenefits);
       return { previousBenefits };
     },
     onError: (_error, _variables, context: any) => {
-      queryClient.setQueryData(["benefits"], context?.previousBenefits);
+      const { setBenefits } = useBenefitStore.getState();
+      setBenefits(context.previousBenefits);
     },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] }) },
   });
-  
-  
+
   return {
     benefits: data,
     isLoadingB: isLoading,
