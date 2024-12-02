@@ -45,7 +45,7 @@
 }
 
 .button {
-  background: linear-gradient(to bottom, #c752df, #7476ef);
+  background: linear-gradient(to bottom, #b346e8, #87cdfa);
   height: 35px;
   width: 140px;
   color: white;
@@ -68,5 +68,5 @@
 }
 
 .button:hover {
-  background: #c752df;
+  background: linear-gradient(to bottom, #a404f5, #0497f2);
 }
