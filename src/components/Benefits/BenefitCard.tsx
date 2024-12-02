@@ -9,16 +9,19 @@ import useGeneralStore from "@/stores/generalStore";
 import { MdDelete } from "react-icons/md";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 
-
 interface BenefitsCardProps {
   benefit: Benefit;
-  supplier:Supplier | undefined
-  club: Club
+  supplier: Supplier | undefined;
+  club: Club;
 }
 
-const BenefitsCard: React.FC<BenefitsCardProps> = ({ benefit, supplier, club }) => {
+const BenefitsCard: React.FC<BenefitsCardProps> = ({
+  benefit,
+  supplier,
+  club,
+}) => {
   const router = useRouter();
-
+  const params = useParams();
 
   const { deleteBenefit } = useFetchBenefits();
 
