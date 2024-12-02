@@ -43,7 +43,7 @@ const deleteBenefit=()=>{
       <p className={styles.description}>{benefit.description}</p>
       <div className={styles.clubName}>{club?.clubName}</div>
       {(id!="0" && clientMode=='SUPPLIER') &&<div className={styles.deleteButton} onClick={deleteBenefit}><RiDeleteBinLine/></div>}
-      <button className={styles.button} onClick={deleteBenefit}>מעבר להטבה</button>
+      <button className={styles.button} onClick={goToBenefitDetails}>מעבר להטבה</button>
     </div>
   );
 };
