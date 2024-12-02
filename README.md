@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Recipes App
 
-## Getting Startedfctdrh
+The website is tailored for managing benefit inventories, specifically for user clubs, and allows users to quickly and conveniently access their eligible benefits.
 
-First, run the development server:
+## Installation
+
+1. **Clone the repository:**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm devER
-# or
-bun dev
+   git clone https://github.com/onico100/perk-point.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencys:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+   cd perk-point
+   npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. **Set up MongoDB:**
 
-## Learn More
+- Make sure you have a MongoDB instance running.
 
-To learn more about Next.js, take a look at the following resources:
+- put your MongoDB connection string in the next.config.mjs file.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Run the app:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+   npm run dev
+```
 
-## Deploy on Vercel
+- Open your browser and go to http://localhost:3000.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Technologies Used
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend:**: Next.js ver 14 with TypeScript.
+- **React Query:** for state management and API calls
+- **Zustand:** for global state management
+- **Zod:** for validation
+- **Backend:** Node.js (using Next.js API routes).
+- **Database:** MongoDB for data storage.
+- **Styling:** CSS
+
+## App preview
+
+- live Demo: View the app running here: https://recipes-proj.vercel.app/
