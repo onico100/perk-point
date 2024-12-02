@@ -74,7 +74,8 @@ const BenefitsContainer = () => {
     <div className={styles.mainContainer}>
       <div className={styles.title}>כל הההטבות</div>
       <div className={styles.cardsContainer}>
-        {benefits?.map((benefit) => (
+    
+        {benefitsToShow?.map((benefit) => (
           <BenefitsCard
             key={benefit._id}
             benefit={benefit}
