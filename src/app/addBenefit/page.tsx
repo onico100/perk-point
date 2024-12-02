@@ -1,8 +1,6 @@
-'use client'
+"use client";
 
-import AddBenefit from "@/components/AddBenefit"
-export default function Clubs(){
-
-    return <AddBenefit></AddBenefit>
-
+import AddBenefit from "@/components/Benefits/AddBenefit";
+export default function Clubs() {
+  return <AddBenefit></AddBenefit>;
 }
