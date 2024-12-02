@@ -2,21 +2,55 @@
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import BenefitsCard from "@/components/Benefits/BenefitCard";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { Club, Supplier } from "@/types/types";
+import { Benefit, Club, Supplier } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Benefits/BenefitsContainer.module.css";
+import useGeneralStore from "@/stores/generalStore";
+import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { title } from "process";
 
 const BenefitsContainer = () => {
   const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
   const { suppliers } = useFetchSuppliers();
   const { clubs } = useFetchGeneral();
+  const { currentUser, clientMode } = useGeneralStore();
+  const titles=["כל ההטבות","ההטבות שלי","הטבות החברה"]
+  const [currentTitle, setCurrentTitle] = useState(titles[0]);
+  const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
+ 
+  const params = useParams();
+  const id = params.clientId;
+
+  useEffect(() => {
+    if (id !== "0") {
+      if (clientMode === "USER") {
+        setBenefitsToShow(
+          benefits?.filter((b: Benefit) => currentUser?.clubs.includes(b.clubId)) || []
+        );
+        setCurrentTitle(titles[1])
+      } else if (clientMode === "SUPPLIER") {
+        setBenefitsToShow(
+          benefits?.filter((b: Benefit) => b.supplierId == id) || []
+        );
+        setCurrentTitle(titles[2])
+      }
+    } else {
+      setBenefitsToShow(benefits || []);
+    }
+    // console.log("currentUser?.clubs: ",currentUser?.clubs)
+    // console.log("benefits: ",benefits)
+    // console.log("benefitsToShow: ",benefitsToShow)
+    // console.log("id: ",id)
+  }, [benefits]);
 
   if (isLoadingB || isFetchingB) return <div>Loading...</div>;
+
   return (
     <div className={styles.mainContainer}>
-      <div className={styles.title}>כל הההטבות</div>
+      <div className={styles.title}>{currentTitle}</div>
       <div className={styles.cardsContainer}>
-        {benefits?.map((benefit) => (
+        {benefitsToShow.map((benefit) => (
           <BenefitsCard
             key={benefit._id}
             benefit={benefit}
@@ -24,7 +58,7 @@ const BenefitsContainer = () => {
               (s: Supplier) => s._id === benefit?.supplierId
             )}
             club={clubs?.find((c: Club) => c._id == benefit.clubId)}
-          ></BenefitsCard>
+          />
         ))}
       </div>
     </div>
