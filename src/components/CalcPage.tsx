@@ -3,21 +3,24 @@
 import { useState } from "react";
 import styles from "@/styles/Calc.module.css";
 import { IoClose } from "react-icons/io5";
+import { calcPercentageOff } from "./utils";
 
 type Product = {
   name: string;
   price: number;
 };
 
+interface DiscountInputs {
+  discount1: number; // Percentage off
+  discount2: number; // Fixed amount off
+  discount3: { buy: number; get: number }; // Buy X, Get Y
+  discount4: string; // Custom "index:percentage" format
+}
+
 export default function CakcPage({ onClose }: { onClose: () => void }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [form, setForm] = useState({ name: "", price: "" });
-  const [discountInputs, setDiscountInputs] = useState<{
-    discount1: number; // Percentage off
-    discount2: number; // Fixed amount off
-    discount3: { buy: number; get: number }; // Buy X, Get Y
-    discount4: string; // Custom "index:percentage" format
-  }>({
+  const [discountInputs, setDiscountInputs] = useState<DiscountInputs>({
     discount1: 0,
     discount2: 0,
     discount3: { buy: 0, get: 0 },
@@ -60,14 +63,7 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     return sum;
   };
 
-  const applyPercentageOff = (percentage: number) => {
-    const updatedProducts = products.map((product) => ({
-      ...product,
-      price: product.price - (product.price * percentage) / 100,
-    }));
-    // maybe:setPercentage(percentage);
-    setProducts(updatedProducts);
-  };
+  const applyPercentageOff = (percentage: number) => { setProducts(calcPercentageOff(percentage, products)) };
 
   const applyFlatOff = (amount: number) => {
     let sumAll = sumPriceProuducts(products, 0, products.length);
@@ -80,20 +76,12 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     applyFlatOff(sumNotPaying);
   };
 
-  const applyDiscount1 = () => {
-    let percentage = discountInputs.discount1;
-    applyPercentageOff(percentage);
-  };
-
-  const applyDiscount2 = () => {
-    let flat_off = discountInputs.discount2;
-    applyFlatOff(flat_off);
-  };
+  const applyDiscount1 = () => applyPercentageOff(discountInputs.discount1)
+  const applyDiscount2 = () => applyFlatOff(discountInputs.discount2);
 
   const applyDiscount3 = () => {
     const { buy, get } = discountInputs.discount3;
-    if (!buy || !get) return;
-    applyBuySomeGetSome(buy, get);
+    if (buy && get) applyBuySomeGetSome(buy, get);
   };
 
   const applyDiscount4 = () => {
@@ -121,19 +109,10 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
   };
 
   const applyAllDiscounts = () => {
-    if (discountInputs.discount1) {
-      applyDiscount1();
-    }
-    if (discountInputs.discount2) {
-      applyDiscount2();
-    }
-    if (discountInputs.discount3.buy && discountInputs.discount3.get) {
-      applyDiscount3();
-    }
-    if (discountInputs.discount4) {
-      applyDiscount4();
-    }
-
+    discountInputs.discount1 && applyDiscount1();
+    discountInputs.discount2 && applyDiscount2();
+    (discountInputs.discount3.buy && discountInputs.discount3.get) && applyDiscount3();
+    discountInputs.discount4 && applyDiscount4();
     console.log("All discounts applied:", discountInputs);
   };
 
