@@ -44,29 +44,29 @@
   color: #0056b3; /* צבע כהה יותר בהעברה */
 }
 
+/* Buttons Styling */
 .button {
   background: linear-gradient(to bottom, #c752df, #7476ef);
-  height: 35px;
-  width: 140px;
+  height: 30px;
+  width: 100px;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 20px;
   padding: 0;
   cursor: pointer;
-  font-size: large;
+  font-size: 16px;
   font-weight: bold;
-  transition: background 0.3s ease;
-  text-align: center;
-  display: flex;
+  transition: transform 0.3s ease, background 0.3s ease;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  margin-right: auto;
-  direction: ltr;
-  position: absolute;
-  bottom: 20px;
-  left: 30px;
+  margin: 5px;
 }
 
-.button:hover {
+.addButton:hover {
+  background: #c752df;
+}
+
+.deleteButton:hover {
   background: #c752df;
 }
