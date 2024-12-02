@@ -7,17 +7,17 @@ import { usePathname } from "next/navigation";
 import linkStiles from "@/styles/Bars/Links.module.css";
 
 const SideBar = () => {
-  const { clientMode,currentSupplier,currentUser } = useGeneralStore();
+  const { clientMode, currentSupplier, currentUser } = useGeneralStore();
   const pathname = usePathname();
   let currentSupplierId = "0";
   let currentUserId = "0";
 
-  if (clientMode === "SUPPLIER" && currentSupplier !== null) {
-    currentSupplierId = currentSupplier._id;
+  if (clientMode === "SUPPLIER" && currentSupplier) {
+    currentSupplierId = currentSupplier._id || "0";
   }
 
   if (clientMode === "USER" && currentUser !== null) {
-    currentUserId = currentUser._id;
+    currentUserId = currentUser._id || "0";
   }
 
   const userButtons = [
@@ -42,8 +42,9 @@ const SideBar = () => {
           <Link
             key={index}
             href={button.link}
-            className={`${linkStiles.barItem} ${pathname === button.link ? linkStiles.active : ""
-              }`}
+            className={`${linkStiles.barItem} ${
+              pathname === button.link ? linkStiles.active : ""
+            }`}
           >
             {button.label}
           </Link>
@@ -53,8 +54,9 @@ const SideBar = () => {
           <Link
             key={index}
             href={button.link}
-            className={`${linkStiles.barItem} ${pathname === button.link ? linkStiles.active : ""
-              }`}
+            className={`${linkStiles.barItem} ${
+              pathname === button.link ? linkStiles.active : ""
+            }`}
           >
             {button.label}
           </Link>

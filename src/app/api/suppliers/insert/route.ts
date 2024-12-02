@@ -5,15 +5,19 @@ export async function POST(request: Request) {
   let client;
   try {
     client = await connectDatabase();
-    if (!client) {
-      return NextResponse.json(
-        { error: "Failed to connect to the database" },
-        { status: 500 }
-      );
-    }
+    if (!client) { return NextResponse.json( { error: "Failed to connect to the database" }, { status: 500 });}
+   
     const data = await request.json();
-    const result = await insertDocument(client, "suppliers_collection", data);
-    return NextResponse.json({ insertedId: result.insertedId });
+    const newSupplier = {
+      ...data,
+      categories: [],
+      registrationDate: new Date().toISOString(),
+      branches: [],
+      isActive: true,
+    };
+
+    const result = await insertDocument(client, "suppliers_collection", newSupplier);
+    return NextResponse.json(newSupplier);
   } catch (error: unknown) {
     // Ensure 'error' is safely handled
     const errorMessage =

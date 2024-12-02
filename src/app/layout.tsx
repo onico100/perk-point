@@ -1,13 +1,12 @@
 "use client";
 
 import localFont from "next/font/local";
-import Head from 'next/head';
+import Head from "next/head";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {SideBar, TopBar} from '@/components/index'
+import { SideBar, TopBar, CalcButton } from "@/components/index";
 
-
-//אל תמחקו, שישאר לדוגמא לשימוש שלנו
+// אל תמחקו, שישאר לדוגמא לשימוש שלנו
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -24,24 +23,25 @@ const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>){ 
-  const queryClient = new QueryClient();
-
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <QueryClientProvider client={queryClient}>
       <html lang="en" className={` ${heebo.variable}`}>
         <Head>
-          <link rel="icon" href='/favicon.ico' />
+          <link rel="icon" href="/favicon.ico" sizes="any" />
+          <link rel="icon" type="image/png" href="/logoLight.png" />
+          <link rel="icon" type="image/svg+xml" href="/logoLight.svg" />
         </Head>
+
         <body className="font-heebo">
           <TopBar />
           <div className="main">
             <SideBar />
+            <CalcButton />
             {children}
           </div>
         </body>
       </html>
     </QueryClientProvider>
-
   );
 }
