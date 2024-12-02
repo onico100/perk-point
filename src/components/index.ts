@@ -10,6 +10,7 @@ import SignSupllierComponent from "./signSupplier";
 import signUser from "./signUser";
 import TabSign from "./Bars/TabSign";
 import CalcButton from "./CalcIconComp";
+import CakcPage from "./CalcPage";
 
 export {
   SideBar,
@@ -24,4 +25,5 @@ export {
   signUser,
   SignSupllierComponent,
   CalcButton,
+  CakcPage,
 };

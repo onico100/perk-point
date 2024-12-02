@@ -4,9 +4,9 @@ import localFont from "next/font/local";
 import Head from "next/head";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SideBar, TopBar, CalcButton } from "@/components/index";
+import { SideBar, TopBar, CalcButton, CakcPage } from "@/components/index";
+import { useState } from "react"; // Import useState
 
-// אל תמחקו, שישאר לדוגמא לשימוש שלנו
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -24,21 +24,26 @@ const queryClient = new QueryClient();
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const [isCalcPageVisible, setIsCalcPageVisible] = useState(false); // State to control visibility
+
   return (
     <QueryClientProvider client={queryClient}>
-      <html lang="en" className={` ${heebo.variable}`}>
+      <html lang="en" className={`${heebo.variable}`}>
         <Head>
           <link rel="icon" href="/favicon.ico" sizes="any" />
-          <link rel="icon" type="image/png" href="/logoLight.png" />
-          <link rel="icon" type="image/svg+xml" href="/logoLight.svg" />
         </Head>
 
         <body className="font-heebo">
           <TopBar />
           <div className="main">
             <SideBar />
-            <CalcButton />
+            <CalcButton onClick={() => setIsCalcPageVisible(true)} />{" "}
+            {/* Pass function to open calc page */}
             {children}
+            {/* Conditionally render CakcPage based on state */}
+            {isCalcPageVisible && (
+              <CakcPage onClose={() => setIsCalcPageVisible(false)} />
+            )}
           </div>
         </body>
       </html>

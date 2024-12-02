@@ -2,22 +2,27 @@
 
 import { useState } from "react";
 import styles from "@/styles/Calc.module.css";
+import { IoClose } from "react-icons/io5";
 
 type Product = {
   name: string;
   price: number;
 };
 
-export default function CakcPage() {
+export default function CakcPage({ onClose }: { onClose: () => void }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [form, setForm] = useState({ name: "", price: "" });
-  const [discountInputs, setDiscountInputs] = useState({
+  const [discountInputs, setDiscountInputs] = useState<{
+    discount1: number; // Percentage off
+    discount2: number; // Fixed amount off
+    discount3: { buy: number; get: number }; // Buy X, Get Y
+    discount4: string; // Custom "index:percentage" format
+  }>({
     discount1: 0,
     discount2: 0,
     discount3: { buy: 0, get: 0 },
     discount4: "",
   });
-  const [selectedDiscounts, setSelectedDiscounts] = useState<string[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,14 +34,6 @@ export default function CakcPage() {
   ) => {
     const { name, value } = e.target;
     setDiscountInputs((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const toggleDiscount = (discount: string) => {
-    setSelectedDiscounts((prev) =>
-      prev.includes(discount)
-        ? prev.filter((d) => d !== discount)
-        : [...prev, discount]
-    );
   };
 
   const addProduct = (e: React.FormEvent) => {
@@ -51,14 +48,16 @@ export default function CakcPage() {
     }
   };
 
-  const sumPriceProducts = (
+  const sumPriceProuducts = (
     products: Product[],
     indexStart: number,
     endIndex: number
   ) => {
-    return products
-      .slice(indexStart, endIndex)
-      .reduce((sum, p) => sum + p.price, 0);
+    let sum = 0;
+    for (let i = indexStart; i < endIndex; i += 1) {
+      sum += products[i].price;
+    }
+    return sum;
   };
 
   const applyPercentageOff = (percentage: number) => {
@@ -66,25 +65,44 @@ export default function CakcPage() {
       ...product,
       price: product.price - (product.price * percentage) / 100,
     }));
+    // maybe:setPercentage(percentage);
     setProducts(updatedProducts);
   };
 
   const applyFlatOff = (amount: number) => {
-    const sumAll = sumPriceProducts(products, 0, products.length);
-    const percentage = (amount / sumAll) * 100;
+    let sumAll = sumPriceProuducts(products, 0, products.length);
+    let percentage = (amount / sumAll) * 100;
     applyPercentageOff(percentage);
   };
 
   const applyBuySomeGetSome = (buy: number, get: number) => {
-    const sumNotPaying = sumPriceProducts(products, buy, buy + get + 1);
+    let sumNotPaying = sumPriceProuducts(products, buy, get + 1);
     applyFlatOff(sumNotPaying);
   };
 
+  const applyDiscount1 = () => {
+    let percentage = discountInputs.discount1;
+    applyPercentageOff(percentage);
+  };
+
+  const applyDiscount2 = () => {
+    let flat_off = discountInputs.discount2;
+    applyFlatOff(flat_off);
+  };
+
+  const applyDiscount3 = () => {
+    const { buy, get } = discountInputs.discount3;
+    if (!buy || !get) return;
+    applyBuySomeGetSome(buy, get);
+  };
+
   const applyDiscount4 = () => {
-    const discounts = discountInputs.discount4.split(",").map((entry) => {
-      const [index, percentage] = entry.split(":").map(Number);
-      return { index, percentage };
-    });
+    const discounts = discountInputs.discount4
+      .split(",") // Example input: "0:10,2:15"
+      .map((entry) => {
+        const [index, percentage] = entry.split(":").map(Number);
+        return { index, percentage };
+      });
 
     const updatedProducts = products.map((product, index) => {
       const discount = discounts.find((d) => d.index === index);
@@ -96,45 +114,45 @@ export default function CakcPage() {
       }
       return product;
     });
-
-    setProducts(updatedProducts);
+    let sumAll = sumPriceProuducts(products, 0, products.length);
+    let total = sumPriceProuducts(updatedProducts, 0, updatedProducts.length);
+    let flat_off = sumAll - total;
+    applyFlatOff(flat_off);
   };
 
-  const applySelectedDiscounts = () => {
-    selectedDiscounts.forEach((discount) => {
-      switch (discount) {
-        case "discount1":
-          applyPercentageOff(discountInputs.discount1);
-          break;
-        case "discount2":
-          applyFlatOff(discountInputs.discount2);
-          break;
-        case "discount3":
-          applyBuySomeGetSome(
-            discountInputs.discount3.buy,
-            discountInputs.discount3.get
-          );
-          break;
-        case "discount4":
-          applyDiscount4();
-          break;
-        default:
-          break;
-      }
-    });
+  const applyAllDiscounts = () => {
+    if (discountInputs.discount1) {
+      applyDiscount1();
+    }
+    if (discountInputs.discount2) {
+      applyDiscount2();
+    }
+    if (discountInputs.discount3.buy && discountInputs.discount3.get) {
+      applyDiscount3();
+    }
+    if (discountInputs.discount4) {
+      applyDiscount4();
+    }
+
+    console.log("All discounts applied:", discountInputs);
   };
 
   return (
     <div className={styles.calcSidebar}>
+      <button onClick={onClose} className={styles.closeButton}>
+        <IoClose />
+      </button>
+      <h1>Product List with Discounts</h1>
+
       {/* Add Product Form */}
       <form onSubmit={addProduct} style={{ marginBottom: "20px" }}>
         <div>
           <label>
-            Product Name:
             <input
               type="text"
               name="name"
               value={form.name}
+              placeholder="Product Name"
               onChange={handleInputChange}
               required
               style={{ margin: "5px", padding: "5px", width: "200px" }}
@@ -143,11 +161,11 @@ export default function CakcPage() {
         </div>
         <div>
           <label>
-            Product Price:
             <input
               type="number"
               name="price"
               value={form.price}
+              placeholder="Product Price"
               onChange={handleInputChange}
               required
               step="0.01"
@@ -172,39 +190,90 @@ export default function CakcPage() {
 
       {/* Discount Inputs */}
       <h2>Set Discounts</h2>
-      <div>
-        {[
-          { label: "Discount 1 (% Off)", name: "discount1" },
-          { label: "Discount 2 ($ Off)", name: "discount2" },
-          { label: "Discount 3 (Buy X, Get Y Free)", name: "discount3" },
-          { label: "Discount 4 (Custom)", name: "discount4" },
-        ].map((discount) => (
-          <div key={discount.name}>
+      <div style={{ marginBottom: "20px" }}>
+        <div>
+          <label>
             <input
-              type="checkbox"
-              checked={selectedDiscounts.includes(discount.name)}
-              onChange={() => toggleDiscount(discount.name)}
+              type="number"
+              name="discount1"
+              placeholder=" :percantge Off"
+              // value={discountInputs.discount1}
+              onChange={handleDiscountInputChange}
+              style={{ margin: "5px", padding: "5px", width: "200px" }}
             />
-            <label>{discount.label}</label>
-          </div>
-        ))}
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              type="number"
+              name="discount2"
+              placeholder=" flat amount  Off:"
+              // value={discountInputs.discount2}
+              onChange={handleDiscountInputChange}
+              style={{ margin: "5px", padding: "5px", width: "200px" }}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            <div>
+              <input
+                type="number"
+                placeholder="Buy x"
+                // value={discountInputs.discount3.buy}
+                onChange={(e) =>
+                  setDiscountInputs({
+                    ...discountInputs,
+                    discount3: {
+                      ...discountInputs.discount3,
+                      buy: parseInt(e.target.value) || 0,
+                    },
+                  })
+                }
+                style={{ margin: "5px", padding: "5px", width: "80px" }}
+              />
+              <input
+                type="number"
+                placeholder="Get y"
+                // value={discountInputs.discount3.get}
+                onChange={(e) =>
+                  setDiscountInputs({
+                    ...discountInputs,
+                    discount3: {
+                      ...discountInputs.discount3,
+                      get: parseInt(e.target.value) || 0,
+                    },
+                  })
+                }
+                style={{ margin: "5px", padding: "5px", width: "80px" }}
+              />
+            </div>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              type="text"
+              name="discount4"
+              placeholder="specific percantege per index (Index:Percentage, e.g., 0:10,1:20):"
+              value={discountInputs.discount4}
+              onChange={handleDiscountInputChange}
+              style={{ margin: "5px", padding: "5px", width: "400px" }}
+            />
+          </label>
+        </div>
         <button
-          onClick={applySelectedDiscounts}
-          style={{
-            marginTop: "10px",
-            padding: "10px",
-            backgroundColor: "green",
-            color: "white",
-            border: "none",
-            cursor: "pointer",
-          }}
+          onClick={applyAllDiscounts}
+          style={{ marginTop: "10px", padding: "10px 20px" }}
         >
-          Apply Selected Discounts
+          Apply All Discounts
         </button>
       </div>
-
+      {/* Display Products */}
       <div className={styles.productList}>
         <h2>Sorted Products (After Discounts)</h2>
+        {/* <h3>total percantage off {percentage}</h3> */}
         {products.length > 0 ? (
           <ul style={{ listStyleType: "none", padding: 0 }}>
             {products.map((product, index) => (

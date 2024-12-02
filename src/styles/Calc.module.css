@@ -18,6 +18,16 @@
   color: #333;
 }
 
+.calcSidebar button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+}
+
 .discountSection {
   margin-top: 30px;
 }
@@ -41,4 +51,16 @@
 
 .productList li:last-child {
   border-bottom: none;
+}
+
+.calcSidebar .closeButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #333;
+  color: white;
+  font-size: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 5px;
 }
