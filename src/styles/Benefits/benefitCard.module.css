@@ -68,6 +68,12 @@
   left: 30px; 
 }
 
+.deleteButton svg{
+  font-size: 35px; 
+  color: #474747; 
+  position: absolute; 
+  bottom: 20px; 
+}
 .button:hover {
   background: #c752df;
 }
