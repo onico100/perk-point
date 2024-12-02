@@ -1,6 +1,7 @@
 "use client";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import BenefitsCard from "@/components/Benefits/BenefitCard";
+import Search from "./Search";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { Benefit, Club, Supplier } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
@@ -10,6 +11,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Link from "next/link";
+
 const BenefitsContainer = () => {
   const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
   const { suppliers } = useFetchSuppliers();
@@ -20,6 +22,7 @@ const BenefitsContainer = () => {
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
   const params = useParams();
   const id = params.clientId;
+  
   useEffect(() => {
     if (id !== "0") {
       if (clientMode === "USER") {
@@ -39,28 +42,49 @@ const BenefitsContainer = () => {
       setBenefitsToShow(benefits || []);
     }
   }, [benefits]);
+
+  const handleSearch = (supplierFilter: string, clubFilter: string, expirationRange: [Date | null, Date | null], keywordFilter: string) => {
+    const [start, end] = expirationRange;
+    setBenefitsToShow(
+      benefits?.filter((benefit) =>
+        (supplierFilter ? suppliers?.find((s: Supplier) => s.businessName.includes(supplierFilter) && s._id === benefit.supplierId) : true) &&
+        (clubFilter ? benefit.clubId === clubFilter : true) &&
+        (start ? new Date(benefit.expirationDate) >= start : true) &&
+        (end ? new Date(benefit.expirationDate) <= end : true) &&
+        (keywordFilter ? benefit.description.includes(keywordFilter) : true)
+      ) || []
+    );
+  };
+
   if (isLoadingB || isFetchingB) return <div>Loading...</div>;
+
   return (
-    <div className={styles.mainContainer}>
-      <div className={styles.title}>{currentTitle}</div>
-      <div className={styles.cardsContainer}>
-        {benefitsToShow?.map((benefit) => (
-          <BenefitsCard
-            key={benefit._id}
-            benefit={benefit}
-            supplier={suppliers?.find(
-              (s: Supplier) => s._id === benefit?.supplierId
-            )}
-            club={clubs?.find((c: Club) => c._id == benefit.clubId)}
-          />
-        ))}
-        {id != "0" && clientMode == "SUPPLIER" && (
-          <Link href="/addBenefit" className={styles.addButton}>
-            <IoIosAddCircleOutline />
-          </Link>
-        )}
+    <div className={styles.container}>
+      <div className={styles.searchBar}>
+        <Search clubs={clubs} onSearch={handleSearch} />
+      </div>
+      <div className={styles.mainContainer}>
+        <div className={styles.title}>{currentTitle}</div>
+        <div className={styles.cardsContainer}>
+          {benefitsToShow?.map((benefit) => (
+            <BenefitsCard
+              key={benefit._id}
+              benefit={benefit}
+              supplier={suppliers?.find(
+                (s: Supplier) => s._id === benefit?.supplierId
+              )}
+              club={clubs?.find((c: Club) => c._id == benefit.clubId)}
+            />
+          ))}
+          {id != "0" && clientMode == "SUPPLIER" && (
+            <Link href="/addBenefit" className={styles.addButton}>
+              <IoIosAddCircleOutline />
+            </Link>
+          )}
+        </div>
       </div>
     </div>
+
   );
 };
 export default BenefitsContainer;
