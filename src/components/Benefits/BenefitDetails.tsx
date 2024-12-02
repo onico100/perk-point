@@ -57,24 +57,9 @@ const BenefitDetails = () => {
 
     const handleChange = (field: keyof Benefit, value: string) => {
         if (updatedBenefit) {
-            setUpdatedBenefit({ ...updatedBenefit, [field]: value });
-        }
-    };
-
-    const handleAddBranch = (newBranch: Branch) => {
-        if (updatedBenefit) {
             setUpdatedBenefit({
                 ...updatedBenefit,
-                branches: [...updatedBenefit.branches, newBranch],
-            });
-        }
-    };
-
-    const handleDeleteBranch = (branchToDelete: Branch) => {
-        if (updatedBenefit) {
-            setUpdatedBenefit({
-                ...updatedBenefit,
-                branches: updatedBenefit.branches.filter(branch => branch !== branchToDelete),
+                [field]: field === 'expirationDate' ? new Date(value) : value
             });
         }
     };
@@ -125,20 +110,6 @@ const BenefitDetails = () => {
                     <strong>מועדון:</strong><br />
                     {specificClub ? specificClub.clubName : 'Not Available'}
                 </div>
-                {/* <div className={styles.gridItem}>
-                    <strong>סניפים:</strong><br />
-                    {specificBenefit?.branches && specificBenefit.branches.length > 0 ? (
-                        <ul>
-                            {specificBenefit.branches.map((branch, index) => (
-                                <li key={index}>
-                                    {branch.city}, {branch.address}
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <div>No branches available.</div>
-                    )}
-                </div> */}
                 <div className={styles.gridItem}>
                     <strong>סניפים:</strong><br />
                     {specificBenefit?.branches && specificBenefit.branches.length > 0 ? (
@@ -146,35 +117,19 @@ const BenefitDetails = () => {
                             {specificBenefit.branches.map((branch, index) => (
                                 <li key={index}>
                                     {branch.city}, {branch.address}
-                                    {isUpdateMode && (
-                                        <button onClick={() => handleDeleteBranch(branch)}>Delete</button> // **Delete Button**
-                                    )}
                                 </li>
                             ))}
-                            {isUpdateMode && (
-                                <button onClick={() => handleAddBranch({ city: "New City", address: "New Address" })}>Add Branch</button> // **Add Branch Button**
-                            )}
                         </ul>
                     ) : (
-                        <div>כול הסניפים.</div>
+                        <div>כול הסניפים</div>
                     )}
                 </div>
-                {/* <div className={styles.gridItem}>
-                    <strong>תוקף:</strong><br />
-                    {specificBenefit?.expirationDate ?
-                        new Date(specificBenefit.expirationDate).toLocaleDateString('he-IL', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        })
-                        : 'Not Available'}
-                </div> */}
                 <div className={styles.gridItem}>
                     <strong>תוקף:</strong><br />
                     {isUpdateMode ? (
                         <input
                             type="date"
-                            value={updatedBenefit?.expirationDate?.toISOString().split('T')[0]}
+                            value ={updatedBenefit?.expirationDate ? new Date(updatedBenefit.expirationDate).toISOString().split('T')[0] : ' '}
                             onChange={(e) => handleChange('expirationDate', e.target.value)}
                         />
                     ) : (
