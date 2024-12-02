@@ -43,4 +43,4 @@ The website is tailored for managing benefit inventories, specifically for user 
 
 ## App preview
 
-- live Demo: View the app running here: https://recipes-proj.vercel.app/
+- live Demo: View the app running here: https://perk-point.vercel.app/
