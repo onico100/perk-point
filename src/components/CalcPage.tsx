@@ -9,15 +9,17 @@ type Product = {
   price: number;
 };
 
+interface discountInputs {
+  discount1: number; // Percentage off
+  discount2: number; // Fixed amount off
+  discount3: { buy: number; get: number }; // Buy X, Get Y
+  discount4: string; // Custom "index:percentage" format
+}
+
 export default function CakcPage({ onClose }: { onClose: () => void }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [form, setForm] = useState({ name: "", price: "" });
-  const [discountInputs, setDiscountInputs] = useState<{
-    discount1: number; // Percentage off
-    discount2: number; // Fixed amount off
-    discount3: { buy: number; get: number }; // Buy X, Get Y
-    discount4: string; // Custom "index:percentage" format
-  }>({
+  const [discountInputs, setDiscountInputs] = useState<discountInputs>({
     discount1: 0,
     discount2: 0,
     discount3: { buy: 0, get: 0 },
@@ -121,20 +123,11 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
   };
 
   const applyAllDiscounts = () => {
-    if (discountInputs.discount1) {
-      applyDiscount1();
-    }
-    if (discountInputs.discount2) {
-      applyDiscount2();
-    }
-    if (discountInputs.discount3.buy && discountInputs.discount3.get) {
+    if (discountInputs.discount1) applyDiscount1();
+    if (discountInputs.discount2) applyDiscount2();
+    if (discountInputs.discount3.buy && discountInputs.discount3.get)
       applyDiscount3();
-    }
-    if (discountInputs.discount4) {
-      applyDiscount4();
-    }
-
-    console.log("All discounts applied:", discountInputs);
+    if (discountInputs.discount4) applyDiscount4();
   };
 
   return (
