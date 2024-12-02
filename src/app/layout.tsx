@@ -29,8 +29,6 @@ export default function RootLayout({
       <html lang="en" className={` ${heebo.variable}`}>
         <Head>
           <link rel="icon" href="/favicon.ico" sizes="any" />
-          <link rel="icon" type="image/png" href="/logoLight.png" />
-          <link rel="icon" type="image/svg+xml" href="/logoLight.svg" />
         </Head>
 
         <body className="font-heebo">
