@@ -64,9 +64,7 @@
 .inlineContainer {
   display: flex;
   align-items: center;
-  /* Aligns text vertically in the center */
   gap: 10px;
-  /* Adds spacing between the elements */
 }
 
 .link {

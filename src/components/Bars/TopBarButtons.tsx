@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styles from "@/styles/Bars/TopBar.module.css";
-import { ModePopup } from "../index";
+// import { ModePopup } from "../index";
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode } from "@/types/types";
+import Link from "next/link";
 
 const TopBarButtons: React.FC = () => {
   const { clientMode, currentSupplier, currentUser } = useGeneralStore();
@@ -32,27 +33,18 @@ const TopBarButtons: React.FC = () => {
     setCurrentSupplier(null);
     const setCurrentUser = useGeneralStore.getState().setCurrentUser;
     setCurrentUser(null);
-    setPopupVisible(false);
-    setAnchorElement(null);
   };
 
   return (
     <>
       {clientMode === "GENERAL" && (
         <div className={styles.buttonsContainer}>
-          <button className={styles.loginButton}onClick={(e) => handleButtonClick(e, "login")}>
+          <Link className={styles.loginButton} href={"/login"}>
             התחברות
           </button>
           <button className={styles.signupButton}onClick={(e) => handleButtonClick(e, "signup")}>
             הרשמה
-          </button>
-          {popupVisible && (
-            <ModePopup
-            onClose={handleClosePopup}
-            anchorElement={anchorElement}
-            actionType={actionType} // Pass action type to ModePopup
-          />
-          )}
+          </Link>
         </div>
       )}
 
