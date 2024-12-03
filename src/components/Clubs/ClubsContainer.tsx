@@ -23,7 +23,7 @@ const ClubsContainer = () => {
       if (clientMode === "USER") {
         setClubsToShow(
           clubs?.filter((c: Club) =>
-            currentUser?.clubs.includes(c._id)
+            currentUser?.clubs?.includes(c._id)
           ) || []
         );
         setCurrentTitle(titles[1]);
@@ -32,7 +32,7 @@ const ClubsContainer = () => {
     } else {
       setClubsToShow(clubs || []);
     }
-  }, [clubs]);
+  }, [clubs,currentUser]);
 
 
   if (isLoadingC || isFetchingC) return <div>Loading...</div>;

@@ -9,6 +9,7 @@ import {
   getUserById,
   getUserByCredentials,
 } from "@/services/usersServices";
+
 //import useUserStore from '../stores/usersStore';
 //const setUser = useUserStore((state) => state.setUser);
 const setCurrentUser = useGeneralStore.getState().setCurrentUser;
@@ -50,13 +51,17 @@ export const useAddUser = () => {
 export const useUpdateUserById = () => {
   return useMutation<User, Error, { id: string; updatedData: Partial<User> }>({
     mutationFn: ({ id, updatedData }) => updateUserById(id, updatedData),
-    onSuccess: (updatedUser) => {
-      // General Zustand Updating
-      setCurrentUser(updatedUser);
-      //setUser(updatedUser);
+    onMutate: async ({ id, updatedData }) => {
+
+      const newUser = { _id: id, ...updatedData } as User;
+      setCurrentUser(newUser);
+    },
+    onError: (error, variables, context) => {
+      console.error("Mutation error:", error);
     },
   });
 };
+
 
 export const useDeleteUserById = () => {
   return useMutation<{ message: string }, Error, string>({

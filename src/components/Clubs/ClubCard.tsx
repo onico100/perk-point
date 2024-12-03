@@ -6,7 +6,6 @@ import styles from "@/styles/Clubs/ClubCard.module.css";
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
-import { MdDelete } from "react-icons/md";
 
 interface ClubCardProps {
   club: Club;
@@ -16,11 +15,11 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
   const params = useParams();
 
   const id = params.clientId;
-  const { clientMode, currentUser, setCurrentUser } = useGeneralStore();
+  const { currentUser, clientMode, setCurrentUser } = useGeneralStore();
   const { mutate: updateUser, error } = useUpdateUserById();
 
-  console.log("currentUser000: " + currentUser);
-  const addClub = () => {
+
+  const addClub = async() => {
     if (window.confirm("Are you sure you want to add this club?")) {
       if (
         currentUser?.clubs?.some((existingClub) => existingClub === club?._id)
@@ -28,28 +27,44 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
         alert("This club has already been added.");
         return;
       }
-      console.log("currentUser: " + currentUser);
-      const updatedUser = {
-        ...currentUser,
-        clubs: [...(currentUser?.clubs || []), club],
-      } as User;
 
-      console.log("updatedUser: " + updatedUser);
-      console.log("currentUser: " + currentUser);
-
-      setCurrentUser(updatedUser);
       if (typeof currentUser?._id === "string") {
-        updateUser({
+       await updateUser({
           id: currentUser?._id,
-          updatedData: { clubs: updatedUser.clubs },
+        updatedData: {
+          username: currentUser?.username,
+          email: currentUser?.email,
+          clubs:  [...(currentUser?.clubs || []), club._id],
+          registrationDate: currentUser?.registrationDate,
+          savedBenefits: currentUser?.savedBenefits,
+          city: currentUser?.city,
+          isActive: currentUser?.isActive,
+          password: currentUser?.password, 
+        },
         });
       }
       alert("club added successfully");
     }
   };
 
-  const deleteClub = () => {
+  const deleteClub = async() => {
     if (window.confirm("Are you sure you want to delete this club?")) {
+      if (typeof currentUser?._id === "string") {
+        await updateUser({
+           id: currentUser?._id,
+         updatedData: {
+           username: currentUser?.username,
+           email: currentUser?.email,
+           clubs:currentUser?.clubs.filter(c =>c !=club._id),
+           registrationDate: currentUser?.registrationDate,
+           savedBenefits: currentUser?.savedBenefits,
+           city: currentUser?.city,
+           isActive: currentUser?.isActive,
+           password: currentUser?.password, 
+         },
+         });
+       }
+       alert("club deleted successfully");
     }
   };
 
@@ -66,15 +81,14 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
       </p>
       {clientMode === "USER" &&
         (id === "0" ? (
-          <button
-            className={styles.button}
-            onClick={addClub}
-          >
+          <button className={styles.button} onClick={addClub}>
             הוספה למועדונים שלי
           </button>
         ) : (
-          <div>           
-            <button className={styles.deleteButton} onClick={deleteClub}>הסרה</button>
+          <div>
+            <button className={styles.deleteButton} onClick={deleteClub}>
+              הסרה
+            </button>
           </div>
         ))}
     </div>
