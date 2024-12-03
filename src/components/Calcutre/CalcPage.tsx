@@ -162,7 +162,7 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
 
       {/* Toggle Product List Section */}
       <div className={styles.dropDowns} onClick={toggleProductList}>
-        <h2>רשימת מוצרים (אחרי ההנחות)</h2>
+        <h2>רשימת מוצרים הסופית</h2>
         <FaChevronDown className={styles.icon} />
       </div>
       {isProductListOpen && (
