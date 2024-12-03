@@ -4,7 +4,7 @@ import { IoClose } from "react-icons/io5";
 import AddProduct from "./AddProduct";
 import Discount from "./Discounts";
 import ProductList from "./ProductsList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DiscountInputs, Product } from "./types";
 import styles from "@/styles/Calc.module.css";
 
@@ -16,6 +16,10 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     discount3: { buy: 0, get: 0 },
     discount4: "",
   });
+
+  useEffect(() => {
+    applyAllDiscounts();
+  }, [discountInputs]);
 
   const addProduct = (name: string, price: number) => {
     setProducts((prev) => {
@@ -55,7 +59,10 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     applyFlatOff(sumNotPaying);
   };
 
-  const applyDiscount1 = () => applyPercentageOff(discountInputs.discount1);
+  const applyDiscount1 = () => {
+    console.log("Applingg");
+    applyPercentageOff(discountInputs.discount1);
+  };
 
   const applyDiscount2 = () => applyFlatOff(discountInputs.discount2);
 
@@ -97,9 +104,8 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     if (discountInputs.discount4) applyDiscount4();
   };
 
-  const applyDiscounts = (discountInputs: DiscountInputs) => {
-    setDiscountInputs(discountInputs);
-    applyAllDiscounts();
+  const applyDiscounts = async (Inputs: DiscountInputs) => {
+    setDiscountInputs(Inputs); // Update the state
   };
 
   return (
