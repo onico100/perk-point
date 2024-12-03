@@ -39,6 +39,13 @@ export default function RootLayout({
             <SideBar />
             <CalcButton onClick={() => setIsCalcPageVisible(true)} />{" "}
             {/* Pass function to open calc page */}
+            {/* Overlay to dim the background when CalcPage is visible */}
+            {isCalcPageVisible && (
+              <div
+                className="overlay"
+                onClick={() => setIsCalcPageVisible(false)}
+              />
+            )}
             {children}
             {/* Conditionally render CakcPage based on state */}
             {isCalcPageVisible && (

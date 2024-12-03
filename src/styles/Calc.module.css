@@ -3,7 +3,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 350px; /* Adjust width as needed */
+  width: 30%; /* Adjust width as needed */
   height: 100vh; /* Full height of the viewport */
   background-color: #f9f9f9; /* Sidebar background color */
   border-right: 1px solid #ddd; /* Subtle border for separation */
