@@ -72,3 +72,30 @@
   border: 1px solid #ddd;
   margin-bottom: 10px;
 }
+
+.calcButton {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
+.calcButton button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(to bottom right, #b346e8, #87cdfa);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.calcButton button:hover {
+  background: linear-gradient(to bottom right, #a404f5, #0497f2);
+  border-radius: 50%;
+}
+.calcButtonIcon {
+  font-size: 24px;
+}
