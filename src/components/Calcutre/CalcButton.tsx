@@ -1,7 +1,6 @@
 import React from "react";
 import { FaCalculator } from "react-icons/fa";
 
-// Accept onClick prop to control visibility
 const CalcButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   return (
     <div style={styles.container}>

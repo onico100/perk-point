@@ -41,7 +41,6 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
       ...product,
       price: product.price - (product.price * percentage) / 100,
     }));
-    // maybe:setPercentage(percentage);
     setProducts(updatedProducts);
   };
 
@@ -56,15 +55,9 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     applyFlatOff(sumNotPaying);
   };
 
-  const applyDiscount1 = () => {
-    let percentage = discountInputs.discount1;
-    applyPercentageOff(percentage);
-  };
+  const applyDiscount1 = () => applyPercentageOff(discountInputs.discount1);
 
-  const applyDiscount2 = () => {
-    let flat_off = discountInputs.discount2;
-    applyFlatOff(flat_off);
-  };
+  const applyDiscount2 = () => applyFlatOff(discountInputs.discount2);
 
   const applyDiscount3 = () => {
     const { buy, get } = discountInputs.discount3;
@@ -115,7 +108,6 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
         <IoClose />
       </button>
       <p>הכנסו את כל המוצרים וההנחות, ואז קבלו חישוב סופי של המחיר.</p>
-
       <AddProduct onAddProduct={addProduct} />
       <Discount onApplyDiscounts={applyDiscounts} />
       <ProductList products={products} />
