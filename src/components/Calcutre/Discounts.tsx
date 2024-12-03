@@ -33,6 +33,7 @@ export default function Discount({ onApplyDiscounts }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(discountInputs);
     onApplyDiscounts(discountInputs);
     setActiveLabel(null); // Close all inputs on submit
   };
@@ -53,15 +54,15 @@ export default function Discount({ onApplyDiscounts }: Props) {
             <input
               type="number"
               name="discount1"
-              placeholder="אחוז ההנחה"
               value={discountInputs.discount1}
+              placeholder="אחוז ההנחה"
               onChange={handleInputChange}
             />
           )}
         </div>
         <div>
           <label onClick={() => toggleActiveLabel("discount2")}>
-            סכום קבוע היורד מהקנייה (קנה ב300 שלם 200)
+            סכום קבוע היורד מהקנייה (קנה בx שלם y)
           </label>
           {activeLabel === "discount2" && (
             <input
@@ -75,7 +76,7 @@ export default function Discount({ onApplyDiscounts }: Props) {
         </div>
         <div>
           <label onClick={() => toggleActiveLabel("discount3")}>
-            קנה מספר מוצרים וקבל מספר מוצרים חינם(1+1)
+            קנה x מוצרים וקבל y מוצרים חינם(1+1)
           </label>
           {activeLabel === "discount3" && (
             <>
@@ -103,7 +104,6 @@ export default function Discount({ onApplyDiscounts }: Props) {
               type="text"
               name="discount4"
               placeholder="הנחה ספיציפית לפי מספר המוצר (0:10)"
-              value={discountInputs.discount4}
               onChange={handleInputChange}
             />
           )}
