@@ -46,11 +46,11 @@ export default function Discount({ onApplyDiscounts }: Props) {
 
   return (
     <div style={{ marginBottom: "20px" }}>
-      <h1>בחר הנחות</h1>
+      <h3>בחר הנחות:</h3>
       <form onSubmit={handleSubmit}>
         <div>
           <label onClick={() => toggleActiveLabel("discount1")}>
-            אחוז הנחה קבע על כל המוצרים
+            אחוז הנחה קבוע על כל המוצרים
           </label>
           {activeLabel === "discount1" && (
             <input
