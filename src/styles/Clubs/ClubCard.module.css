@@ -46,7 +46,7 @@
 
 /* Buttons Styling */
 .button {
-  background: linear-gradient(to bottom, #c752df, #7476ef);
+  background: linear-gradient(to bottom, #b346e8, #87cdfa);
   height: 30px;
   width: 100px;
   color: white;
@@ -63,7 +63,7 @@
   margin: 5px;
 }
 
-.addButton:hover {
+.button:hover {
   background: #c752df;
 }
 

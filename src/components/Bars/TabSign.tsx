@@ -32,7 +32,6 @@ const TabSign: React.FC<TabProps> = ({ tabContent }) => {
 
   return (
     <div className={styles.tabContainer}>
-      {/* Tab Headers */}
       <div className={styles.tabHeader}>
         <div
           onClick={() => handleTabClick("tab1")}
@@ -53,8 +52,6 @@ const TabSign: React.FC<TabProps> = ({ tabContent }) => {
           ספק
         </div>
       </div>
-
-      {/* Tab Content */}
     </div>
   );
 };

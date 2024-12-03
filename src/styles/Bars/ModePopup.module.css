@@ -16,7 +16,7 @@
   margin: 5px 0; 
   border: none; 
   border-radius: 5px; 
-  background-color: #c752df; 
+  background-color: #b346e8; 
   color: #fff; 
   font-size: 16px; 
   cursor: pointer; 
@@ -24,11 +24,11 @@
 }
 
 .popup button:hover {
-  background-color: #8e24aa; 
+  background-color: rgb(137, 13, 171); 
   transform: scale(1.05); 
 }
 
 .popup button:active {
-  background-color: #4a148c;
+  background-color:  rgb(133, 2, 169);
   transform: scale(0.98);
 }
