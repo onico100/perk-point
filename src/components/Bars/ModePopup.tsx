@@ -8,7 +8,7 @@ import style from "@/styles/Bars/ModePopup.module.css";
 const ModePopup: React.FC<{
   onClose: () => void;
   anchorElement: HTMLElement | null;
-  actionType: "login" | "register";
+  actionType: "login" | "signup";
 }> = ({ onClose, anchorElement , actionType}) => {
   const router = useRouter();
   const popupRef = useRef<HTMLDivElement>(null);

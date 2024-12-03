@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styles from '@/styles/Benefits/Search.module.css';
+import { FaSearch } from 'react-icons/fa';
+
 
 
 interface Club {
@@ -9,22 +11,26 @@ interface Club {
 
 interface SearchProps {
     clubs: Club[];
-    onSearch: (supplierFilter: string, clubFilter: string, expirationRange: [Date | null, Date | null], keywordFilter: string) => void;
+    onSearch: (supplierFilter: string, clubFilter: string[], expirationRange: [Date | null, Date | null], keywordFilter: string) => void;
 }
 
 const Search: React.FC<SearchProps> = ({ clubs, onSearch }) => {
     const [supplierFilter, setSupplierFilter] = useState('');
-    const [clubFilter, setClubFilter] = useState('');
-    //
+    const [selectedClubs, setSelectedClubs] = useState<string[]>([]);
     const [expirationStart, setExpirationStart] = useState<Date | null>(null);
     const [expirationEnd, setExpirationEnd] = useState<Date | null>(null);
     const [keywordFilter, setKeywordFilter] = useState('');
+    const [dropdownOpen, setDropdownOpen] = useState(false); 
 
-    const handleSearch = () => {
-        onSearch(supplierFilter, clubFilter, [expirationStart, expirationEnd], keywordFilter);
+    const handleCheckboxChange = (clubId: string) => {
+        setSelectedClubs((prev) =>
+            prev.includes(clubId) ? prev.filter((id) => id !== clubId) : [...prev, clubId]
+        );
     };
 
-    console.log(clubs)
+    const handleSearch = () => {
+        onSearch(supplierFilter, selectedClubs, [expirationStart, expirationEnd], keywordFilter);
+    };
 
     return (
         <div className={styles.searchContainer}>
@@ -35,18 +41,28 @@ const Search: React.FC<SearchProps> = ({ clubs, onSearch }) => {
                 onChange={(e) => setSupplierFilter(e.target.value)}
                 className={styles.supplierInput}
             />
-            <select
-                value={clubFilter}
-                onChange={(e) => setClubFilter(e.target.value)}
-                className={styles.clubSelect}
-            >
-                <option value="">בחירת מועדון</option>
-                {clubs?.map((club) => (
-                    <option key={club._id} value={club._id}>
-                        {club.clubName}
-                    </option>
-                ))}
-            </select>
+            <div className={styles.clubSelectContainer}>
+                <label onClick={() => { setDropdownOpen(!dropdownOpen); }} className={`${styles.clubSelectLabel} ${dropdownOpen ? styles.dropdownOpen : ''}`}>
+                    {selectedClubs.length > 0 ? `בחר מועדונים: ${clubs.filter(club => selectedClubs.includes(club._id)).map(club => club.clubName).join(', ')}` 
+                    : 'בחר מועדונים'}
+                    <span className={styles.triangle}></span> 
+                </label>
+                {dropdownOpen && (
+                    <div className={styles.dropdown}>
+                        {clubs.map((club) => (
+                            <div key={club._id} className={styles.clubOption}>
+                                <input
+                                    type="checkbox"
+                                    id={club._id}
+                                    checked={selectedClubs.includes(club._id)}
+                                    onChange={() => handleCheckboxChange(club._id)}
+                                />
+                                <label htmlFor={club._id}>{club.clubName}</label>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
             <label className={styles.dateLabel}>
                 תוקף מ:
             </label>
@@ -55,7 +71,6 @@ const Search: React.FC<SearchProps> = ({ clubs, onSearch }) => {
                 onChange={(e) => setExpirationStart(e.target.value ? new Date(e.target.value) : null)}
                 className={styles.dateInput}
             />
-
             <label className={styles.dateLabel}>
                 עד:
             </label>
@@ -64,15 +79,8 @@ const Search: React.FC<SearchProps> = ({ clubs, onSearch }) => {
                 onChange={(e) => setExpirationEnd(e.target.value ? new Date(e.target.value) : null)}
                 className={styles.dateInput}
             />
-            <input
-                type="text"
-                placeholder="חיפוש לפי תיאור"
-                value={keywordFilter}
-                onChange={(e) => setKeywordFilter(e.target.value)}
-                className={styles.keywordInput}
-            />
             <button onClick={handleSearch} className={styles.searchButton}>
-                חיפוש
+                <FaSearch size={20} /> 
             </button>
         </div>
     );
