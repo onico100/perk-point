@@ -84,7 +84,6 @@ const BenefitsContainer = () => {
         </div>
       </div>
     </div>
-
   );
 };
 export default BenefitsContainer;

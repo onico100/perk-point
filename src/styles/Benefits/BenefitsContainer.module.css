@@ -2,6 +2,7 @@
   padding:0px;
   margin: 0px;
 }
+
 .searchBar{
   padding: 10px;
   background: linear-gradient(to right, #b346e8, #87cdfa);
@@ -11,14 +12,15 @@
 .mainContainer {
   display: flex;
   flex-direction: column; 
-  width: 100%; 
-  margin: 5vw;
+  width: 82vw; 
+  margin: 3vw;
 }
 
 .cardsContainer {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 5px;
+  grid-template-columns: repeat(auto-fill, 200px); 
+  gap: 120px; 
+  width: 100%; 
 }
 
 .title {
