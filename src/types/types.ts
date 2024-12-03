@@ -2,8 +2,8 @@ import { ObjectId } from "mongodb";
 import { z } from "zod";
 
 export const branchSchema = z.object({
-  city: z.string().min(1, "יש לבחור עיר."),
-  address: z.string().min(3, "כתובת חייבת להכיל לפחות 3 תווים."),
+  nameBranch: z.string().min(3, "יש לבחור סניף."),
+  city: z.string().min(3, "יש לבחור עיר."),
 });
 
 export const supplierSchema = z.object({
@@ -44,8 +44,8 @@ export interface Benefit {
 }
 
 export interface Branch {
+  nameBranch: string;
   city: string;
-  address: string;
 }
 
 export interface Supplier {
