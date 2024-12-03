@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { DiscountInputs } from "./types";
 
+///todo:remove values
+
 interface Props {
   onApplyDiscounts: (discounts: DiscountInputs) => void;
 }
@@ -24,7 +26,7 @@ export default function Discount({ onApplyDiscounts }: Props) {
     e: React.ChangeEvent<HTMLInputElement>,
     field: "buy" | "get"
   ) => {
-    const value = parseInt(e.target.value) || 0;
+    const value = Number(e.target.value); // Using Number to convert input to a number
     setDiscountInputs((prev) => ({
       ...prev,
       discount3: { ...prev.discount3, [field]: value },
