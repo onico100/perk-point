@@ -104,12 +104,15 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
 
   return (
     <div className={styles.calcSidebar}>
-      <button onClick={onClose}>
-        <IoClose />
+      <button onClick={onClose} className={styles.closeButton}>
+        x
       </button>
+
       <p>הכנסו את כל המוצרים וההנחות, ואז קבלו חישוב סופי של המחיר.</p>
       <AddProduct onAddProduct={addProduct} />
-      <Discount onApplyDiscounts={applyDiscounts} />
+      <div className={styles.discountSection}>
+        <Discount onApplyDiscounts={applyDiscounts} />
+      </div>
       <ProductList products={products} />
     </div>
   );
