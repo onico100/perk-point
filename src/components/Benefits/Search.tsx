@@ -45,28 +45,30 @@ const SupplierInput = styled.input`
     }
 `;
 
-const ClubSelectContainer = styled.div`
+const ClubSelectContainer = styled.div<{ isOpen: boolean }>`
     background-color: white;
-    padding: 10px;
+    padding: 0;
     margin: 10px;
     border: 1px solid #ccc;
     border-radius: 7px;
     flex: 1;
     position: relative;
-    opacity: 0.4;
+    opacity: ${({ isOpen }) => (isOpen ? 1 : 0.4)};
     max-width: 200px;
     height: 40px; 
-
+    transition: opacity 0.3s; 
 `;
 
 const ClubSelectLabel = styled.label`
     display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
     cursor: pointer;
     padding: 5px;
     border-radius: 7px;
-    align-items: center;
     height: 40px; 
     line-height: 40px; 
+    width: 100%;
 `;
 
 const Dropdown = styled.div`
@@ -171,10 +173,10 @@ const Search: React.FC<SearchProps> = ({ clubs, onSearch }) => {
                 />
                 <SearchIcon />
             </InputContainer>
-            <ClubSelectContainer>
+            <ClubSelectContainer isOpen={dropdownOpen}>
                 <ClubSelectLabel onClick={() => setDropdownOpen(!dropdownOpen)}>
                     {selectedClubs.length > 0
-                        ? clubs.filter(club => selectedClubs.includes(club._id)).map(club => club.clubName).join(', ')
+                        ? `${selectedClubs.length} מועדונים`
                         : 'בחר מועדונים'}
                     <FaChevronDown />
                 </ClubSelectLabel>
