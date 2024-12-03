@@ -6,6 +6,7 @@ import styles from "@/styles/Clubs/ClubCard.module.css";
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
+import { MdDelete } from "react-icons/md";
 
 interface ClubCardProps {
   club: Club;
@@ -17,7 +18,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
   const id = params.clientId;
   const { clientMode, currentUser, setCurrentUser } = useGeneralStore();
   const { mutate: updateUser, error } = useUpdateUserById();
-  
+
   console.log("currentUser000: " + currentUser);
   const addClub = () => {
     if (window.confirm("Are you sure you want to add this club?")) {
@@ -43,7 +44,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
           updatedData: { clubs: updatedUser.clubs },
         });
       }
-      alert("club added successfully")
+      alert("club added successfully");
     }
   };
 
@@ -65,10 +66,15 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
       </p>
       {clientMode === "USER" &&
         (id === "0" ? (
-          <button className={`${styles.button} ${styles.addButton}`} onClick={addClub}>Add Club</button>
+          <button
+            className={styles.button}
+            onClick={addClub}
+          >
+            הוספה למועדונים שלי
+          </button>
         ) : (
-          <div>
-            <button className={`${styles.button} ${styles.deleteButton}`} onClick={deleteClub}>Delete</button>
+          <div>           
+            <button className={styles.deleteButton} onClick={deleteClub}>הסרה</button>
           </div>
         ))}
     </div>
