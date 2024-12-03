@@ -7,7 +7,7 @@ import ProductList from "./ProductsList";
 import { useEffect, useState } from "react";
 import { DiscountInputs, Product } from "./types";
 import styles from "@/styles/Calc.module.css";
-import { FaSearch, FaChevronDown } from "react-icons/fa";
+import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 
 export default function CakcPage({ onClose }: { onClose: () => void }) {
   const [products, setProducts] = useState<Product[]>([]);
@@ -135,11 +135,39 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
       <button onClick={onClose} className={styles.closeButton}>
         <IoClose />
       </button>
-      <h1 onClick={toggleExplanationSection}>מחשבון ההטבות שלי</h1>
+      <div className={styles.headLine} onClick={toggleExplanationSection}>
+        <h1>מחשבון ההטבות שלי</h1>
+        {isExplanationSectionOpen ? (
+          <FaChevronDown className={styles.icon} />
+        ) : (
+          <FaChevronRight className={styles.icon} />
+        )}
+      </div>
       {isExplanationSectionOpen && (
-        <p>הכנסו את כל המוצרים וההנחות, ואז קבלו חישוב סופי של המחיר.</p>
+        <div>
+          <h3>
+            בעזרת המחשבון שלנו תוכלו לחשב את המחיר היחסי של כל מוצר בהתאם להנחות
+            שהזנתם.
+          </h3>
+          <p>
+            <strong>כיצד להשתמש במחשבון:</strong>
+          </p>
+          <ul>
+            <li>
+              <strong>הוסיפו מוצרים:</strong> לחצו על כפתור "הוסף מוצר" והזינו
+              את שם המוצר והמחיר המקורי שלו.
+            </li>
+            <li>
+              <strong>הוסיפו הנחות:</strong> לחצו על כפתור "הוסף הנחה" כדי
+              להגדיר הנחות באחוזים , בסכום כספי ומבצע מיוחד.
+            </li>
+            <li>
+              <strong>חשבו את המחירים:</strong> המחשבון יציג את המחירים
+              המעודכנים של כל מוצר בהתחשב בהנחות שהזנתם.
+            </li>
+          </ul>
+        </div>
       )}
-
       {/* Toggle AddProduct Section */}
       <div className={styles.addProduct}>
         <div className={styles.dropDowns} onClick={toggleProductSection}>
