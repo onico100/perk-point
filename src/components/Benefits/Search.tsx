@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '@/styles/Benefits/Search.module.css';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaChevronDown } from 'react-icons/fa';
 
 
 
@@ -20,7 +20,7 @@ const Search: React.FC<SearchProps> = ({ clubs, onSearch }) => {
     const [expirationStart, setExpirationStart] = useState<Date | null>(null);
     const [expirationEnd, setExpirationEnd] = useState<Date | null>(null);
     const [keywordFilter, setKeywordFilter] = useState('');
-    const [dropdownOpen, setDropdownOpen] = useState(false); 
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const handleCheckboxChange = (clubId: string) => {
         setSelectedClubs((prev) =>
@@ -29,23 +29,27 @@ const Search: React.FC<SearchProps> = ({ clubs, onSearch }) => {
     };
 
     const handleSearch = () => {
+        setDropdownOpen(false);
         onSearch(supplierFilter, selectedClubs, [expirationStart, expirationEnd], keywordFilter);
     };
 
     return (
         <div className={styles.searchContainer}>
-            <input
-                type="text"
-                placeholder="חיפוש לפי עסק"
-                value={supplierFilter}
-                onChange={(e) => setSupplierFilter(e.target.value)}
-                className={styles.supplierInput}
-            />
+            <div className={styles.inputContainer}>
+                <input
+                    type="text"
+                    placeholder="חיפוש לפי עסק"
+                    value={supplierFilter}
+                    onChange={(e) => setSupplierFilter(e.target.value)}
+                    className={styles.supplierInput}
+                />
+                <FaSearch className={styles.searchIcon} />
+            </div>
             <div className={styles.clubSelectContainer}>
                 <label onClick={() => { setDropdownOpen(!dropdownOpen); }} className={`${styles.clubSelectLabel} ${dropdownOpen ? styles.dropdownOpen : ''}`}>
-                    {selectedClubs.length > 0 ? `בחר מועדונים: ${clubs.filter(club => selectedClubs.includes(club._id)).map(club => club.clubName).join(', ')}` 
-                    : 'בחר מועדונים'}
-                    <span className={styles.triangle}></span> 
+                    {selectedClubs.length > 0 ? clubs.filter(club => selectedClubs.includes(club._id)).map(club => club.clubName).join(', ')
+                        : 'בחר מועדונים'}
+                    <FaChevronDown className={styles.dropdownIcon} />
                 </label>
                 {dropdownOpen && (
                     <div className={styles.dropdown}>
@@ -80,7 +84,7 @@ const Search: React.FC<SearchProps> = ({ clubs, onSearch }) => {
                 className={styles.dateInput}
             />
             <button onClick={handleSearch} className={styles.searchButton}>
-                <FaSearch size={20} /> 
+                חיפוש
             </button>
         </div>
     );
