@@ -115,7 +115,9 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
       </button>
 
       <p>הכנסו את כל המוצרים וההנחות, ואז קבלו חישוב סופי של המחיר.</p>
-      <AddProduct onAddProduct={addProduct} />
+      <div className={styles.addProduct}>
+        <AddProduct onAddProduct={addProduct} />
+      </div>
       <div className={styles.discountSection}>
         <Discount onApplyDiscounts={applyDiscounts} />
       </div>
