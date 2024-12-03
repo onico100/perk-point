@@ -15,10 +15,18 @@
 
 .calcSidebar h1 {
   font-size: 20px;
-  margin-bottom: 20px;
   background: linear-gradient(to right, #b346e8, #87cdfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.headLine {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .dropDowns {
