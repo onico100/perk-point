@@ -115,6 +115,12 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     setDiscountInputs(Inputs); // Update the state
   };
 
+  const handleDelete = (productName: string) => {
+    setProducts((prevProducts) =>
+      prevProducts.filter((product) => product.name !== productName)
+    );
+  };
+
   // Functions to toggle visibility of sections
   const toggleProductSection = () =>
     setProductSectionOpen(!isProductSectionOpen);
@@ -159,7 +165,9 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
         <h2>רשימת מוצרים (אחרי ההנחות)</h2>
         <FaChevronDown className={styles.icon} />
       </div>
-      {isProductListOpen && <ProductList products={products} />}
+      {isProductListOpen && (
+        <ProductList products={products} handleDelete={handleDelete} />
+      )}
     </div>
   );
 }
