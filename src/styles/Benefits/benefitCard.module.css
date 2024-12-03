@@ -11,6 +11,10 @@
   position: relative;
 }
 
+.benefitCard:hover{
+  transform: scale(1.03);
+}
+
 .logo {
   height: 90px; 
   width: auto; 
@@ -46,7 +50,7 @@
 }
 
 .button {
-  background: linear-gradient(to bottom, #c752df, #7476ef);
+  background: linear-gradient(to bottom, #b346e8, #87cdfa);
   height: 35px;
   width: 140px;
   color: white;
@@ -68,6 +72,14 @@
   left: 30px; 
 }
 
-.button:hover {
-  background: #c752df;
+.deleteButton svg{
+  font-size: 35px; 
+  color: #474747; 
+  position: absolute; 
+  bottom: 20px; 
 }
+.button:hover {
+  background: linear-gradient(to bottom, #a344d3, #7ec0ea);
+  transform: scale(1.05); 
+}
+

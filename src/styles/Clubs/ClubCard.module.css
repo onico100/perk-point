@@ -11,6 +11,10 @@
   position: relative;
 }
 
+.clubCard:hover{
+  transform: scale(1.03);
+}
+
 .logo {
   height: 90px; 
   width: auto; 
@@ -44,29 +48,49 @@
   color: #0056b3; /* צבע כהה יותר בהעברה */
 }
 
+/* Buttons Styling */
 .button {
-  background: linear-gradient(to bottom, #c752df, #7476ef);
-  height: 35px;
-  width: 140px;
+  background: linear-gradient(to bottom, #b346e8, #87cdfa);
+  height: 30px;
+  width: 170px;
   color: white;
   border: none;
   border-radius: 10px;
-  padding: 0;
   cursor: pointer;
-  font-size: large;
+  font-size: 16px;
   font-weight: bold;
-  transition: background 0.3s ease;
-  text-align: center;
-  display: flex;
+  transition: transform 0.3s ease, background 0.3s ease;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  margin-right: auto;
-  direction: ltr;
-  position: absolute;
-  bottom: 20px;
-  left: 30px;
+  margin: 5px;
+  margin-top: 10%;
 }
 
 .button:hover {
-  background: #c752df;
+  background: linear-gradient(to bottom, #a344d3, #7ec0ea);
+  transform: scale(1.05); 
+}
+
+.deleteButton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 90px;
+  font-size: 16px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #474747;
+  margin-top: 8%;
+  background-color: #ece9e9; 
+  border-radius:10px; 
+  padding: 8px 16px; 
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease; 
+}
+
+.deleteButton:hover {
+  transform: scale(1.05); 
+  background-color: #d3d3d3; 
+  color: #333; 
 }

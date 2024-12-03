@@ -1,0 +1,104 @@
+.searchContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    display: flex;
+    position: relative;
+}
+
+.inputContainer {
+    position: relative; 
+}
+
+.searchIcon {
+    position: absolute;
+    margin-left: 15px;
+    left: 10px; 
+    top: 50%;
+    transform: translateY(-50%);
+    color: grey;
+}
+
+.supplierInput {
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    flex: 1;
+    opacity: 0.4;
+    width: 150px;
+    max-width: 200px;
+    color: black;
+}
+
+.clubSelectContainer {
+    background-color: white;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+
+    flex: 1;
+    position: relative;
+    opacity: 0.4;
+    max-width: 200px;
+}
+
+.clubSelectLabel {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 7px;
+    display: flex; 
+    align-items: center;
+    line-height: 20px;
+    height: 30px;
+}
+
+.dropdown {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    opacity: 1;
+    width: 100%;
+    padding: 10px;
+    left: 0;
+}
+
+.dropdownIcon {
+    margin-right: 10px;
+    transition: transform 0.3s;
+}
+
+.dropdownOpen .dropdownIcon {
+    transform: rotate(180deg);
+}
+
+.dateInput {
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    opacity: 0.4;
+}
+
+.searchButton {
+    padding: 10px 15px;
+    position: absolute;
+    margin-left: 15px;
+    left:0%;
+    background-color: white;
+    color: black;
+    opacity: 0.8;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    cursor: pointer;
+
+}
+
+.searchButton:hover {
+    opacity: 1;
+}

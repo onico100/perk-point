@@ -35,7 +35,7 @@
   color: #f5f5f5;
 }
 
-.registerButton {
+.signupButton {
   background-color: white;
   border: none;
   border-radius: 10px;
@@ -47,8 +47,10 @@
   margin: 0 20px 0 0;
 }
 
-.registerButton:hover {
+.signupButton:hover {
   background: #f5f5f5;
+  transform: scale(1.05);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .loginButton {
@@ -63,5 +65,6 @@
 }
 
 .loginButton:hover {
-  background: grey;
+  transform: scale(1.05);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }

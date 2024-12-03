@@ -39,14 +39,12 @@
   gap: 8px;
 }
 
-/* about.module.css */
-
 .contactUs li {
   display: flex;
   align-items: center;
-  font-size: 16px; /* Adjust font size if necessary */
+  font-size: 16px; 
 }
 
 .contactUs li svg {
-  margin: 8px; /* Adds space between the icon and the phone number */
+  margin: 8px; 
 }
