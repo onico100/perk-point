@@ -12,10 +12,10 @@ export async function POST(request: Request) {
       ...data,
       categories: [],
       registrationDate: new Date().toISOString(),
-      branches: [],
       isActive: true,
     };
 
+    console.log("New supplier:", newSupplier);
     const result = await insertDocument(client, "suppliers_collection", newSupplier);
     return NextResponse.json(newSupplier);
   } catch (error: unknown) {
