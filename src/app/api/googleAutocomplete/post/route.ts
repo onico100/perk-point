@@ -34,7 +34,7 @@ export async function POST(req: any) {
         headers: {
           "Content-Type": "application/json",
           "X-Goog-Api-Key": GOOGLE_API_KEY || "",
-          "X-Goog-FieldMask": "places.displayName,places.types,places.formattedAddress", // כולל רק את השדות החשובים
+          "X-Goog-FieldMask": "places.displayName,places.types,places.formattedAddress", 
         },
         body: JSON.stringify({ textQuery, languageCode: "iw", pageToken: nextPageToken }),
       });

@@ -1,29 +1,11 @@
 'use client';
 import { useForm, useFieldArray } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import debounce from "lodash.debounce";
 import my_http from "@/services/http";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-
-const branchSchema = z.object({
-  city: z.string().min(1, "יש לבחור עיר."),
-  address: z.string().min(3, "כתובת חייבת להכיל לפחות 3 תווים."),
-});
-
-const supplierSchema = z.object({
-  providerName: z.string().min(3, "שם הספק חייב להיות לפחות 3 תווים."),
-  email: z.string().email("כתובת אימייל אינה חוקית."),
-  password: z.string().min(6, "סיסמה חייבת להכיל לפחות 6 תווים."),
-  businessName: z.string().min(3, "יש להזין שם עסק בעל לפחות 3 תווים."),
-  phoneNumber: z.string().regex(/^\d{10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
-  siteLink: z.string().url("כתובת האתר אינה חוקית."),
-  supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
-  branches: z.array(branchSchema).nonempty("חייב להוסיף לפחות סניף אחד."),
-});
-
-type SupplierFormValues = z.infer<typeof supplierSchema>;
+import { supplierSchema, SupplierFormValues } from "@/types/types";
 
 export default function SignSupplierComponent() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
