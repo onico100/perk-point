@@ -9,7 +9,6 @@ interface Props {
 export default function ProductList({ products }: Props) {
   return (
     <div className="productList">
-      <h2>מוצרים אחרי ההנחות</h2>
       {products.length > 0 ? (
         <ul style={{ listStyleType: "none", padding: 0 }}>
           {products.map((product, index) => (
