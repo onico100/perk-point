@@ -1,5 +1,3 @@
-// components/DiscountForm.tsx
-
 import { useState } from "react";
 import { DiscountInputs } from "./types";
 
@@ -14,6 +12,8 @@ export default function Discount({ onApplyDiscounts }: Props) {
     discount3: { buy: 0, get: 0 },
     discount4: "",
   });
+
+  const [activeLabel, setActiveLabel] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,15 +34,22 @@ export default function Discount({ onApplyDiscounts }: Props) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onApplyDiscounts(discountInputs);
+    setActiveLabel(null); // Close all inputs on submit
+  };
+
+  const toggleActiveLabel = (label: string) => {
+    setActiveLabel((prev) => (prev === label ? null : label)); // Toggle visibility
   };
 
   return (
     <div style={{ marginBottom: "20px" }}>
-      <h2>בחר הנחות</h2>
+      <h1>בחר הנחות</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>
-            1
+          <label onClick={() => toggleActiveLabel("discount1")}>
+            אחוז הנחה קבע על כל המוצרים
+          </label>
+          {activeLabel === "discount1" && (
             <input
               type="number"
               name="discount1"
@@ -50,40 +57,48 @@ export default function Discount({ onApplyDiscounts }: Props) {
               value={discountInputs.discount1}
               onChange={handleInputChange}
             />
-          </label>
+          )}
         </div>
         <div>
-          <label>
-            2
+          <label onClick={() => toggleActiveLabel("discount2")}>
+            סכום קבוע היורד מהקנייה (קנה ב300 שלם 200)
+          </label>
+          {activeLabel === "discount2" && (
             <input
               type="number"
               name="discount2"
-              placeholder="סכום קבוע"
+              placeholder="הסכום שיורד"
               value={discountInputs.discount2}
               onChange={handleInputChange}
             />
-          </label>
+          )}
         </div>
         <div>
-          <label>
-            3
-            <input
-              type="number"
-              placeholder="קנה x"
-              value={discountInputs.discount3.buy}
-              onChange={(e) => handleDiscountChange(e, "buy")}
-            />
-            <input
-              type="number"
-              placeholder="קבל y"
-              value={discountInputs.discount3.get}
-              onChange={(e) => handleDiscountChange(e, "get")}
-            />
+          <label onClick={() => toggleActiveLabel("discount3")}>
+            קנה מספר מוצרים וקבל מספר מוצרים חינם(1+1)
           </label>
+          {activeLabel === "discount3" && (
+            <>
+              <input
+                type="number"
+                placeholder="קנה x"
+                value={discountInputs.discount3.buy}
+                onChange={(e) => handleDiscountChange(e, "buy")}
+              />
+              <input
+                type="number"
+                placeholder="קבל y"
+                value={discountInputs.discount3.get}
+                onChange={(e) => handleDiscountChange(e, "get")}
+              />
+            </>
+          )}
         </div>
         <div>
-          <label>
-            4
+          <label onClick={() => toggleActiveLabel("discount4")}>
+            הנחה ספיציפית לפי מספר המוצר (הראשון ב20% השני ב30% וכו)
+          </label>
+          {activeLabel === "discount4" && (
             <input
               type="text"
               name="discount4"
@@ -91,7 +106,7 @@ export default function Discount({ onApplyDiscounts }: Props) {
               value={discountInputs.discount4}
               onChange={handleInputChange}
             />
-          </label>
+          )}
         </div>
         <button type="submit">חשב</button>
       </form>
