@@ -22,7 +22,7 @@ const BenefitsContainer = () => {
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
   const params = useParams();
   const id = params.clientId;
-  
+
   useEffect(() => {
     if (id !== "0") {
       if (clientMode === "USER") {
@@ -43,12 +43,12 @@ const BenefitsContainer = () => {
     }
   }, [benefits]);
 
-  const handleSearch = (supplierFilter: string, clubFilter: string, expirationRange: [Date | null, Date | null], keywordFilter: string) => {
+  const handleSearch = (supplierFilter: string, clubFilter: string[], expirationRange: [Date | null, Date | null], keywordFilter: string) => {
     const [start, end] = expirationRange;
     setBenefitsToShow(
       benefits?.filter((benefit) =>
         (supplierFilter ? suppliers?.find((s: Supplier) => s.businessName.includes(supplierFilter) && s._id === benefit.supplierId) : true) &&
-        (clubFilter ? benefit.clubId === clubFilter : true) &&
+        (clubFilter.length > 0 ? clubFilter.includes(benefit.clubId) : true) &&
         (start ? new Date(benefit.expirationDate) >= start : true) &&
         (end ? new Date(benefit.expirationDate) <= end : true) &&
         (keywordFilter ? benefit.description.includes(keywordFilter) : true)
@@ -84,7 +84,6 @@ const BenefitsContainer = () => {
         </div>
       </div>
     </div>
-
   );
 };
 export default BenefitsContainer;

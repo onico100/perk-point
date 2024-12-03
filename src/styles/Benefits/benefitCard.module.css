@@ -11,6 +11,10 @@
   position: relative;
 }
 
+.benefitCard:hover{
+  transform: scale(1.03);
+}
+
 .logo {
   height: 90px; 
   width: auto; 
@@ -75,5 +79,7 @@
   bottom: 20px; 
 }
 .button:hover {
-  background: linear-gradient(to bottom, #a404f5, #0497f2);
+  background: linear-gradient(to bottom, #a344d3, #7ec0ea);
+  transform: scale(1.05); 
 }
+

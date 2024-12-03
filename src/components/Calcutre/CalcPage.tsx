@@ -4,7 +4,7 @@ import { IoClose } from "react-icons/io5";
 import AddProduct from "./AddProduct";
 import Discount from "./Discounts";
 import ProductList from "./ProductsList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DiscountInputs, Product } from "./types";
 import styles from "@/styles/Calc.module.css";
 
@@ -16,6 +16,10 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     discount3: { buy: 0, get: 0 },
     discount4: "",
   });
+
+  useEffect(() => {
+    applyAllDiscounts();
+  }, [discountInputs]);
 
   const addProduct = (name: string, price: number) => {
     setProducts((prev) => {
@@ -55,7 +59,10 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     applyFlatOff(sumNotPaying);
   };
 
-  const applyDiscount1 = () => applyPercentageOff(discountInputs.discount1);
+  const applyDiscount1 = () => {
+    console.log("Applingg");
+    applyPercentageOff(discountInputs.discount1);
+  };
 
   const applyDiscount2 = () => applyFlatOff(discountInputs.discount2);
 
@@ -97,19 +104,23 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     if (discountInputs.discount4) applyDiscount4();
   };
 
-  const applyDiscounts = (discountInputs: DiscountInputs) => {
-    setDiscountInputs(discountInputs);
-    applyAllDiscounts();
+  const applyDiscounts = async (Inputs: DiscountInputs) => {
+    setDiscountInputs(Inputs); // Update the state
   };
 
   return (
     <div className={styles.calcSidebar}>
-      <button onClick={onClose}>
-        <IoClose />
+      <button onClick={onClose} className={styles.closeButton}>
+        x
       </button>
+
       <p>הכנסו את כל המוצרים וההנחות, ואז קבלו חישוב סופי של המחיר.</p>
-      <AddProduct onAddProduct={addProduct} />
-      <Discount onApplyDiscounts={applyDiscounts} />
+      <div className={styles.addProduct}>
+        <AddProduct onAddProduct={addProduct} />
+      </div>
+      <div className={styles.discountSection}>
+        <Discount onApplyDiscounts={applyDiscounts} />
+      </div>
       <ProductList products={products} />
     </div>
   );
