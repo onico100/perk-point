@@ -7,6 +7,7 @@ import ProductList from "./ProductsList";
 import { useEffect, useState } from "react";
 import { DiscountInputs, Product } from "./types";
 import styles from "@/styles/Calc.module.css";
+import { FaSearch, FaChevronDown } from "react-icons/fa";
 
 export default function CakcPage({ onClose }: { onClose: () => void }) {
   const [products, setProducts] = useState<Product[]>([]);
@@ -16,6 +17,12 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     discount3: { buy: 0, get: 0 },
     discount4: "",
   });
+
+  // States to control visibility of sections
+  const [isProductSectionOpen, setProductSectionOpen] = useState(false);
+  const [isDiscountSectionOpen, setDiscountSectionOpen] = useState(false);
+  const [isProductListOpen, setProductListOpen] = useState(false);
+  const [isExplanationSectionOpen, setExplanationSectionOpen] = useState(true);
 
   useEffect(() => {
     applyAllDiscounts();
@@ -108,20 +115,51 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     setDiscountInputs(Inputs); // Update the state
   };
 
+  // Functions to toggle visibility of sections
+  const toggleProductSection = () =>
+    setProductSectionOpen(!isProductSectionOpen);
+  const toggleDiscountSection = () =>
+    setDiscountSectionOpen(!isDiscountSectionOpen);
+  const toggleProductList = () => setProductListOpen(!isProductListOpen);
+  const toggleExplanationSection = () =>
+    setExplanationSectionOpen(!isExplanationSectionOpen);
+
   return (
     <div className={styles.calcSidebar}>
       <button onClick={onClose} className={styles.closeButton}>
-        x
+        <IoClose />
       </button>
+      <h1 onClick={toggleExplanationSection}>מחשבון ההטבות שלי</h1>
+      {isExplanationSectionOpen && (
+        <p>הכנסו את כל המוצרים וההנחות, ואז קבלו חישוב סופי של המחיר.</p>
+      )}
 
-      <p>הכנסו את כל המוצרים וההנחות, ואז קבלו חישוב סופי של המחיר.</p>
+      {/* Toggle AddProduct Section */}
       <div className={styles.addProduct}>
-        <AddProduct onAddProduct={addProduct} />
+        <div className={styles.dropDowns} onClick={toggleProductSection}>
+          <h2>הוספת מוצרים</h2>
+          <FaChevronDown className={styles.icon} />
+        </div>
+        {isProductSectionOpen && <AddProduct onAddProduct={addProduct} />}
       </div>
+
+      {/* Toggle Discount Section */}
       <div className={styles.discountSection}>
-        <Discount onApplyDiscounts={applyDiscounts} />
+        <div className={styles.dropDowns} onClick={toggleDiscountSection}>
+          <h2>הוספת הנחות</h2>
+          <FaChevronDown className={styles.icon} />
+        </div>
+        {isDiscountSectionOpen && (
+          <Discount onApplyDiscounts={applyDiscounts} />
+        )}
       </div>
-      <ProductList products={products} />
+
+      {/* Toggle Product List Section */}
+      <div className={styles.dropDowns} onClick={toggleProductList}>
+        <h2>רשימת מוצרים (אחרי ההנחות)</h2>
+        <FaChevronDown className={styles.icon} />
+      </div>
+      {isProductListOpen && <ProductList products={products} />}
     </div>
   );
 }

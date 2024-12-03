@@ -1,27 +1,48 @@
-/* CalcPageSidebar.module.css */
 .calcSidebar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 30%; /* Adjust width as needed */
-  height: 100vh; /* Full height of the viewport */
-  background-color: #f9f9f9; /* Sidebar background color */
-  border-right: 1px solid #ddd; /* Subtle border for separation */
+  width: 25%;
+  height: 100vh;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ddd;
   padding: 20px;
-  overflow-y: auto; /* Scrollable content */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Add depth */
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  text-align: center;
 }
 
 .calcSidebar h1 {
   font-size: 20px;
   margin-bottom: 20px;
-  color: #333;
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dropDowns {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
+  font-size: 18px;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+}
+
+.icon {
+  margin-right: 10px;
 }
 
 .discountSection {
-  margin-top: 30px;
-  text-align: center;
-  align-items: center;
+  text-align: start;
+}
+
+.discountSection h3 {
+  font-weight: bold;
 }
 /* General form styling */
 .discountSection form {
