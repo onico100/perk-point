@@ -9,20 +9,18 @@ const TopBarButtons: React.FC = () => {
 
   const [popupVisible, setPopupVisible] = useState(false);
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
+  const setClientMode = useGeneralStore.getState().setClientMode;
+  const setCurrentUser = useGeneralStore.getState().setCurrentUser;
+  const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
 
   const handleDisconnect = () => {
-    const setClientMode = useGeneralStore.getState().setClientMode;
     setClientMode(ClientMode.general);
-    const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
     setCurrentSupplier(null);
-    const setCurrentUser = useGeneralStore.getState().setCurrentUser;
     setCurrentUser(null);
     setPopupVisible(false);
     setAnchorElement(null);
   };
 
-  console.log(`clientMode: ${clientMode}`);
-  console.log(`currentUser: ${currentUser}`);
 
   return (
     <>
