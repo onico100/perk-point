@@ -1,0 +1,26 @@
+.homePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #b346e8, #87cdfa);
+
+  width: 100vw;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  font-size: large;
+}
+
+.image {
+  width: 150px; /* Adjust size as needed */
+  height: auto;
+}
