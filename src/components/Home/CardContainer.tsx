@@ -21,8 +21,7 @@ const cardData = [
   },
   {
     id: 3,
-    image:
-      "https://png.pngtree.com/png-clipart/20230802/original/pngtree-guide-information-color-icon-vector-picture-image_7821778.png",
+    image: "https://cdn-icons-png.flaticon.com/512/4002/4002366.png",
     title: " קצת עלינו",
     buttonText: "אודות",
     buttonLink: "/about",
