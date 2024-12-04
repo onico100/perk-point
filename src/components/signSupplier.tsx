@@ -7,12 +7,15 @@ import my_http from "@/services/http";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { supplierSchema, SupplierFormValues } from "@/types/types";
 import styles from "@/styles/SignPages/sign.module.css";
+import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 
 export default function SignSupplierComponent() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState<number | null>(null);
   const { addSupplier } = useFetchSuppliers();
+  const { categories, isLoadingC } = useFetchGeneral(); 
+
 
   // const {
   //   register,
@@ -30,7 +33,14 @@ export default function SignSupplierComponent() {
     watch,
     setValue,
     formState: { errors },
-  } = useForm<SupplierFormValues>();
+  } = useForm<SupplierFormValues>({
+        defaultValues: {
+      selectedCategories: [], 
+    },
+  }
+  );
+  
+
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -45,21 +55,15 @@ export default function SignSupplierComponent() {
     }
   }, [businessName]);
 
-  const fetchBranches = debounce(
-    async (textQuery: string, branchIndex: number) => {
-      // alert("fetchBranches");
-      if (textQuery.trim().length >= 2) {
-        try {
-          setLoading(true);
-          const response = await my_http.post(`/googleAutocomplete/post`, {
-            textQuery,
-          });
-          const branchesFromGoogle = response.data.formattedPlaces;
-          const citySuggestions = branchesFromGoogle
-            ? branchesFromGoogle.map(
-                (place: any) => place.name + " " + place.address
-              )
-            : [];
+  const fetchBranches = debounce(async (textQuery: string, branchIndex: number) => {
+    if (textQuery.trim().length >= 2) {
+      try {
+        setLoading(true);
+        const response = await my_http.post(`/googleAutocomplete/post`, { textQuery });
+        const branchesFromGoogle = response.data.formattedPlaces;
+        const citySuggestions = branchesFromGoogle
+          ? branchesFromGoogle.map((place: any) => place.name + " " + place.address)
+          : [];
 
           setSuggestions(citySuggestions);
           setDropdownVisible(branchIndex);
@@ -144,6 +148,33 @@ export default function SignSupplierComponent() {
           <label htmlFor="supplierLogo">קישור ללוגו:</label>
           <input id="supplierLogo" type="url" {...register("supplierLogo")} />
           {errors.supplierLogo && <p>{errors.supplierLogo.message}</p>}
+        </div>
+
+        {/* Categories Selection */}
+        <div>
+          <h2 className="font-bold">בחר קטגוריות:</h2>
+          {isLoadingC ? (
+            <p>טוען קטגוריות...</p>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {categories?.map((category:any) => (
+                <label
+                  key={category._id}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    value={category._id}
+                    {...register("selectedCategories")}
+                  />
+                  {category.categoryName}
+                </label>
+              ))}
+            </div>
+          )}
+          {errors.selectedCategories && (
+            <p className="text-red-500">{errors.selectedCategories.message}</p>
+          )}
         </div>
 
         {/* Branches */}
