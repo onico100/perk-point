@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 import {
     SearchContainer,
@@ -11,7 +11,6 @@ import {
     DropdownOption,
     DateLabel,
     DateInput,
-    SearchButton,
 } from './SearchBenefits.Styles';
 
 
@@ -32,6 +31,7 @@ interface SearchProps {
         supplierFilter: string,
         clubFilter: string[],
         categoryFilter: string[],
+        branchFilter: string,
         expirationRange: [Date | null, Date | null],
     ) => void;
 }
@@ -40,10 +40,21 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
     const [supplierFilter, setSupplierFilter] = useState("");
     const [selectedClubs, setSelectedClubs] = useState<string[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [branchFilter, setBranchFilter] = useState("");
     const [expirationStart, setExpirationStart] = useState<Date | null>(null);
     const [expirationEnd, setExpirationEnd] = useState<Date | null>(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+
+    useEffect(() => {
+        onSearch(
+            supplierFilter,
+            selectedClubs,
+            selectedCategories,
+            branchFilter,
+            [expirationStart, expirationEnd]
+        );
+    }, [supplierFilter, selectedClubs, selectedCategories, branchFilter, expirationStart, expirationEnd, onSearch]);
 
 
     const handleClubCheckboxChange = (clubId: string) => {
@@ -59,17 +70,6 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
             prev.includes(categoryId)
                 ? prev.filter((id) => id !== categoryId)
                 : [...prev, categoryId]
-        );
-    };
-
-    const handleSearch = () => {
-        setDropdownOpen(false);
-        setCategoryDropdownOpen(false);
-        onSearch(
-            supplierFilter,
-            selectedClubs,
-            selectedCategories,
-            [expirationStart, expirationEnd],
         );
     };
 
@@ -130,6 +130,15 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
                     </Dropdown>
                 )}
             </SelectContainer>
+            <InputContainer>
+                <SupplierInput
+                    type="text"
+                    placeholder="חיפוש לפי שם הסניף"  
+                    value={branchFilter} 
+                    onChange={(e) => setBranchFilter(e.target.value)} 
+                />
+                <SearchIcon />
+            </InputContainer>
             <DateLabel>תוקף מ:</DateLabel>
             <DateInput
                 type="date"
@@ -140,9 +149,10 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
                 type="date"
                 onChange={(e) => setExpirationEnd(e.target.value ? new Date(e.target.value) : null)}
             />
-            <SearchButton onClick={handleSearch}>חיפוש</SearchButton>
         </SearchContainer>
     );
 };
 
 export default SearchBenefits;
+
+
