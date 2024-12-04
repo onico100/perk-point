@@ -15,6 +15,8 @@ export const supplierSchema = z.object({
   siteLink: z.string().url("כתובת האתר אינה חוקית."),
   supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
   branches: z.array(branchSchema).nonempty("חייב להוסיף לפחות סניף אחד."),
+  selectedCategories: z.array(z.string()).nonempty("חייב לבחור לפחות קטגוריה אחת."),
+
 });
 
 export type SupplierFormValues = z.infer<typeof supplierSchema>;
