@@ -1,15 +1,17 @@
 .mainContainer {
   display: flex;
-  flex-direction: column; 
-  width: 100%; 
-  margin: 5vw;
+  flex-direction: column;
+  width: 100%;
+  margin: 3vw;
 }
 
 .clubsContainer {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  padding: 5px;
+  grid-template-columns: repeat(auto-fill, 200px); 
+  gap: 120px; 
+  width: 100%; 
 }
+
 
 .title {
   font-size: 30px;

@@ -25,7 +25,7 @@ export default function ProductList({ products }: Props) {
               }}
             >
               <span>{product.name}</span>
-              <span>${product.price.toFixed(2)}</span>
+              <span>₪{product.price.toFixed(2)}</span>
             </li>
           ))}
         </ul>
