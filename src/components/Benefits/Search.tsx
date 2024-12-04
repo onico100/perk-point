@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FaSearch, FaChevronDown } from 'react-icons/fa';
 
 
+
 const SearchContainer = styled.div`
     display: flex;
     align-items: center;

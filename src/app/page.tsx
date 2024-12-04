@@ -1,5 +1,4 @@
 'use client';
-import my_http from "@/services/http";
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode, PreMode } from "@/types/types";
 
