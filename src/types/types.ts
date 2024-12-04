@@ -46,7 +46,7 @@ export interface Benefit {
 }
 
 export interface Branch {
-  address: string;
+  nameBranch: string;
   city: string;
 }
 

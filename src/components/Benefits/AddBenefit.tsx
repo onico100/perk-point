@@ -56,13 +56,13 @@ export default function AddBenefit() {
   });
 
   useEffect(() => {
-    setValue("branches", selectAll ? branches.map((b) => b.address) : []);
+    setValue("branches", selectAll ? branches.map((b) => b.nameBranch) : []);
   }, [selectAll, branches, setValue]);
 
   const onSubmit = (data: any) => {
     const selectedBranches = selectAll
       ? branches
-      : branches.filter((b) => data.branches.includes(b.address));
+      : branches.filter((b) => data.branches.includes(b.nameBranch));
 
     const newBenefit = {
       supplierId: id,
@@ -168,13 +168,13 @@ export default function AddBenefit() {
         {!selectAll && (
           <div className={styles.branchList}>
             {branches.map((b: Branch) => (
-              <label key={b.address} className={styles.branchLabel}>
+              <label key={b.nameBranch} className={styles.branchLabel}>
                 <input
                   type="checkbox"
-                  value={b.address}
+                  value={b.nameBranch}
                   {...register("branches")}
                 />
-                {b.address}, {b.city}
+                {b.nameBranch}, {b.city}
               </label>
             ))}
           </div>
