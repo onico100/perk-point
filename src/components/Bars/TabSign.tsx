@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import useGeneralStore from "@/stores/generalStore";
 import { PreMode } from "@/types/types";
-import styles from "@/styles/TabSign.module.css";
+import styles from "@/styles/SignPages/TabSign.module.css";
 
 interface TabProps {
   tabContent: React.ReactNode; // Content for Tab 1

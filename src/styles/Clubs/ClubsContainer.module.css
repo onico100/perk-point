@@ -5,6 +5,12 @@
   margin: 3vw;
 }
 
+.container {
+  padding:0px;
+  margin: 0px;
+  width: 100%;
+}
+
 .clubsContainer {
   display: grid;
   grid-template-columns: repeat(auto-fill, 200px); 
@@ -20,3 +26,11 @@
   margin-bottom: 10px;
   margin-right: 2vw;
 }
+
+.searchBarContainer{
+  padding: 10px;
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+  width: 100%;
+}
+
+

@@ -152,7 +152,7 @@ const BenefitDetails = () => {
             <ul>
               {specificBenefit.branches.map((branch, index) => (
                 <li key={index}>
-                  {branch.city}, {branch.address}
+                  {branch.city}, {branch.nameBranch}
                 </li>
               ))}
             </ul>
