@@ -31,6 +31,7 @@ export const useGetUserById = (id: string) => {
 
 // Login user by credentials
 export const useLoginUser = () => {
+  const router = useRouter();
   return useMutation<User, Error, { email: string; password: string }>({
     mutationFn: ({ email, password }) => getUserByCredentials(email, password),
     onSuccess: (user) => {
@@ -38,7 +39,7 @@ export const useLoginUser = () => {
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.user);
       setCurrentUser(user);
-      const router = useRouter();
+
       router.push(`benefits/${user._id}`);
       console.log(22, `Welcome, ${user.username}!)!`);
     },
