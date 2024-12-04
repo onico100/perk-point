@@ -33,7 +33,7 @@ export interface User {
 }
 
 export interface Benefit {
-  _id: string;
+  _id?: string;
   supplierId: string;
   clubId: string;
   redemptionConditions: string;
