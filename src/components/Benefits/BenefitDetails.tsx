@@ -217,6 +217,95 @@ const BenefitDetails = () => {
               <div>קישור לא קיים</div>
             )}
           </div>
+            <h1 className={styles.title}>פרטי ההטבה</h1>
+            <div className={styles.supplierLogo}>
+                {specificSupplier && specificSupplier.supplierLogo ? (
+                    <img
+                        src={specificSupplier.supplierLogo}
+                        alt={`${specificSupplier.providerName} logo`}
+                        className={styles.logo}
+                    />
+                ) : (
+                    <div>No logo available.</div>
+                )}
+            </div>
+            <div className={styles.grid}>
+                <div className={styles.gridItem}>
+                    <strong>תיאור:</strong> <br />
+                    {isUpdateMode ? (
+                        <textarea
+                            value={updatedBenefit?.description}
+                            onChange={(e) => handleChange('description', e.target.value)}
+                        />
+                    ) : (
+                        specificBenefit?.description
+                    )}
+                </div>
+                <div className={styles.gridItem}>
+                    <strong>מועדון:</strong><br />
+                    {specificClub ? specificClub.clubName : 'Not Available'}
+                </div>
+                <div className={styles.gridItem}>
+                    <strong>סניפים:</strong><br />
+                    {specificBenefit?.branches && specificBenefit.branches.length > 0 ? (
+                        <ul>
+                            {specificBenefit.branches.map((branch, index) => (
+                                <li key={index}>
+                                    {branch.city}, {branch.nameBranch}
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <div>כול הסניפים</div>
+                    )}
+                </div>
+                <div className={styles.gridItem}>
+                    <strong>תוקף:</strong><br />
+                    {isUpdateMode ? (
+                        <input
+                            type="date"
+                            value ={updatedBenefit?.expirationDate ? new Date(updatedBenefit.expirationDate).toISOString().split('T')[0] : ' '}
+                            onChange={(e) => handleChange('expirationDate', e.target.value)}
+                        />
+                    ) : (
+                        specificBenefit?.expirationDate ?
+                            new Date(specificBenefit.expirationDate).toLocaleDateString('he-IL', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            }) : 'Not Available'
+                    )}
+                </div>
+                <div className={styles.gridItem}>
+                    <strong>הגבלות:</strong><br />
+                    {isUpdateMode ? (
+                        <textarea
+                            value={updatedBenefit?.redemptionConditions}
+                            onChange={(e) => handleChange('redemptionConditions', e.target.value)}
+                        />
+                    ) : (
+                        specificBenefit?.redemptionConditions
+                    )}
+                </div>
+                <div className={styles.gridItem}>
+                    <div className={styles.gridItem}>
+                        {specificClub && specificClub.clubLink ? (
+                            <div className={styles.businessLink}>
+                                <a
+                                    href={specificClub.clubLink}
+                                    className={styles.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    למעבר לבית העסק
+                                </a>
+                            </div>
+                        ) : (
+                            <div>Link Not Available</div>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
       </div>
     </div>
