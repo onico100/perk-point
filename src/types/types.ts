@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import { z } from "zod";
 
 export const branchSchema = z.object({
-  nameBranch: z.string().min(3, "יש לבחור סניף."),
+  nameBranch: z.string().min(1, "יש לבחור סניף."),
   city: z.string().min(3, "יש לבחור עיר."),
 });
 

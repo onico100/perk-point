@@ -20,16 +20,14 @@ export default function SignSupplierComponent() {
     control,
     watch,
     formState: { errors },
-  } = useForm<SupplierFormValues>({
-    resolver: zodResolver(supplierSchema),
-  });
+  } = useForm<SupplierFormValues>({ resolver: zodResolver(supplierSchema), });
 
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "branches",
   });
-  
+
   const businessName = watch("businessName");
 
   useEffect(() => {
@@ -39,16 +37,16 @@ export default function SignSupplierComponent() {
   }, [businessName]);
 
   const fetchBranches = debounce(async (textQuery: string, branchIndex: number) => {
-    // Trigger search for inputs 2 characters or longer
+    // alert("fetchBranches");
     if (textQuery.trim().length >= 2) {
       try {
         setLoading(true);
         const response = await my_http.post(`/googleAutocomplete/post`, { textQuery });
-        const branchesFromGoogle= response.data.formattedPlaces;
+        const branchesFromGoogle = response.data.formattedPlaces;
         const citySuggestions = branchesFromGoogle
-          ? branchesFromGoogle.map((place: any) => place.name+" "+place.address)
+          ? branchesFromGoogle.map((place: any) => place.name + " " + place.address)
           : [];
-        
+
         setSuggestions(citySuggestions);
         setDropdownVisible(branchIndex);
 
@@ -65,23 +63,29 @@ export default function SignSupplierComponent() {
     }
   }, 300);
 
-  const onSubmit = (data: SupplierFormValues) => {
+  const onSub = (data: SupplierFormValues) => {
+    alert("onSubmit is triggered!");
     console.log("Form data:", data);
     addSupplier(data, {
       onSuccess: () => {
-        alert("Supplier added successfully!");
+        // alert("Supplier added successfully!");
       },
       onError: (error: Error) => {
         console.error("Failed to add supplier:", error);
-        alert("Failed to add supplier.");
+        // alert("Failed to add supplier.");
       },
     });
   };
 
+  const check = (data: SupplierFormValues) => {
+    console.log("check");
+    console.log("businessName: ", businessName, data);
+
+  }
   return (
     <div className="add-supplier-page">
       <h1 className="text-center text-2xl font-bold">Add New Supplier</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 max-w-md mx-auto">
+      <form onSubmit={handleSubmit(onSub)} className="flex flex-col gap-4 max-w-md mx-auto">
         {/* Provider Name */}
         <div>
           <label htmlFor="providerName">שם ספק (יש להכניס שם פרטי ולא את שם העסק):</label>
@@ -133,72 +137,73 @@ export default function SignSupplierComponent() {
 
         {/* Branches */}
         <div>
-            <h2 className="font-bold">סניפים:</h2>
-            {fields.map((branch, index) => (
-              <div key={branch.id} className="flex flex-col gap-2 border p-2 mb-2">
-                {/* Branch Selection */} 
-                <div>
-                  <label htmlFor={`branches.${index}.branch`}>בחר סניף:</label>
-                  <input
-                    id={`branches.${index}.branch`}
-                    {...register(`branches.${index}.nameBranch` as const)}
-                    onChange={(e) => fetchBranches(e.target.value, index)}
-                    onFocus={() => setDropdownVisible(index)}
-                    autoComplete="off"
-                  />
-                  {loading && dropdownVisible === index && <p>טוען...</p>}
-                  {dropdownVisible === index && suggestions.length > 0 && (
-                    <ul className="border rounded bg-white z-10 absolute max-h-40 overflow-y-auto">
-                      {suggestions.map((place, idx) => (
-                        <li
-                          key={idx}
-                          onClick={() => {
-                            const cityBranch=place.length >= 2 ? place[place.length - 2].trim() : "No city available";
-                            setValue(`branches.${index}.nameBranch`, place);
-                            setValue(`branches.${index}.city`,cityBranch);
-
-                            setSuggestions([]);
-                            setDropdownVisible(null);
-                          }}
-                          className="cursor-pointer px-2 py-1 hover:bg-gray-100"
-                        >
-                          {place} - {place.length >= 2 ? place[place.length - 2].trim() : "No city available"}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {errors.branches?.[index]?.nameBranch && <p>{errors.branches[index].nameBranch?.message}</p>}
-                </div>
-
-                {/* Hidden Fields for Branch Name and City */}
-                <div className="hidden">
-                  <input
-                    type="text"
-                    {...register(`branches.${index}.nameBranch` as const)}
-                    readOnly
-                  />
-                  <input
-                    type="text"
-                    {...register(`branches.${index}.city` as const)}
-                    readOnly
-                  />
-                </div>
-
-                <button type="button" onClick={() => remove(index)}>
-                  הסר סניף
-                </button>
+          <h2 className="font-bold">סניפים:</h2>
+          {fields.map((branch, index) => (
+            <div key={branch.id} className="flex flex-col gap-2 border p-2 mb-2">
+              {/* Branch Selection */}
+              <div>
+                <label htmlFor={`branches.${index}.branch`}>בחר סניף:</label>
+                <input
+                  id={`branches.${index}.branch`}
+                  {...register(`branches.${index}.nameBranch` as const)}
+                  onChange={(e) => fetchBranches(e.target.value, index)}
+                  onFocus={() => setDropdownVisible(index)}
+                  autoComplete="off"
+                />
+                {loading && dropdownVisible === index && <p>טוען...</p>}
+                {dropdownVisible === index && suggestions.length > 0 && (
+                  <ul className="absolute top-12 left-0 right-0 border rounded bg-white shadow-lg z-10 max-h-60 overflow-y-auto">
+                    {suggestions.map((place, idx) => (
+                      <li
+                        key={idx}
+                        onClick={() => {
+                          const cityBranch = place.length >= 2 ? place[place.length - 2].trim() : "No city available";
+                          setValue(`branches.${index}.nameBranch`, place);
+                          setValue(`branches.${index}.city`, cityBranch);
+                          setSuggestions([]);
+                          setDropdownVisible(null);
+                        }}
+                        className="cursor-pointer px-4 py-2 hover:bg-gray-100 flex justify-between items-center"
+                      >
+                        {place} - {place.length >= 2 ? place[place.length - 2].trim() : "No city available"}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {errors.branches?.[index]?.nameBranch && <p>{errors.branches[index].nameBranch?.message}</p>}
               </div>
-            ))}
 
-            <button type="button" onClick={() => append({ nameBranch: "", city: "" })}>
-              הוסף סניף
-            </button>
+              {/* Hidden Fields for Branch Name and City */}
+              <div className="hidden">
+                <input
+                  type="text"
+                  {...register(`branches.${index}.nameBranch` as const)}
+                  readOnly
+                />
+                <input
+                  type="text"
+                  {...register(`branches.${index}.city` as const)}
+                  readOnly
+                />
+              </div>
+
+              <button type="button" onClick={() => remove(index)}>
+                הסר סניף
+              </button>
+            </div>
+          ))}
+
+          <button type="button" onClick={() => append({ nameBranch: "", city: "" })}>
+            הוסף סניף
+          </button>
         </div>
 
+        <button type="button" onClick={check}>בדירקב</button> 
 
-        <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition">
-          קדימה, תרשמו אותי!
-        </button>
+        {/* Submit Button */}
+        {/* <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition">
+          הרשמה
+        </button> */}
       </form>
     </div>
   );

@@ -13,14 +13,24 @@ export default function SignSupplierComponent() {
   const [dropdownVisible, setDropdownVisible] = useState<number | null>(null);
   const { addSupplier } = useFetchSuppliers();
 
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   setValue,
+  //   control,
+  //   watch,
+  //   formState: { errors },
+  // } = useForm<SupplierFormValues>({ resolver: zodResolver(supplierSchema), });
+
   const {
     register,
     handleSubmit,
-    setValue,
     control,
     watch,
+    setValue,
     formState: { errors },
-  } = useForm<SupplierFormValues>({ resolver: zodResolver(supplierSchema), });
+  } = useForm<SupplierFormValues>();
+  
 
 
   const { fields, append, remove } = useFieldArray({
@@ -63,7 +73,8 @@ export default function SignSupplierComponent() {
     }
   }, 300);
 
-  const onSub = (data: SupplierFormValues) => {
+
+  const onSubmit = (data: SupplierFormValues) => {
     alert("onSubmit is triggered!");
     console.log("Form data:", data);
     addSupplier(data, {
@@ -77,10 +88,20 @@ export default function SignSupplierComponent() {
     });
   };
 
+
   return (
     <div className="add-supplier-page">
       <h1 className="text-center text-2xl font-bold">Add New Supplier</h1>
-      <form onSubmit={handleSubmit(onSub)} className="flex flex-col gap-4 max-w-md mx-auto">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 max-w-md mx-auto">
+
+        
+        {/* Business Name */}
+        <div>
+          <label htmlFor="businessName">שם העסק:</label>
+          <input id="businessName" {...register("businessName")} />
+          {errors.businessName && <p>{errors.businessName.message}</p>}
+        </div>
+        
         {/* Provider Name */}
         <div>
           <label htmlFor="providerName">שם ספק (יש להכניס שם פרטי ולא את שם העסק):</label>
@@ -100,13 +121,6 @@ export default function SignSupplierComponent() {
           <label htmlFor="password">סיסמה:</label>
           <input id="password" type="password" {...register("password")} />
           {errors.password && <p>{errors.password.message}</p>}
-        </div>
-
-        {/* Business Name */}
-        <div>
-          <label htmlFor="businessName">שם העסק:</label>
-          <input id="businessName" {...register("businessName")} />
-          {errors.businessName && <p>{errors.businessName.message}</p>}
         </div>
 
         {/* Phone Number */}
@@ -169,7 +183,7 @@ export default function SignSupplierComponent() {
               </div>
 
               {/* Hidden Fields for Branch Name and City */}
-              <div className="hidden">
+              {/* <div className="hidden">
                 <input
                   type="text"
                   {...register(`branches.${index}.nameBranch` as const)}
@@ -180,7 +194,7 @@ export default function SignSupplierComponent() {
                   {...register(`branches.${index}.city` as const)}
                   readOnly
                 />
-              </div>
+              </div> */}
 
               <button type="button" onClick={() => remove(index)}>
                 הסר סניף
