@@ -7,6 +7,7 @@ import ProductList from "./ProductsList";
 import { useEffect, useState } from "react";
 import { DiscountInputs, Product } from "./types";
 import styles from "@/styles/Calc.module.css";
+import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 
 export default function CakcPage({ onClose }: { onClose: () => void }) {
   const [products, setProducts] = useState<Product[]>([]);
@@ -16,6 +17,12 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     discount3: { buy: 0, get: 0 },
     discount4: "",
   });
+
+  // States to control visibility of sections
+  const [isProductSectionOpen, setProductSectionOpen] = useState(false);
+  const [isDiscountSectionOpen, setDiscountSectionOpen] = useState(false);
+  const [isProductListOpen, setProductListOpen] = useState(false);
+  const [isExplanationSectionOpen, setExplanationSectionOpen] = useState(true);
 
   useEffect(() => {
     applyAllDiscounts();
@@ -108,20 +115,87 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     setDiscountInputs(Inputs); // Update the state
   };
 
+  const handleDelete = (productName: string) => {
+    setProducts((prevProducts) =>
+      prevProducts.filter((product) => product.name !== productName)
+    );
+  };
+
+  // Functions to toggle visibility of sections
+  const toggleProductSection = () =>
+    setProductSectionOpen(!isProductSectionOpen);
+  const toggleDiscountSection = () =>
+    setDiscountSectionOpen(!isDiscountSectionOpen);
+  const toggleProductList = () => setProductListOpen(!isProductListOpen);
+  const toggleExplanationSection = () =>
+    setExplanationSectionOpen(!isExplanationSectionOpen);
+
   return (
     <div className={styles.calcSidebar}>
       <button onClick={onClose} className={styles.closeButton}>
-        x
+        <IoClose />
       </button>
-
-      <p>הכנסו את כל המוצרים וההנחות, ואז קבלו חישוב סופי של המחיר.</p>
+      <div className={styles.headLine} onClick={toggleExplanationSection}>
+        <h1>מחשבון ההטבות שלי</h1>
+        {isExplanationSectionOpen ? (
+          <FaChevronDown className={styles.icon} />
+        ) : (
+          <FaChevronRight className={styles.icon} />
+        )}
+      </div>
+      {isExplanationSectionOpen && (
+        <div>
+          <h3>
+            בעזרת המחשבון שלנו תוכלו לחשב את המחיר היחסי של כל מוצר בהתאם להנחות
+            שהזנתם.
+          </h3>
+          <p>
+            <strong>כיצד להשתמש במחשבון:</strong>
+          </p>
+          <ul>
+            <li>
+              <strong>הוסיפו מוצרים:</strong> לחצו על כפתור "הוסף מוצר" והזינו
+              את שם המוצר והמחיר המקורי שלו.
+            </li>
+            <li>
+              <strong>הוסיפו הנחות:</strong> לחצו על כפתור "הוסף הנחה" כדי
+              להגדיר הנחות באחוזים , בסכום כספי ומבצע מיוחד.
+            </li>
+            <li>
+              <strong>חשבו את המחירים:</strong> המחשבון יציג את המחירים
+              המעודכנים של כל מוצר בהתחשב בהנחות שהזנתם.
+            </li>
+          </ul>
+        </div>
+      )}
+      {/* Toggle AddProduct Section */}
       <div className={styles.addProduct}>
-        <AddProduct onAddProduct={addProduct} />
+        <div className={styles.dropDowns} onClick={toggleProductSection}>
+          <h2>הוספת מוצרים</h2>
+          <FaChevronDown className={styles.icon} />
+        </div>
+        {isProductSectionOpen && <AddProduct onAddProduct={addProduct} />}
       </div>
+
+      {/* Toggle Discount Section */}
       <div className={styles.discountSection}>
-        <Discount onApplyDiscounts={applyDiscounts} />
+        <div className={styles.dropDowns} onClick={toggleDiscountSection}>
+          <h2>הוספת הנחות</h2>
+          <FaChevronDown className={styles.icon} />
+        </div>
+        {isDiscountSectionOpen && (
+          <Discount onApplyDiscounts={applyDiscounts} />
+        )}
       </div>
-      <ProductList products={products} />
+
+      {/* Toggle Product List Section */}
+      <div className={styles.dropDowns} onClick={toggleProductList}>
+        <h2>רשימת מוצרים הסופית</h2>
+        <FaChevronDown className={styles.icon} />
+      </div>
+      {isProductListOpen && (
+        <ProductList products={products} handleDelete={handleDelete} />
+      )}
     </div>
   );
 }
