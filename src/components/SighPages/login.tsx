@@ -2,11 +2,8 @@
 import { useState } from "react";
 import useGeneralStore from "@/stores/generalStore";
 import { useLoginUser } from "@/hooks/useFetchUsers";
-
 import styles from "@/styles/SignPages/sign.module.css";
-
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -38,20 +35,13 @@ export default function Login() {
     } else if (preMode === "SUPPLIER") {
       loginSupplier(
         { email, password },
-        {
-          onSuccess: (supplier) => {
-            alert(`Welcome, ${supplier.providerName}!`);
-
-            router.push(`benefits/${supplier._id}`);
-            console.log(22, `Welcome, ${supplier.providerName}!)!`);
-          },
-          onError: (error) => {
-            console.error(error);
-            alert("Login failed: Invalid supplier credentials.");
-          },
+        { 
+          onSuccess: (supplier) => { router.push(`benefits/${supplier._id}`);},
+          onError: (error) => {console.error(error); },
         }
       );
-    } else {
+    } 
+    else {
       alert("No mode is selected (User or Supplier).");
     }
   };
@@ -61,7 +51,6 @@ export default function Login() {
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <div className={styles.formGroup}>
           <label htmlFor="email">Email:</label>
-
           <input
             id="email"
             type="email"

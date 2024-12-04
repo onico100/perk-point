@@ -22,25 +22,15 @@ const TopBar: React.FC = () => {
           className={styles.logo}
           onClick={goToHome}
         />
-        <Link
-          className={`${linkStyle.barItem}  ${pathname === "/benefits/0" ? linkStyle.active : ""
-            }`}
-          href={"/benefits/0"}
-        >
+        <Link className={`${linkStyle.barItem}  ${pathname === "/benefits/0" ? linkStyle.active : "" }`} href={"/benefits/0"} >
           הטבות
         </Link>
         <Link
-          className={`${linkStyle.barItem}  ${pathname === "/clubs/0" ? linkStyle.active : ""
-            }`}
-          href={"/clubs/0"}
-        >
+          className={`${linkStyle.barItem}  ${pathname === "/clubs/0" ? linkStyle.active : "" }`} href={"/clubs/0"} >
           מועדונים
         </Link>
         <Link
-          className={`${linkStyle.barItem}  ${pathname === "/about" ? linkStyle.active : ""
-            }`}
-          href={"/about"}
-        >
+          className={`${linkStyle.barItem}  ${pathname === "/about" ? linkStyle.active : ""  }`} href={"/about"} >
           אודות
         </Link>
       </div>
