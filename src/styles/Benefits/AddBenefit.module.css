@@ -62,3 +62,8 @@
     background-color: #0056b3;
   }
   
+  .branchList label {
+    display: block; /* כל תווית תוצג בשורה נפרדת */
+    margin: 4px 0 4px 0; /* ריווח בין הסניפים */
+  }
+  
