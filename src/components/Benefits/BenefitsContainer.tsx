@@ -1,7 +1,7 @@
 "use client";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import BenefitsCard from "@/components/Benefits/BenefitCard";
-import Search from "./Search";
+import SearchBenefits from "./SearchBenefits";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { Benefit, Club, Supplier } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
@@ -33,9 +33,9 @@ const BenefitsContainer = () => {
         );
         setCurrentTitle(titles[1]);
       } else if (clientMode === "SUPPLIER") {
-        console.log("supplierId: "+id)
-        benefits?.forEach((element:any) => {
-          console.log("b: "+element.supplierId)
+        console.log("supplierId: " + id)
+        benefits?.forEach((element: any) => {
+          console.log("b: " + element.supplierId)
         });
         setBenefitsToShow(
           benefits?.filter((b: Benefit) => b.supplierId == id) || []
@@ -47,7 +47,7 @@ const BenefitsContainer = () => {
     }
   }, [benefits]);
 
-  const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], expirationRange: [Date | null, Date | null], keywordFilter: string) => {
+  const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], expirationRange: [Date | null, Date | null]) => {
     const [start, end] = expirationRange;
     setBenefitsToShow(
       benefits?.filter((benefit) =>
@@ -59,8 +59,7 @@ const BenefitsContainer = () => {
           suppliers?.find((s: Supplier) => s._id === benefit.supplierId && s.categories?.some((c) =>
             categoryFilter.includes(c.toString()))) : true) &&
         (start ? new Date(benefit.expirationDate) >= start : true) &&
-        (end ? new Date(benefit.expirationDate) <= end : true) &&
-        (keywordFilter ? benefit.description.includes(keywordFilter) : true)
+        (end ? new Date(benefit.expirationDate) <= end : true)
       ) || []
     );
   };
@@ -70,7 +69,7 @@ const BenefitsContainer = () => {
   return (
     <div className={styles.container}>
       <div className={styles.searchBar}>
-        <Search clubs={clubs} categories={categories} onSearch={handleSearch} />
+        <SearchBenefits clubs={clubs} categories={categories} onSearch={handleSearch} />
       </div>
       <div className={styles.mainContainer}>
         <div className={styles.title}>{currentTitle}</div>
