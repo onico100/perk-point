@@ -51,7 +51,7 @@ const ClubsContainer = () => {
           <InputContainer>
             <ClubInput
               type="text"
-              placeholder="חפש לפי שם מועדון"
+              placeholder="חיפש מועדון"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)} 
             />

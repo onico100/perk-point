@@ -5,13 +5,14 @@ import { FaSearch } from 'react-icons/fa';
 export const SearchContainer = styled.div`
     display: flex;
     align-items: center;
+    gap: 5px;
+    width: 100%; 
     position: relative;
     margin-bottom: 0;
 `;
 
 export const SearchIcon = styled(FaSearch)`
     position: absolute;
-    margin-left: 15px;
     left: 10px; 
     top: 50%;
     transform: translateY(-50%);
@@ -20,53 +21,59 @@ export const SearchIcon = styled(FaSearch)`
 
 export const InputContainer = styled.div`
     position: relative;
+    flex: 1;
+    width: 100%; 
     
     &:focus-within ${SearchIcon} {
         color: black;
+    }
+    @media (max-width: 768px) { 
+        width: 100%; 
     }
 `;
 
 export const SupplierInput = styled.input`
     padding: 10px;
-    margin: 10px;
+    margin: 0;
     border: 1px solid #ccc;
     border-radius: 7px;
-    flex: 1;
     opacity: 0.4;
-    width: 200px;
-    color: black;
+    width: 100%; 
     height: 40px; 
+    font-size: 14px;
+    color: black;
+
+
 
     &:focus {
         opacity: 1;
     }
 
-    ::placeholder { 
-        font-size: 12px;
-        color: black;
-    }
 `;
 
 export const SelectContainer = styled.div<{ isOpen: boolean }>`
+    flex: 1;  
+    width: 100%; 
     background-color: white;
     padding: 0;
-    margin: 10px;
     border: 1.5px solid ${({ isOpen }) => (isOpen ? `white` : `transparent`)};
     border-radius: 7px;
     box-shadow: inset 0 0 0 2px ${({ isOpen }) => (isOpen ? `black` : `transparent`)};
-    flex: 1;
     position: relative;
     opacity: ${({ isOpen }) => (isOpen ? 1 : 0.4)};
-    max-width: 200px;
     height: 40px; 
     transition: opacity 0.3s; 
+
+    @media (width: 768px) { 
+        width: 100%; 
+    }
 `;
 
 export const SelectLabel = styled.label`
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    cursor: pointer;
+    // cursor: pointer;
     padding: 5px;
     border-radius: 7px;
     height: 40px; 
