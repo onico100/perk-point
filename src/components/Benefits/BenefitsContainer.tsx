@@ -3,7 +3,7 @@ import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import BenefitsCard from "@/components/Benefits/BenefitCard";
 import SearchBenefits from "./SearchBenefits";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { Benefit, Club, Supplier } from "@/types/types";
+import { Benefit, Club, Supplier, Branch } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Benefits/BenefitsContainer.module.css";
 import useGeneralStore from "@/stores/generalStore";
@@ -20,6 +20,7 @@ const BenefitsContainer = () => {
   const titles = ["כל ההטבות", "ההטבות שלי", "הטבות החברה"];
   const [currentTitle, setCurrentTitle] = useState(titles[0]);
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
+  // const [branchFilter, setBranchFilter] = useState(""); // **State for branchFilter**
   const params = useParams();
   const id = params.clientId;
 
@@ -47,7 +48,7 @@ const BenefitsContainer = () => {
     }
   }, [benefits]);
 
-  const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], expirationRange: [Date | null, Date | null]) => {
+  const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], branchFilter: string, expirationRange: [Date | null, Date | null]) => {
     const [start, end] = expirationRange;
     setBenefitsToShow(
       benefits?.filter((benefit) =>
@@ -58,7 +59,11 @@ const BenefitsContainer = () => {
         (categoryFilter.length > 0 ?
           suppliers?.find((s: Supplier) => s._id === benefit.supplierId && s.categories?.some((c) =>
             categoryFilter.includes(c.toString()))) : true) &&
-        (start ? new Date(benefit.expirationDate) >= start : true) &&
+        (branchFilter ?
+          suppliers?.find((s: Supplier) =>
+            s._id === benefit.supplierId &&
+            s.branches?.some((b: Branch) =>
+              b.nameBranch && b.nameBranch.includes(branchFilter))) : true) &&
         (end ? new Date(benefit.expirationDate) <= end : true)
       ) || []
     );
