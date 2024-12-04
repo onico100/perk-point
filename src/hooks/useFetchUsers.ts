@@ -9,7 +9,7 @@ import {
   getUserById,
   getUserByCredentials,
 } from "@/services/usersServices";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 //import useUserStore from '../stores/usersStore';
 //const setUser = useUserStore((state) => state.setUser);
@@ -57,7 +57,6 @@ export const useUpdateUserById = () => {
   return useMutation<User, Error, { id: string; updatedData: Partial<User> }>({
     mutationFn: ({ id, updatedData }) => updateUserById(id, updatedData),
     onMutate: async ({ id, updatedData }) => {
-
       const newUser = { _id: id, ...updatedData } as User;
       setCurrentUser(newUser);
     },
@@ -66,7 +65,6 @@ export const useUpdateUserById = () => {
     },
   });
 };
-
 
 export const useDeleteUserById = () => {
   return useMutation<{ message: string }, Error, string>({
