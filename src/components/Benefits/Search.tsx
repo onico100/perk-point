@@ -11,10 +11,6 @@ const SearchContainer = styled.div`
     margin-bottom: 0;
 `;
 
-const InputContainer = styled.div`
-    position: relative; 
-`;
-
 const SearchIcon = styled(FaSearch)`
     position: absolute;
     margin-left: 15px;
@@ -24,6 +20,14 @@ const SearchIcon = styled(FaSearch)`
     color: grey;
 `;
 
+const InputContainer = styled.div`
+    position: relative;
+    
+    &:focus-within ${SearchIcon} {
+        color: black;
+    }
+`;
+
 const SupplierInput = styled.input`
     padding: 10px;
     margin: 10px;
@@ -31,8 +35,7 @@ const SupplierInput = styled.input`
     border-radius: 7px;
     flex: 1;
     opacity: 0.4;
-    width: 150px;
-    max-width: 200px;
+    width: 200px;
     color: black;
     height: 40px; 
 
@@ -46,12 +49,13 @@ const SupplierInput = styled.input`
     }
 `;
 
-const ClubSelectContainer = styled.div<{ isOpen: boolean }>`
+const SelectContainer = styled.div<{ isOpen: boolean }>`
     background-color: white;
     padding: 0;
     margin: 10px;
-    border: 1px solid #ccc;
+    border: 1.5px solid ${({ isOpen }) => (isOpen ? `white` : `transparent`)};
     border-radius: 7px;
+    box-shadow: inset 0 0 0 2px ${({ isOpen }) => (isOpen ? `black` : `transparent`)};
     flex: 1;
     position: relative;
     opacity: ${({ isOpen }) => (isOpen ? 1 : 0.4)};
@@ -60,7 +64,7 @@ const ClubSelectContainer = styled.div<{ isOpen: boolean }>`
     transition: opacity 0.3s; 
 `;
 
-const ClubSelectLabel = styled.label`
+const SelectLabel = styled.label`
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
@@ -87,7 +91,7 @@ const Dropdown = styled.div`
     
 `;
 
-const ClubOption = styled.div`
+const DropdownOption = styled.div`
     display: flex;
     align-items: center;
     padding: 5px 0;
@@ -134,47 +138,66 @@ const SearchButton = styled.button`
     }
 `;
 
-
 interface Club {
-  _id: string;
-  clubName: string;
+    _id: string;
+    clubName: string;
+}
+
+interface Category {
+    _id: string;
+    categoryName: string;
 }
 
 interface SearchProps {
-  clubs: Club[];
-  onSearch: (
-    supplierFilter: string,
-    clubFilter: string[],
-    expirationRange: [Date | null, Date | null],
-    keywordFilter: string
-  ) => void;
+    clubs: Club[];
+    categories: Category[];
+    onSearch: (
+        supplierFilter: string,
+        clubFilter: string[],
+        categoryFilter: string[],
+        expirationRange: [Date | null, Date | null],
+        keywordFilter: string
+    ) => void;
 }
 
-const Search: React.FC<SearchProps> = ({ clubs, onSearch }) => {
-  const [supplierFilter, setSupplierFilter] = useState("");
-  const [selectedClubs, setSelectedClubs] = useState<string[]>([]);
-  const [expirationStart, setExpirationStart] = useState<Date | null>(null);
-  const [expirationEnd, setExpirationEnd] = useState<Date | null>(null);
-  const [keywordFilter, setKeywordFilter] = useState("");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+const Search: React.FC<SearchProps> = ({ clubs, categories, onSearch }) => {
+    const [supplierFilter, setSupplierFilter] = useState("");
+    const [selectedClubs, setSelectedClubs] = useState<string[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [expirationStart, setExpirationStart] = useState<Date | null>(null);
+    const [expirationEnd, setExpirationEnd] = useState<Date | null>(null);
+    const [keywordFilter, setKeywordFilter] = useState("");
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
 
-  const handleCheckboxChange = (clubId: string) => {
-    setSelectedClubs((prev) =>
-      prev.includes(clubId)
-        ? prev.filter((id) => id !== clubId)
-        : [...prev, clubId]
-    );
-  };
 
-  const handleSearch = () => {
-    setDropdownOpen(false);
-    onSearch(
-      supplierFilter,
-      selectedClubs,
-      [expirationStart, expirationEnd],
-      keywordFilter
-    );
-  };
+    const handleClubCheckboxChange = (clubId: string) => {
+        setSelectedClubs((prev) =>
+            prev.includes(clubId)
+                ? prev.filter((id) => id !== clubId)
+                : [...prev, clubId]
+        );
+    };
+
+    const handleCategoryCheckboxChange = (categoryId: string) => {
+        setSelectedCategories((prev) =>
+            prev.includes(categoryId)
+                ? prev.filter((id) => id !== categoryId)
+                : [...prev, categoryId]
+        );
+    };
+
+    const handleSearch = () => {
+        setDropdownOpen(false);
+        setCategoryDropdownOpen(false);
+        onSearch(
+            supplierFilter,
+            selectedClubs,
+            selectedCategories,
+            [expirationStart, expirationEnd],
+            keywordFilter
+        );
+    };
 
     return (
         <SearchContainer>
@@ -187,29 +210,52 @@ const Search: React.FC<SearchProps> = ({ clubs, onSearch }) => {
                 />
                 <SearchIcon />
             </InputContainer>
-            <ClubSelectContainer isOpen={dropdownOpen}>
-                <ClubSelectLabel onClick={() => setDropdownOpen(!dropdownOpen)}>
+            <SelectContainer isOpen={dropdownOpen}>
+                <SelectLabel onClick={() => setDropdownOpen(!dropdownOpen)}>
                     {selectedClubs.length > 0
                         ? `${selectedClubs.length} מועדונים`
                         : 'בחר מועדונים'}
                     <FaChevronDown />
-                </ClubSelectLabel>
+                </SelectLabel>
                 {dropdownOpen && (
                     <Dropdown>
                         {clubs.map((club) => (
-                            <ClubOption key={club._id}>
+                            <DropdownOption key={club._id}>
                                 <input
                                     type="checkbox"
                                     id={club._id}
                                     checked={selectedClubs.includes(club._id)}
-                                    onChange={() => handleCheckboxChange(club._id)}
+                                    onChange={() => handleClubCheckboxChange(club._id)}
                                 />
                                 <label htmlFor={club._id}>{club.clubName}</label>
-                            </ClubOption>
+                            </DropdownOption>
                         ))}
                     </Dropdown>
                 )}
-            </ClubSelectContainer>
+            </SelectContainer>
+            <SelectContainer isOpen={categoryDropdownOpen}>
+                <SelectLabel onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}>
+                    {selectedCategories.length > 0
+                        ? `${selectedCategories.length} קטגוריות`
+                        : 'בחר קטגוריות'}
+                    <FaChevronDown />
+                </SelectLabel>
+                {categoryDropdownOpen && (
+                    <Dropdown>
+                        {categories?.map((category) => (
+                            <DropdownOption key={category._id}>
+                                <input
+                                    type="checkbox"
+                                    id={category._id}
+                                    checked={selectedCategories.includes(category._id)}
+                                    onChange={() => handleCategoryCheckboxChange(category._id)}
+                                />
+                                <label htmlFor={category._id}>{category.categoryName}</label>
+                            </DropdownOption>
+                        ))}
+                    </Dropdown>
+                )}
+            </SelectContainer>
             <DateLabel>תוקף מ:</DateLabel>
             <DateInput
                 type="date"

@@ -111,17 +111,18 @@ export const useFetchBenefits = () => {
   });
 
 
-
   // Delete benefit
   const deleteBenefitMutation = useMutation({
     mutationFn: deleteBenefitById,
     onMutate: async (benefitId: string) => {
-      const { benefits, setBenefits } = useBenefitStore.getState();
+      await queryClient.cancelQueries({ queryKey: ["benefits"] });
+      const { benefits} = useBenefitStore.getState();
       const previousBenefits = [...benefits];
       const updatedBenefits = benefits.filter((benefit) => benefit._id !== benefitId);
-      setBenefits(updatedBenefits);
+      queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
       return { previousBenefits };
     },
+
     onError: (_error, _variables, context: any) => {
       const { setBenefits } = useBenefitStore.getState();
       setBenefits(context.previousBenefits);

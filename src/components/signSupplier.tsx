@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import debounce from "lodash.debounce";
 import my_http from "@/services/http";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { supplierSchema, SupplierFormValues } from "@/types/types";
+import styles from "@/styles/SignPages/sign.module.css";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 
 export default function SignSupplierComponent() {
@@ -64,22 +65,22 @@ export default function SignSupplierComponent() {
           ? branchesFromGoogle.map((place: any) => place.name + " " + place.address)
           : [];
 
-        setSuggestions(citySuggestions);
-        setDropdownVisible(branchIndex);
-
-      } catch (error) {
-        console.error("Error fetching suggestions:", error);
+          setSuggestions(citySuggestions);
+          setDropdownVisible(branchIndex);
+        } catch (error) {
+          console.error("Error fetching suggestions:", error);
+          setSuggestions([]);
+          setDropdownVisible(null);
+        } finally {
+          setLoading(false);
+        }
+      } else {
         setSuggestions([]);
         setDropdownVisible(null);
-      } finally {
-        setLoading(false);
       }
-    } else {
-      setSuggestions([]);
-      setDropdownVisible(null);
-    }
-  }, 300);
-
+    },
+    300
+  );
 
   const onSubmit = (data: SupplierFormValues) => {
     alert("onSubmit is triggered!");
@@ -95,57 +96,55 @@ export default function SignSupplierComponent() {
     });
   };
 
-
   return (
-    <div className="add-supplier-page">
-      <h1 className="text-center text-2xl font-bold">Add New Supplier</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 max-w-md mx-auto">
-
-        
+    <div className={styles.loginPage}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         {/* Business Name */}
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="businessName">שם העסק:</label>
           <input id="businessName" {...register("businessName")} />
           {errors.businessName && <p>{errors.businessName.message}</p>}
         </div>
 
         {/* Provider Name */}
-        <div>
-          <label htmlFor="providerName">שם ספק (יש להכניס שם פרטי ולא את שם העסק):</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="providerName">
+            שם ספק (יש להכניס שם פרטי ולא את שם העסק):
+          </label>
           <input id="providerName" {...register("providerName")} />
           {errors.providerName && <p>{errors.providerName.message}</p>}
         </div>
 
         {/* Email */}
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="email">אימייל:</label>
           <input id="email" type="email" {...register("email")} />
           {errors.email && <p>{errors.email.message}</p>}
         </div>
 
         {/* Password */}
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="password">סיסמה:</label>
           <input id="password" type="password" {...register("password")} />
           {errors.password && <p>{errors.password.message}</p>}
         </div>
 
         {/* Phone Number */}
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="phoneNumber">מספר טלפון:</label>
           <input id="phoneNumber" {...register("phoneNumber")} />
           {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
         </div>
 
         {/* Site Link */}
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="siteLink">קישור לאתר:</label>
           <input id="siteLink" type="url" {...register("siteLink")} />
           {errors.siteLink && <p>{errors.siteLink.message}</p>}
         </div>
 
         {/* Supplier Logo */}
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="supplierLogo">קישור ללוגו:</label>
           <input id="supplierLogo" type="url" {...register("supplierLogo")} />
           {errors.supplierLogo && <p>{errors.supplierLogo.message}</p>}
@@ -179,10 +178,13 @@ export default function SignSupplierComponent() {
         </div>
 
         {/* Branches */}
-        <div>
+        <div className={styles.formGroup}>
           <h2 className="font-bold">סניפים:</h2>
           {fields.map((branch, index) => (
-            <div key={branch.id} className="flex flex-col gap-2 border p-2 mb-2">
+            <div
+              key={branch.id}
+              className="flex flex-col gap-2 border p-2 mb-2"
+            >
               {/* Branch Selection */}
               <div>
                 <label htmlFor={`branches.${index}.branch`}>בחר סניף:</label>
@@ -202,7 +204,10 @@ export default function SignSupplierComponent() {
                         onClick={() => {
                           if (place.includes(",")) {
                             const parts = place.split(","); // פיצול לפי פסיק
-                            const cityBranch = parts.length >= 2 ? parts[1].trim() : "No city available";
+                            const cityBranch =
+                              parts.length >= 2
+                                ? parts[1].trim()
+                                : "No city available";
                             console.log("place:", place);
                             console.log("city:", cityBranch);
                             setValue(`branches.${index}.nameBranch`, place);
@@ -210,19 +215,27 @@ export default function SignSupplierComponent() {
                           } else {
                             console.error("Invalid place format:", place);
                             setValue(`branches.${index}.nameBranch`, place);
-                            setValue(`branches.${index}.city`, "No city available");
+                            setValue(
+                              `branches.${index}.city`,
+                              "No city available"
+                            );
                           }
                           setSuggestions([]);
                           setDropdownVisible(null);
                         }}
                         className="cursor-pointer px-4 py-2 hover:bg-gray-100 flex justify-between items-center"
                       >
-                        {place} - {place.length >= 2 ? place[place.length - 2].trim() : "No city available"}
+                        {place} -{" "}
+                        {place.length >= 2
+                          ? place[place.length - 2].trim()
+                          : "No city available"}
                       </li>
                     ))}
                   </ul>
                 )}
-                {errors.branches?.[index]?.nameBranch && <p>{errors.branches[index].nameBranch?.message}</p>}
+                {errors.branches?.[index]?.nameBranch && (
+                  <p>{errors.branches[index].nameBranch?.message}</p>
+                )}
               </div>
 
               {/* Hidden Fields for Branch Name and City */}
@@ -245,12 +258,18 @@ export default function SignSupplierComponent() {
             </div>
           ))}
 
-          <button type="button" onClick={() => append({ nameBranch: "", city: "" })}>
+          <button
+            type="button"
+            onClick={() => append({ nameBranch: "", city: "" })}
+          >
             הוסף סניף
           </button>
         </div>
 
-        <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition"
+        >
           הרשמה
         </button>
       </form>
