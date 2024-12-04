@@ -101,7 +101,7 @@ export default function SignSupplierComponent() {
           <input id="businessName" {...register("businessName")} />
           {errors.businessName && <p>{errors.businessName.message}</p>}
         </div>
-        
+
         {/* Provider Name */}
         <div>
           <label htmlFor="providerName">שם ספק (יש להכניס שם פרטי ולא את שם העסק):</label>
@@ -166,9 +166,18 @@ export default function SignSupplierComponent() {
                       <li
                         key={idx}
                         onClick={() => {
-                          const cityBranch = place.length >= 2 ? place[place.length - 2].trim() : "No city available";
-                          setValue(`branches.${index}.nameBranch`, place);
-                          setValue(`branches.${index}.city`, cityBranch);
+                          if (place.includes(",")) {
+                            const parts = place.split(","); // פיצול לפי פסיק
+                            const cityBranch = parts.length >= 2 ? parts[1].trim() : "No city available";
+                            console.log("place:", place);
+                            console.log("city:", cityBranch);
+                            setValue(`branches.${index}.nameBranch`, place);
+                            setValue(`branches.${index}.city`, cityBranch);
+                          } else {
+                            console.error("Invalid place format:", place);
+                            setValue(`branches.${index}.nameBranch`, place);
+                            setValue(`branches.${index}.city`, "No city available");
+                          }
                           setSuggestions([]);
                           setDropdownVisible(null);
                         }}
