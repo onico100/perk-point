@@ -1,14 +1,14 @@
-"use client"
-import { Login, SignSupllierComponent, TabSign} from "@/components/index";
-import styles from "@/styles/login.module.css";
+"use client";
+import { Login, SignSupllierComponent, TabSign } from "@/components/index";
+import styles from "@/styles/SignPages/sign.module.css";
 
-export default function SignUp(){
-
-    return     <div className={styles.centerContainer}>
-    <div className={styles.centerContent}>
-      <TabSign tabContent="הרשמה" />
-      <SignSupllierComponent />
+export default function SignUp() {
+  return (
+    <div className={styles.centerContainer}>
+      <div className={styles.centerContent}>
+        <TabSign tabContent="הרשמה" />
+        <SignSupllierComponent />
+      </div>
     </div>
-  </div>
-
+  );
 }
