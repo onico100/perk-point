@@ -32,25 +32,14 @@ export default function RootLayout({
         <Head>
           <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>
-
         <body className="font-heebo">
           <TopBar />
           <div className="main">
             <SideBar />
             <CalcButton onClick={() => setIsCalcPageVisible(true)} />{" "}
-            {/* Pass function to open calc page */}
-            {/* Overlay to dim the background when CalcPage is visible */}
-            {isCalcPageVisible && (
-              <div
-                className="overlay"
-                onClick={() => setIsCalcPageVisible(false)}
-              />
-            )}
+            {isCalcPageVisible && (<div className="overlay" onClick={() => setIsCalcPageVisible(false)}/>)}
             {children}
-            {/* Conditionally render CakcPage based on state */}
-            {isCalcPageVisible && (
-              <CakcPage onClose={() => setIsCalcPageVisible(false)} />
-            )}
+            {isCalcPageVisible && (<CakcPage onClose={() => setIsCalcPageVisible(false)} />)}
           </div>
         </body>
       </html>
