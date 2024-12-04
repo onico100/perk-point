@@ -45,17 +45,19 @@ const BenefitDetails = () => {
   const handleSave = async () => {
     if (updatedBenefit) {
       try {
-        await updateBenefit({
-          id: updatedBenefit._id,
-          updatedData: {
-            description: updatedBenefit.description,
-            redemptionConditions: updatedBenefit.redemptionConditions,
-            expirationDate: updatedBenefit.expirationDate,
-            branches: updatedBenefit.branches,
-            isActive: updatedBenefit.isActive,
-          },
-        });
-        console.log("Benefit updated successfully");
+        if (updatedBenefit._id) {
+          await updateBenefit({
+            id: updatedBenefit._id,
+            updatedData: {
+              description: updatedBenefit.description,
+              redemptionConditions: updatedBenefit.redemptionConditions,
+              expirationDate: updatedBenefit.expirationDate,
+              branches: updatedBenefit.branches,
+              isActive: updatedBenefit.isActive,
+            },
+          });
+          console.log("Benefit updated successfully");
+        }
       } catch (error) {
         console.error("Error updating benefit:", error);
       }

@@ -8,14 +8,14 @@ import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { supplierSchema, SupplierFormValues } from "@/types/types";
 import styles from "@/styles/SignPages/sign.module.css";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
+import { useRouter } from "next/navigation";
 
 export default function SignSupplierComponent() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState<number | null>(null);
   const { addSupplier } = useFetchSuppliers();
-  const { categories, isLoadingC } = useFetchGeneral(); 
-
+  const { categories, isLoadingC } = useFetchGeneral();
 
   // const {
   //   register,
@@ -34,13 +34,10 @@ export default function SignSupplierComponent() {
     setValue,
     formState: { errors },
   } = useForm<SupplierFormValues>({
-        defaultValues: {
-      selectedCategories: [], 
+    defaultValues: {
+      selectedCategories: [],
     },
-  }
-  );
-  
-
+  });
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -55,15 +52,20 @@ export default function SignSupplierComponent() {
     }
   }, [businessName]);
 
-  const fetchBranches = debounce(async (textQuery: string, branchIndex: number) => {
-    if (textQuery.trim().length >= 2) {
-      try {
-        setLoading(true);
-        const response = await my_http.post(`/googleAutocomplete/post`, { textQuery });
-        const branchesFromGoogle = response.data.formattedPlaces;
-        const citySuggestions = branchesFromGoogle
-          ? branchesFromGoogle.map((place: any) => place.name + " " + place.address)
-          : [];
+  const fetchBranches = debounce(
+    async (textQuery: string, branchIndex: number) => {
+      if (textQuery.trim().length >= 2) {
+        try {
+          setLoading(true);
+          const response = await my_http.post(`/googleAutocomplete/post`, {
+            textQuery,
+          });
+          const branchesFromGoogle = response.data.formattedPlaces;
+          const citySuggestions = branchesFromGoogle
+            ? branchesFromGoogle.map(
+                (place: any) => place.name + " " + place.address
+              )
+            : [];
 
           setSuggestions(citySuggestions);
           setDropdownVisible(branchIndex);
@@ -82,13 +84,19 @@ export default function SignSupplierComponent() {
     300
   );
 
+  const router = useRouter();
+
   const onSubmit = (data: SupplierFormValues) => {
+    alert("onSubmit is triggered!");
     console.log("Form data:", data);
     addSupplier(data, {
       onSuccess: () => {
+        alert("Supplier added successfully!");
+        router.push("/");
       },
       onError: (error: Error) => {
         console.error("Failed to add supplier:", error);
+        // alert("Failed to add supplier.");
       },
     });
   };
@@ -154,7 +162,7 @@ export default function SignSupplierComponent() {
             <p>טוען קטגוריות...</p>
           ) : (
             <div className="flex flex-wrap gap-2">
-              {categories?.map((category:any) => (
+              {categories?.map((category: any) => (
                 <label
                   key={category._id}
                   className="flex items-center gap-2 cursor-pointer"
@@ -178,10 +186,7 @@ export default function SignSupplierComponent() {
         <div className={styles.formGroup}>
           <h2 className="font-bold">סניפים:</h2>
           {fields.map((branch, index) => (
-            <div
-              key={branch.id}
-              className="flex flex-col gap-2 border p-2 mb-2"
-            >
+            <div key={branch.id}>
               {/* Branch Selection */}
               <div>
                 <label htmlFor={`branches.${index}.branch`}>בחר סניף:</label>
@@ -194,42 +199,42 @@ export default function SignSupplierComponent() {
                 />
                 {loading && dropdownVisible === index && <p>טוען...</p>}
                 {dropdownVisible === index && suggestions.length > 0 && (
-                  <ul className="absolute top-12 left-0 right-0 border rounded bg-white shadow-lg z-10 max-h-60 overflow-y-auto">
-                    {suggestions.map((place, idx) => (
-                      <li
-                        key={idx}
-                        onClick={() => {
-                          if (place.includes(",")) {
-                            const parts = place.split(","); // פיצול לפי פסיק
-                            const cityBranch =
-                              parts.length >= 2
-                                ? parts[1].trim()
-                                : "No city available";
-                            console.log("place:", place);
-                            console.log("city:", cityBranch);
-                            setValue(`branches.${index}.nameBranch`, place);
-                            setValue(`branches.${index}.city`, cityBranch);
-                          } else {
-                            console.error("Invalid place format:", place);
-                            setValue(`branches.${index}.nameBranch`, place);
-                            setValue(
-                              `branches.${index}.city`,
-                              "No city available"
-                            );
-                          }
-                          setSuggestions([]);
-                          setDropdownVisible(null);
-                        }}
-                        className="cursor-pointer px-4 py-2 hover:bg-gray-100 flex justify-between items-center"
-                      >
-                        {place} -{" "}
-                        {place.length >= 2
-                          ? place[place.length - 2].trim()
-                          : "No city available"}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className={styles.dropdown}>
+                    <ul>
+                      {suggestions.map((place, idx) => (
+                        <li
+                          key={idx}
+                          onClick={() => {
+                            if (place.includes(",")) {
+                              const parts = place.split(",");
+                              const cityBranch =
+                                parts.length >= 2
+                                  ? parts[1].trim()
+                                  : "No city available";
+                              setValue(`branches.${index}.nameBranch`, place);
+                              setValue(`branches.${index}.city`, cityBranch);
+                            } else {
+                              setValue(`branches.${index}.nameBranch`, place);
+                              setValue(
+                                `branches.${index}.city`,
+                                "No city available"
+                              );
+                            }
+                            setSuggestions([]);
+                            setDropdownVisible(null);
+                          }}
+                          className={styles.dropdownItem}
+                        >
+                          {place} -{" "}
+                          {place.length >= 2
+                            ? place[place.length - 2].trim()
+                            : "No city available"}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
+
                 {errors.branches?.[index]?.nameBranch && (
                   <p>{errors.branches[index].nameBranch?.message}</p>
                 )}

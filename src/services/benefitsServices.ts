@@ -58,8 +58,9 @@ export async function updateBenefitById(id: string, updatedData: any): Promise<B
     }
 }
 
-export async function addBenefit(newBenefit: Omit<Benefit, "_id">): Promise<Benefit> {
+export async function addBenefit(newBenefit: Benefit): Promise<Benefit> {
     try {
+        console.log(22,newBenefit)
         const response = await my_http.post("/benefits/insert", newBenefit);
         return response.data;
     } catch (error) {

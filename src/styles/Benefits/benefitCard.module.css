@@ -11,21 +11,21 @@
   position: relative;
 }
 
-.benefitCard:hover{
+.benefitCard:hover {
   transform: scale(1.03);
 }
 
 .logo {
-  height: 90px; 
-  width: auto; 
-  margin-bottom: 10px; 
+  height: 90px;
+  width: auto;
+  margin-bottom: 10px;
 }
 
 .divider {
-  width: 100%; 
+  width: 100%;
   height: 1px;
   background-color: #353535;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 .description {
@@ -51,35 +51,15 @@
 
 .button {
   background: linear-gradient(to bottom, #b346e8, #87cdfa);
-  height: 35px;
-  width: 140px;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 0;
-  cursor: pointer;
-  font-size: large;
-  font-weight: bold;
-  transition: background 0.3s ease;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: auto;
-  direction: ltr;
-  position: absolute; 
-  bottom: 20px; 
-  left: 30px; 
 }
 
-.deleteButton svg{
-  font-size: 35px; 
-  color: #474747; 
-  position: absolute; 
-  bottom: 20px; 
+.deleteButton svg {
+  font-size: 35px;
+  color: #474747;
+  position: absolute;
+  bottom: 20px;
 }
 .button:hover {
   background: linear-gradient(to bottom, #a344d3, #7ec0ea);
-  transform: scale(1.05); 
+  transform: scale(1.05);
 }
-

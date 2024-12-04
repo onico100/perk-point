@@ -34,6 +34,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
 
   const deleteBenefitFunc = () => {
     if (window.confirm("Are you sure you want to delete this benefit?")) {
+    if(benefit._id)
       deleteBenefit(benefit._id);
     }
   };
