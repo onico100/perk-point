@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     }
     const data = await request.json();
     const result = await insertDocument(client, "users_collection", data);
-    return NextResponse.json({ insertedId: result.insertedId });
+    return NextResponse.json(data);
   } catch (error: unknown) {
     // Ensure 'error' is safely handled
     const errorMessage =

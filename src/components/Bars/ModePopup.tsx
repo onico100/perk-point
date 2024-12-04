@@ -55,10 +55,10 @@ const ModePopup: React.FC<{
   return ReactDOM.createPortal(
     <div className={style.popup} style={popupStyle} ref={popupRef}>
       <button onClick={() => handleSelect(ClientMode.user)}>
-        {actionType === "login" ? "לקוח" : "לקוח"}
+        {actionType === "login" ? "לקוח " : "לקוח "}
       </button>
       <button onClick={() => handleSelect(ClientMode.supplier)}>
-        {actionType === "login" ? "ספק" : "ספק"}
+        {actionType === "login" ? "ספק " : "ספק "}
       </button>
     </div>,
     document.body

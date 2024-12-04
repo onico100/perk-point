@@ -1,13 +1,19 @@
 "use client";
-import { Login, SignSupllierComponent, TabSign } from "@/components/index";
+import { TabSign } from "@/components/index";
+import SignUserComponent from "@/components/signUser";
+import SignSupplierComponent from "@/components/signSupplier"; 
+import useGeneralStore from "@/stores/generalStore";
 import styles from "@/styles/SignPages/sign.module.css";
 
 export default function SignUp() {
+  const { preMode } = useGeneralStore(); 
+
   return (
     <div className={styles.centerContainer}>
       <div className={styles.centerContent}>
         <TabSign tabContent="הרשמה" />
-        <SignSupllierComponent />
+        {preMode === "USER" && <SignUserComponent />}
+        {preMode === "SUPPLIER" && <SignSupplierComponent />}
       </div>
     </div>
   );

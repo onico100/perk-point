@@ -91,3 +91,12 @@ export enum PreMode {
   user = "USER",
   none = "NONE",
 }
+
+export const userSchema = z.object({
+  username: z.string().min(3, "שם המשתמש חייב להיות לפחות 3 תווים."),
+  email: z.string().email("כתובת אימייל אינה חוקית."),
+  password: z.string().min(6, "סיסמה חייבת להכיל לפחות 6 תווים."),
+  city: z.string().min(2, "יש להזין עיר."),
+});
+
+export type UserFormValues = z.infer<typeof userSchema>;

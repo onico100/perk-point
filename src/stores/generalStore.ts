@@ -45,7 +45,8 @@ const useGeneralStore = create<GeneralStore>()(
       setPreMode: (preMode: PreMode) => set({ preMode }),
 
       currentUser: null,
-      setCurrentUser: (user: User | null) => set({ currentUser: user }),
+      setCurrentUser: (user: User | null) => 
+        set({ currentUser: user }),
 
       currentSupplier: null,
       setCurrentSupplier: (supplier: Supplier | null) =>
