@@ -3,7 +3,7 @@ import { useState } from "react";
 import useGeneralStore from "@/stores/generalStore";
 import { useLoginUser } from "@/hooks/useFetchUsers";
 
-import styles from "@/styles/login.module.css"; // Import the CSS module
+import styles from "@/styles/SignPages/sign.module.css";
 
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 
@@ -41,7 +41,7 @@ export default function Login() {
         {
           onSuccess: (supplier) => {
             alert(`Welcome, ${supplier.providerName}!`);
-            
+
             router.push(`benefits/${supplier._id}`);
             console.log(22, `Welcome, ${supplier.providerName}!)!`);
           },
