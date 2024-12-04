@@ -78,7 +78,7 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
             <InputContainer>
                 <SupplierInput
                     type="text"
-                    placeholder="חיפוש לפי שם העסק"
+                    placeholder="חיפוש שם העסק"
                     value={supplierFilter}
                     onChange={(e) => setSupplierFilter(e.target.value)}
                 />
@@ -133,7 +133,7 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
             <InputContainer>
                 <SupplierInput
                     type="text"
-                    placeholder="חיפוש לפי שם הסניף"  
+                    placeholder="חיפוש לפי סניף"  
                     value={branchFilter} 
                     onChange={(e) => setBranchFilter(e.target.value)} 
                 />
