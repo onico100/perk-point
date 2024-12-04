@@ -33,6 +33,10 @@ const BenefitsContainer = () => {
         );
         setCurrentTitle(titles[1]);
       } else if (clientMode === "SUPPLIER") {
+        console.log("supplierId: "+id)
+        benefits?.forEach((element:any) => {
+          console.log("b: "+element.supplierId)
+        });
         setBenefitsToShow(
           benefits?.filter((b: Benefit) => b.supplierId == id) || []
         );
