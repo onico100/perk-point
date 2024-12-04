@@ -14,6 +14,9 @@ import { useRouter } from "next/router";
 //import useUserStore from '../stores/usersStore';
 //const setUser = useUserStore((state) => state.setUser);
 const setCurrentUser = useGeneralStore.getState().setCurrentUser;
+const currentUser = useGeneralStore.getState().currentUser;
+
+
 // Fetch user by ID
 export const useGetUserById = (id: string) => {
   return useQuery<User, Error>({
@@ -34,13 +37,11 @@ export const useLoginUser = () => {
   return useMutation<User, Error, { email: string; password: string }>({
     mutationFn: ({ email, password }) => getUserByCredentials(email, password),
     onSuccess: (user) => {
-      console.log("User login successful:", user);
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.user);
       setCurrentUser(user);
       const router = useRouter();
       router.push(`benefits/${user._id}`);
-      console.log(22, `Welcome, ${user.username}!)!`);
     },
   });
 };
@@ -49,7 +50,14 @@ export const useLoginUser = () => {
 export const useAddUser = () => {
   return useMutation<User, Error, User>({
     mutationFn: addUser,
+    onSuccess: (user) => {
+      const setClientMode = useGeneralStore.getState().setClientMode;
+      setClientMode(ClientMode.user);
+      setCurrentUser(user);
+      console.log("useAddUser user:", user);
+    }
   });
+  
 };
 
 // Update user by ID

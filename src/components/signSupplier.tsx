@@ -83,15 +83,12 @@ export default function SignSupplierComponent() {
   );
 
   const onSubmit = (data: SupplierFormValues) => {
-    alert("onSubmit is triggered!");
     console.log("Form data:", data);
     addSupplier(data, {
       onSuccess: () => {
-        // alert("Supplier added successfully!");
       },
       onError: (error: Error) => {
         console.error("Failed to add supplier:", error);
-        // alert("Failed to add supplier.");
       },
     });
   };
