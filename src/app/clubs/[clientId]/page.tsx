@@ -1,19 +1,13 @@
-'use client'
+"use client";
 import ClubsContainer from "@/components/Clubs/ClubsContainer";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode, PreMode } from "@/types/types";
-export default function Clubs(){
-    
-    const setClientMode = useGeneralStore((state) => state.setClientMode);
-    const setPreMode = useGeneralStore((state) => state.setPreMode);
-    const { clientMode } = useGeneralStore();
+import { ClientMode } from "@/types/types";
+export default function Clubs() {
+  const setClientMode = useGeneralStore((state) => state.setClientMode);
 
-    if (clientMode == ClientMode.connection) {
-        setClientMode(ClientMode.general);
-        setPreMode(PreMode.none);
-    }
+  const { clientMode } = useGeneralStore();
 
-    return <ClubsContainer></ClubsContainer>
+  if (clientMode == ClientMode.connection) setClientMode(ClientMode.general);
 
+  return <ClubsContainer></ClubsContainer>;
 }
-
