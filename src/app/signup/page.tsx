@@ -1,6 +1,6 @@
 "use client";
 import { TabSign } from "@/components/index";
-import SignUserComponent from "@/components/signUser";
+import SignUserComponent from "@/components/SighPages/signUser";
 import SignSupplierComponent from "@/components/SighPages//signSupplier";
 import useGeneralStore from "@/stores/generalStore";
 import styles from "@/styles/SignPages/sign.module.css";
