@@ -10,6 +10,7 @@ import {
   getUserByCredentials,
 } from "@/services/usersServices";
 import { useRouter } from "next/navigation";
+import { errorAlert, successAlert } from "@/utils/sweet-alerts";
 
 const setCurrentUser = useGeneralStore.getState().setCurrentUser;
 const currentUser = useGeneralStore.getState().currentUser;
@@ -54,6 +55,9 @@ export const useAddUser = () => {
       setCurrentUser(user);
       router.push("/");
     },
+    onError: (error) => {
+      errorAlert("הוספת משתמש נכשלה.");
+    },
   });
 };
 
@@ -63,10 +67,11 @@ export const useUpdateUserById = () => {
     mutationFn: ({ id, updatedData }) => updateUserById(id, updatedData),
     onMutate: async ({ id, updatedData }) => {
       const newUser = { _id: id, ...updatedData } as User;
-      setCurrentUser(newUser);
+      setCurrentUser(newUser);     
     },
     onError: (error, variables, context) => {
       console.error("Mutation error:", error);
+      errorAlert("נכשל");
     },
   });
 };
@@ -78,6 +83,11 @@ export const useDeleteUserById = () => {
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.general);
       setCurrentUser(null);
+      successAlert("משתמש נמחק")
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+      errorAlert("מחיקת משתמש נכשלה");
     },
   });
 };

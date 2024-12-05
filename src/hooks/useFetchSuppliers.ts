@@ -10,6 +10,7 @@ import {
 } from "@/services/suppliersServices";
 import useGeneralStore from "@/stores/generalStore";
 import { useRouter } from "next/navigation";
+import { errorAlert, inProccesAlert, successAlert } from "@/utils/sweet-alerts";
 export const useFetchSuppliers = () => {
   const { setSuppliers } = useSupplierStore.getState();
   const setClientMode = useGeneralStore.getState().setClientMode;
@@ -41,12 +42,14 @@ export const useFetchSuppliers = () => {
       if (!existingSupplier) {
         setSuppliers([...suppliers, newSupplier]);
       }
+      inProccesAlert("מוסיף")
       return { previousSuppliers: suppliers };
     },
     onError: (error, _, context: any) => {
       if (context?.previousSuppliers) {
         const { setSuppliers } = useSupplierStore.getState();
         setSuppliers(context.previousSuppliers);
+        errorAlert("הוספת משתמש נכשלה")
       }
     },
     onSuccess: (supplier) => {
@@ -54,6 +57,7 @@ export const useFetchSuppliers = () => {
       setClientMode(ClientMode.supplier);
       //queryClient.invalidateQueries({ queryKey: ["suppliers"] });
       console.log("Supplier added and stored successfully!", currentSupplier);
+      successAlert("משתמש נוסף")
       router.push("/");
     },
   });
@@ -72,14 +76,17 @@ export const useFetchSuppliers = () => {
         ...updatedData,
       } as Supplier;
       setSuppliers(suppliers.map((s) => (s._id === id ? updatedSupplier : s)));
+      inProccesAlert("מעדכן")
       return { previousSuppliers: suppliers };
     },
     onError: (_error, _variables, context: any) => {
       setSuppliers(context.previousSuppliers);
       console.error("Failed to update supplier.");
+      errorAlert("עדכון ספק נכשל")
     },
     onSuccess: () => {
       console.log("Supplier updated successfully!");
+      successAlert("עדכון ספק בוצע")
      // queryClient.invalidateQueries({ queryKey: ["suppliers"] });
     },
   });
@@ -99,7 +106,7 @@ export const useFetchSuppliers = () => {
     },
     onError: (error) => {
       console.error("Supplier login failed:", error);
-      alert("Invalid supplier credentials.");
+      errorAlert("פרטי הספק אינם תקינים");
     },
   });
 

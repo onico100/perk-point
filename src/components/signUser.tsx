@@ -5,6 +5,7 @@ import { useAddUser } from "@/hooks/useFetchUsers"; // הוסף את הוק יצ
 import { userSchema, UserFormValues, User } from "@/types/types"; // צור סכמה חדשה ל-User
 import styles from "@/styles/SignPages/sign.module.css";
 import useGeneralStore from "@/stores/generalStore";
+import { errorAlert } from "@/utils/sweet-alerts";
 
 export default function SignUserComponent() {
   const { mutate: addUser, isPending } = useAddUser();
@@ -36,7 +37,6 @@ export default function SignUserComponent() {
       },
       onError: (error) => {
         console.error("Failed to add user:", error);
-        alert("Failed to add user.");
       },
     });
   };

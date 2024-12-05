@@ -64,7 +64,7 @@ export default function SignSupplierComponent() {
   }, 300);
 
   const onSub = (data: SupplierFormValues) => {
-    alert("onSubmit is triggered!");
+   // alert("onSubmit is triggered!");
     console.log("Form data:", data);
     addSupplier(data, {
       onSuccess: () => {

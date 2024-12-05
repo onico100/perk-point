@@ -6,6 +6,7 @@ import styles from "@/styles/SignPages/sign.module.css";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -23,12 +24,12 @@ export default function Login() {
         { email, password },
         {
           onSuccess: (user) => {
-            alert(`Welcome, ${user.username}!`);
+            helloAlert(`שלום ${user.username} ☺️`);
             router.push(`benefits/${user._id}`);
           },
           onError: (error) => {
             console.error(error);
-            alert("Login failed: Invalid user credentials.");
+            errorAlert("התחברות נכשלה: פרטי לקוח אינם תקינים.");
           },
         }
       );
@@ -42,7 +43,7 @@ export default function Login() {
       );
     } 
     else {
-      alert("No mode is selected (User or Supplier).");
+      errorAlert("לא נבחר מצב התחברות (משתמש או ספק)");
     }
   };
 
