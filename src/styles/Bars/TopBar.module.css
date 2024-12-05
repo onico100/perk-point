@@ -9,7 +9,6 @@
   color: black;
   height: 85px;
   width: 100vw;
-  padding: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -26,7 +25,7 @@
 
 .buttonsContainer {
   display: flex;
-  height: 77px;
+  height: 86px;
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(to right, #b247e8, #ac5ceb);
