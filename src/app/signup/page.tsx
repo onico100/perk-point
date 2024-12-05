@@ -7,8 +7,8 @@ import styles from "@/styles/SignPages/sign.module.css";
 import { ClientMode } from "@/types/types";
 
 export default function SignUp() {
-  // const setClientMode = useGeneralStore.getState().setClientMode;
-  // setClientMode(ClientMode.connection);
+  const setClientMode = useGeneralStore.getState().setClientMode;
+  setClientMode(ClientMode.connection);
 
   const { preMode } = useGeneralStore();
 

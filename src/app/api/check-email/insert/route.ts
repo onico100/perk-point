@@ -15,13 +15,11 @@ export default async function handler(req: any, res: any) {
     const client = await connectDatabase();
     const db = client.db("benefits-site");
 
-    // חיפוש במשתמשים וספקים
     const userExists = await db.collection("users").findOne({ email });
     const supplierExists = await db.collection("suppliers").findOne({ email });
 
     client.close();
 
-    // אם קיים במשתמשים או ספקים
     if (userExists || supplierExists) {
       return res.status(200).json({ exists: true });
     }
