@@ -7,7 +7,7 @@ import BenefitsDetails from "./Benefits/BenefitDetails";
 import BenefitsContainer from "./Benefits/BenefitsContainer";
 import Login from "./SighPages/login";
 import SignSupllierComponent from "./SighPages/signSupplier";
-import signUser from "./signUser";
+import signUser from "./SighPages/signUser";
 import TabSign from "./Bars/TabSign";
 import CalcButton from "./Calculator/CalcButton";
 import CakcPage from "./Calculator/CalcPage";
