@@ -1,5 +1,9 @@
-export default function PersonalDetails(){
+"use client"
 
-    return <div>personal details</div>
+import { PersonalDetails} from "@/components/index";
+export default function PersonalDetailsPage(){
 
+    return (
+        <PersonalDetails />
+    )
 }
