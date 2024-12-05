@@ -26,7 +26,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
       if (
         currentUser?.clubs?.some((existingClub) => existingClub === club?._id)
       ) {
-        errorAlert("This club has already been added.")
+        errorAlert("מועדון זה כבר קיים אצלך.")
         return;
       }
 
