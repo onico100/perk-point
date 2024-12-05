@@ -1,17 +1,17 @@
+import { NextRequest, NextResponse } from "next/server";
 import { connectDatabase } from "@/services/mongo";
 
-export default async function handler(req: any, res: any) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
-  const { email } = req.body;
-
-  if (!email) {
-    return res.status(400).json({ message: "Email is required" });
-  }
-
+export async function POST(req: NextRequest) {
   try {
+    const { email } = await req.json();
+
+    if (!email) {
+      return NextResponse.json(
+        { message: "Email is required" },
+        { status: 400 }
+      );
+    }
+
     const client = await connectDatabase();
     const db = client.db("benefits-site");
 
@@ -20,13 +20,12 @@ export default async function handler(req: any, res: any) {
 
     client.close();
 
-    if (userExists || supplierExists) {
-      return res.status(200).json({ exists: true });
-    }
-
-    return res.status(200).json({ exists: false });
+    return NextResponse.json({ exists: userExists || supplierExists });
   } catch (error) {
     console.error("Error checking email:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
