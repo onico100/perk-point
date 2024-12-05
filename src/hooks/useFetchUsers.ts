@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 const setCurrentUser = useGeneralStore.getState().setCurrentUser;
 const currentUser = useGeneralStore.getState().currentUser;
 
-
 // Fetch user by ID
 export const useGetUserById = (id: string) => {
   return useQuery<User, Error>({
@@ -46,16 +45,16 @@ export const useLoginUser = () => {
 
 // Add new user
 export const useAddUser = () => {
+  const router = useRouter();
   return useMutation<User, Error, User>({
     mutationFn: addUser,
     onSuccess: (user) => {
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.user);
       setCurrentUser(user);
-      console.log("useAddUser user:", user);
-    }
+      router.push("/");
+    },
   });
-  
 };
 
 // Update user by ID
