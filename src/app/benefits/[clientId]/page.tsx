@@ -9,5 +9,5 @@ export default function ClientId() {
 
   if (clientMode == ClientMode.connection) setClientMode(ClientMode.general);
 
-  return <BenefitsContainer></BenefitsContainer>;
+  return <BenefitsContainer />;
 }
