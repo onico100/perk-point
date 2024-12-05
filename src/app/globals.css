@@ -28,7 +28,6 @@ body {
   flex-direction: row;
   direction: rtl;
   height: 100vh;
-  margin-top: 14vh;
 }
 
 .main {
@@ -51,11 +50,6 @@ body {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9998;
-}
-
-.topbar {
-  position: relative;
-  z-index: 9999;
 }
 
 .calc-page-container {
