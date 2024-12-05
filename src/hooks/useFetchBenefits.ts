@@ -11,7 +11,7 @@ import {
 } from "@/services/benefitsServices";
 
 export const useFetchBenefits = () => {
-  const setBenefits = useBenefitStore((state: any) => state.setBenefits); // Zustand setter
+  const setBenefits = useBenefitStore((state: any) => state.setBenefits); 
 
   const queryClient = useQueryClient();
 
@@ -38,7 +38,6 @@ export const useFetchBenefits = () => {
     },
     onSuccess: () => {
       alert("benefit added successfully")
-      // queryClient.invalidateQueries({ queryKey: ["benefits"] });
     },
     onError: (error, _, context: any) => {
       if (context?.previousBenefits) {
@@ -70,7 +69,6 @@ export const useFetchBenefits = () => {
       return { previousBenefits };
     },
     onError: (_error, _data, context) => {
-      //queryClient.setQueryData<Benefit[]>(["benefits"], context?.previousBenefits);
     },
   });
 
@@ -91,9 +89,6 @@ export const useFetchBenefits = () => {
     onError: (_error, _variables, context: any) => {
       const { setBenefits } = useBenefitStore.getState();
       setBenefits(context.previousBenefits);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["benefits"] });
     },
   });
 

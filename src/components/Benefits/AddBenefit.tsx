@@ -37,6 +37,7 @@ const formSchema = z.object({
 });
 
 export default function AddBenefit() {
+
   const router = useRouter();
   const { currentSupplier } = useGeneralStore();
   const id = currentSupplier?._id;
@@ -63,8 +64,8 @@ export default function AddBenefit() {
     const selectedBranches = selectAll
       ? branches
       : branches.filter((b) => data.branches.includes(b.nameBranch));
-
-    const newBenefit = {
+    
+      const newBenefit = {
       supplierId: id,
       clubId: data.club,
       redemptionConditions: data.redemptionConditions,
@@ -73,7 +74,7 @@ export default function AddBenefit() {
       branches: selectedBranches,
       isActive: true,
     } as Benefit;
-
+    
     addBenefit(newBenefit);
     router.push(`/benefits/${id}`);
   };
