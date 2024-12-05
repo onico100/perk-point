@@ -1,18 +1,14 @@
-import {
-  connectDatabase,
-  getClientModeByEmailAndPassword,
-} from "@/services/mongo";
+import bcrypt from "bcrypt";
+import { connectDatabase } from "@/services/mongo";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   let client;
 
   try {
-    // Parse the request body
     const body = await request.json();
     const { email, password } = body;
 
-    // Validate input
     if (!email || !password) {
       return NextResponse.json(
         { error: "Both email and password are required" },
@@ -20,7 +16,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Connect to the database
     client = await connectDatabase();
     if (!client) {
       return NextResponse.json(
@@ -29,13 +24,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find the user
-    const user = await getClientModeByEmailAndPassword(
-      client,
-      "users_collection",
-      email,
-      password,
-    );
+    const db = client.db("benefits-site");
+    const user = await db.collection("users_collection").findOne({ email });
 
     if (!user) {
       return NextResponse.json(
@@ -44,8 +34,17 @@ export async function POST(request: Request) {
       );
     }
 
-    // Return the supplier
-    return NextResponse.json(user, { status: 200 });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { error: "Invalid email or password" },
+        { status: 401 }
+      );
+    }
+
+    const { password: _, ...userWithoutPassword } = user;
+
+    return NextResponse.json(userWithoutPassword, { status: 200 });
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";

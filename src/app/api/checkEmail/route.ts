@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDatabase } from "@/services/mongo";
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
+  let client;
   try {
-    const { email } = await req.json();
+    client = await connectDatabase(); 
+    const db = client.db("benefits-site"); 
+
+    const { email } = await request.json();
 
     if (!email) {
       return NextResponse.json(
@@ -12,20 +16,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const client = await connectDatabase();
-    const db = client.db("benefits-site");
+    const userExists = await db.collection("users_collection").findOne({ email });
+    const supplierExists = await db.collection("suppliers_collection").findOne({ email });
 
-    const userExists = await db.collection("users").findOne({ email });
-    const supplierExists = await db.collection("suppliers").findOne({ email });
-
-    client.close();
-
-    return NextResponse.json({ exists: userExists || supplierExists });
+    return NextResponse.json({ exists: !!userExists || !!supplierExists });
   } catch (error) {
     console.error("Error checking email:", error);
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }
     );
+  } finally {
+    client?.close(); 
   }
 }

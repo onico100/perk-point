@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import {
   connectDatabase,
   getClientModeByEmailAndPassword,
@@ -7,18 +8,16 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   let client;
   try {
-    // Parse the request body
     const body = await request.json();
     const { email, password } = body;
-    // Validate input
+
     if (!email || !password) {
       return NextResponse.json(
-        { error: "Both name and password are required" },
+        { error: "Both email and password are required" },
         { status: 400 }
       );
     }
 
-    // Connect to the database
     client = await connectDatabase();
     if (!client) {
       return NextResponse.json(
@@ -27,13 +26,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find the supplier
-    const supplier = await getClientModeByEmailAndPassword(
-      client,
-      "suppliers_collection",
-      email,
-      password,
-    );
+
+    const db = client.db("benefits-site");
+    const supplier = await db.collection("suppliers_collection").findOne({ email });
 
     if (!supplier) {
       return NextResponse.json(
@@ -42,8 +37,18 @@ export async function POST(request: Request) {
       );
     }
 
-    // Return the supplier
-    return NextResponse.json(supplier, { status: 200 });
+
+    const passwordMatch = await bcrypt.compare(password, supplier.password);
+    if (!passwordMatch) {
+      return NextResponse.json(
+        { error: "Invalid email or password" },
+        { status: 401 }
+      );
+    }
+
+
+    const { password: _, ...supplierWithoutPassword } = supplier;
+    return NextResponse.json(supplierWithoutPassword, { status: 200 });
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";

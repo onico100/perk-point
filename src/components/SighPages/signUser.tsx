@@ -1,19 +1,20 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAddUser } from "@/hooks/useFetchUsers"; // הוסף את הוק יצירת המשתמש
-import { userSchema, UserFormValues, User } from "@/types/types"; // צור סכמה חדשה ל-User
+import { useAddUser } from "@/hooks/useFetchUsers"; 
+import { userSchema, UserFormValues, User } from "@/types/types"; 
 import styles from "@/styles/SignPages/sign.module.css";
 import { checkEmailService } from "@/services/emailServices";
 import { useState } from "react";
 import { errorAlert } from "@/utils/sweet-alerts";
+import { useRouter } from "next/navigation"; 
 
 export default function SignUserComponent() {
   const { mutate: addUser, isPending } = useAddUser();
   const [emailExists, setEmailExists] = useState(false);
+  const router = useRouter();
 
-  //const setCurrentUser = useGeneralStore.getState().setCurrentUser;
-
+ 
   const {
     register,
     handleSubmit,
@@ -26,8 +27,7 @@ export default function SignUserComponent() {
   const onSubmit =async  (data: UserFormValues) => {
     const emailExists = await checkEmailService(data.email);
     if (emailExists) {
-      setEmailExists(true);
-      setError("email", { message: "אימייל זה כבר קייםר." });
+      setEmailExists(true); 
       return;
     }
 
@@ -66,7 +66,6 @@ export default function SignUserComponent() {
           <label htmlFor="email">אימייל:</label>
           <input id="email" type="email" {...register("email")} />
           {errors.email && <p>{errors.email.message}</p>}
-          {emailExists && <p className="text-red-500">אימייל זה כבר קיים</p>}
         </div>
 
         {/* Password */}
@@ -83,6 +82,21 @@ export default function SignUserComponent() {
           {errors.city && <p>{errors.city.message}</p>}
         </div>
 
+
+        {emailExists && (
+            <div className="text-red-500 mb-4">
+              <p>
+                אימייל זה כבר קיים במערכת{" "}
+                <br />
+                <span
+                  className="text-red-500 underline cursor-pointer"
+                  onClick={() => router.push("/login")}
+                >
+                  למעבר לדף התחברות
+                </span>
+              </p>
+            </div>
+          )}
         <button
           type="submit"
           className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition"
