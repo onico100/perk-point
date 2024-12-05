@@ -24,7 +24,7 @@ const queryClient = new QueryClient();
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const [isCalcPageVisible, setIsCalcPageVisible] = useState(false); // State to control visibility
+  const [isCalcPageVisible, setIsCalcPageVisible] = useState(false);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -33,14 +33,28 @@ export default function RootLayout({
           <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>
         <body className="font-heebo">
-          <TopBar />
-          <div className="main">
-            <SideBar />
-            <CalcButton onClick={() => setIsCalcPageVisible(true)} />{" "}
-            {isCalcPageVisible && (<div className="overlay" onClick={() => setIsCalcPageVisible(false)}/>)}
-            {children}
-            {isCalcPageVisible && (<CakcPage onClose={() => setIsCalcPageVisible(false)} />)}
+          {isCalcPageVisible && (
+            <div
+              className="overlay"
+              onClick={() => setIsCalcPageVisible(false)}
+            />
+          )}
+          <div className="layout">
+            <TopBar />
+            <div className="mainContent">
+              <SideBar />
+              <div className="main">
+                <CalcButton onClick={() => setIsCalcPageVisible(true)} />
+                {children}
+              </div>
+            </div>
           </div>
+
+          {isCalcPageVisible && (
+            <div className="calc-page-container">
+              <CakcPage onClose={() => setIsCalcPageVisible(false)} />
+            </div>
+          )}
         </body>
       </html>
     </QueryClientProvider>

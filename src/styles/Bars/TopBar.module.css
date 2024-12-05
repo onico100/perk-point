@@ -1,41 +1,44 @@
 .topBar {
-  position: fixed; 
-  top: 0; 
-  left: 0; 
-  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   overflow: visible;
   justify-content: space-between;
   align-items: center;
   background-color: #f5f5f5;
   color: black;
-  height: 85px;
+  height: 15vh;
   width: 100vw;
-  padding: 5px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logoContainer {
+  align-items: center;
+  width: 15vw;
 }
 
 .logo {
-  height: 85px;
+  margin-right: 40px;
+  height: auto;
+  padding: 0;
+  width: 100px;
 }
 
 .rightSide {
   display: flex;
-  margin-right: 30px;
   justify-content: space-between;
   align-items: center;
 }
 
 .buttonsContainer {
-  margin-top: 20px;
   display: flex;
-  height: 77px;
+  height: 15vh;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to right, #b247e8, #ac5ceb);
+  background: linear-gradient(to right, #b347e8, #ac5beb);
   padding: 20px 70px 20px 20px;
   clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);
-  border-radius: 8px 10px 0px 0px;
+
   color: #f5f5f5;
 }
 
