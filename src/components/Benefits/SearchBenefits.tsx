@@ -47,14 +47,32 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
     const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
 
     useEffect(() => {
-        onSearch(
+        if (
+          supplierFilter ||
+          selectedClubs.length > 0 ||
+          selectedCategories.length > 0 ||
+          branchFilter ||
+          expirationStart ||
+          expirationEnd
+        ) {
+          onSearch(
             supplierFilter,
             selectedClubs,
             selectedCategories,
             branchFilter,
             [expirationStart, expirationEnd]
-        );
-    }, [supplierFilter, selectedClubs, selectedCategories, branchFilter, expirationStart, expirationEnd, onSearch]);
+          );
+        }
+      }, [
+        supplierFilter,
+        selectedClubs,
+        selectedCategories,
+        branchFilter,
+        expirationStart,
+        expirationEnd,
+        onSearch
+      ]);
+      
 
 
     const handleClubCheckboxChange = (clubId: string) => {
@@ -84,7 +102,7 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
                 />
                 <SearchIcon />
             </InputContainer>
-            <SelectContainer isOpen={dropdownOpen}>
+            <SelectContainer $isOpen={dropdownOpen}>
                 <SelectLabel onClick={() => setDropdownOpen(!dropdownOpen)}>
                     {selectedClubs.length > 0
                         ? `${selectedClubs.length} מועדונים`
@@ -107,7 +125,7 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
                     </Dropdown>
                 )}
             </SelectContainer>
-            <SelectContainer isOpen={categoryDropdownOpen}>
+            <SelectContainer $isOpen={categoryDropdownOpen}>
                 <SelectLabel onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}>
                     {selectedCategories.length > 0
                         ? `${selectedCategories.length} קטגוריות`
