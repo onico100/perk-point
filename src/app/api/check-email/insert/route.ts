@@ -1,32 +1,32 @@
-import { connectDatabase } from "@/services/mongo";
+// import { connectDatabase } from "@/services/mongo";
 
-export default async function handler(req: any, res: any) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
+// export default async function handler(req: any, res: any) {
+//   if (req.method !== "POST") {
+//     return res.status(405).json({ message: "Method not allowed" });
+//   }
 
-  const { email } = req.body;
+//   const { email } = req.body;
 
-  if (!email) {
-    return res.status(400).json({ message: "Email is required" });
-  }
+//   if (!email) {
+//     return res.status(400).json({ message: "Email is required" });
+//   }
 
-  try {
-    const client = await connectDatabase();
-    const db = client.db("benefits-site");
+//   try {
+//     const client = await connectDatabase();
+//     const db = client.db("benefits-site");
 
-    const userExists = await db.collection("users").findOne({ email });
-    const supplierExists = await db.collection("suppliers").findOne({ email });
+//     const userExists = await db.collection("users").findOne({ email });
+//     const supplierExists = await db.collection("suppliers").findOne({ email });
 
-    client.close();
+//     client.close();
 
-    if (userExists || supplierExists) {
-      return res.status(200).json({ exists: true });
-    }
+//     if (userExists || supplierExists) {
+//       return res.status(200).json({ exists: true });
+//     }
 
-    return res.status(200).json({ exists: false });
-  } catch (error) {
-    console.error("Error checking email:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
-}
+//     return res.status(200).json({ exists: false });
+//   } catch (error) {
+//     console.error("Error checking email:", error);
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// }
