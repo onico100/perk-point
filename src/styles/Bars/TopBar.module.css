@@ -1,6 +1,7 @@
 .topBar {
-  top: 0;
-  left: 0;
+  position: fixed; 
+  top: 0; 
+  left: 0; 
   z-index: 1000;
   display: flex;
   overflow: visible;
@@ -10,13 +11,8 @@
   color: black;
   height: 85px;
   width: 100vw;
+  padding: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.logoContainer {
-  width: 15vw;
-  height: auto;
-  justify-content: center;
 }
 
 .logo {
@@ -31,14 +27,15 @@
 }
 
 .buttonsContainer {
+  margin-top: 20px;
   display: flex;
-  height: 86px;
+  height: 77px;
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(to right, #b247e8, #ac5ceb);
   padding: 20px 70px 20px 20px;
   clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);
-
+  border-radius: 8px 10px 0px 0px;
   color: #f5f5f5;
 }
 

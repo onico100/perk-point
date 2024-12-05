@@ -94,18 +94,19 @@ export default function SignSupplierComponent() {
     const emailExists = await checkEmailService(data.email);
     if (emailExists) {
       setEmailExists(true);
-      setError("email", { message: "אימייל זה כבר קייםר." });
       return;
     }
-    alert("onSubmit is triggered!");
-    console.log("Form data:", data);
+  
+
     addSupplier(data, {
       onSuccess: () => {
-        router.push("/");
+        successAlert("הספק נוסף בהצלחה!").then(() => {
+          router.push("/"); 
+        });
       },
       onError: (error: Error) => {
         console.error("Failed to add supplier:", error);
-        errorAlert("הוספת ספק נכשלה");
+        errorAlert("שגיאה בהרשמת הספק. נסה שוב מאוחר יותר.");
       },
     });
   };
@@ -133,7 +134,6 @@ export default function SignSupplierComponent() {
           <label htmlFor="email">אימייל:</label>
           <input id="email" type="email" {...register("email")} />
           {errors.email && <p>{errors.email.message}</p>}
-          {emailExists && <p className="text-red-500">אימייל זה כבר קיים</p>}
         </div>
 
         {/* Password */}
@@ -276,6 +276,22 @@ export default function SignSupplierComponent() {
             הוסף סניף
           </button>
         </div>
+
+
+        {emailExists && (
+            <div className="text-red-500 mb-4">
+              <p>
+                אימייל זה כבר קיים במערכת{" "}
+                <br />
+                <span
+                  className="text-red-500 underline cursor-pointer"
+                  onClick={() => router.push("/login")}
+                >
+                  למעבר לדף התחברות
+                </span>
+              </p>
+            </div>
+          )}
 
         <button
           type="submit"

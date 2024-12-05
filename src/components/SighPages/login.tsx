@@ -7,10 +7,13 @@ import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
+import { sendPasswordResetEmail } from "@/services/emailServices";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [message, setMessage] = useState("");
   const preMode = useGeneralStore((state) => state.preMode);
   const loginUserMutation = useLoginUser();
   const { loginSupplier } = useFetchSuppliers();
@@ -19,6 +22,10 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (forgotPassword) {
+      handleForgotPassword();
+      return;
+    }
     if (preMode === "USER") {
       loginUserMutation.mutate(
         { email, password },
@@ -31,21 +38,31 @@ export default function Login() {
             console.error(error);
             errorAlert("התחברות נכשלה: פרטי לקוח אינם תקינים.");
           },
-
         }
       );
-    } 
-    else if (preMode === "SUPPLIER") {
+    } else if (preMode === "SUPPLIER") {
       loginSupplier(
         { email, password },
-        { 
-          onSuccess: (supplier) => { router.push(`benefits/${supplier._id}`);},
-          onError: (error) => {console.error(error); },
+        {
+          onSuccess: (supplier) => {
+            router.push(`benefits/${supplier._id}`);
+          },
+          onError: (error) => {
+            console.error(error);
+          },
         }
       );
-    } 
-    else {
+    } else {
       errorAlert("לא נבחר מצב התחברות (משתמש או ספק)");
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    const success = await sendPasswordResetEmail(email);
+    if (success) {
+      setMessage("קישור לאיפוס סיסמה נשלח לאימייל שלך.");
+    } else {
+      setMessage("שגיאה בשליחת האימייל. נסה שוב מאוחר יותר.");
     }
   };
 
@@ -53,7 +70,7 @@ export default function Login() {
     <div className={styles.loginPage}>
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <div className={styles.formGroup}>
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">כתובת אימייל:</label>
           <input
             id="email"
             type="email"
@@ -63,22 +80,36 @@ export default function Login() {
           />
         </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="password">Password:</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required/>
+        {!forgotPassword && (
+          <div className={styles.formGroup}>
+            <label htmlFor="password">סיסמא:</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+          <p className="text-red-500 underline cursor-pointer"
+            onClick={() => setForgotPassword(!forgotPassword)}>
+            שכחתי סיסמה
+          </p>
+
         </div>
+        )}
+
         <div className={styles.inlineContainer}>
           <p>איך לך עדיין משתמש?</p>
           <Link className={styles.link} href={"/signup"}>
             הירשם
           </Link>
         </div>
-        <button type="submit">התחברות</button>
+
+        {!forgotPassword && <button type="submit">התחברות</button>}
+        {forgotPassword && (<button type="submit">שלח קישור לאיפוס סיסמה</button>)}
+        {message && <p>{message}</p>}
+
       </form>
     </div>
   );
