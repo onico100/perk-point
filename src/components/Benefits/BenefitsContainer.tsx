@@ -11,6 +11,7 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Link from "next/link";
+import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 
 const BenefitsContainer = () => {
   const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
@@ -69,7 +70,7 @@ const BenefitsContainer = () => {
     );
   };
 
-  if (isLoadingB || isFetchingB) return <div>Loading...</div>;
+  if (isLoadingB || isFetchingB) return <LoadingSpinner/>;
 
   return (
     <div className={styles.container}>
