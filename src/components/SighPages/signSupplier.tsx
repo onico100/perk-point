@@ -9,6 +9,7 @@ import { supplierSchema, SupplierFormValues } from "@/types/types";
 import styles from "@/styles/SignPages/sign.module.css";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useRouter } from "next/navigation";
+import { checkEmailService } from "@/services/emailServices";
 
 export default function SignSupplierComponent() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -16,6 +17,7 @@ export default function SignSupplierComponent() {
   const [dropdownVisible, setDropdownVisible] = useState<number | null>(null);
   const { addSupplier } = useFetchSuppliers();
   const { categories, isLoadingC } = useFetchGeneral();
+  const [emailExists, setEmailExists] = useState(false);
 
   // const {
   //   register,
@@ -32,6 +34,7 @@ export default function SignSupplierComponent() {
     control,
     watch,
     setValue,
+    setError,
     formState: { errors },
   } = useForm<SupplierFormValues>({
     defaultValues: {
@@ -86,7 +89,13 @@ export default function SignSupplierComponent() {
 
   const router = useRouter();
 
-  const onSubmit = (data: SupplierFormValues) => {
+  const onSubmit = async (data: SupplierFormValues) => {
+    const emailExists = await checkEmailService(data.email);
+    if (emailExists) {
+      setEmailExists(true);
+      setError("email", { message: "אימייל זה כבר קייםר." });
+      return;
+    }
     alert("onSubmit is triggered!");
     console.log("Form data:", data);
     addSupplier(data, {
@@ -120,11 +129,11 @@ export default function SignSupplierComponent() {
           {errors.providerName && <p>{errors.providerName.message}</p>}
         </div>
 
-        {/* Email */}
         <div className={styles.formGroup}>
           <label htmlFor="email">אימייל:</label>
           <input id="email" type="email" {...register("email")} />
           {errors.email && <p>{errors.email.message}</p>}
+          {emailExists && <p className="text-red-500">אימייל זה כבר קיים</p>}
         </div>
 
         {/* Password */}

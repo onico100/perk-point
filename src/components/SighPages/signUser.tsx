@@ -66,6 +66,7 @@ export default function SignUserComponent() {
           <label htmlFor="email">אימייל:</label>
           <input id="email" type="email" {...register("email")} />
           {errors.email && <p>{errors.email.message}</p>}
+          {emailExists && <p className="text-red-500">אימייל זה כבר קיים</p>}
         </div>
 
         {/* Password */}
