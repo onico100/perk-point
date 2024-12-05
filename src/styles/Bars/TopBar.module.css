@@ -12,6 +12,12 @@
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.logoContainer {
+  width: 15vw;
+  height: auto;
+  justify-content: center;
+}
+
 .logo {
   height: 65px;
 }

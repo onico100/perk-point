@@ -26,4 +26,5 @@ export {
   SignSupllierComponent,
   CalcButton,
   CakcPage,
+  HomeComp,
 };
