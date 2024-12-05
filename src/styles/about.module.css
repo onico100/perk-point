@@ -3,7 +3,7 @@
   color: white;
   text-align: right;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
 }
 
 .container {
@@ -42,9 +42,9 @@
 .contactUs li {
   display: flex;
   align-items: center;
-  font-size: 16px; 
+  font-size: 16px;
 }
 
 .contactUs li svg {
-  margin: 8px; 
+  margin: 8px;
 }

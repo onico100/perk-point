@@ -31,9 +31,11 @@ export default function Login() {
             console.error(error);
             errorAlert("התחברות נכשלה: פרטי לקוח אינם תקינים.");
           },
+
         }
       );
-    } else if (preMode === "SUPPLIER") {
+    } 
+    else if (preMode === "SUPPLIER") {
       loginSupplier(
         { email, password },
         { 
@@ -68,8 +70,7 @@ export default function Login() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+            required/>
         </div>
         <div className={styles.inlineContainer}>
           <p>איך לך עדיין משתמש?</p>

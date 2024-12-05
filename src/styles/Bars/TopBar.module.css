@@ -1,8 +1,6 @@
 .topBar {
-  position: fixed; 
-  top: 0; 
-  left: 0; 
-  z-index: 1000;
+  top: 0;
+  left: 0;
   display: flex;
   overflow: visible;
   justify-content: space-between;
@@ -16,7 +14,7 @@
 }
 
 .logo {
-  height: 85px;
+  height: 65px;
 }
 
 .rightSide {

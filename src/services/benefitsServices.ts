@@ -15,12 +15,12 @@ import { Benefit } from "@/types/types";
 
 export async function getAllBenefits(): Promise<Benefit[]> {
     try {
+        console.log("getAllBenefits")
         const response = await my_http.get("/benefits/get");
         const allBenefits: Benefit[] = response.data;
-
         // Filter only active benefits
         const activeBenefits = allBenefits.filter(benefit => benefit.isActive);
-
+        console.log("activeBenefits",activeBenefits)
         return activeBenefits;
     } catch (error) {
         console.error("Error fetching benefits:", error);

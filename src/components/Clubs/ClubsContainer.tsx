@@ -7,6 +7,7 @@ import useGeneralStore from "@/stores/generalStore";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { SearchContainer, InputContainer, ClubInput, SearchIcon } from './SearchClubs.Styles'; 
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 const ClubsContainer = () => {
   const params = useParams();
@@ -42,7 +43,7 @@ const ClubsContainer = () => {
   }, [clubs, currentUser, searchQuery, clientMode, id]);
 
 
-  if (isLoadingC || isFetchingC) return <div>Loading...</div>;
+  if (isLoadingC || isFetchingC) return <LoadingSpinner/>;
 
   return (
     <div className={styles.container}>
