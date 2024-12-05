@@ -9,6 +9,7 @@ import {
   deleteBenefitById,
   updateBenefitById,
 } from "@/services/benefitsServices";
+import {successAlert, inProccesAlert, errorAlert } from "@/utils/sweet-alerts";
 
 export const useFetchBenefits = () => {
   const setBenefits = useBenefitStore((state: any) => state.setBenefits); 
@@ -34,15 +35,19 @@ export const useFetchBenefits = () => {
       const previousBenefits = [...benefits];
       const tempBenefit = { ...newBenefit, _id: "temp-id" };
       setBenefits([...benefits, tempBenefit]);
+    
+      inProccesAlert("מוסיף")
+    
       return { previousBenefits };
     },
     onSuccess: () => {
-      alert("benefit added successfully")
+      successAlert("הטבה נוספה")
     },
     onError: (error, _, context: any) => {
       if (context?.previousBenefits) {
         setBenefits(context.previousBenefits);
       }
+      errorAlert("הוספת הטבה נכשלה.")
     },
   });
 
@@ -65,10 +70,11 @@ export const useFetchBenefits = () => {
             )
           : []
       );
-
+      inProccesAlert("מעדכן")
       return { previousBenefits };
     },
     onError: (_error, _data, context) => {
+      errorAlert("עדכון הטבה נכשל")
     },
   });
 
@@ -83,12 +89,14 @@ export const useFetchBenefits = () => {
         (benefit) => benefit._id !== benefitId
       );
       queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
+      inProccesAlert("מוחק")
       return { previousBenefits };
     },
-
+    onSuccess:async () => {successAlert("הטבה נמחקה")},
     onError: (_error, _variables, context: any) => {
       const { setBenefits } = useBenefitStore.getState();
       setBenefits(context.previousBenefits);
+      errorAlert("מחיקת הטבה נכשלה.")
     },
   });
 

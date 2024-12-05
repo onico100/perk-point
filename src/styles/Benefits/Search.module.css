@@ -102,3 +102,9 @@
 .searchButton:hover {
     opacity: 1;
 }
+
+.bla{
+    background-color: #460682;
+    color:#460682;
+    background: linear-gradient(to bottom, #b346e8, #858282);
+}
