@@ -12,6 +12,7 @@ import TabSign from "./Bars/TabSign";
 import CalcButton from "./Calculator/CalcButton";
 import CakcPage from "./Calculator/CalcPage";
 import HomeComp from "./Home/HomeComp";
+import PersonalDetails from "./PesonalDetails/PersonalDetails";
 export {
   SideBar,
   TopBar,
@@ -26,4 +27,6 @@ export {
   SignSupllierComponent,
   CalcButton,
   CakcPage,
+  HomeComp,
+  PersonalDetails
 };
