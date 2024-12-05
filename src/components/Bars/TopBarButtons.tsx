@@ -23,10 +23,8 @@ const TopBarButtons: React.FC = () => {
   };
 
   const handleConnectionMode = (path: string) => {
-    // עדכון מצב בסטור
     setClientMode(ClientMode.connection);
   
-    // כתיבה ישירה ל-localStorage
     localStorage.setItem("general-store", JSON.stringify({
       ...JSON.parse(localStorage.getItem("general-store") || "{}"),
       state: {
@@ -34,8 +32,7 @@ const TopBarButtons: React.FC = () => {
         clientMode: ClientMode.connection,
       },
     }));
-  
-    // ניווט לדף אחר
+
     router.push(path);
   };
 
