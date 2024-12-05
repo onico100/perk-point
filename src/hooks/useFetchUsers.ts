@@ -11,8 +11,6 @@ import {
 } from "@/services/usersServices";
 import { useRouter } from "next/navigation";
 
-//import useUserStore from '../stores/usersStore';
-//const setUser = useUserStore((state) => state.setUser);
 const setCurrentUser = useGeneralStore.getState().setCurrentUser;
 const currentUser = useGeneralStore.getState().currentUser;
 
@@ -22,7 +20,6 @@ export const useGetUserById = (id: string) => {
     queryKey: ["user", id],
     queryFn: async () => {
       const user = await getUserById(id);
-      //setUser(user);
       setCurrentUser(user);
       return user;
     },
@@ -78,11 +75,9 @@ export const useDeleteUserById = () => {
   return useMutation<{ message: string }, Error, string>({
     mutationFn: (id) => deleteUserById(id),
     onSuccess: () => {
-      //setCurrentUser(updatedUser);
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.general);
       setCurrentUser(null);
-      //setUser(null);
     },
   });
 };

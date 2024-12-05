@@ -1,7 +1,6 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
 import useGeneralStore from "@/stores/generalStore";
 import { getAllCategories } from "@/services/categoriesService";
 import { getAllClubs } from "@/services/clubsService";
@@ -9,8 +8,6 @@ import { getAllClubs } from "@/services/clubsService";
 export const useFetchGeneral = () => {
   const setCategories = useGeneralStore((state: any) => state.setCategories);
   const setClubs = useGeneralStore((state: any) => state.setClubs);
-
-  const queryClient = useQueryClient();
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["generlStore"],

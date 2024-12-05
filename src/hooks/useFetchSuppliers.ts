@@ -15,7 +15,6 @@ export const useFetchSuppliers = () => {
   const setClientMode = useGeneralStore.getState().setClientMode;
   const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
   const currentSupplier = useGeneralStore.getState().currentSupplier;
-  //const {setCurrentSupplier, currentSupplier}=useGeneralStore.getState()
 
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -25,11 +24,11 @@ export const useFetchSuppliers = () => {
     queryFn: async () => {
       const suppliers = await getAllSuppliers();
       setSuppliers(suppliers);
-      // console.log(suppliers);
       return suppliers;
     },
     staleTime: 10000,
   });
+
 
   const addSupplierMutation = useMutation({
     mutationFn: addSupplier,
@@ -53,11 +52,12 @@ export const useFetchSuppliers = () => {
     onSuccess: (supplier) => {
       setCurrentSupplier(supplier);
       setClientMode(ClientMode.supplier);
-      queryClient.invalidateQueries({ queryKey: ["suppliers"] });
+      //queryClient.invalidateQueries({ queryKey: ["suppliers"] });
       console.log("Supplier added and stored successfully!", currentSupplier);
       router.push("/");
     },
   });
+
 
   const updateSupplierMutation = useMutation<
     Supplier,
@@ -80,7 +80,7 @@ export const useFetchSuppliers = () => {
     },
     onSuccess: () => {
       console.log("Supplier updated successfully!");
-      queryClient.invalidateQueries({ queryKey: ["suppliers"] });
+     // queryClient.invalidateQueries({ queryKey: ["suppliers"] });
     },
   });
 
