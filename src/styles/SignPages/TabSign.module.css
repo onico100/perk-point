@@ -30,6 +30,15 @@
   -webkit-text-fill-color: #f5f5f5; /* Sets text to white explicitly */
 }
 
+.unableTab1 {
+
+}
+
+.unableTab2 {
+
+}
+
+
 .activeTab1 {
   display: flex;
   height: 100%;

@@ -8,9 +8,10 @@ import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Benefits/BenefitsContainer.module.css";
 import useGeneralStore from "@/stores/generalStore";
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Link from "next/link";
+import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 
 const BenefitsContainer = () => {
   const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
@@ -25,6 +26,7 @@ const BenefitsContainer = () => {
   const id = params.clientId;
 
   useEffect(() => {
+     console.log('Fetched benefits:', benefits);
     if (id !== "0") {
       if (clientMode === "USER") {
         setBenefitsToShow(
@@ -48,7 +50,53 @@ const BenefitsContainer = () => {
     }
   }, [benefits]);
 
-  const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], branchFilter: string, expirationRange: [Date | null, Date | null]) => {
+  // const handleSearch = useCallback(
+  //   (
+  //     supplierFilter: string,
+  //     clubFilter: string[],
+  //     categoryFilter: string[],
+  //     branchFilter: string,
+  //     expirationRange: [Date | null, Date | null]
+  //   ) => {
+  //     const [start, end] = expirationRange;
+  //     setBenefitsToShow(
+  //       benefits?.filter((benefit) =>
+  //         (supplierFilter
+  //           ? suppliers?.find(
+  //               (s: Supplier) =>
+  //                 s.businessName.includes(supplierFilter) &&
+  //                 s._id === benefit.supplierId
+  //             )
+  //           : true) &&
+  //         (clubFilter.length > 0 ? clubFilter.includes(benefit.clubId) : true) &&
+  //         (categoryFilter.length > 0
+  //           ? suppliers?.find(
+  //               (s: Supplier) =>
+  //                 s._id === benefit.supplierId &&
+  //                 s.categories?.some((c) =>
+  //                   categoryFilter.includes(c.toString())
+  //                 )
+  //             )
+  //           : true) &&
+  //         (branchFilter
+  //           ? suppliers?.find(
+  //               (s: Supplier) =>
+  //                 s._id === benefit.supplierId &&
+  //                 s.branches?.some(
+  //                   (b: Branch) =>
+  //                     b.nameBranch && b.nameBranch.includes(branchFilter)
+  //                 )
+  //             )
+  //           : true) &&
+  //         (end ? new Date(benefit.expirationDate) <= end : true)
+  //       ) || []
+  //     );
+  //   },
+  //   [benefits, suppliers]
+  // );
+  
+
+   const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], branchFilter: string, expirationRange: [Date | null, Date | null]) => {
     const [start, end] = expirationRange;
     setBenefitsToShow(
       benefits?.filter((benefit) =>
@@ -69,7 +117,7 @@ const BenefitsContainer = () => {
     );
   };
 
-  if (isLoadingB || isFetchingB) return <div>Loading...</div>;
+  if (isLoadingB || isFetchingB) return <LoadingSpinner/>;
 
   return (
     <div className={styles.container}>
@@ -99,4 +147,5 @@ const BenefitsContainer = () => {
     </div>
   );
 };
+
 export default BenefitsContainer;

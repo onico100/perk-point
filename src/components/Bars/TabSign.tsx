@@ -33,13 +33,13 @@ const TabSign: React.FC<TabProps> = ({ tabContent }) => {
       <div className={styles.tabHeader}>
         <div
           onClick={() => handleTabClick("tab1")}
-          className={`${styles.tab} ${activeTab === "tab1" ? styles.activeTab1 : ""}`}>
+          className={`${styles.tab} ${activeTab === "tab1" ? styles.activeTab1 : styles.unableTab1}`}>
           {tabContent+" "}
            לקוח
         </div>
         <div
           onClick={() => handleTabClick("tab2")}
-          className={`${styles.tab} ${activeTab === "tab2" ? styles.activeTab2 : ""}`}>
+          className={`${styles.tab} ${activeTab === "tab2" ? styles.activeTab2 : styles.unableTab2}`}>
           {tabContent+" "}
            ספק
         </div>

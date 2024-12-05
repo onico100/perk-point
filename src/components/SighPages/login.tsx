@@ -22,17 +22,12 @@ export default function Login() {
       loginUserMutation.mutate(
         { email, password },
         {
-          onSuccess: (user) => {
-            alert(`Welcome, ${user.username}!`);
-            router.push(`benefits/${user._id}`);
-          },
-          onError: (error) => {
-            console.error(error);
-            alert("Login failed: Invalid user credentials.");
-          },
+          onSuccess: (user) => { router.push(`benefits/${user._id}`);},
+          onError: (error) => {console.error(error);},
         }
       );
-    } else if (preMode === "SUPPLIER") {
+    } 
+    else if (preMode === "SUPPLIER") {
       loginSupplier(
         { email, password },
         { 
@@ -67,8 +62,7 @@ export default function Login() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+            required/>
         </div>
         <div className={styles.inlineContainer}>
           <p>איך לך עדיין משתמש?</p>

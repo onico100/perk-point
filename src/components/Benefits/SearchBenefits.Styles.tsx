@@ -51,23 +51,24 @@ export const SupplierInput = styled.input`
 
 `;
 
-export const SelectContainer = styled.div<{ isOpen: boolean }>`
+export const SelectContainer = styled.div<{ $isOpen: boolean }>`
     flex: 1;  
     width: 100%; 
     background-color: white;
     padding: 0;
-    border: 1.5px solid ${({ isOpen }) => (isOpen ? `white` : `transparent`)};
+    border: 1.5px solid ${({ $isOpen }) => ($isOpen ? `white` : `transparent`)};
     border-radius: 7px;
-    box-shadow: inset 0 0 0 2px ${({ isOpen }) => (isOpen ? `black` : `transparent`)};
+    box-shadow: inset 0 0 0 2px ${({ $isOpen }) => ($isOpen ? `black` : `transparent`)};
     position: relative;
-    opacity: ${({ isOpen }) => (isOpen ? 1 : 0.4)};
+    opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0.4)};
     height: 40px; 
     transition: opacity 0.3s; 
 
-    @media (width: 768px) { 
+    @media (max-width: 768px) { 
         width: 100%; 
     }
 `;
+
 
 export const SelectLabel = styled.label`
     display: flex; 
