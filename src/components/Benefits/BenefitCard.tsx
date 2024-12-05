@@ -34,7 +34,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   };
 
   const deleteBenefitFunc =async () => {
-    let alertConfirm= await beforeActionAlert("לא תוכל לשחזר לאחר מחיקה","מחק")
+    let alertConfirm= await beforeActionAlert("לא תוכל לשחזר לאחר מחיקה","מחיקה")
 
     if (alertConfirm) {
     if(benefit._id)
