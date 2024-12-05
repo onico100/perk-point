@@ -9,53 +9,55 @@ import {
   getSupplierByCredentials,
 } from "@/services/suppliersServices";
 import useGeneralStore from "@/stores/generalStore";
+import { useRouter } from "next/navigation";
 export const useFetchSuppliers = () => {
   const { setSuppliers } = useSupplierStore.getState();
   const setClientMode = useGeneralStore.getState().setClientMode;
   const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
   const currentSupplier = useGeneralStore.getState().currentSupplier;
-  //const {setCurrentSupplier, currentSupplier}=useGeneralStore.getState()
 
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["suppliers"],
     queryFn: async () => {
       const suppliers = await getAllSuppliers();
       setSuppliers(suppliers);
-      // console.log(suppliers);
       return suppliers;
     },
     staleTime: 10000,
   });
 
 
-const addSupplierMutation = useMutation({
-  mutationFn: addSupplier,
-  onMutate: async (nSupplier: Supplier) => {
-    const { suppliers } = useSupplierStore.getState();
-    const newSupplier = { ...nSupplier, _id: "temp-id" };
-    const existingSupplier = suppliers.find(
-      (s) => s.email === nSupplier.email
-    );
-    if (!existingSupplier) {
-      setSuppliers([...suppliers, newSupplier]);
-    }
-    return { previousSuppliers: suppliers };
-  },
-  onError: (error, _, context: any) => {
-    if (context?.previousSuppliers) {
-      const { setSuppliers } = useSupplierStore.getState();
-      setSuppliers(context.previousSuppliers);
-    }
-  },
-  onSuccess: (supplier) => {
-    setCurrentSupplier(supplier); 
-    setClientMode(ClientMode.supplier);
-    queryClient.invalidateQueries({ queryKey: ["suppliers"] });
-    console.log("Supplier added and stored successfully!", currentSupplier);
-  },
-});
+  const addSupplierMutation = useMutation({
+    mutationFn: addSupplier,
+    onMutate: async (nSupplier: Supplier) => {
+      const { suppliers } = useSupplierStore.getState();
+      const newSupplier = { ...nSupplier, _id: "temp-id" };
+      const existingSupplier = suppliers.find(
+        (s) => s.email === nSupplier.email
+      );
+      if (!existingSupplier) {
+        setSuppliers([...suppliers, newSupplier]);
+      }
+      return { previousSuppliers: suppliers };
+    },
+    onError: (error, _, context: any) => {
+      if (context?.previousSuppliers) {
+        const { setSuppliers } = useSupplierStore.getState();
+        setSuppliers(context.previousSuppliers);
+      }
+    },
+    onSuccess: (supplier) => {
+      setCurrentSupplier(supplier);
+      setClientMode(ClientMode.supplier);
+      //queryClient.invalidateQueries({ queryKey: ["suppliers"] });
+      console.log("Supplier added and stored successfully!", currentSupplier);
+      router.push("/");
+    },
+  });
+
 
   const updateSupplierMutation = useMutation<
     Supplier,
@@ -78,7 +80,7 @@ const addSupplierMutation = useMutation({
     },
     onSuccess: () => {
       console.log("Supplier updated successfully!");
-      queryClient.invalidateQueries({ queryKey: ["suppliers"] });
+     // queryClient.invalidateQueries({ queryKey: ["suppliers"] });
     },
   });
 
@@ -87,9 +89,9 @@ const addSupplierMutation = useMutation({
     Error,
     { email: string; password: string }
   >({
-  mutationFn: ({ email, password }) =>
-    getSupplierByCredentials(email, password),
-  onSuccess: (supplier) => {
+    mutationFn: ({ email, password }) =>
+      getSupplierByCredentials(email, password),
+    onSuccess: (supplier) => {
       const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.supplier);

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddUser } from "@/hooks/useFetchUsers"; // הוסף את הוק יצירת המשתמש
@@ -9,7 +9,7 @@ import useGeneralStore from "@/stores/generalStore";
 export default function SignUserComponent() {
   const { mutate: addUser, isPending } = useAddUser();
 
-  const setCurrentUser = useGeneralStore.getState().setCurrentUser;
+  //const setCurrentUser = useGeneralStore.getState().setCurrentUser;
 
   const {
     register,
@@ -24,7 +24,7 @@ export default function SignUserComponent() {
     const userPayload: User = {
       ...data,
       clubs: [],
-      registrationDate: new Date().toISOString(), 
+      registrationDate: new Date().toISOString(),
       savedBenefits: [],
       isActive: true,
     };
@@ -39,13 +39,11 @@ export default function SignUserComponent() {
         alert("Failed to add user.");
       },
     });
-
   };
 
   return (
     <div className={styles.loginPage}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-
         {/* Username */}
         <div className={styles.formGroup}>
           <label htmlFor="username">שם משתמש:</label>
