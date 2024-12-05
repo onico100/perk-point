@@ -37,6 +37,7 @@ body {
 
   position: relative;
   z-index: 1;
+  margin-top: 84px;
 }
 
 .layout {

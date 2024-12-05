@@ -4,23 +4,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddUser } from "@/hooks/useFetchUsers"; // הוסף את הוק יצירת המשתמש
 import { userSchema, UserFormValues, User } from "@/types/types"; // צור סכמה חדשה ל-User
 import styles from "@/styles/SignPages/sign.module.css";
-import useGeneralStore from "@/stores/generalStore";
+import { checkEmailService } from "@/services/emailServices";
+import { useState } from "react";
 import { errorAlert } from "@/utils/sweet-alerts";
 
 export default function SignUserComponent() {
   const { mutate: addUser, isPending } = useAddUser();
+  const [emailExists, setEmailExists] = useState(false);
 
   //const setCurrentUser = useGeneralStore.getState().setCurrentUser;
 
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<UserFormValues>({
     resolver: zodResolver(userSchema),
   });
 
-  const onSubmit = (data: UserFormValues) => {
+  const onSubmit =async  (data: UserFormValues) => {
+    const emailExists = await checkEmailService(data.email);
+    if (emailExists) {
+      setEmailExists(true);
+      setError("email", { message: "אימייל זה כבר קייםר." });
+      return;
+    }
+
     console.log("data:", data);
     const userPayload: User = {
       ...data,
@@ -56,6 +66,7 @@ export default function SignUserComponent() {
           <label htmlFor="email">אימייל:</label>
           <input id="email" type="email" {...register("email")} />
           {errors.email && <p>{errors.email.message}</p>}
+          {emailExists && <p className="text-red-500">אימייל זה כבר קיים</p>}
         </div>
 
         {/* Password */}

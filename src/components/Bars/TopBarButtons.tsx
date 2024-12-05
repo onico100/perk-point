@@ -1,37 +1,57 @@
-import React, { useState } from "react";
+"use client";
+import React from "react";
 import styles from "@/styles/Bars/TopBar.module.css";
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode } from "@/types/types";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const TopBarButtons: React.FC = () => {
-  const { clientMode, currentSupplier, currentUser } = useGeneralStore();
-
-  const [popupVisible, setPopupVisible] = useState(false);
-  const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
-  const setClientMode = useGeneralStore.getState().setClientMode;
-  const setCurrentUser = useGeneralStore.getState().setCurrentUser;
-  const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
+  const router = useRouter();
+  const {
+    clientMode,
+    currentSupplier,
+    currentUser,
+    setClientMode,
+    setCurrentUser,
+    setCurrentSupplier,
+  } = useGeneralStore();
 
   const handleDisconnect = () => {
     setClientMode(ClientMode.general);
     setCurrentSupplier(null);
     setCurrentUser(null);
-    setPopupVisible(false);
-    setAnchorElement(null);
   };
 
+  const handleConnectionMode = (path: string) => {
+    setClientMode(ClientMode.connection);
+  
+    localStorage.setItem("general-store", JSON.stringify({
+      ...JSON.parse(localStorage.getItem("general-store") || "{}"),
+      state: {
+        ...JSON.parse(localStorage.getItem("general-store") || "{}").state,
+        clientMode: ClientMode.connection,
+      },
+    }));
+
+    router.push(path);
+  };
 
   return (
     <>
       {clientMode === "GENERAL" && (
         <div className={styles.buttonsContainer}>
-          <Link className={styles.loginButton} href={"/login"}>
+          <button
+            className={styles.loginButton}
+            onClick={() => handleConnectionMode("/login")}
+          >
             התחברות
-          </Link>
-          <Link className={styles.signupButton} href={"/signup"}>
+          </button>
+          <button
+            className={styles.signupButton}
+            onClick={() => handleConnectionMode("/signup")}
+          >
             הרשמה
-          </Link>
+          </button>
         </div>
       )}
 
