@@ -1,8 +1,6 @@
 .topBar {
-  position: fixed; 
-  top: 0; 
-  left: 0; 
-  z-index: 1000;
+  top: 0;
+  left: 0;
   display: flex;
   overflow: visible;
   justify-content: space-between;
@@ -11,7 +9,6 @@
   color: black;
   height: 85px;
   width: 100vw;
-  padding: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -27,9 +24,8 @@
 }
 
 .buttonsContainer {
-  margin-top: 20px;
   display: flex;
-  height: 77px;
+  height: 86px;
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(to right, #b247e8, #ac5ceb);

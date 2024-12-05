@@ -6,6 +6,7 @@ import { userSchema, UserFormValues, User } from "@/types/types"; // צור סכ
 import styles from "@/styles/SignPages/sign.module.css";
 import { checkEmailService } from "@/services/emailServices";
 import { useState } from "react";
+import { errorAlert } from "@/utils/sweet-alerts";
 
 export default function SignUserComponent() {
   const { mutate: addUser, isPending } = useAddUser();
@@ -46,7 +47,6 @@ export default function SignUserComponent() {
       },
       onError: (error) => {
         console.error("Failed to add user:", error);
-        alert("Failed to add user.");
       },
     });
   };

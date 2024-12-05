@@ -10,6 +10,7 @@ import styles from "@/styles/SignPages/sign.module.css";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useRouter } from "next/navigation";
 import { checkEmailService } from "@/services/emailServices";
+import { errorAlert, successAlert } from "@/utils/sweet-alerts";
 
 export default function SignSupplierComponent() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -100,12 +101,11 @@ export default function SignSupplierComponent() {
     console.log("Form data:", data);
     addSupplier(data, {
       onSuccess: () => {
-        alert("Supplier added successfully!");
         router.push("/");
       },
       onError: (error: Error) => {
         console.error("Failed to add supplier:", error);
-        // alert("Failed to add supplier.");
+        errorAlert("הוספת ספק נכשלה");
       },
     });
   };

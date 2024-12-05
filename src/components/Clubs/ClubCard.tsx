@@ -6,6 +6,7 @@ import styles from "@/styles/Clubs/ClubCard.module.css";
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
+import {beforeActionAlert, successAlert, errorAlert} from "@/utils/sweet-alerts";
 
 interface ClubCardProps {
   club: Club;
@@ -20,16 +21,17 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
 
 
   const addClub = async() => {
-    if (window.confirm("Are you sure you want to add this club?")) {
+    let alertConfirm= await beforeActionAlert("","הוספה")
+    if (alertConfirm) {
       if (
         currentUser?.clubs?.some((existingClub) => existingClub === club?._id)
       ) {
-        alert("This club has already been added.");
+        errorAlert("מועדון זה כבר קיים אצלך.")
         return;
       }
 
       if (typeof currentUser?._id === "string") {
-       await updateUser({
+        await updateUser({
           id: currentUser?._id,
         updatedData: {
           username: currentUser?.username,
@@ -43,12 +45,13 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
         },
         });
       }
-      alert("club added successfully");
+      successAlert("מועדון נוסף")
     }
   };
 
   const deleteClub = async() => {
-    if (window.confirm("Are you sure you want to delete this club?")) {
+    let alertConfirm= await beforeActionAlert("","הסרה")
+    if (alertConfirm) {
       if (typeof currentUser?._id === "string") {
         await updateUser({
            id: currentUser?._id,
@@ -64,7 +67,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
          },
          });
        }
-       alert("club deleted successfully");
+       successAlert("הוסר")
     }
   };
 
