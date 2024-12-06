@@ -15,12 +15,12 @@ import { Benefit } from "@/types/types";
 
 export async function getAllBenefits(): Promise<Benefit[]> {
     try {
+        console.log("getAllBenefits")
         const response = await my_http.get("/benefits/get");
         const allBenefits: Benefit[] = response.data;
-
         // Filter only active benefits
         const activeBenefits = allBenefits.filter(benefit => benefit.isActive);
-
+        console.log("activeBenefits",activeBenefits)
         return activeBenefits;
     } catch (error) {
         console.error("Error fetching benefits:", error);
@@ -58,8 +58,9 @@ export async function updateBenefitById(id: string, updatedData: any): Promise<B
     }
 }
 
-export async function addBenefit(newBenefit: Omit<Benefit, "_id">): Promise<Benefit> {
+export async function addBenefit(newBenefit: Benefit): Promise<Benefit> {
     try {
+        console.log(22,newBenefit)
         const response = await my_http.post("/benefits/insert", newBenefit);
         return response.data;
     } catch (error) {

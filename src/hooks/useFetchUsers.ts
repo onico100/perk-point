@@ -9,17 +9,18 @@ import {
   getUserById,
   getUserByCredentials,
 } from "@/services/usersServices";
+import { useRouter } from "next/navigation";
+import { errorAlert, successAlert } from "@/utils/sweet-alerts";
 
-//import useUserStore from '../stores/usersStore';
-//const setUser = useUserStore((state) => state.setUser);
 const setCurrentUser = useGeneralStore.getState().setCurrentUser;
+const currentUser = useGeneralStore.getState().currentUser;
+
 // Fetch user by ID
 export const useGetUserById = (id: string) => {
   return useQuery<User, Error>({
     queryKey: ["user", id],
     queryFn: async () => {
       const user = await getUserById(id);
-      //setUser(user);
       setCurrentUser(user);
       return user;
     },
@@ -30,20 +31,33 @@ export const useGetUserById = (id: string) => {
 
 // Login user by credentials
 export const useLoginUser = () => {
+  const router = useRouter();
   return useMutation<User, Error, { email: string; password: string }>({
     mutationFn: ({ email, password }) => getUserByCredentials(email, password),
     onSuccess: (user) => {
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.user);
       setCurrentUser(user);
+
+      router.push(`benefits/${user._id}`);
     },
   });
 };
 
 // Add new user
 export const useAddUser = () => {
+  const router = useRouter();
   return useMutation<User, Error, User>({
     mutationFn: addUser,
+    onSuccess: (user) => {
+      const setClientMode = useGeneralStore.getState().setClientMode;
+      setClientMode(ClientMode.user);
+      setCurrentUser(user);
+      router.push("/");
+    },
+    onError: (error) => {
+      errorAlert("הוספת משתמש נכשלה.");
+    },
   });
 };
 
@@ -52,26 +66,28 @@ export const useUpdateUserById = () => {
   return useMutation<User, Error, { id: string; updatedData: Partial<User> }>({
     mutationFn: ({ id, updatedData }) => updateUserById(id, updatedData),
     onMutate: async ({ id, updatedData }) => {
-
       const newUser = { _id: id, ...updatedData } as User;
-      setCurrentUser(newUser);
+      setCurrentUser(newUser);     
     },
     onError: (error, variables, context) => {
       console.error("Mutation error:", error);
+      errorAlert("נכשל");
     },
   });
 };
-
 
 export const useDeleteUserById = () => {
   return useMutation<{ message: string }, Error, string>({
     mutationFn: (id) => deleteUserById(id),
     onSuccess: () => {
-      //setCurrentUser(updatedUser);
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.general);
       setCurrentUser(null);
-      //setUser(null);
+      successAlert("משתמש נמחק")
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+      errorAlert("מחיקת משתמש נכשלה");
     },
   });
 };

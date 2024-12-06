@@ -2,8 +2,8 @@ import { ObjectId } from "mongodb";
 import { z } from "zod";
 
 export const branchSchema = z.object({
-  city: z.string().min(1, "יש לבחור עיר."),
-  address: z.string().min(3, "כתובת חייבת להכיל לפחות 3 תווים."),
+  nameBranch: z.string().min(1, "יש לבחור סניף."),
+  city: z.string().min(3, "יש לבחור עיר."),
 });
 
 export const supplierSchema = z.object({
@@ -15,6 +15,8 @@ export const supplierSchema = z.object({
   siteLink: z.string().url("כתובת האתר אינה חוקית."),
   supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
   branches: z.array(branchSchema).nonempty("חייב להוסיף לפחות סניף אחד."),
+  selectedCategories: z.array(z.string()).nonempty("חייב לבחור לפחות קטגוריה אחת."),
+
 });
 
 export type SupplierFormValues = z.infer<typeof supplierSchema>;
@@ -33,7 +35,7 @@ export interface User {
 }
 
 export interface Benefit {
-  _id: string;
+  _id?: string;
   supplierId: string;
   clubId: string;
   redemptionConditions: string;
@@ -44,8 +46,8 @@ export interface Benefit {
 }
 
 export interface Branch {
+  nameBranch: string;
   city: string;
-  address: string;
 }
 
 export interface Supplier {
@@ -89,3 +91,12 @@ export enum PreMode {
   user = "USER",
   none = "NONE",
 }
+
+export const userSchema = z.object({
+  username: z.string().min(3, "שם המשתמש חייב להיות לפחות 3 תווים."),
+  email: z.string().email("כתובת אימייל אינה חוקית."),
+  password: z.string().min(6, "סיסמה חייבת להכיל לפחות 6 תווים."),
+  city: z.string().min(2, "יש להזין עיר."),
+});
+
+export type UserFormValues = z.infer<typeof userSchema>;

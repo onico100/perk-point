@@ -16,29 +16,34 @@ const TopBar: React.FC = () => {
   return (
     <div className={styles.topBar}>
       <div className={styles.rightSide}>
-        <img
-          src={logoLight.src}
-          alt="Perk Point Logo"
-          className={styles.logo}
-          onClick={goToHome}
-        />
+        <div className={styles.logoContainer}>
+          <img
+            src={logoLight.src}
+            alt="Perk Point Logo"
+            className={styles.logo}
+            onClick={goToHome}
+          />
+        </div>
         <Link
-          className={`${linkStyle.barItem}  ${pathname === "/benefits/0" ? linkStyle.active : ""
-            }`}
+          className={`${linkStyle.barItem}  ${
+            pathname === "/benefits/0" ? linkStyle.active : ""
+          }`}
           href={"/benefits/0"}
         >
           הטבות
         </Link>
         <Link
-          className={`${linkStyle.barItem}  ${pathname === "/clubs/0" ? linkStyle.active : ""
-            }`}
+          className={`${linkStyle.barItem}  ${
+            pathname === "/clubs/0" ? linkStyle.active : ""
+          }`}
           href={"/clubs/0"}
         >
           מועדונים
         </Link>
         <Link
-          className={`${linkStyle.barItem}  ${pathname === "/about" ? linkStyle.active : ""
-            }`}
+          className={`${linkStyle.barItem}  ${
+            pathname === "/about" ? linkStyle.active : ""
+          }`}
           href={"/about"}
         >
           אודות

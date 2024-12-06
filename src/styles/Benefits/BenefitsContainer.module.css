@@ -1,9 +1,10 @@
 .container {
-  padding:0px;
+  padding: 0px;
   margin: 0px;
+  width: 100%;
 }
 
-.searchBar{
+.searchBar {
   padding: 10px;
   background: linear-gradient(to right, #b346e8, #87cdfa);
   width: 100%;
@@ -11,16 +12,15 @@
 
 .mainContainer {
   display: flex;
-  flex-direction: column; 
-  width: 82vw; 
-  margin: 3vw;
+  flex-direction: column;
+  width: 100%;
 }
 
 .cardsContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 200px); 
-  gap: 120px; 
-  width: 100%; 
+  grid-template-columns: repeat(auto-fill, 200px);
+  gap: 120px;
+  width: 100%;
 }
 
 .title {
@@ -34,12 +34,12 @@
 .addButton {
   width: 280px;
   height: 300px;
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.addButton svg { 
-  font-size: 100px; 
+.addButton svg {
+  font-size: 100px;
   color: #474747;
 }

@@ -8,13 +8,9 @@ import { IoIosMail } from "react-icons/io";
 
 const About = () => {
   const setClientMode = useGeneralStore((state) => state.setClientMode);
-  const setPreMode = useGeneralStore((state) => state.setPreMode);
   const { clientMode } = useGeneralStore();
 
-  if (clientMode == ClientMode.connection) {
-    setClientMode(ClientMode.general);
-    setPreMode(PreMode.none);
-  }
+  if (clientMode == ClientMode.connection) setClientMode(ClientMode.general);
 
   return (
     <div className={styles.aboutPage}>

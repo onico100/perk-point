@@ -6,12 +6,13 @@ import BenefitsCard from "./Benefits/BenefitCard";
 import BenefitsDetails from "./Benefits/BenefitDetails";
 import BenefitsContainer from "./Benefits/BenefitsContainer";
 import Login from "./SighPages/login";
-import SignSupllierComponent from "./signSupplier";
-import signUser from "./signUser";
+import SignSupllierComponent from "./SighPages/signSupplier";
+import signUser from "./SighPages/signUser";
 import TabSign from "./Bars/TabSign";
-import CalcButton from "./Calcutre/CalcButton";
-import CakcPage from "./Calcutre/CalcPage";
-
+import CalcButton from "./Calculator/CalcButton";
+import CakcPage from "./Calculator/CalcPage";
+import HomeComp from "./Home/HomeComp";
+import PersonalDetails from "./PesonalDetails/PersonalDetails";
 export {
   SideBar,
   TopBar,
@@ -26,4 +27,6 @@ export {
   SignSupllierComponent,
   CalcButton,
   CakcPage,
+  HomeComp,
+  PersonalDetails
 };

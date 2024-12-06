@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useBenefitStore } from "@/stores/benefitsStore";
@@ -9,10 +9,10 @@ import {
   deleteBenefitById,
   updateBenefitById,
 } from "@/services/benefitsServices";
-
+import {successAlert, inProccesAlert, errorAlert } from "@/utils/sweet-alerts";
 
 export const useFetchBenefits = () => {
-  const setBenefits = useBenefitStore((state: any) => state.setBenefits); // Zustand setter
+  const setBenefits = useBenefitStore((state: any) => state.setBenefits); 
 
   const queryClient = useQueryClient();
 
@@ -29,58 +29,27 @@ export const useFetchBenefits = () => {
 
   // Add new benefit
   const addBenefitMutation = useMutation({
-    mutationFn: (newBenefit: Omit<Benefit, "_id">) => {
-      const validBenefit: Omit<Benefit, "_id"> = {
-        supplierId: newBenefit.supplierId || "defaultSupplierId",
-        clubId: newBenefit.clubId || "defaultClubId",
-        redemptionConditions: newBenefit.redemptionConditions || "",
-        description: newBenefit.description || "",
-        expirationDate: newBenefit.expirationDate || new Date(),
-        branches: newBenefit.branches || [],
-        isActive: newBenefit.isActive !== undefined ? newBenefit.isActive : true,
-      };
-      return addBenefit(validBenefit); // Ensure valid data is sent to the API
-    },
-    onMutate: async (newBenefit: Omit<Benefit, "_id">) => {
-      const { benefits, setBenefits } = useBenefitStore.getState();
+    mutationFn: addBenefit,
+    onMutate: async (newBenefit: Benefit) => {
+      const { benefits } = useBenefitStore.getState();
       const previousBenefits = [...benefits];
       const tempBenefit = { ...newBenefit, _id: "temp-id" };
       setBenefits([...benefits, tempBenefit]);
+    
+      inProccesAlert("מוסיף")
+    
       return { previousBenefits };
     },
-    onError: (_error, _variables, context: any) => {
-      const { setBenefits } = useBenefitStore.getState();
-      setBenefits(context.previousBenefits)
+    onSuccess: () => {
+      successAlert("הטבה נוספה")
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] }) },
+    onError: (error, _, context: any) => {
+      if (context?.previousBenefits) {
+        setBenefits(context.previousBenefits);
+      }
+      errorAlert("הוספת הטבה נכשלה.")
+    },
   });
-
-  // Update benefit
-  // const updateBenefitMutation = useMutation<
-  //   Benefit,
-  //   Error,
-  //   { id: string; updatedData: Partial<Benefit> }
-  // >({
-  //   mutationFn: ({ id, updatedData }) =>
-
-  //     updateBenefitById(id, updatedData)
-  //   ,
-  //   onMutate: async ({ id, updatedData }) => {
-  //     const { benefits, setBenefits } = useBenefitStore.getState();
-  //     const previousBenefits = [...benefits];
-  //     const updatedBenefits = benefits.map((benefit) => benefit._id === id ? { ...benefit, ...updatedData } : benefit);
-  //     setBenefits(updatedBenefits);
-  //     console.log(222);
-  //     return { previousBenefits };
-  //   },
-  //   onError: (_error, _variables, context: any) => {
-  //     const { setBenefits } = useBenefitStore.getState();
-  //     setBenefits(context.previousBenefits); // Revert to previous state
-  //   },
-  //   onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] }) },
-  // });
-
-
 
   const updateBenefitMutation = useMutation<
     Benefit,
@@ -97,36 +66,38 @@ export const useFetchBenefits = () => {
       queryClient.setQueryData<Benefit[]>(["benefits"], (oldBenefits) =>
         oldBenefits
           ? oldBenefits.map((benefit) =>
-            benefit._id === id ? { ...benefit, ...updatedData } : benefit
-          )
+              benefit._id === id ? { ...benefit, ...updatedData } : benefit
+            )
           : []
       );
-
+      inProccesAlert("מעדכן")
       return { previousBenefits };
     },
     onError: (_error, _data, context) => {
-      //queryClient.setQueryData<Benefit[]>(["benefits"], context?.previousBenefits);
+      errorAlert("עדכון הטבה נכשל")
     },
-
   });
-
-
 
   // Delete benefit
   const deleteBenefitMutation = useMutation({
     mutationFn: deleteBenefitById,
     onMutate: async (benefitId: string) => {
-      const { benefits, setBenefits } = useBenefitStore.getState();
+      await queryClient.cancelQueries({ queryKey: ["benefits"] });
+      const { benefits } = useBenefitStore.getState();
       const previousBenefits = [...benefits];
-      const updatedBenefits = benefits.filter((benefit) => benefit._id !== benefitId);
-      setBenefits(updatedBenefits);
+      const updatedBenefits = benefits.filter(
+        (benefit) => benefit._id !== benefitId
+      );
+      queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
+      inProccesAlert("מוחק")
       return { previousBenefits };
     },
+    onSuccess:async () => {successAlert("הטבה נמחקה")},
     onError: (_error, _variables, context: any) => {
       const { setBenefits } = useBenefitStore.getState();
       setBenefits(context.previousBenefits);
+      errorAlert("מחיקת הטבה נכשלה.")
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['benefits'] }) },
   });
 
   return {

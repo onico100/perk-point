@@ -8,6 +8,7 @@ import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
 import { MdDelete } from "react-icons/md";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
+import { beforeActionAlert } from "@/utils/sweet-alerts";
 
 interface BenefitsCardProps {
   benefit: Benefit;
@@ -32,8 +33,11 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
     router.push(`/benefits/0/${benefit._id}`);
   };
 
-  const deleteBenefitFunc = () => {
-    if (window.confirm("Are you sure you want to delete this benefit?")) {
+  const deleteBenefitFunc =async () => {
+    let alertConfirm= await beforeActionAlert("לא תוכל לשחזר לאחר מחיקה","מחיקה")
+
+    if (alertConfirm) {
+    if(benefit._id)
       deleteBenefit(benefit._id);
     }
   };
