@@ -5,7 +5,6 @@ import TopBarButtons from "./Bars/TopBarButtons";
 import BenefitsCard from "./Benefits/BenefitCard";
 import BenefitsDetails from "./Benefits/BenefitDetails";
 import BenefitsContainer from "./Benefits/BenefitsContainer";
-import Login from "./SignPages/login";
 import signUser from "./SignPages/signUser";
 import TabSign from "./Bars/TabSign";
 import CalcButton from "./Calculator/CalcButton";
@@ -24,7 +23,6 @@ export {
   TopBar,
   TopBarButtons,
   TabSign,
-  Login,
   ModePopup,
   BenefitsCard,
   BenefitsContainer,
