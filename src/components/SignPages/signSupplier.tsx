@@ -21,16 +21,6 @@ export default function SignSupplierComponent() {
   const [isCategoryDropdownVisible, setIsCategoryDropdownVisible] = useState(false);
   const [branchDropdownVisible, setBranchDropdownVisible] = useState<number | null>(null); 
  
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   setValue,
-  //   control,
-  //   watch,
-  //   formState: { errors },
-  // } = useForm<SupplierFormValues>({ resolver: zodResolver(supplierSchema), });
-
   const {
     register,
     handleSubmit,
@@ -163,7 +153,6 @@ export default function SignSupplierComponent() {
       setEmailExists(true);
       return;
     }
-  
 
     addSupplier(data, {
       onSuccess: () => {

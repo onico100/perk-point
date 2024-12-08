@@ -15,28 +15,15 @@ import {
 import { useState } from "react"; // Import useState
 
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-
-const heebo = localFont({
-  src: "./fonts/HeeboVF.ttf",
-  variable: "--font-heebo",
-  weight: "100 900",
-});
 
 const queryClient = new QueryClient();
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({children, }: Readonly<{ children: React.ReactNode }>) 
+{
   const [isCalcPageVisible, setIsCalcPageVisible] = useState(false);
-
   return (
     <QueryClientProvider client={queryClient}>
-      <html lang="en" className={`${heebo.variable}`}>
+      <html lang="en" >
         <Head>
           <title>PerkPoint</title>
           <link rel="icon" href="/favicon.ico" sizes="any" />

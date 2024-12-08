@@ -19,7 +19,7 @@ export async function getSupplierByCredentials(
   return response.data;
 }
 
-type NewSupplier = Omit<Supplier, "_id" | "categories" | "registrationDate" | "branches" | "isActive">;
+type NewSupplier = Omit<Supplier, "_id" | "selectedCategories" | "registrationDate" | "branches" | "isActive">;
 
 export async function addSupplier(supplier: NewSupplier): Promise<Supplier> {
   const response = await my_http.post("/suppliers/insert", supplier);

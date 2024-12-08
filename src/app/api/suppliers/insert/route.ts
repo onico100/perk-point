@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     const newSupplier = {
       ...data,
       password: hashedPassword, 
-      categories: data.categories || [],
+      selectedCategories: data.selectedCategories || [],
       registrationDate: new Date().toISOString(),
       isActive: true,
     };
