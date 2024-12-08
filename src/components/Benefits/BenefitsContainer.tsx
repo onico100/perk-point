@@ -26,7 +26,7 @@ const BenefitsContainer = () => {
   const id = params.clientId;
 
   useEffect(() => {
-     console.log('Fetched benefits:', benefits);
+    console.log('Fetched benefits:', benefits);
     if (id !== "0") {
       if (clientMode === "USER") {
         setBenefitsToShow(
@@ -51,28 +51,60 @@ const BenefitsContainer = () => {
   }, [benefits]);
 
 
-   const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], branchFilter: string, expirationRange: [Date | null, Date | null]) => {
+
+  // const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], branchFilter: string, expirationRange: [Date | null, Date | null]) => {
+  //   const [start, end] = expirationRange;
+  //   setBenefitsToShow(
+  //     benefits?.filter((benefit) =>
+  //       (supplierFilter ?
+  //         suppliers?.find((s: Supplier) => s.businessName.includes(supplierFilter) && s._id === benefit.supplierId) : true) &&
+  //       (clubFilter.length > 0 ?
+  //         clubFilter.includes(benefit.clubId) : true) &&
+  //       (categoryFilter.length > 0 ?
+  //         suppliers?.find((s: Supplier) => s._id === benefit.supplierId && s.categories?.some((c) =>
+  //           categoryFilter.includes(c.toString()))) : true) &&
+  //       (branchFilter ?
+  //         suppliers?.find((s: Supplier) =>
+  //           s._id === benefit.supplierId &&
+  //           s.branches?.some((b: Branch) =>
+  //             b.nameBranch && b.nameBranch.includes(branchFilter))) : true) &&
+  //       (end ? new Date(benefit.expirationDate) <= end : true)
+  //     ) || []
+  //   );
+  // };
+
+  const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], branchFilter: string, expirationRange: [Date | null, Date | null]) => {
     const [start, end] = expirationRange;
-    setBenefitsToShow(
-      benefits?.filter((benefit) =>
-        (supplierFilter ?
-          suppliers?.find((s: Supplier) => s.businessName.includes(supplierFilter) && s._id === benefit.supplierId) : true) &&
-        (clubFilter.length > 0 ?
-          clubFilter.includes(benefit.clubId) : true) &&
-        (categoryFilter.length > 0 ?
-          suppliers?.find((s: Supplier) => s._id === benefit.supplierId && s.categories?.some((c) =>
-            categoryFilter.includes(c.toString()))) : true) &&
-        (branchFilter ?
-          suppliers?.find((s: Supplier) =>
-            s._id === benefit.supplierId &&
-            s.branches?.some((b: Branch) =>
-              b.nameBranch && b.nameBranch.includes(branchFilter))) : true) &&
-        (end ? new Date(benefit.expirationDate) <= end : true)
-      ) || []
+
+    const supplierMap = new Map(
+      suppliers?.map((supplier) => [supplier._id, supplier])
     );
+
+    const filteredBenefits = benefits?.filter((benefit) => {
+      const supplier = supplierMap.get(benefit.supplierId);
+
+      if (supplierFilter && (!supplier || !supplier.businessName.includes(supplierFilter))) {
+        return false;
+      }
+      if (clubFilter.length > 0 && !clubFilter.includes(benefit.clubId)) {
+        return false;
+      }
+      if (categoryFilter.length > 0 && (!supplier || !supplier.categories?.some((c) => categoryFilter.includes(c.toString())))) {
+        return false;
+      }
+      if (branchFilter && (!supplier || !supplier.branches?.some((b) => b.nameBranch?.includes(branchFilter)))) {
+        return false;
+      }
+      if (end && new Date(benefit.expirationDate) > end) {
+        return false;
+      }
+      return true;
+    });
+    console.log(filteredBenefits, "filteredBenefits" , supplierFilter)
+    setBenefitsToShow(filteredBenefits || []);
   };
 
-  if (isLoadingB || isFetchingB) return <LoadingSpinner/>;
+  if (isLoadingB || isFetchingB) return <LoadingSpinner />;
 
   return (
     <div className={styles.container}>

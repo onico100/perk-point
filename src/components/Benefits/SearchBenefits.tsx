@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
+import debounce from 'lodash.debounce';
 import {
     SearchContainer,
     SearchIcon,
@@ -37,58 +38,39 @@ interface SearchProps {
 }
 
 const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) => {
-    const [supplierFilter, setSupplierFilter] = useState("");
-    const [selectedClubs, setSelectedClubs] = useState<string[]>([]);
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-    const [branchFilter, setBranchFilter] = useState("");
-    const [expirationStart, setExpirationStart] = useState<Date | null>(null);
-    const [expirationEnd, setExpirationEnd] = useState<Date | null>(null);
+    const [searchFilters, setSearchFilters] = useState({
+        supplierFilter: "",
+        selectedClubs: [] as string[],
+        selectedCategories: [] as string[],
+        branchFilter: "",
+        expirationStart: null as Date | null,
+        expirationEnd: null as Date | null,
+    });
+
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
 
-    useEffect(() => {
-        if (
-          supplierFilter ||
-          selectedClubs.length > 0 ||
-          selectedCategories.length > 0 ||
-          branchFilter ||
-          expirationStart ||
-          expirationEnd
-        ) {
-          onSearch(
-            supplierFilter,
-            selectedClubs,
-            selectedCategories,
-            branchFilter,
-            [expirationStart, expirationEnd]
-          );
-        }
-      }, [
-        supplierFilter,
-        selectedClubs,
-        selectedCategories,
-        branchFilter,
-        expirationStart,
-        expirationEnd,
-        onSearch
-      ]);
-      
+    const debouncedSearch = useCallback(
+        debounce((filters) => {
+            onSearch(
+                filters.supplierFilter,
+                filters.selectedClubs,
+                filters.selectedCategories,
+                filters.branchFilter,
+                [filters.expirationStart, filters.expirationEnd]
+            );
+        }, 300),
+        [onSearch]
+    );
 
-
-    const handleClubCheckboxChange = (clubId: string) => {
-        setSelectedClubs((prev) =>
-            prev.includes(clubId)
-                ? prev.filter((id) => id !== clubId)
-                : [...prev, clubId]
-        );
-    };
-
-    const handleCategoryCheckboxChange = (categoryId: string) => {
-        setSelectedCategories((prev) =>
-            prev.includes(categoryId)
-                ? prev.filter((id) => id !== categoryId)
-                : [...prev, categoryId]
-        );
+    const updateSearchFilters = (field: keyof typeof searchFilters, value: any) => {
+        debouncedSearch.cancel();
+        
+        setSearchFilters((prev) => {
+            const newFilters = { ...prev, [field]: value };
+            debouncedSearch(newFilters); 
+            return newFilters;
+        });
     };
 
     return (
@@ -97,15 +79,15 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
                 <SupplierInput
                     type="text"
                     placeholder="חיפוש שם העסק"
-                    value={supplierFilter}
-                    onChange={(e) => setSupplierFilter(e.target.value)}
+                    value={searchFilters.supplierFilter}
+                    onChange={(e) => updateSearchFilters("supplierFilter", e.target.value)}
                 />
                 <SearchIcon />
             </InputContainer>
             <SelectContainer $isOpen={dropdownOpen}>
                 <SelectLabel onClick={() => setDropdownOpen(!dropdownOpen)}>
-                    {selectedClubs.length > 0
-                        ? `${selectedClubs.length} מועדונים`
+                    {searchFilters.selectedClubs.length > 0
+                        ? `${searchFilters.selectedClubs.length} מועדונים`
                         : 'בחר מועדונים'}
                     <FaChevronDown />
                 </SelectLabel>
@@ -116,8 +98,10 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
                                 <input
                                     type="checkbox"
                                     id={club._id}
-                                    checked={selectedClubs.includes(club._id)}
-                                    onChange={() => handleClubCheckboxChange(club._id)}
+                                    checked={searchFilters.selectedClubs.includes(club._id)}
+                                    onChange={(e) => updateSearchFilters("selectedClubs", searchFilters.selectedClubs.includes(club._id)
+                                        ? searchFilters.selectedClubs.filter((id) => id !== club._id)
+                                        : [...searchFilters.selectedClubs, club._id])}
                                 />
                                 <label htmlFor={club._id}>{club.clubName}</label>
                             </DropdownOption>
@@ -127,8 +111,8 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
             </SelectContainer>
             <SelectContainer $isOpen={categoryDropdownOpen}>
                 <SelectLabel onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}>
-                    {selectedCategories.length > 0
-                        ? `${selectedCategories.length} קטגוריות`
+                    {searchFilters.selectedCategories.length > 0
+                        ? `${searchFilters.selectedCategories.length} קטגוריות`
                         : 'בחר קטגוריות'}
                     <FaChevronDown />
                 </SelectLabel>
@@ -139,8 +123,13 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
                                 <input
                                     type="checkbox"
                                     id={category._id}
-                                    checked={selectedCategories.includes(category._id)}
-                                    onChange={() => handleCategoryCheckboxChange(category._id)}
+                                    checked={searchFilters.selectedCategories.includes(category._id)}
+                                    onChange={(e) => updateSearchFilters(
+                                        "selectedCategories",
+                                        searchFilters.selectedCategories.includes(category._id)
+                                            ? searchFilters.selectedCategories.filter((id) => id !== category._id)
+                                            : [...searchFilters.selectedCategories, category._id]
+                                    )}
                                 />
                                 <label htmlFor={category._id}>{category.categoryName}</label>
                             </DropdownOption>
@@ -151,21 +140,33 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
             <InputContainer>
                 <SupplierInput
                     type="text"
-                    placeholder="חיפוש לפי סניף"  
-                    value={branchFilter} 
-                    onChange={(e) => setBranchFilter(e.target.value)} 
+                    placeholder="חיפוש לפי סניף"
+                    value={searchFilters.branchFilter}
+                    onChange={(e) => updateSearchFilters("branchFilter", e.target.value)}
                 />
                 <SearchIcon />
             </InputContainer>
             <DateLabel>תוקף מ:</DateLabel>
             <DateInput
                 type="date"
-                onChange={(e) => setExpirationStart(e.target.value ? new Date(e.target.value) : null)}
+                value={searchFilters.expirationStart ? searchFilters.expirationStart.toISOString().split('T')[0] : ""}
+                onChange={(e) =>
+                    updateSearchFilters(
+                        "expirationStart",
+                        e.target.value ? new Date(e.target.value) : null
+                    )
+                }
             />
             <DateLabel>עד:</DateLabel>
             <DateInput
                 type="date"
-                onChange={(e) => setExpirationEnd(e.target.value ? new Date(e.target.value) : null)}
+                value={searchFilters.expirationEnd ? searchFilters.expirationEnd.toISOString().split('T')[0] : ""}
+                onChange={(e) =>
+                    updateSearchFilters(
+                        "expirationEnd",
+                        e.target.value ? new Date(e.target.value) : null
+                    )
+                }
             />
         </SearchContainer>
     );
