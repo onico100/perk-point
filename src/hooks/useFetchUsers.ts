@@ -38,7 +38,6 @@ export const useLoginUser = () => {
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.user);
       setCurrentUser(user);
-
       router.push(`benefits/${user._id}`);
     },
   });
@@ -50,10 +49,11 @@ export const useAddUser = () => {
   return useMutation<User, Error, User>({
     mutationFn: addUser,
     onSuccess: (user) => {
+      console.log("user added", user);
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.user);
       setCurrentUser(user);
-      router.push("/");
+      router.push(`benefits/${user._id}`);
     },
     onError: (error) => {
       errorAlert("הוספת משתמש נכשלה.");

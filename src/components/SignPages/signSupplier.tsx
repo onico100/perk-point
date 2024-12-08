@@ -40,6 +40,7 @@ export default function SignSupplierComponent() {
   } = useForm<SupplierFormValues>({
     defaultValues: {
       selectedCategories: [],
+      branches: [],
     },
   });
 
@@ -209,21 +210,23 @@ export default function SignSupplierComponent() {
                 {loading && dropdownVisible === index && <p>טוען...</p>}
                 {dropdownVisible === index && suggestions.length > 0 && (
                   <div className={styles.dropdown}>
-                    <ul>
-                      {suggestions.map((place, idx) => (
-                        <li
-                          key={idx}
+                    {suggestions.map((branch, index) => (
+                      <label key={index} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          value={branch}
                           onClick={() => {
-                            if (place.includes(",")) {
-                              const parts = place.split(",");
+                            if (branch.includes(",")) {
+                              const parts = branch.split(",");
                               const cityBranch =
                                 parts.length >= 2
                                   ? parts[1].trim()
                                   : "No city available";
-                              setValue(`branches.${index}.nameBranch`, place);
+                              setValue(`branches.${index}.nameBranch`, branch);
                               setValue(`branches.${index}.city`, cityBranch);
-                            } else {
-                              setValue(`branches.${index}.nameBranch`, place);
+                            } 
+                            else {
+                              setValue(`branches.${index}.nameBranch`, branch);
                               setValue(
                                 `branches.${index}.city`,
                                 "No city available"
@@ -233,14 +236,13 @@ export default function SignSupplierComponent() {
                             setDropdownVisible(null);
                           }}
                           className={styles.dropdownItem}
-                        >
-                          {place} -{" "}
-                          {place.length >= 2
-                            ? place[place.length - 2].trim()
+                        />
+                          {branch} -{" "}
+                          {branch.length >= 2
+                            ? branch[branch.length - 2].trim()
                             : "No city available"}
-                        </li>
+                        </label>
                       ))}
-                    </ul>
                   </div>
                 )}
 
@@ -249,19 +251,6 @@ export default function SignSupplierComponent() {
                 )}
               </div>
 
-              {/* Hidden Fields for Branch Name and City */}
-              {/* <div className="hidden">
-                <input
-                  type="text"
-                  {...register(`branches.${index}.nameBranch` as const)}
-                  readOnly
-                />
-                <input
-                  type="text"
-                  {...register(`branches.${index}.city` as const)}
-                  readOnly
-                />
-              </div> */}
 
               <button type="button" onClick={() => remove(index)}>
                 הסר סניף
@@ -285,7 +274,7 @@ export default function SignSupplierComponent() {
                 <br />
                 <span
                   className="text-red-500 underline cursor-pointer"
-                  onClick={() => router.push("/login")}
+                  onClick={() => router.push("/login-supplier")}
                 >
                   למעבר לדף התחברות
                 </span>

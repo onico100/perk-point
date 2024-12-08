@@ -8,8 +8,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
 import { sendPasswordResetEmail } from "@/services/emailServices";
+//import LoginGoogleButton from "./authLogin";
 
-export default function Login() {
+
+export default function SupplierLoginComponent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -17,7 +19,6 @@ export default function Login() {
   const preMode = useGeneralStore((state) => state.preMode);
   const loginUserMutation = useLoginUser();
   const { loginSupplier } = useFetchSuppliers();
-
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,21 +27,7 @@ export default function Login() {
       handleForgotPassword();
       return;
     }
-    if (preMode === "USER") {
-      loginUserMutation.mutate(
-        { email, password },
-        {
-          onSuccess: (user) => {
-            helloAlert(`שלום ${user.username} ☺️`);
-            router.push(`benefits/${user._id}`);
-          },
-          onError: (error) => {
-            console.error(error);
-            errorAlert("התחברות נכשלה: פרטי לקוח אינם תקינים.");
-          },
-        }
-      );
-    } else if (preMode === "SUPPLIER") {
+ if (preMode === "SUPPLIER") {
       loginSupplier(
         { email, password },
         {
@@ -66,8 +53,11 @@ export default function Login() {
     }
   };
 
+
+
   return (
     <div className={styles.loginPage}>
+       <h1>התחברות ספק</h1>
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <div className={styles.formGroup}>
           <label htmlFor="email">כתובת אימייל:</label>
@@ -91,7 +81,7 @@ export default function Login() {
               required
             />
 
-          <p className="text-red-500 underline cursor-pointer"
+          <p className="text-red-500 underline cursor-pointer text-xs"
             onClick={() => setForgotPassword(!forgotPassword)}>
             שכחתי סיסמה
           </p>
@@ -100,17 +90,18 @@ export default function Login() {
         )}
 
         <div className={styles.inlineContainer}>
-          <p>איך לך עדיין משתמש?</p>
-          <Link className={styles.link} href={"/signup"}>
+          <p>אינך ספק רשום? </p>
+          <Link className={styles.link} href={"/register-supplier"}>
             הירשם
           </Link>
         </div>
 
-        {!forgotPassword && <button type="submit">התחברות</button>}
+        {!forgotPassword && <button type="submit" className={`${styles.formGroup} loginPage button`}>התחברות</button>}
         {forgotPassword && (<button type="submit">שלח קישור לאיפוס סיסמה</button>)}
         {message && <p>{message}</p>}
 
       </form>
+      {/* <LoginGoogleButton /> */}
     </div>
   );
 }
