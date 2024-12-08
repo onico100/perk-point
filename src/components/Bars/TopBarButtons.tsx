@@ -37,12 +37,6 @@ const TopBarButtons: React.FC = () => {
           >
             התחברות
           </button>
-          {/* <button
-            className={styles.signupButton}
-            onClick={() => handleConnectionMode("/signup")}
-          >
-            הרשמה
-          </button>           */}
           <button
             className={styles.signupButton}
             onClick={() => handleConnectionMode("/login-supplier")}
