@@ -90,7 +90,7 @@ export default function SignUserComponent() {
                 <br />
                 <span
                   className="text-red-500 underline cursor-pointer"
-                  onClick={() => router.push("/login")}
+                  onClick={() => router.push("/login-user")}
                 >
                   למעבר לדף התחברות
                 </span>

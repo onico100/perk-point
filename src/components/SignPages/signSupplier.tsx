@@ -251,19 +251,6 @@ export default function SignSupplierComponent() {
                 )}
               </div>
 
-              {/* Hidden Fields for Branch Name and City */}
-              {/* <div className="hidden">
-                <input
-                  type="text"
-                  {...register(`branches.${index}.nameBranch` as const)}
-                  readOnly
-                />
-                <input
-                  type="text"
-                  {...register(`branches.${index}.city` as const)}
-                  readOnly
-                />
-              </div> */}
 
               <button type="button" onClick={() => remove(index)}>
                 הסר סניף
@@ -287,7 +274,7 @@ export default function SignSupplierComponent() {
                 <br />
                 <span
                   className="text-red-500 underline cursor-pointer"
-                  onClick={() => router.push("/login")}
+                  onClick={() => router.push("/login-supplier")}
                 >
                   למעבר לדף התחברות
                 </span>
