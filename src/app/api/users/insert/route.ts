@@ -25,8 +25,11 @@ export async function POST(request: Request) {
     data.password = hashedPassword;
 
     const result = await insertDocument(client, "users_collection", data);
+    const { password: _, ...userWithoutPassword } = data;
 
-    return NextResponse.json({ success: true, user: result });
+    return NextResponse.json(userWithoutPassword);
+
+
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";

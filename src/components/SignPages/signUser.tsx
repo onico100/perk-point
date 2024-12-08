@@ -28,6 +28,7 @@ export default function SignUserComponent() {
     const emailExists = await checkEmailService(data.email);
     if (emailExists) {
       setEmailExists(true); 
+      errorAlert("Email already exists")
       return;
     }
 
