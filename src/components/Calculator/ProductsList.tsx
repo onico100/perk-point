@@ -1,27 +1,7 @@
 import { Product } from "./types"; // Define Product type in a separate file
 import { CiCircleMinus } from "react-icons/ci";
-import styled from "styled-components";
+import {ProductList as List} from "./Calculator.Styles"
 
-const List = styled.div`
-  margin-top: 20px;
-
-  & ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  & li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-  }
-
-  & li:last-child {
-    border-bottom: none;
-  }
-`;
 
 
 interface Props {

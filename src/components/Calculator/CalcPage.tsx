@@ -6,67 +6,17 @@ import Discount from "./Discounts";
 import ProductList from "./ProductsList";
 import { useEffect, useState } from "react";
 import { DiscountInputs, Product } from "./types";
-import styled from "styled-components";
-import { FaChevronDown, FaChevronRight } from "react-icons/fa";
+import {
+  CalcSidebar,
+  CloseButton,
+  Headline,
+  Dropdown,
+  IconDown,
+  IconRight,
+  DiscountSection,
+  AddProduct as StyledAddProduct,
+} from './Calculator.Styles'
 
-const Sidebar = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 25%;
-  height: 100vh;
-  background-color: #f9f9f9;
-  border-right: 1px solid #ddd;
-  padding: 20px;
-  overflow-y: auto;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  z-index: 10000;
-`;
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background: linear-gradient(to right, #b346e8, #87cdfa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 18px;
-  border-radius: 50%;
-  cursor: pointer;
-  padding: 5px;
-`;
-
-const HeadLine = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-`;
-
-const Title = styled.h1`
-  font-size: 20px;
-  background: linear-gradient(to right, #b346e8, #87cdfa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-`;
-
-const Section = styled.div`
-  margin-top: 20px;
-`;
-
-const DropDown = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  background: linear-gradient(to right, #b346e8, #87cdfa);
-  padding: 10px;
-  border-radius: 20px;
-`;
-
-const Icon = styled.div`
-  margin-left: 10px;
-`;
 
 export default function CalcPage({ onClose }: { onClose: () => void }) {
   const [products, setProducts] = useState<Product[]>([]);
@@ -190,20 +140,20 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
     setExplanationSectionOpen(!isExplanationSectionOpen);
 
   return (
-    <Sidebar>
+    <CalcSidebar>
       <CloseButton onClick={onClose}>
         <IoClose />
       </CloseButton>
-      <HeadLine onClick={toggleExplanationSection}>
-        <Title>מחשבון ההטבות שלי</Title>
+      <Headline onClick={toggleExplanationSection}>
+        <h1>מחשבון ההטבות שלי</h1>
         {isExplanationSectionOpen ? (
-          <Icon><FaChevronDown /></Icon>
+          <IconDown />
         ) : (
-          <Icon><FaChevronRight /></Icon>
+          <IconRight />
         )}
-      </HeadLine>
+      </Headline>
       {isExplanationSectionOpen && (
-        <Section>
+        <div>
           <h3>
             בעזרת המחשבון שלנו תוכלו לחשב את המחיר היחסי של כל מוצר בהתאם להנחות
             שהזנתם.
@@ -225,35 +175,34 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
               המעודכנים של כל מוצר בהתחשב בהנחות שהזנתם.
             </li>
           </ul>
-        </Section>
+        </div>
       )}
       {/* Toggle AddProduct Section */}
-      <Section>
-        <DropDown onClick={toggleProductSection}>
+      <StyledAddProduct>
+        <Dropdown onClick={toggleProductSection}>
           <h2>הוספת מוצרים</h2>
-          <Icon><FaChevronDown /></Icon>
-        </DropDown>
+          {isProductSectionOpen ? <IconDown /> : <IconRight />} 
+        </Dropdown>
         {isProductSectionOpen && <AddProduct onAddProduct={addProduct} />}
-      </Section>
+      </StyledAddProduct>
 
-      <Section>
-        <DropDown onClick={toggleDiscountSection}>
+      <DiscountSection>
+        <Dropdown onClick={toggleDiscountSection}>
           <h2>הוספת הנחות</h2>
-          <Icon><FaChevronDown /></Icon>
-        </DropDown>
+          {isProductSectionOpen ? <IconDown /> : <IconRight />} 
+        </Dropdown>
         {isDiscountSectionOpen && (
           <Discount onApplyDiscounts={applyDiscounts} />
         )}
-      </Section>
-      <Section>
-        <DropDown onClick={toggleProductList}>
-          <h2>רשימת מוצרים הסופית</h2>
-          <Icon><FaChevronDown /></Icon>
-        </DropDown>
-        {isProductListOpen && (
+      </DiscountSection>
+      <Dropdown onClick={toggleProductList}>
+        <h2>רשימת מוצרים הסופית</h2>
+        {isProductSectionOpen ? <IconDown /> : <IconRight />} 
+      </Dropdown>
+      {isProductListOpen && (
           <ProductList products={products} handleDelete={handleDelete} />
-        )}
-      </Section>
-    </Sidebar>
+
+      )}
+    </CalcSidebar>
   );
 }
