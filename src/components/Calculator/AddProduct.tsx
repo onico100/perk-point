@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styled from "styled-components";
 
 type ProductForm = {
   name: string;
@@ -8,6 +9,27 @@ type ProductForm = {
 interface Props {
   onAddProduct: (name: string, price: number) => void;
 }
+
+const Form = styled.form`
+  margin-bottom: 20px;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+`;
+
+const Button = styled.button`
+  margin-top: 10px;
+  padding: 10px;
+  background-color: blue;
+  color: white;
+  border: none;
+  cursor: pointer;
+`;
 
 export default function AddProduct({ onAddProduct }: Props) {
   const [form, setForm] = useState<ProductForm>({ name: "", price: "" });
@@ -27,10 +49,10 @@ export default function AddProduct({ onAddProduct }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
+    <Form onSubmit={handleSubmit}>
       <div>
         <label>
-          <input
+          <Input
             type="text"
             name="name"
             value={form.name}
@@ -42,7 +64,7 @@ export default function AddProduct({ onAddProduct }: Props) {
       </div>
       <div>
         <label>
-          <input
+          <Input
             type="number"
             name="price"
             value={form.price}
@@ -53,19 +75,7 @@ export default function AddProduct({ onAddProduct }: Props) {
           />
         </label>
       </div>
-      <button
-        type="submit"
-        style={{
-          marginTop: "10px",
-          padding: "10px",
-          backgroundColor: "blue",
-          color: "white",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
-        הוסף מוצר
-      </button>
-    </form>
+      <Button type="submit">הוסף מוצר</Button>
+    </Form>
   );
 }

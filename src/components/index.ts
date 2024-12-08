@@ -9,7 +9,7 @@ import Login from "./SignPages/login";
 import signUser from "./SignPages/signUser";
 import TabSign from "./Bars/TabSign";
 import CalcButton from "./Calculator/CalcButton";
-import CakcPage from "./Calculator/CalcPage";
+import CalcPage from "./Calculator/CalcPage";
 import HomeComp from "./Home/HomeComp";
 import PersonalDetails from "./PesonalDetails/PersonalDetails";
 import SignSupplierComponent from "./SignPages/signSupplier";
@@ -32,7 +32,7 @@ export {
   signUser,
   SignSupplierComponent,
   CalcButton,
-  CakcPage,
+  CalcPage,
   HomeComp,
   PersonalDetails
 };
