@@ -30,10 +30,16 @@ export default function RootLayout({
     <QueryClientProvider client={queryClient}>
       <html lang="en" className={`${heebo.variable}`}>
         <Head>
+          <title>PerkPoint</title>
           <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>
         <body className="font-heebo">
-          {isCalcPageVisible && ( <div className="overlay" onClick={() => setIsCalcPageVisible(false)} /> )}
+          {isCalcPageVisible && (
+            <div
+              className="overlay"
+              onClick={() => setIsCalcPageVisible(false)}
+            />
+          )}
           <div className="layout">
             <TopBar />
             <div className="mainContent">
