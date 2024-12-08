@@ -7,13 +7,15 @@
   --foreground: #171717;
   direction: rtl;
   box-sizing: border-box;
+  --font-hebrew: 'Varela Round','Heebo', 'IBM Plex Sans Hebrew',  Arial, Helvetica, sans-serif;
+
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   direction: rtl;
-  font-family: var(--font-heebo), Arial, Helvetica, sans-serif;
+  font-family: var(--font-hebrew);
   background-color: #f5f5f5;
 }
 
