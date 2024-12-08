@@ -12,7 +12,7 @@ const BenefitDetails = () => {
   const { benefits, isLoadingB, isFetchingB, updateBenefit } =
     useFetchBenefits();
   const { suppliers, isLoadingS, isFetchingS } = useFetchSuppliers();
-  const { clubs, isLoadingC, isFetchingC } = useFetchGeneral();
+  const { clubs, isLoadingCategories, isFetchingCategories } = useFetchGeneral();
   const clientMode = useGeneralStore((state) => state.clientMode);
   const currentSupplier = useGeneralStore((state) => state.currentSupplier);
 
@@ -79,8 +79,8 @@ const BenefitDetails = () => {
     isFetchingB ||
     isLoadingS ||
     isFetchingS ||
-    isLoadingC ||
-    isFetchingC
+    isLoadingCategories ||
+    isFetchingCategories
   )
     return <div>Loading...</div>;
 
