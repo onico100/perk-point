@@ -13,7 +13,7 @@ import {
   errorAlert,
   successAlert,
 } from "@/utils/sweet-alerts";
-import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
+import { FaStar, FaRegStar } from "react-icons/fa";
 
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
 
@@ -131,12 +131,12 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
         (currentUser?.savedBenefits?.some(
           (existingBenefit) => existingBenefit === benefit?._id
         ) ? (
-          <div className={styles.favoriteIcon} onClick={deleteFromFavorits}>
-            <MdFavorite />
+          <div onClick={deleteFromFavorits}>
+            <FaStar className={styles.favoriteIcon} />
           </div>
         ) : (
-          <div className={styles.favoriteIcon} onClick={addToFavorits}>
-            <MdFavoriteBorder />
+          <div onClick={addToFavorits}>
+            <FaRegStar className={styles.favoriteIcon} />
           </div>
         ))}
 

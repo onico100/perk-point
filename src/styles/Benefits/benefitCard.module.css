@@ -81,3 +81,15 @@
   background: linear-gradient(to bottom, #a344d3, #7ec0ea);
   transform: scale(1.05);
 }
+
+.favoriteIcon {
+  position: absolute;
+  color: #a344d3;
+  cursor: pointer;
+  bottom: 32px;
+  right: 30px;
+}
+
+.favoriteIcon:hover {
+  color: #7ec0ea;
+}
