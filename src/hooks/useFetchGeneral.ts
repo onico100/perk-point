@@ -18,7 +18,7 @@ export const useFetchGeneral = () => {
       setClubs(clubs);
       return { categories, clubs };
     },
-    staleTime: 10000,
+    staleTime: 600000,
   });
 
   return {
