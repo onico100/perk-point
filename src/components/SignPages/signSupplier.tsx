@@ -101,7 +101,7 @@ export default function SignSupplierComponent() {
 
     addSupplier(data, {
       onSuccess: () => {
-        successAlert("הספק נוסף בהצלחה!").then(() => {
+        successAlert("הספק נוסף").then(() => {
           router.push("/"); 
         });
       },

@@ -3,9 +3,12 @@
 import styles from "@/styles/PersonalDetails.module.css";
 import useGeneralStore from "@/stores/generalStore";
 import LoadingSpinner from "../Loading/LoadingSpinner";
+import { Benefit, Category, Club } from "@/types/types";
+import { useFetchBenefits } from "@/hooks/useFetchBenefits";
+import { ObjectId } from "mongodb";
 
 export default function PersonalDetails() {
-  const { currentUser, currentSupplier} = useGeneralStore();
+  const { currentUser, currentSupplier, categories } = useGeneralStore();
 
   if (!currentUser && !currentSupplier) {
     return <LoadingSpinner />;
@@ -28,14 +31,6 @@ export default function PersonalDetails() {
           <span className={styles.label}>תאריך הרשמה:</span>{" "}
           {new Date(currentUser.registrationDate).toLocaleDateString("he-IL")}
         </p>
-        <p className={styles.item}>
-          <span className={styles.label}>מועדונים:</span>{" "}
-          {currentUser.clubs.join(", ") || "אין מועדונים"}
-        </p>
-        <p className={styles.item}>
-          <span className={styles.label}>הטבות שמורות:</span>{" "}
-          {currentUser.savedBenefits.join(", ") || "אין הטבות שמורות"}
-        </p>
       </div>
     );
   }
@@ -52,42 +47,39 @@ export default function PersonalDetails() {
           />
         )}
         <p className={styles.item}>
-          <span className={styles.label}>שם ספק:</span> {currentSupplier.providerName}
+          <span className={styles.label}>שם ספק:</span>{" "}
+          {currentSupplier.providerName}
         </p>
         <p className={styles.item}>
           <span className={styles.label}>אימייל:</span> {currentSupplier.email}
         </p>
         <p className={styles.item}>
-          <span className={styles.label}>שם עסק:</span> {currentSupplier.businessName}
+          <span className={styles.label}>שם עסק:</span>{" "}
+          {currentSupplier.businessName}
         </p>
         <p className={styles.item}>
-          <span className={styles.label}>מספר טלפון:</span> {currentSupplier.phoneNumber}
+          <span className={styles.label}>מספר טלפון:</span>{" "}
+          {currentSupplier.phoneNumber}
         </p>
         {currentSupplier.registrationDate && (
           <p className={styles.item}>
             <span className={styles.label}>תאריך הרשמה:</span>{" "}
-            {new Date(currentSupplier.registrationDate).toLocaleDateString("he-IL")}
+            {new Date(currentSupplier.registrationDate).toLocaleDateString(
+              "he-IL"
+            )}
           </p>
         )}
         <p className={styles.item}>
-          <span className={styles.label}>קטגוריות:</span>{" "}
-          {currentSupplier.categories?.join(", ") || "אין קטגוריות"}
+          <span className={styles.label}>קטגוריות:</span>
+          {categories
+            ?.filter((category: Category) =>
+              currentSupplier?.categories?.includes(new ObjectId(category._id))
+            )
+            .map((category: Category) => (
+              <div key={category._id}>{category.categoryName}</div>
+            )) || "אין קטגוריות"}
         </p>
-        <p className={styles.item}>
-          <span className={styles.label}>לינק לאתר:</span>{" "}
-          {currentSupplier.siteLink ? (
-            <a
-              href={currentSupplier.siteLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.link}
-            >
-              {currentSupplier.siteLink}
-            </a>
-          ) : (
-            "אין אתר"
-          )}
-        </p>
+        F
       </div>
     );
   }

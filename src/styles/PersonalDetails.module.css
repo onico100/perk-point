@@ -35,10 +35,16 @@
     text-decoration: underline;
   }
   
-  .logo {
+  /* .logo {
     display: block;
     max-width: 100px;
     margin: 0 auto 15px;
     border-radius: 50%;
+  } */
+   
+  .logo {
+    height: 120px;
+    width: auto;
+    margin-bottom: 10px;
   }
   
