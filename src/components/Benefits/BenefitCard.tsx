@@ -23,7 +23,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
 }) => {
   const router = useRouter();
   const params = useParams();
-
+console.log(50,supplier)
   const { deleteBenefit } = useFetchBenefits();
 
   const id = params.clientId;
