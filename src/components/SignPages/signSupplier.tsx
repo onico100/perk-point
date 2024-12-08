@@ -17,10 +17,9 @@ export default function SignSupplierComponent() {
   const [loading, setLoading] = useState(false);
   const { addSupplier } = useFetchSuppliers();
   const { categories, isLoadingCategories } = useFetchGeneral();
-  console.log("categories:", categories);
   const [emailExists, setEmailExists] = useState(false);
-  const [isCategoryDropdownVisible, setIsCategoryDropdownVisible] = useState(false); // מצב לקטגוריות
-  const [branchDropdownVisible, setBranchDropdownVisible] = useState<number | null>(null); // מצב לסניפים
+  const [isCategoryDropdownVisible, setIsCategoryDropdownVisible] = useState(false);
+  const [branchDropdownVisible, setBranchDropdownVisible] = useState<number | null>(null); 
  
 
   // const {

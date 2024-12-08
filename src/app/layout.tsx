@@ -13,6 +13,7 @@ import {
 } from "@/components/index";
 import { useState } from "react"; // Import useState
 
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -38,6 +39,12 @@ export default function RootLayout({
         <Head>
           <title>PerkPoint</title>
           <link rel="icon" href="/favicon.ico" sizes="any" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&family=IBM+Plex+Sans+Hebrew:wght@100;200;300;400;500;600;700&family=Varela+Round&display=swap"
+          rel="stylesheet"
+        />
         </Head>
         <body className="font-heebo">
           {isCalcPageVisible && (
