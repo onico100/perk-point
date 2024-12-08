@@ -24,6 +24,7 @@ body {
 }
 
 .mainContent {
+  margin-top: 84px;
   display: flex;
   flex-direction: row;
   direction: rtl;
@@ -36,7 +37,6 @@ body {
   background-color: #f5f5f5;
   position: relative;
   z-index: 1;
-  margin-top: 84px;
 }
 
 .layout {
@@ -56,9 +56,5 @@ body {
 
 .calc-page-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 10000;
+  z-index: 9999;
 }
