@@ -24,6 +24,7 @@ body {
 }
 
 .mainContent {
+  margin-top: 84px;
   display: flex;
   flex-direction: row;
   direction: rtl;

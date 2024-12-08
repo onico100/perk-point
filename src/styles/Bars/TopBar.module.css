@@ -22,6 +22,7 @@
 
 .logo {
   height: 65px;
+  cursor: pointer;
 }
 
 .rightSide {

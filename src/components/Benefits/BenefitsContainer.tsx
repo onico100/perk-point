@@ -50,51 +50,6 @@ const BenefitsContainer = () => {
     }
   }, [benefits]);
 
-  // const handleSearch = useCallback(
-  //   (
-  //     supplierFilter: string,
-  //     clubFilter: string[],
-  //     categoryFilter: string[],
-  //     branchFilter: string,
-  //     expirationRange: [Date | null, Date | null]
-  //   ) => {
-  //     const [start, end] = expirationRange;
-  //     setBenefitsToShow(
-  //       benefits?.filter((benefit) =>
-  //         (supplierFilter
-  //           ? suppliers?.find(
-  //               (s: Supplier) =>
-  //                 s.businessName.includes(supplierFilter) &&
-  //                 s._id === benefit.supplierId
-  //             )
-  //           : true) &&
-  //         (clubFilter.length > 0 ? clubFilter.includes(benefit.clubId) : true) &&
-  //         (categoryFilter.length > 0
-  //           ? suppliers?.find(
-  //               (s: Supplier) =>
-  //                 s._id === benefit.supplierId &&
-  //                 s.categories?.some((c) =>
-  //                   categoryFilter.includes(c.toString())
-  //                 )
-  //             )
-  //           : true) &&
-  //         (branchFilter
-  //           ? suppliers?.find(
-  //               (s: Supplier) =>
-  //                 s._id === benefit.supplierId &&
-  //                 s.branches?.some(
-  //                   (b: Branch) =>
-  //                     b.nameBranch && b.nameBranch.includes(branchFilter)
-  //                 )
-  //             )
-  //           : true) &&
-  //         (end ? new Date(benefit.expirationDate) <= end : true)
-  //       ) || []
-  //     );
-  //   },
-  //   [benefits, suppliers]
-  // );
-  
 
    const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], branchFilter: string, expirationRange: [Date | null, Date | null]) => {
     const [start, end] = expirationRange;
