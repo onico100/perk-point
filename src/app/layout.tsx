@@ -4,7 +4,13 @@ import localFont from "next/font/local";
 import Head from "next/head";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SideBar, TopBar, CalcButton, CakcPage } from "@/components/index";
+import {
+  SideBar,
+  TopBar,
+  CalcButton,
+  CakcPage,
+  Footer,
+} from "@/components/index";
 import { useState } from "react"; // Import useState
 
 const geistSans = localFont({
@@ -30,10 +36,16 @@ export default function RootLayout({
     <QueryClientProvider client={queryClient}>
       <html lang="en" className={`${heebo.variable}`}>
         <Head>
+          <title>PerkPoint</title>
           <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>
         <body className="font-heebo">
-          {isCalcPageVisible && ( <div className="overlay" onClick={() => setIsCalcPageVisible(false)} /> )}
+          {isCalcPageVisible && (
+            <div
+              className="overlay"
+              onClick={() => setIsCalcPageVisible(false)}
+            />
+          )}
           <div className="layout">
             <TopBar />
             <div className="mainContent">
@@ -51,6 +63,7 @@ export default function RootLayout({
             </div>
           )}
         </body>
+        <Footer />
       </html>
     </QueryClientProvider>
   );

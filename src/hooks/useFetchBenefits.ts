@@ -24,7 +24,7 @@ export const useFetchBenefits = () => {
       setBenefits(benefits);
       return benefits;
     },
-    staleTime: 10000,
+    staleTime: 600000,
   });
 
   // Add new benefit

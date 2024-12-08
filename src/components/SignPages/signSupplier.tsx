@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import debounce from "lodash.debounce";
 import my_http from "@/services/http";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { supplierSchema, SupplierFormValues } from "@/types/types";
+import { supplierSchema, SupplierFormValues, Category } from "@/types/types";
 import styles from "@/styles/SignPages/sign.module.css";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useRouter } from "next/navigation";
@@ -17,7 +17,8 @@ export default function SignSupplierComponent() {
   const [loading, setLoading] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState<number | null>(null);
   const { addSupplier } = useFetchSuppliers();
-  const { categories, isLoadingC } = useFetchGeneral();
+  const { categories, isLoadingCategories } = useFetchGeneral();
+  console.log("categories:", categories);
   const [emailExists, setEmailExists] = useState(false);
 
   // const {
@@ -92,6 +93,7 @@ export default function SignSupplierComponent() {
   const router = useRouter();
 
   const onSubmit = async (data: SupplierFormValues) => {
+    console.log("SupplierFormValues:", data);
     const emailExists = await checkEmailService(data.email);
     if (emailExists) {
       setEmailExists(true);
@@ -111,6 +113,7 @@ export default function SignSupplierComponent() {
       },
     });
   };
+  
 
   return (
     <div className={styles.loginPage}>
@@ -166,31 +169,41 @@ export default function SignSupplierComponent() {
         </div>
 
         {/* Categories Selection */}
-        <div>
+        <div className={styles.formGroup}>
           <h2 className="font-bold">בחר קטגוריות:</h2>
-          {isLoadingC ? (
-            <p>טוען קטגוריות...</p>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {categories?.map((category: any) => (
-                <label
-                  key={category._id}
-                  className="flex items-center gap-2 cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    value={category._id}
-                    {...register("selectedCategories")}
-                  />
-                  {category.categoryName}
-                </label>
-              ))}
+          {isLoadingCategories ? (<p>טוען קטגוריות...</p>) : (
+            <div className={styles.dropdown}>
+              <button
+                type="button"
+                className="bg-gray-200 px-4 py-2 rounded"
+                onClick={() => setDropdownVisible((prev) => (prev === null ? 0 : null))}
+              >
+                בחר קטגוריות
+              </button>
+              {dropdownVisible === 0 && (
+                <div className={styles.dropdownContent}>
+                  {categories?.map((category: Category) => (
+                    <label
+                      key={category._id}
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <input
+                        type="checkbox"
+                        value={category._id}
+                        {...register("selectedCategories")}
+                      />
+                      {category.categoryName}
+                    </label>
+                  ))}
+                </div>
+              )}
             </div>
           )}
           {errors.selectedCategories && (
             <p className="text-red-500">{errors.selectedCategories.message}</p>
           )}
         </div>
+
 
         {/* Branches */}
         <div className={styles.formGroup}>

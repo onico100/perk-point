@@ -27,13 +27,14 @@ export const useFetchSuppliers = () => {
       setSuppliers(suppliers);
       return suppliers;
     },
-    staleTime: 10000,
+    staleTime: 600000,
   });
 
 
   const addSupplierMutation = useMutation({
     mutationFn: addSupplier,
     onMutate: async (nSupplier: Supplier) => {
+      console.log("addSupplierMutation newSupplier", nSupplier)
       const { suppliers } = useSupplierStore.getState();
       const newSupplier = { ...nSupplier, _id: "temp-id" };
       const existingSupplier = suppliers.find(
@@ -55,7 +56,6 @@ export const useFetchSuppliers = () => {
     onSuccess: (supplier) => {
       setCurrentSupplier(supplier);
       setClientMode(ClientMode.supplier);
-      //queryClient.invalidateQueries({ queryKey: ["suppliers"] });
       console.log("Supplier added and stored successfully!", currentSupplier);
       successAlert("משתמש נוסף")
       router.push("/");

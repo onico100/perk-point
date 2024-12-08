@@ -25,7 +25,7 @@ export const useGetUserById = (id: string) => {
       return user;
     },
     enabled: !!id,
-    staleTime: 10000,
+    staleTime: 600000,
   });
 };
 
