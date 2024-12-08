@@ -19,7 +19,7 @@ export const supplierSchema = z.object({
   siteLink: z.string().url("כתובת האתר אינה חוקית."),
   supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
   branches: z.array(branchSchema).nonempty("חייב להוסיף לפחות סניף אחד."),
-  selectedCategories: z.array(z.string()).nonempty("חייב לבחור לפחות קטגוריה אחת."),
+  selectedCategories: z.array(z.instanceof(ObjectId)),
 });
 
 
@@ -61,7 +61,7 @@ export interface Supplier {
   password: string;
   email: string;
   businessName: string;
-  categories?: ObjectId[];
+  selectedCategories?: ObjectId[];
   phoneNumber: string;
   registrationDate?: Date;
   branches?: Branch[];
