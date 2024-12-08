@@ -5,6 +5,7 @@ import styles from "@/styles/Bars/SideBar.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import linkStiles from "@/styles/Bars/Links.module.css";
+import { link } from "fs";
 
 const SideBar = () => {
   const { clientMode, currentSupplier, currentUser } = useGeneralStore();
@@ -23,6 +24,7 @@ const SideBar = () => {
   const userButtons = [
     { label: "ההטבות שלי", link: `/benefits/${currentUserId}` },
     { label: "המועדונים שלי", link: `/clubs/${currentUserId}` },
+    { label: "שמורים", link: `/benefits/${currentUserId}/saved-benefits` },
     { label: "פרטים אישיים", link: "/personalDetails" },
   ];
 

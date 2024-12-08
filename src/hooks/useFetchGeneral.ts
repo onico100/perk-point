@@ -10,10 +10,11 @@ export const useFetchGeneral = () => {
   const setClubs = useGeneralStore((state: any) => state.setClubs);
 
   const { data, isLoading, isFetching } = useQuery({
-    queryKey: ["generlStore"],
+    queryKey: ["generalStore"],
     queryFn: async () => {
       const categories = await getAllCategories();
       setCategories(categories);
+      console.log("useFetchGeneral categories", categories);
       const clubs = await getAllClubs();
       setClubs(clubs);
       return { categories, clubs };
@@ -24,7 +25,7 @@ export const useFetchGeneral = () => {
   return {
     categories: data?.categories,
     clubs: data?.clubs,
-    isLoadingC: isLoading,
-    isFetchingC: isFetching,
+    isLoadingCategories: isLoading,
+    isFetchingCategories: isFetching,
   };
 };

@@ -12,7 +12,7 @@ import LoadingSpinner from "../Loading/LoadingSpinner";
 const ClubsContainer = () => {
   const params = useParams();
 
-  const { clubs, isLoadingC, isFetchingC } = useFetchGeneral();
+  const { clubs, isLoadingCategories, isFetchingCategories } = useFetchGeneral();
   const { currentUser, clientMode } = useGeneralStore()
   const [clubsToShow, setClubsToShow] = useState<Club[]>([])
   const titles = ["כל המועדונים", "המועדונים שלי"];
@@ -43,7 +43,7 @@ const ClubsContainer = () => {
   }, [clubs, currentUser, searchQuery, clientMode, id]);
 
 
-  if (isLoadingC || isFetchingC) return <LoadingSpinner/>;
+  if (isLoadingCategories || isFetchingCategories) return <LoadingSpinner/>;
 
   return (
     <div className={styles.container}>
