@@ -7,7 +7,7 @@ import { Benefit, Club, Supplier, Branch } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Benefits/BenefitsContainer.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Link from "next/link";
@@ -24,21 +24,30 @@ const BenefitsContainer = () => {
   // const [branchFilter, setBranchFilter] = useState(""); // **State for branchFilter**
   const params = useParams();
   const id = params.clientId;
+  const pathName = usePathname();
 
   useEffect(() => {
-    console.log('Fetched benefits:', benefits);
+    console.log("Fetched benefits:", benefits);
     if (id !== "0") {
       if (clientMode === "USER") {
-        setBenefitsToShow(
-          benefits?.filter((b: Benefit) =>
-            currentUser?.clubs.includes(b.clubId)
-          ) || []
-        );
-        setCurrentTitle(titles[1]);
+        if (pathName.includes("/saved-benefits")) {
+          setBenefitsToShow(
+            benefits?.filter((b: Benefit) =>
+              currentUser?.savedBenefits.includes(b._id || "-1")
+            ) || []
+          );
+        } else {
+          setBenefitsToShow(
+            benefits?.filter((b: Benefit) =>
+              currentUser?.clubs.includes(b.clubId)
+            ) || []
+          );
+          setCurrentTitle(titles[1]);
+        }
       } else if (clientMode === "SUPPLIER") {
-        console.log("supplierId: " + id)
+        console.log("supplierId: " + id);
         benefits?.forEach((element: any) => {
-          console.log("b: " + element.supplierId)
+          console.log("b: " + element.supplierId);
         });
         setBenefitsToShow(
           benefits?.filter((b: Benefit) => b.supplierId == id) || []
@@ -48,9 +57,7 @@ const BenefitsContainer = () => {
     } else {
       setBenefitsToShow(benefits || []);
     }
-  }, [benefits]);
-
-
+  }, [benefits, currentUser]);
 
   // const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], branchFilter: string, expirationRange: [Date | null, Date | null]) => {
   //   const [start, end] = expirationRange;
@@ -73,7 +80,13 @@ const BenefitsContainer = () => {
   //   );
   // };
 
-  const handleSearch = (supplierFilter: string, clubFilter: string[], categoryFilter: string[], branchFilter: string, expirationRange: [Date | null, Date | null]) => {
+  const handleSearch = (
+    supplierFilter: string,
+    clubFilter: string[],
+    categoryFilter: string[],
+    branchFilter: string,
+    expirationRange: [Date | null, Date | null]
+  ) => {
     const [start, end] = expirationRange;
 
     const supplierMap = new Map(
@@ -83,16 +96,29 @@ const BenefitsContainer = () => {
     const filteredBenefits = benefits?.filter((benefit) => {
       const supplier = supplierMap.get(benefit.supplierId);
 
-      if (supplierFilter && (!supplier || !supplier.businessName.includes(supplierFilter))) {
+      if (
+        supplierFilter &&
+        (!supplier || !supplier.businessName.includes(supplierFilter))
+      ) {
         return false;
       }
       if (clubFilter.length > 0 && !clubFilter.includes(benefit.clubId)) {
         return false;
       }
-      if (categoryFilter.length > 0 && (!supplier || !supplier.categories?.some((c) => categoryFilter.includes(c.toString())))) {
+      if (
+        categoryFilter.length > 0 &&
+        (!supplier ||
+          !supplier.categories?.some((c) =>
+            categoryFilter.includes(c.toString())
+          ))
+      ) {
         return false;
       }
-      if (branchFilter && (!supplier || !supplier.branches?.some((b) => b.nameBranch?.includes(branchFilter)))) {
+      if (
+        branchFilter &&
+        (!supplier ||
+          !supplier.branches?.some((b) => b.nameBranch?.includes(branchFilter)))
+      ) {
         return false;
       }
       if (end && new Date(benefit.expirationDate) > end) {
@@ -100,7 +126,7 @@ const BenefitsContainer = () => {
       }
       return true;
     });
-    console.log(filteredBenefits, "filteredBenefits" , supplierFilter)
+    console.log(filteredBenefits, "filteredBenefits", supplierFilter);
     setBenefitsToShow(filteredBenefits || []);
   };
 
@@ -109,7 +135,11 @@ const BenefitsContainer = () => {
   return (
     <div className={styles.container}>
       <div className={styles.searchBar}>
-        <SearchBenefits clubs={clubs} categories={categories} onSearch={handleSearch} />
+        <SearchBenefits
+          clubs={clubs}
+          categories={categories}
+          onSearch={handleSearch}
+        />
       </div>
       <div className={styles.mainContainer}>
         <div className={styles.title}>{currentTitle}</div>
