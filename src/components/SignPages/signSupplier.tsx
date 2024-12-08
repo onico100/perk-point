@@ -171,9 +171,7 @@ export default function SignSupplierComponent() {
         {/* Categories Selection */}
         <div className={styles.formGroup}>
           <h2 className="font-bold">בחר קטגוריות:</h2>
-          {isLoadingCategories ? (
-            <p>טוען קטגוריות...</p>
-          ) : (
+          {isLoadingCategories ? (<p>טוען קטגוריות...</p>) : (
             <div className={styles.dropdown}>
               <button
                 type="button"
