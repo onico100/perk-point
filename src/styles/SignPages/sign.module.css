@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  
 }
 
 .loginPage {
@@ -10,16 +9,15 @@
   flex-direction: column;
   justify-content: center;
   background: linear-gradient(to bottom right, #b346e8, #87cdfa);
-  padding: 5vh ;
+  padding: 5vh;
   color: white;
   min-height: 80%vh;
 }
 
-.loginPage h1{
+.loginPage h1 {
   font-size: 1.3rem;
   font-weight: 500;
   margin-bottom: 4vh;
-
 }
 
 .formContainer {
@@ -49,7 +47,6 @@
   font-size: 1rem;
   color: black;
 }
-
 
 .inlineContainer {
   display: flex;
@@ -82,7 +79,9 @@
 }
 
 .dropdownContent {
-  text-align: right;
+  text-align: left;
+  align-items: center;
+
   direction: rtl;
   color: #9c27b0;
   margin-top: 0.5rem; /* Space between button and content */
@@ -110,11 +109,12 @@
 }
 
 .checkboxItem {
-  text-align: right;
+  align-items: center;
+
   direction: rtl;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 5px;
 }
 
@@ -133,60 +133,56 @@
   white-space: nowrap;
 }
 
-
-
-
 .dropdownBranches {
   position: absolute;
   background-color: #fff;
-  border: 1px solid #ccc; 
-  border-radius: 4px; 
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
-  max-height: 200px; 
-  overflow-y: auto; 
-  z-index: 1000; 
-  width: 50%; 
-  margin-top: 4px; 
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  width: 50%;
+  margin-top: 4px;
   color: black;
 }
 
 .dropdownBranches ul {
-  list-style: none; 
-  margin: 0; 
-  padding: 0; 
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .dropdownBranches li {
-  padding: 8px 12px; 
-  cursor: pointer; 
-  display: flex; 
-  justify-content: space-between; 
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .dropdownBranches li:hover {
-  background-color: #f5f5f5; 
+  background-color: #f5f5f5;
 }
 
 .dropdownBranches li:last-child {
-  border-bottom: none; 
+  border-bottom: none;
 }
-
 
 .selectAll {
   padding: 8px 12px;
-  border-bottom: 1px solid #ddd; 
-  background-color: #f9f9f9; 
+  border-bottom: 1px solid #ddd;
+  background-color: #f9f9f9;
   cursor: pointer;
 }
 
 .selectAll label {
   display: flex;
   align-items: center;
-  gap: 8px; 
+  gap: 8px;
 }
 
-
-.loginPageButton{
+.loginPageButton {
   background: linear-gradient(to right, #9c27b0, #2196f3);
   color: white;
   border-radius: 4px;
@@ -202,8 +198,8 @@
 }
 
 .loginPageButton:hover {
-  transform: scale(1.03); 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .branchInput {
@@ -235,4 +231,3 @@
 .selectedBranch button:hover {
   background-color: #c0392b;
 }
-
