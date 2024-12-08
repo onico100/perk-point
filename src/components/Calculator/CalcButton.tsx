@@ -1,14 +1,14 @@
 import React from "react";
-import { FaCalculator } from "react-icons/fa";
-import styles from "@/styles/Calc.module.css";
+import { CalcButtonContainer, CalcButtonStyled, CalcButtonIcon } from './Calculator.Styles'; 
+
 
 const CalcButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   return (
-    <div className={styles.calcButton}>
-      <button onClick={onClick}>
-        <FaCalculator className={styles.calcButtonIcon} />
-      </button>
-    </div>
+    <CalcButtonContainer>
+      <CalcButtonStyled onClick={onClick}>
+        <CalcButtonIcon />
+      </CalcButtonStyled>
+    </CalcButtonContainer>
   );
 };
 

@@ -6,10 +6,19 @@ import Discount from "./Discounts";
 import ProductList from "./ProductsList";
 import { useEffect, useState } from "react";
 import { DiscountInputs, Product } from "./types";
-import styles from "@/styles/Calc.module.css";
-import { FaChevronDown, FaChevronRight } from "react-icons/fa";
+import {
+  CalcSidebar,
+  CloseButton,
+  Headline,
+  Dropdown,
+  IconDown,
+  IconRight,
+  DiscountSection,
+  AddProduct as StyledAddProduct,
+} from './Calculator.Styles'
 
-export default function CakcPage({ onClose }: { onClose: () => void }) {
+
+export default function CalcPage({ onClose }: { onClose: () => void }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [discountInputs, setDiscountInputs] = useState<DiscountInputs>({
     discount1: 0,
@@ -131,18 +140,18 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
     setExplanationSectionOpen(!isExplanationSectionOpen);
 
   return (
-    <div className={styles.calcSidebar}>
-      <button onClick={onClose} className={styles.closeButton}>
+    <CalcSidebar>
+      <CloseButton onClick={onClose}>
         <IoClose />
-      </button>
-      <div className={styles.headLine} onClick={toggleExplanationSection}>
+      </CloseButton>
+      <Headline onClick={toggleExplanationSection}>
         <h1>מחשבון ההטבות שלי</h1>
         {isExplanationSectionOpen ? (
-          <FaChevronDown className={styles.icon} />
+          <IconDown />
         ) : (
-          <FaChevronRight className={styles.icon} />
+          <IconRight />
         )}
-      </div>
+      </Headline>
       {isExplanationSectionOpen && (
         <div>
           <h3>
@@ -169,33 +178,31 @@ export default function CakcPage({ onClose }: { onClose: () => void }) {
         </div>
       )}
       {/* Toggle AddProduct Section */}
-      <div className={styles.addProduct}>
-        <div className={styles.dropDowns} onClick={toggleProductSection}>
+      <StyledAddProduct>
+        <Dropdown onClick={toggleProductSection}>
           <h2>הוספת מוצרים</h2>
-          <FaChevronDown className={styles.icon} />
-        </div>
+          {isProductSectionOpen ? <IconDown /> : <IconRight />} 
+        </Dropdown>
         {isProductSectionOpen && <AddProduct onAddProduct={addProduct} />}
-      </div>
+      </StyledAddProduct>
 
-      {/* Toggle Discount Section */}
-      <div className={styles.discountSection}>
-        <div className={styles.dropDowns} onClick={toggleDiscountSection}>
+      <DiscountSection>
+        <Dropdown onClick={toggleDiscountSection}>
           <h2>הוספת הנחות</h2>
-          <FaChevronDown className={styles.icon} />
-        </div>
+          {isProductSectionOpen ? <IconDown /> : <IconRight />} 
+        </Dropdown>
         {isDiscountSectionOpen && (
           <Discount onApplyDiscounts={applyDiscounts} />
         )}
-      </div>
-
-      {/* Toggle Product List Section */}
-      <div className={styles.dropDowns} onClick={toggleProductList}>
+      </DiscountSection>
+      <Dropdown onClick={toggleProductList}>
         <h2>רשימת מוצרים הסופית</h2>
-        <FaChevronDown className={styles.icon} />
-      </div>
+        {isProductSectionOpen ? <IconDown /> : <IconRight />} 
+      </Dropdown>
       {isProductListOpen && (
-        <ProductList products={products} handleDelete={handleDelete} />
+          <ProductList products={products} handleDelete={handleDelete} />
+
       )}
-    </div>
+    </CalcSidebar>
   );
 }
