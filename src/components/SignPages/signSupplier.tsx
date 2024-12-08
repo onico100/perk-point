@@ -170,39 +170,41 @@ export default function SignSupplierComponent() {
 
         {/* Categories Selection */}
         <div className={styles.formGroup}>
-          <h2 className="font-bold">בחר קטגוריות:</h2>
-          {isLoadingCategories ? (<p>טוען קטגוריות...</p>) : (
-            <div className={styles.dropdown}>
-              <button
-                type="button"
-                className="bg-gray-200 px-4 py-2 rounded"
-                onClick={() => setDropdownVisible((prev) => (prev === null ? 0 : null))}
-              >
-                בחר קטגוריות
-              </button>
-              {dropdownVisible === 0 && (
-                <div className={styles.dropdownContent}>
-                  {categories?.map((category: Category) => (
-                    <label
-                      key={category._id}
-                      className="flex items-center gap-2 cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        value={category._id}
-                        {...register("selectedCategories")}
-                      />
-                      {category.categoryName}
-                    </label>
-                  ))}
+        <h2 className="font-bold">בחר קטגוריות:</h2>
+        {isLoadingCategories ? (
+          <p>טוען קטגוריות...</p>
+        ) : (
+          <div className={styles.dropdownContainer}>
+            <button
+              type="button"
+              className={styles.dropdownButton}
+              onClick={() => setDropdownVisible((prev) => (prev === null ? 0 : null))}
+            >
+              בחר קטגוריות
+              <span>{dropdownVisible === 0 ? "▲" : "▼"}</span> {/* Arrow */}
+            </button>
+            {dropdownVisible === 0 && (
+              <div className={styles.dropdownContent}>
+                {categories?.map((category: Category) => (
+                  <div key={category._id} className={styles.checkboxItem}>
+                  <input
+                    type="checkbox"
+                    value={category._id}
+                    id={`category-${category._id}`}
+                    {...register("selectedCategories")}
+                  />
+                  <label htmlFor={`category-${category._id}`}>{category.categoryName}</label>
                 </div>
-              )}
-            </div>
-          )}
-          {errors.selectedCategories && (
-            <p className="text-red-500">{errors.selectedCategories.message}</p>
-          )}
-        </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        {errors.selectedCategories && (
+          <p className="text-red-500">{errors.selectedCategories.message}</p>
+        )}
+      </div>
+
 
 
         {/* Branches */}
@@ -264,7 +266,6 @@ export default function SignSupplierComponent() {
                 )}
               </div>
 
-
               <button type="button" onClick={() => remove(index)}>
                 הסר סניף
               </button>
@@ -274,7 +275,7 @@ export default function SignSupplierComponent() {
           <button
             type="button"
             onClick={() => append({ nameBranch: "", city: "" })}
-          >
+          className={styles.dropdownButton}>
             הוסף סניף
           </button>
         </div>
@@ -295,10 +296,7 @@ export default function SignSupplierComponent() {
             </div>
           )}
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition"
-        >
+        <button type="submit" className={styles.loginPageButton}>
           הרשמה
         </button>
       </form>
