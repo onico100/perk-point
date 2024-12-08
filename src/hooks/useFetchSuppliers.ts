@@ -27,7 +27,7 @@ export const useFetchSuppliers = () => {
       setSuppliers(suppliers);
       return suppliers;
     },
-    staleTime: 10000,
+    staleTime: 600000,
   });
 
 
