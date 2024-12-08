@@ -4,7 +4,13 @@ import localFont from "next/font/local";
 import Head from "next/head";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SideBar, TopBar, CalcButton, CakcPage } from "@/components/index";
+import {
+  SideBar,
+  TopBar,
+  CalcButton,
+  CakcPage,
+  Footer,
+} from "@/components/index";
 import { useState } from "react"; // Import useState
 
 const geistSans = localFont({
@@ -57,6 +63,7 @@ export default function RootLayout({
             </div>
           )}
         </body>
+        <Footer />
       </html>
     </QueryClientProvider>
   );

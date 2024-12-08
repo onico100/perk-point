@@ -16,6 +16,7 @@ import SignSupplierComponent from "./SignPages/signSupplier";
 import SignUserComponent from "./SignPages/signUser";
 import SupplierLoginComponent from "./SignPages/loginSupplier";
 import UserLoginComponent from "./SignPages/loginUser";
+import Footer from "./Home/Footer";
 export {
   SupplierLoginComponent,
   UserLoginComponent,
@@ -34,5 +35,6 @@ export {
   CalcButton,
   CakcPage,
   HomeComp,
-  PersonalDetails
+  PersonalDetails,
+  Footer,
 };
