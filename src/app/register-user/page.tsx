@@ -6,7 +6,7 @@ import useGeneralStore from "@/stores/generalStore";
 import styles from "@/styles/SignPages/sign.module.css";
 import { ClientMode } from "@/types/types";
 
-export default function SignUp() {
+export default function registerUser() {
 
 
   const { preMode } = useGeneralStore();
@@ -14,9 +14,7 @@ export default function SignUp() {
   return (
     <div className={styles.centerContainer}>
       <div className={styles.centerContent}>
-        <TabSign tabContent="הרשמה" />
-        {preMode === "USER" && <SignUserComponent />}
-        {preMode === "SUPPLIER" && <SignSupplierComponent />}
+        <SignUserComponent />
       </div>
     </div>
   );

@@ -23,16 +23,7 @@ const TopBarButtons: React.FC = () => {
   };
 
   const handleConnectionMode = (path: string) => {
-    setClientMode(ClientMode.connection);
-  
-    localStorage.setItem("general-store", JSON.stringify({
-      ...JSON.parse(localStorage.getItem("general-store") || "{}"),
-      state: {
-        ...JSON.parse(localStorage.getItem("general-store") || "{}").state,
-        clientMode: ClientMode.connection,
-      },
-    }));
-
+    //setClientMode(ClientMode.connection);
     router.push(path);
   };
 
@@ -42,16 +33,23 @@ const TopBarButtons: React.FC = () => {
         <div className={styles.buttonsContainer}>
           <button
             className={styles.loginButton}
-            onClick={() => handleConnectionMode("/login")}
+            onClick={() => handleConnectionMode("/login-user")}
           >
             התחברות
           </button>
-          <button
+          {/* <button
             className={styles.signupButton}
             onClick={() => handleConnectionMode("/signup")}
           >
             הרשמה
+          </button>           */}
+          <button
+            className={styles.signupButton}
+            onClick={() => handleConnectionMode("/login-supplier")}
+          >
+            כניסת ספקים
           </button>
+
         </div>
       )}
 

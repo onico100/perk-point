@@ -33,12 +33,7 @@ export default function RootLayout({
           <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>
         <body className="font-heebo">
-          {isCalcPageVisible && (
-            <div
-              className="overlay"
-              onClick={() => setIsCalcPageVisible(false)}
-            />
-          )}
+          {isCalcPageVisible && ( <div className="overlay" onClick={() => setIsCalcPageVisible(false)} /> )}
           <div className="layout">
             <TopBar />
             <div className="mainContent">
