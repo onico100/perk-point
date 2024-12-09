@@ -460,184 +460,179 @@ const BenefitDetails = () => {
       <button className={styles.backButton} onClick={() => router.back()}>
         אחורה
       </button>
-
-      {/* Two-Column Layout */}
-      <div className={styles.content}>
-        {/* Right Column */}
-        <div className={styles.rightColumn}>
-          <div className={styles.infoContainer}>
-            <label htmlFor="description" className={styles.infoLabel}>
-              תיאור ההטבה:
-            </label>
-            <textarea
-              id="description"
-              className={styles.infoBox}
-              value={updatedBenefit?.description || ""}
-              readOnly={!isUpdateMode}
-              onChange={(e) => handleChange("description", e.target.value)
-              }
-
-            />
-          </div>
-          {specificClub && specificClub.clubLink ? (
-            <a
-              href={specificClub.clubLink}
-              className={styles.button}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              מעבר להטבה: {specificClub ? specificClub.clubName : ""}
-            </a>
-          ) : (
-            <div>אין קישור למועדון</div>
-          )}
-          <div className={styles.infoContainer}>
-            <label htmlFor="conditions" className={styles.infoLabel}>
-              הגבלות:
-            </label>
-            <textarea
-              id="conditions"
-              className={styles.infoBox}
-              value={updatedBenefit?.redemptionConditions || ""}
-              readOnly={!isUpdateMode}
-              onChange={(e) => handleChange("redemptionConditions", e.target.value)}
-            />
-            <label htmlFor="expirationDate" className={styles.infoLabel}>
-              תוקף:
-            </label>
-            {isUpdateMode ? (
-              <input
-                type="date"
+      <div className={styles.contentContainer}>
+        <div className={styles.content}>
+          <div className={styles.rightColumn}>
+            <div className={styles.infoContainer}>
+              <label htmlFor="description" className={styles.infoLabel}>
+                תיאור ההטבה:
+              </label>
+              <textarea
+                id="description"
                 className={styles.infoBox}
-                value={
-                  updatedBenefit?.expirationDate
-                    ? new Date(updatedBenefit.expirationDate)
-                      .toISOString()
-                      .split("T")[0]
-                    : " "
+                value={updatedBenefit?.description || ""}
+                readOnly={!isUpdateMode}
+                onChange={(e) => handleChange("description", e.target.value)
                 }
-                onChange={(e) => handleChange("expirationDate", e.target.value)}
               />
-            ) : specificBenefit?.expirationDate ? (
-              new Date(specificBenefit.expirationDate).toLocaleDateString(
-                "he-IL",
-                {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                }
-              )
-            ) : (
-              "Not Available"
-            )}
-          </div>
-        </div>
-        {/* Left Column */}
-        <div className={styles.leftColumn}>
-          {specificSupplier && specificSupplier.supplierLogo ? (
-            <img
-              src={specificSupplier.supplierLogo}
-              alt="Supplier Logo"
-              className={styles.logo}
-            />
-          ) : (
-            <div>אין לוגו זמין</div>
-          )}
-          <div className={styles.branches}>
-            <div className={styles.branchLink}>
-              <FaMapMarkerAlt className={styles.icon} />
-              <span onClick={toggleBranches} className={styles.branchText}>
-                רשימת הסניפים
-              </span>
             </div>
-            {showBranches && (
-              <>
-                {specificBenefit?.branches && specificBenefit.branches.length > 0 ? (
-                  <ul className={styles.branchList}>
-                    {specificBenefit.branches.map((branch, index) => (
-                      <li key={index} className={styles.branchItem}>
-                        <div className={styles.branchInfo}>
-                        {isUpdateMode && (
-                            <FaMinusCircle
-                              className={styles.icon}
-                              onClick={() => handleRemoveBranch(branch)}
-                            />
-                          )}
-                          {branch.city}, {branch.nameBranch}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div>כול הסניפים</div>
-                )}
-                {isUpdateMode && (
-                  <div className={styles.addBranch}>
-                    <FaPlusCircle className={styles.icon} onClick={toggleDropdown} />
-                    {dropdownVisible && (
-                      <div className={styles.dropdown}>
-                        <select
-                          onChange={(e) => {
-                            const branch = JSON.parse(e.target.value);
-                            setSelectedBranch(branch);
-                            handleAddBranch(branch);
-                          }}
-                        >
-                          <option value="">בחר סניף</option>
-                          {supplierBranches?.map((branch, index) => (
-                            <option key={index} value={JSON.stringify(branch)}>
-                              {branch.city}, {branch.nameBranch}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-          {specificSupplier && specificSupplier.siteLink ? (
-            <a
-              href={specificSupplier.siteLink}
-              className={styles.button}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              מעבר לאתר העסק
-            </a>
-          ) : (
-            <div>אין קישור לעסק</div>
-          )}
-        </div>
-      </div>
-
-      {/* Update Button */}
-      {clientMode === ClientMode.supplier && isCurrentSupplierBenefit && (
-        <div className={styles.updateContainer}>
-          {!isUpdateMode && (
-            <button
-              className={styles.updateButton}
-              onClick={() => setIsUpdateMode(true)}
-            >
-              עידכון
-            </button>
-          )}
-          {isUpdateMode && (
-            <div>
-              <button className={styles.saveButton} onClick={handleSave}>
-                שמירה
-              </button>
-              <button
-                className={styles.cancelButton}
-                onClick={() => setIsUpdateMode(false)}
+            {specificClub && specificClub.clubLink ? (
+              <a
+                href={specificClub.clubLink}
+                className={styles.button}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                ביטול
-              </button>
+                מעבר להטבה: {specificClub ? specificClub.clubName : ""}
+              </a>
+            ) : (
+              <div>אין קישור למועדון</div>
+            )}
+            <div className={styles.infoContainer}>
+              <label htmlFor="conditions" className={styles.infoLabel}>
+                הגבלות:
+              </label>
+              <textarea
+                id="conditions"
+                className={styles.infoBox}
+                value={updatedBenefit?.redemptionConditions || ""}
+                readOnly={!isUpdateMode}
+                onChange={(e) => handleChange("redemptionConditions", e.target.value)}
+              />
+              <label htmlFor="expirationDate" className={styles.infoLabel}>
+                תוקף:
+              </label>
+              {isUpdateMode ? (
+                <input
+                  type="date"
+                  className={styles.infoBox}
+                  value={
+                    updatedBenefit?.expirationDate
+                      ? new Date(updatedBenefit.expirationDate)
+                        .toISOString()
+                        .split("T")[0]
+                      : " "
+                  }
+                  onChange={(e) => handleChange("expirationDate", e.target.value)}
+                />
+              ) : specificBenefit?.expirationDate ? (
+                new Date(specificBenefit.expirationDate).toLocaleDateString(
+                  "he-IL",
+                  {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  }
+                )
+              ) : (
+                "Not Available"
+              )}
             </div>
-          )}
+          </div>
+          <div className={styles.leftColumn}>
+            {specificSupplier && specificSupplier.supplierLogo ? (
+              <img
+                src={specificSupplier.supplierLogo}
+                alt="Supplier Logo"
+                className={styles.logo}
+              />
+            ) : (
+              <div>אין לוגו זמין</div>
+            )}
+            <div className={styles.branches}>
+              <div className={styles.branchLink}>
+                <FaMapMarkerAlt className={styles.icon} />
+                <span onClick={toggleBranches} className={styles.branchText}>
+                  רשימת הסניפים
+                </span>
+              </div>
+              {showBranches && (
+                <>
+                  {specificBenefit?.branches && specificBenefit.branches.length > 0 ? (
+                    <ul className={styles.branchList}>
+                      {specificBenefit.branches.map((branch, index) => (
+                        <li key={index} className={styles.branchItem}>
+                          <div className={styles.branchInfo}>
+                            {isUpdateMode && (
+                              <FaMinusCircle
+                                className={styles.icon}
+                                onClick={() => handleRemoveBranch(branch)}
+                              />
+                            )}
+                            {branch.city}, {branch.nameBranch}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div>כול הסניפים</div>
+                  )}
+                  {isUpdateMode && (
+                    <div className={styles.addBranch}>
+                      <FaPlusCircle className={styles.icon} onClick={toggleDropdown} />
+                      {dropdownVisible && (
+                        <div className={styles.dropdown}>
+                          <select
+                            onChange={(e) => {
+                              const branch = JSON.parse(e.target.value);
+                              setSelectedBranch(branch);
+                              handleAddBranch(branch);
+                            }}
+                          >
+                            <option value="">בחר סניף</option>
+                            {supplierBranches?.map((branch, index) => (
+                              <option key={index} value={JSON.stringify(branch)}>
+                                {branch.city}, {branch.nameBranch}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+            {specificSupplier && specificSupplier.siteLink ? (
+              <a
+                href={specificSupplier.siteLink}
+                className={styles.button}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                מעבר לאתר העסק
+              </a>
+            ) : (
+              <div>אין קישור לעסק</div>
+            )}
+          </div>
         </div>
-      )}
+        {clientMode === ClientMode.supplier && isCurrentSupplierBenefit && (
+          <div className={styles.updateContainer}>
+            {!isUpdateMode && (
+              <button
+                className={styles.updateButton}
+                onClick={() => setIsUpdateMode(true)}
+              >
+                עידכון
+              </button>
+            )}
+            {isUpdateMode && (
+              <div>
+                <button className={styles.saveButton} onClick={handleSave}>
+                  שמירה
+                </button>
+                <button
+                  className={styles.cancelButton}
+                  onClick={() => setIsUpdateMode(false)}
+                >
+                  ביטול
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
