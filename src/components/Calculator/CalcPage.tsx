@@ -15,11 +15,12 @@ import {
   IconRight,
   DiscountSection,
   AddProduct as StyledAddProduct,
-} from './Calculator.Styles'
-
+} from "./Calculator.Styles";
 
 export default function CalcPage({ onClose }: { onClose: () => void }) {
   const [products, setProducts] = useState<Product[]>([]);
+  const [unUpdatedProducts, setUpdatedProducts] = useState<Product[]>([]);
+  const [totalPrecantgeOff, setTotalPrecantgeOff] = useState(0);
   const [discountInputs, setDiscountInputs] = useState<DiscountInputs>({
     discount1: 0,
     discount2: 0,
@@ -61,6 +62,15 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
       ...product,
       price: product.price - (product.price * percentage) / 100,
     }));
+    let totalPriceBefore = sumPriceProuducts(
+      updatedProducts,
+      0,
+      updatedProducts.length
+    );
+    let totalPriceAfter = sumPriceProuducts(products, 0, products.length);
+    let parcantgeOff =
+      ((totalPriceBefore - totalPriceAfter) / totalPriceBefore) * 100;
+    setTotalPrecantgeOff(parcantgeOff);
     setProducts(updatedProducts);
   };
 
@@ -113,6 +123,8 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
   };
 
   const applyAllDiscounts = () => {
+    setUpdatedProducts(products); // Reset the updated products to the original ones
+
     if (discountInputs.discount1) applyDiscount1();
     if (discountInputs.discount2) applyDiscount2();
     if (discountInputs.discount3.buy && discountInputs.discount3.get)
@@ -146,11 +158,7 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
       </CloseButton>
       <Headline onClick={toggleExplanationSection}>
         <h1>מחשבון ההטבות שלי</h1>
-        {isExplanationSectionOpen ? (
-          <IconDown />
-        ) : (
-          <IconRight />
-        )}
+        {isExplanationSectionOpen ? <IconDown /> : <IconRight />}
       </Headline>
       {isExplanationSectionOpen && (
         <div>
@@ -181,7 +189,7 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
       <StyledAddProduct>
         <Dropdown onClick={toggleProductSection}>
           <h2>הוספת מוצרים</h2>
-          {isProductSectionOpen ? <IconDown /> : <IconRight />} 
+          {isProductSectionOpen ? <IconDown /> : <IconRight />}
         </Dropdown>
         {isProductSectionOpen && <AddProduct onAddProduct={addProduct} />}
       </StyledAddProduct>
@@ -189,7 +197,7 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
       <DiscountSection>
         <Dropdown onClick={toggleDiscountSection}>
           <h2>הוספת הנחות</h2>
-          {isProductSectionOpen ? <IconDown /> : <IconRight />} 
+          {isProductSectionOpen ? <IconDown /> : <IconRight />}
         </Dropdown>
         {isDiscountSectionOpen && (
           <Discount onApplyDiscounts={applyDiscounts} />
@@ -197,12 +205,13 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
       </DiscountSection>
       <Dropdown onClick={toggleProductList}>
         <h2>רשימת מוצרים הסופית</h2>
-        {isProductSectionOpen ? <IconDown /> : <IconRight />} 
+        {isProductSectionOpen ? <IconDown /> : <IconRight />}
       </Dropdown>
       {isProductListOpen && (
-          <ProductList products={products} handleDelete={handleDelete} />
-
+        <ProductList products={products} handleDelete={handleDelete} />
       )}
+      <h1>אחוז ההנחה הסופי</h1>
+      <p>{totalPrecantgeOff.toFixed(2)}%</p>
     </CalcSidebar>
   );
 }
