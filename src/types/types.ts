@@ -68,6 +68,7 @@ export interface Supplier {
   siteLink?: string;
   supplierLogo?: string;
   isActive?: boolean;
+  selectedCategories?: string[];
 }
 
 export interface Category {
