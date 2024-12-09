@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import debounce from "lodash.debounce";
 import my_http from "@/services/http";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { supplierSchema, SupplierFormValues } from "@/types/types";
+import { supplierSchema, SupplierFormValues, Category } from "@/types/types";
 import styles from "@/styles/SignPages/sign.module.css";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useRouter } from "next/navigation";
@@ -15,10 +15,12 @@ import { errorAlert, successAlert } from "@/utils/sweet-alerts";
 export default function SignSupplierComponent() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [dropdownVisible, setDropdownVisible] = useState<number | null>(null);
   const { addSupplier } = useFetchSuppliers();
-  const { categories, isLoadingC } = useFetchGeneral();
+  const { categories, isLoadingCategories } = useFetchGeneral();
   const [emailExists, setEmailExists] = useState(false);
+  const [isCategoryDropdownVisible, setIsCategoryDropdownVisible] = useState(false);
+  const [branchDropdownVisible, setBranchDropdownVisible] = useState<number | null>(null); 
+ 
 
   // const {
   //   register,
@@ -55,43 +57,65 @@ export default function SignSupplierComponent() {
     if (businessName) {
       fetchBranches(businessName, 0);
     }
-  }, [businessName]);
+  }, [businessName]);  
+  
 
-  const fetchBranches = debounce(
-    async (textQuery: string, branchIndex: number) => {
-      if (textQuery.trim().length >= 2) {
-        try {
-          setLoading(true);
-          const response = await my_http.post(`/googleAutocomplete/post`, {
-            textQuery,
-          });
-          const branchesFromGoogle = response.data.formattedPlaces;
-          const citySuggestions = branchesFromGoogle
-            ? branchesFromGoogle.map(
-                (place: any) => place.name + " " + place.address
-              )
-            : [];
 
-          setSuggestions(citySuggestions);
-          setDropdownVisible(branchIndex);
-        } catch (error) {
-          console.error("Error fetching suggestions:", error);
-          setSuggestions([]);
-          setDropdownVisible(null);
-        } finally {
-          setLoading(false);
-        }
-      } else {
+  const fetchBranches = debounce(async (textQuery: string, branchIndex: number) => {
+    if (textQuery.trim().length >= 2) {
+      try {
+        setLoading(true);
+        const response = await my_http.post(`/googleAutocomplete/post`, {
+          textQuery,
+        });
+        const branchesFromGoogle = response.data.formattedPlaces;
+        const citySuggestions = branchesFromGoogle
+          ? branchesFromGoogle.map((place: any) => place.name + " " + place.address)
+          : [];
+        setSuggestions(citySuggestions);
+        setBranchDropdownVisible(branchIndex);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
         setSuggestions([]);
-        setDropdownVisible(null);
+        setBranchDropdownVisible(null);
+      } finally {
+        setLoading(false);
       }
-    },
-    300
-  );
+    } else {
+      setSuggestions([]);
+      setBranchDropdownVisible(null);
+    }
+  }, 300);
+  
+  const toggleBranchDropdown = (index: number) => {
+    if (branchDropdownVisible === index) {
+      setBranchDropdownVisible(null); 
+    } else {
+      fetchBranches(businessName, 0); 
+      setBranchDropdownVisible(index); 
+    }
+  };
+
+
+  const onBranchSelect = (branch: string) => {
+    const extractCity = (branch: string): string => {
+      const parts = branch.split(",");
+      return parts.length >= 2 ? parts[1].trim() : "לא ידועה";
+    };
+    const city = extractCity(branch);
+    const existingBranches = watch("branches");
+    if (!existingBranches.some((b) => b.nameBranch === branch)) {
+      append({ nameBranch: branch, city });
+    }
+  };
+
+
+  
 
   const router = useRouter();
 
   const onSubmit = async (data: SupplierFormValues) => {
+    console.log("SupplierFormValues:", data);
     const emailExists = await checkEmailService(data.email);
     if (emailExists) {
       setEmailExists(true);
@@ -111,6 +135,7 @@ export default function SignSupplierComponent() {
       },
     });
   };
+  
 
   return (
     <div className={styles.loginPage}>
@@ -166,105 +191,80 @@ export default function SignSupplierComponent() {
         </div>
 
         {/* Categories Selection */}
-        <div>
-          <h2 className="font-bold">בחר קטגוריות:</h2>
-          {isLoadingC ? (
-            <p>טוען קטגוריות...</p>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {categories?.map((category: any) => (
-                <label
-                  key={category._id}
-                  className="flex items-center gap-2 cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    value={category._id}
-                    {...register("selectedCategories")}
-                  />
-                  {category.categoryName}
-                </label>
-              ))}
-            </div>
-          )}
-          {errors.selectedCategories && (
-            <p className="text-red-500">{errors.selectedCategories.message}</p>
-          )}
-        </div>
+        <div className={styles.formGroup}>
+        <h2 className="font-bold">בחר קטגוריות:</h2>
+        {isLoadingCategories ? (
+          <p>טוען קטגוריות...</p>
+        ) : (
+          <div className={styles.dropdownContainer}>
+            <button
+              type="button"
+              className={styles.dropdownButton}
+              onClick={() => setIsCategoryDropdownVisible((prev) => !prev)} // שליטה בקטגוריות בלבד
+            >
+              בחר קטגוריות
+            </button>
+            {isCategoryDropdownVisible && (
+              <div className={styles.dropdownContent}>
+                {categories?.map((category: Category) => (
+                  <div key={category._id} className={styles.checkboxItem}>
+                    <input
+                      type="checkbox"
+                      value={category._id}
+                      id={`category-${category._id}`}
+                      {...register("selectedCategories")}
+                    />
+                    <label htmlFor={`category-${category._id}`}>{category.categoryName}</label>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        {errors.selectedCategories && <p className="text-red-500">{errors.selectedCategories.message}</p>}
+      </div>
+
 
         {/* Branches */}
         <div className={styles.formGroup}>
-          <h2 className="font-bold">סניפים:</h2>
-          {fields.map((branch, index) => (
-            <div key={branch.id}>
-              {/* Branch Selection */}
-              <div>
-                <label htmlFor={`branches.${index}.branch`}>בחר סניף:</label>
+      <h2 className="font-bold">סניפים:</h2>
+      <button
+        type="button"
+        onClick={() => toggleBranchDropdown(0)}
+        className={styles.dropdownButton}
+      >
+        בחר סניפים
+        <span>{branchDropdownVisible === 0 ? "▲" : "▼"}</span>
+      </button>
+      {branchDropdownVisible === 0 && (
+        <div className={styles.dropdownBranches}>
+          {loading ? (
+            <p>טוען...</p>
+          ) : (
+            suggestions.map((branch, idx) => (
+              <label key={idx} className={styles.checkboxItem}>
                 <input
-                  id={`branches.${index}.branch`}
-                  {...register(`branches.${index}.nameBranch` as const)}
-                  onChange={(e) => fetchBranches(e.target.value, index)}
-                  onFocus={() => setDropdownVisible(index)}
-                  autoComplete="off"
+                  type="checkbox"
+                  value={branch}
+                  onChange={() => onBranchSelect(branch)}
                 />
-                {loading && dropdownVisible === index && <p>טוען...</p>}
-                {dropdownVisible === index && suggestions.length > 0 && (
-                  <div className={styles.dropdown}>
-                    {suggestions.map((branch, index) => (
-                      <label key={index} className="flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          value={branch}
-                          onClick={() => {
-                            if (branch.includes(",")) {
-                              const parts = branch.split(",");
-                              const cityBranch =
-                                parts.length >= 2
-                                  ? parts[1].trim()
-                                  : "No city available";
-                              setValue(`branches.${index}.nameBranch`, branch);
-                              setValue(`branches.${index}.city`, cityBranch);
-                            } 
-                            else {
-                              setValue(`branches.${index}.nameBranch`, branch);
-                              setValue(
-                                `branches.${index}.city`,
-                                "No city available"
-                              );
-                            }
-                            setSuggestions([]);
-                            setDropdownVisible(null);
-                          }}
-                          className={styles.dropdownItem}
-                        />
-                          {branch} -{" "}
-                          {branch.length >= 2
-                            ? branch[branch.length - 2].trim()
-                            : "No city available"}
-                        </label>
-                      ))}
-                  </div>
-                )}
-
-                {errors.branches?.[index]?.nameBranch && (
-                  <p>{errors.branches[index].nameBranch?.message}</p>
-                )}
-              </div>
-
-
-              <button type="button" onClick={() => remove(index)}>
-                הסר סניף
-              </button>
-            </div>
-          ))}
-
-          <button
-            type="button"
-            onClick={() => append({ nameBranch: "", city: "" })}
-          >
-            הוסף סניף
-          </button>
+                {branch}
+              </label>
+            ))
+          )}
         </div>
+      )}
+      <ul>
+        {fields.map((branch, index) => (
+          <li key={branch.id} className={styles.selectedBranch}>
+            {branch.nameBranch} - {branch.city}
+            <button type="button" onClick={() => remove(index)}>
+              הסר
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
 
 
         {emailExists && (
@@ -282,10 +282,7 @@ export default function SignSupplierComponent() {
             </div>
           )}
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition"
-        >
+        <button type="submit" className={styles.loginPageButton}>
           הרשמה
         </button>
       </form>

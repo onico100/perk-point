@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { DiscountInputs } from "./types";
+import {
+  DiscountSection,
+  Form,
+  InputContainer,
+  Input,
+  SubmitButton,
+} from './Calculator.Styles';
 
-///todo:remove values
 
 interface Props {
   onApplyDiscounts: (discounts: DiscountInputs) => void;
@@ -45,73 +51,73 @@ export default function Discount({ onApplyDiscounts }: Props) {
   };
 
   return (
-    <div style={{ marginBottom: "20px" }}>
+    <DiscountSection>
       <h3>בחר הנחות:</h3>
       <form onSubmit={handleSubmit}>
-        <div>
+        <InputContainer>
           <label onClick={() => toggleActiveLabel("discount1")}>
             אחוז הנחה קבוע על כל המוצרים
           </label>
           {activeLabel === "discount1" && (
-            <input
+            <Input
               type="number"
               name="discount1"
-              value={discountInputs.discount1}
+              value={discountInputs.discount1 === 0 ? '' : discountInputs.discount1}
               placeholder="אחוז ההנחה"
               onChange={handleInputChange}
             />
           )}
-        </div>
-        <div>
+        </InputContainer>
+        <InputContainer>
           <label onClick={() => toggleActiveLabel("discount2")}>
             סכום קבוע היורד מהקנייה (קנה בx שלם y)
           </label>
           {activeLabel === "discount2" && (
-            <input
+            <Input
               type="number"
               name="discount2"
               placeholder="הסכום שיורד"
-              value={discountInputs.discount2}
+              value={discountInputs.discount2 === 0 ? '' : discountInputs.discount2}
               onChange={handleInputChange}
             />
           )}
-        </div>
-        <div>
+        </InputContainer>
+        <InputContainer>
           <label onClick={() => toggleActiveLabel("discount3")}>
             קנה x מוצרים וקבל y מוצרים חינם(1+1)
           </label>
           {activeLabel === "discount3" && (
             <>
-              <input
+              <Input
                 type="number"
                 placeholder="קנה x"
-                value={discountInputs.discount3.buy}
+                value={discountInputs.discount3.buy === 0 ? '' : discountInputs.discount3.buy}
                 onChange={(e) => handleDiscountChange(e, "buy")}
               />
-              <input
+              <Input
                 type="number"
                 placeholder="קבל y"
-                value={discountInputs.discount3.get}
+                value={discountInputs.discount3.get === 0 ? '' : discountInputs.discount3.get}
                 onChange={(e) => handleDiscountChange(e, "get")}
               />
             </>
           )}
-        </div>
-        <div>
+        </InputContainer>
+        <InputContainer>
           <label onClick={() => toggleActiveLabel("discount4")}>
             הנחה ספיציפית לפי מספר המוצר (הראשון ב20% השני ב30% וכו)
           </label>
           {activeLabel === "discount4" && (
-            <input
+            <Input
               type="text"
               name="discount4"
               placeholder="הנחה ספיציפית לפי מספר המוצר (0:10)"
               onChange={handleInputChange}
             />
           )}
-        </div>
-        <button type="submit">חשב</button>
+        </InputContainer>
+        <SubmitButton type="submit">חשב</SubmitButton>
       </form>
-    </div>
+    </DiscountSection>
   );
 }

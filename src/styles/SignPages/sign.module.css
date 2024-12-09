@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  
 }
 
 .loginPage {
@@ -10,16 +9,15 @@
   flex-direction: column;
   justify-content: center;
   background: linear-gradient(to bottom right, #b346e8, #87cdfa);
-  padding: 5vh ;
+  padding: 5vh;
   color: white;
   min-height: 80%vh;
 }
 
-.loginPage h1{
+.loginPage h1 {
   font-size: 1.3rem;
   font-weight: 500;
   margin-bottom: 4vh;
-
 }
 
 .formContainer {
@@ -50,22 +48,6 @@
   color: black;
 }
 
-.loginPage button {
-  background: rgb(6, 4, 4);
-  color: white;
-  border-radius: 4px;
-  padding: 10px 0;
-  width: 100px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s;
-  margin-right: 30%;
-}
-
-.loginPage button:hover {
-  background: #7476ef;
-}
-
 .inlineContainer {
   display: flex;
   align-items: center;
@@ -76,59 +58,131 @@
   color: white;
   text-decoration: underline;
 }
-
 /* Dropdown.module.css */
-.dropdown {
+.dropdownContainer {
+  position: relative; /* Ensure dropdown stays inside parent */
+  margin-top: 1rem; /* Space above dropdown */
+}
+
+.dropdownButton {
+  background-color: #ffffff;
+  color: #333;
+  padding: 10px 80px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.dropdownButton:hover {
+  background-color: #f5f5f5;
+}
+
+.dropdownContent {
+  text-align: left;
+  align-items: center;
+
+  direction: rtl;
+  color: #9c27b0;
+  margin-top: 0.5rem; /* Space between button and content */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 10px;
+  animation: slideDown 0.3s ease-out; /* Smooth open animation */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Add a smooth open animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.checkboxItem {
+  align-items: center;
+
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.checkboxItem input {
+  margin: 0;
+  cursor: pointer;
+  padding: 0;
+  width: auto;
+  height: auto;
+}
+
+.checkboxItem label {
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.dropdownBranches {
   position: absolute;
-  background-color: #fff; /* White background */
-  border: 1px solid #ccc; /* Light border */
-  border-radius: 4px; /* Rounded corners */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  max-height: 200px; /* Limit height */
-  overflow-y: auto; /* Enable scrolling if content overflows */
-  z-index: 1000; /* Ensure it appears on top */
-  width: 50%; /* Match width of parent */
-  margin-top: 4px; /* Space from input */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  width: 50%;
+  margin-top: 4px;
   color: black;
 }
 
-.dropdown ul {
-  list-style: none; /* Remove bullets */
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
+.dropdownBranches ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.dropdown li {
-  padding: 8px 12px; /* Inner padding */
-  cursor: pointer; /* Pointer cursor on hover */
-  display: flex; /* Flex for layout */
-  justify-content: space-between; /* Align text */
+.dropdownBranches li {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  justify-content: flex-start;
 }
 
-.dropdown li:hover {
-  background-color: #f5f5f5; /* Light gray background on hover */
+.dropdownBranches li:hover {
+  background-color: #f5f5f5;
 }
 
-.dropdown li:last-child {
-  border-bottom: none; /* Remove border on last item */
+.dropdownBranches li:last-child {
+  border-bottom: none;
 }
 
-/* Dropdown.module.css */
 .selectAll {
   padding: 8px 12px;
-  border-bottom: 1px solid #ddd; /* Divider between "Select All" and items */
-  background-color: #f9f9f9; /* Subtle background */
+  border-bottom: 1px solid #ddd;
+  background-color: #f9f9f9;
   cursor: pointer;
 }
 
 .selectAll label {
   display: flex;
   align-items: center;
-  gap: 8px; /* Space between checkbox and text */
+  gap: 8px;
 }
 
-
-.loginPage button {
+.loginPageButton {
   background: linear-gradient(to right, #9c27b0, #2196f3);
   color: white;
   border-radius: 4px;
@@ -140,10 +194,40 @@
   cursor: pointer;
   font-size: 1rem;
   transition: transform 0.3s, box-shadow 0.3s;
-  margin-right: 30%;
+  margin-right: 35%;
 }
 
-.loginPage button:hover {
-  transform: scale(1.03); 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+.loginPageButton:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.branchInput {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.selectedBranch {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.selectedBranch button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.selectedBranch button:hover {
+  background-color: #c0392b;
 }

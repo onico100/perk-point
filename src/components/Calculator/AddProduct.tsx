@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Form, InputContainer, Input, SubmitButton } from './Calculator.Styles'; 
+
 
 type ProductForm = {
   name: string;
@@ -27,10 +29,10 @@ export default function AddProduct({ onAddProduct }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
-      <div>
+    <Form onSubmit={handleSubmit}>
+      <InputContainer>
         <label>
-          <input
+          <Input
             type="text"
             name="name"
             value={form.name}
@@ -39,10 +41,10 @@ export default function AddProduct({ onAddProduct }: Props) {
             required
           />
         </label>
-      </div>
-      <div>
+      </InputContainer>
+      <InputContainer>
         <label>
-          <input
+          <Input
             type="number"
             name="price"
             value={form.price}
@@ -52,20 +54,8 @@ export default function AddProduct({ onAddProduct }: Props) {
             step="0.01"
           />
         </label>
-      </div>
-      <button
-        type="submit"
-        style={{
-          marginTop: "10px",
-          padding: "10px",
-          backgroundColor: "blue",
-          color: "white",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
-        הוסף מוצר
-      </button>
-    </form>
+      </InputContainer>
+      <SubmitButton type="submit">הוסף מוצר</SubmitButton>
+    </Form>
   );
 }

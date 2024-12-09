@@ -25,10 +25,11 @@ export async function POST(request: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    console.log("-----------data", data)
     const newSupplier = {
       ...data,
       password: hashedPassword, 
-      categories: data.categories || [],
+      selectedCategories: data.selectedCategories || [],
       registrationDate: new Date().toISOString(),
       isActive: true,
     };

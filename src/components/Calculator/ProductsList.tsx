@@ -1,7 +1,8 @@
-// components/ProductList.tsx
-
 import { Product } from "./types"; // Define Product type in a separate file
 import { CiCircleMinus } from "react-icons/ci";
+import {ProductList as List} from "./Calculator.Styles"
+
+
 
 interface Props {
   products: Product[];
@@ -10,32 +11,14 @@ interface Props {
 
 export default function ProductList({ products, handleDelete }: Props) {
   return (
-    <div className="productList">
+    <List>
       {products.length > 0 ? (
-        <ul style={{ listStyleType: "none", padding: 0 }}>
+        <ul>
           {products.map((product) => (
-            <li
-              key={product.name}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "10px",
-                border: "1px solid #ccc",
-                marginBottom: "5px",
-                borderRadius: "5px",
-              }}
-            >
+            <li key={product.name}>
               <span>{product.name}</span>
-
               <span>₪{product.price.toFixed(2)}</span>
-
-              <button
-                onClick={() => handleDelete(product.name)} // Call handleDelete with product id
-                style={{
-                  padding: "5px 10px",
-                  cursor: "pointer",
-                }}
-              >
+              <button onClick={() => handleDelete(product.name)}>
                 <CiCircleMinus />
               </button>
             </li>
@@ -44,6 +27,6 @@ export default function ProductList({ products, handleDelete }: Props) {
       ) : (
         <p>אין עדיין מוצרים.</p>
       )}
-    </div>
+    </List>
   );
 }
