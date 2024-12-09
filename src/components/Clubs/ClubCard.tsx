@@ -49,9 +49,9 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
             },
           },
           {
-            onSuccess: () => {
-              successAlert("מועדון נוסף");
-            },
+            // onSuccess: () => {
+            //   successAlert("מועדון נוסף");
+            // },
             onError: (error: Error) => {
               errorAlert("שגיאה בהוספת מועדון. נסה שוב מאוחר יותר.");
             },
@@ -63,6 +63,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
 
   const deleteClub = async () => {
     let alertConfirm = await beforeActionAlert("", "הסרה");
+   
     if (alertConfirm) {
       if (typeof currentUser?._id === "string") {
         await updateUser({
@@ -79,11 +80,9 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
           },
         },
         {
-          onSuccess: () => {
-            console.log(88,"success")
-            successAlert("מועדון הוסר");
-            console.log(88,"success2")
-          },
+          // onSuccess: () => {
+          //   successAlert("מועדון הוסר");
+          // },
           onError: (error: Error) => {
             errorAlert("שגיאה בהסרת מועדון. נסה שוב מאוחר יותר.");
           },

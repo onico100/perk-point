@@ -72,6 +72,9 @@ export const useUpdateUserById = () => {
       setCurrentUser(newUser);  
       return oldUser   
     },
+    onSuccess:()=>{
+      successAlert("המידע עודכן");
+    },
     onError: (error, variables, context:any) => {
       console.error("Mutation error:", error);
       if (context) {
