@@ -1,48 +1,135 @@
-/* components/Footer.module.css */
+/* Footer Container */
 .footer {
-  display: flex;
-  align-items: center;
-  padding: 20px 0;
-  background-color: #d8d8d8;
-  color: black;
-  z-index: 5;
-  width: 100%;
+  background-color: #f8f8f8;
+  padding: 40px 20px;
+  color: #333;
+  font-size: 14px;
 }
 
 .container {
-  flex-grow: 1;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 15px;
+  display: flex;
+  flex-wrap: wrap; /* Ensures responsiveness */
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Brand Section */
+.brand {
+  flex: 1 1 200px; /* Adjust width dynamically */
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+/* Links Section */
+.links {
+  flex: 2 1 400px; /* Adjust width dynamically */
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
-.navLinks {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0 0;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-}
-
-.container h2 {
-  font-weight: bold;
-}
-
-.navLinks li {
-  display: inline;
-}
-
-.navLinks a {
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.navLinks a:hover {
+.linkColumn h3 {
   background: linear-gradient(to right, #b346e8, #87cdfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  position: relative;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #555;
+  font-weight: bold;
+}
+
+.linkColumn h3::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+}
+
+.linkColumn ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linkColumn li {
+  margin-bottom: 8px;
+}
+
+.linkColumn a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.linkColumn a:hover {
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Social Media Section */
+.socialMedia {
+  flex: 1 1 200px; /* Adjust width dynamically */
+  text-align: center;
+}
+
+.socialMedia h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.socialIcons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.socialIcons a {
+  color: #333;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .linkColumn {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
+
+.instegram :hover {
+  filter: brightness(120%);
+  cursor: pointer;
+  color: #fe6fca;
+}
+
+.facebook :hover {
+  filter: brightness(120%);
+  cursor: pointer;
+  color: #3b5998;
+}
+
+.twitter :hover {
+  filter: brightness(120%);
+  cursor: pointer;
+  color: #87cdfa;
 }
