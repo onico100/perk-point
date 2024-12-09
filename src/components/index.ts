@@ -8,7 +8,7 @@ import BenefitsContainer from "./Benefits/BenefitsContainer";
 import signUser from "./SignPages/signUser";
 import TabSign from "./Bars/TabSign";
 import CalcButton from "./Calculator/CalcButton";
-import CalcPage from "./Calculator/CalcPage";
+import CalcPage from "./Calculator/CalcPage";   
 import HomeComp from "./Home/HomeComp";
 import PersonalDetails from "./PesonalDetails/PersonalDetails";
 import SignSupplierComponent from "./SignPages/signSupplier";
