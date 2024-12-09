@@ -60,37 +60,6 @@ export default function SignSupplierComponent() {
   }, [businessName]);  
   
 
-  const fetchBranches2 = debounce(
-    async (textQuery: string, branchIndex: number) => {
-      if (textQuery.trim().length >= 2) {
-        try {
-          setLoading(true);
-          const response = await my_http.post(`/googleAutocomplete/post`, {
-            textQuery,
-          });
-          const branchesFromGoogle = response.data.formattedPlaces;
-          const citySuggestions = branchesFromGoogle
-            ? branchesFromGoogle.map(
-                (place: any) => place.name + " " + place.address
-              )
-            : [];
-
-          setSuggestions(citySuggestions);
-          setBranchDropdownVisible(branchIndex);
-        } catch (error) {
-          console.error("Error fetching suggestions:", error);
-          setSuggestions([]);
-          setBranchDropdownVisible(null);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setSuggestions([]);
-        setBranchDropdownVisible(null);
-      }
-    },
-    300
-  );
 
   const fetchBranches = debounce(async (textQuery: string, branchIndex: number) => {
     if (textQuery.trim().length >= 2) {
@@ -127,17 +96,6 @@ export default function SignSupplierComponent() {
     }
   };
 
-  const onBranchSelect2 = (branch: string, index: number) => {
-    const existingBranches = watch("branches");
-    const extractCity = (branch: string): string => {
-      const parts = branch.split(",");
-      return parts.length >= 2 ? parts[1].trim() : "לא ידועה";
-    };
-    const city = extractCity(branch);
-    if (!existingBranches.some((b) => b.nameBranch === branch)) {
-      append({ nameBranch: branch, city });
-    }
-  };
 
   const onBranchSelect = (branch: string) => {
     const extractCity = (branch: string): string => {

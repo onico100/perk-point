@@ -27,7 +27,7 @@ export default function SupplierLoginComponent() {
       handleForgotPassword();
       return;
     }
- if (preMode === "SUPPLIER") {
+    else {
       loginSupplier(
         { email, password },
         {
@@ -39,9 +39,7 @@ export default function SupplierLoginComponent() {
           },
         }
       );
-    } else {
-      errorAlert("לא נבחר מצב התחברות (משתמש או ספק)");
-    }
+    } 
   };
 
   const handleForgotPassword = async () => {
@@ -51,6 +49,7 @@ export default function SupplierLoginComponent() {
     } else {
       setMessage("שגיאה בשליחת האימייל. נסה שוב מאוחר יותר.");
     }
+    
   };
 
 
