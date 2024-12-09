@@ -8,6 +8,8 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useGeneralStore from "@/stores/generalStore";
+import { beforeActionAlert, errorAlert, successAlert } from "@/utils/sweet-alerts";
+import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 
 interface SupplierPersonalDetailsProps {
   currentSupplier: Supplier;
@@ -22,6 +24,8 @@ const formSchema = z.object({
     .regex(/^\d{9,10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
   siteLink: z.string().url("כתובת האתר אינה חוקית."),
   supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
+  //branches: z.array(branchSchema).nonempty("חייב להוסיף לפחות סניף אחד."),
+ // selectedCategories: z.array(z.string()).nonempty("חייב לבחור לפחות קטגוריה אחת."),
 });
 
 export default function SupplierPersonalDetails({
@@ -29,6 +33,7 @@ export default function SupplierPersonalDetails({
 }: SupplierPersonalDetailsProps) {
   const [editMode, setEditMode] = useState(false);
   const { categories } = useGeneralStore();
+  const {updateSupplier}=useFetchSuppliers()
 
   const {
     register,
@@ -50,8 +55,50 @@ export default function SupplierPersonalDetails({
     }
   }, [editMode, currentSupplier, setValue]);
 
-  const editSupplier = () => {
-    setEditMode(false);
+  const editSupplier = async(data: any) => {
+    try {
+      const alertConfirm = await beforeActionAlert("", "עריכה");
+      if (alertConfirm) {
+        if (currentSupplier?._id) {
+
+          await updateSupplier(
+            {
+              id: currentSupplier._id,
+              updatedData: {
+                providerName: data?.providerName,
+                password:currentSupplier?.password,
+                email: data?.email,
+                businessName: data?.businessName,
+                //change to data.---
+                categories: currentSupplier?.categories,
+                phoneNumber: data?.phoneNumber,
+                registrationDate: currentSupplier?.registrationDate,
+                //change to data.---
+                branches: currentSupplier?.branches,
+                siteLink: data?.siteLink,
+                supplierLogo: data?.supplierLogo,
+                isActive: currentSupplier?.isActive,
+                selectedCategories: currentSupplier?.selectedCategories,
+              },
+            },
+            {
+              onSuccess: () => {
+                successAlert("ספק נערך ");
+              },
+              onError:() => {
+                errorAlert("שגיאה בעריכת ספק");
+              }
+            }
+          );
+        }
+      }
+    } catch (err) {
+      console.error("Error editing user:", err);
+      errorAlert("שגיאה בעריכת ספק");
+    } finally {
+      setEditMode(false);
+    }
+
   };
 
   return (
@@ -88,7 +135,7 @@ export default function SupplierPersonalDetails({
                 defaultValue={currentSupplier?.supplierLogo} 
               />
               {errors.supplierLogo?.message && (
-                <p>{String(errors.supplierLogo.message)}</p>
+                <p className={styles.error}>{String(errors.supplierLogo.message)}</p>
               )}
             </>
           )}
@@ -108,7 +155,7 @@ export default function SupplierPersonalDetails({
           currentSupplier.providerName
         )}
         {errors.providerName?.message && (
-          <p>{String(errors.providerName.message)}</p>
+          <p className={styles.error}>{String(errors.providerName.message)}</p>
         )}
       </p>
 
@@ -125,7 +172,7 @@ export default function SupplierPersonalDetails({
         ) : (
           currentSupplier.email
         )}
-        {errors.email?.message && <p>{String(errors.email.message)}</p>}
+        {errors.email?.message && <p className={styles.error}>{String(errors.email.message)}</p>}
       </p>
 
       <p className={styles.item}>
@@ -141,7 +188,7 @@ export default function SupplierPersonalDetails({
           currentSupplier.businessName
         )}
         {errors.businessName?.message && (
-          <p>{String(errors.businessName.message)}</p>
+          <p className={styles.error}>{String(errors.businessName.message)}</p>
         )}
       </p>
 
@@ -158,7 +205,7 @@ export default function SupplierPersonalDetails({
           currentSupplier.phoneNumber
         )}
         {errors.phoneNumber?.message && (
-          <p>{String(errors.phoneNumber.message)}</p>
+          <p className={styles.error}>{String(errors.phoneNumber.message)}</p>
         )}
       </p>
 
@@ -189,7 +236,7 @@ export default function SupplierPersonalDetails({
             {currentSupplier.siteLink}
           </a>
         )}
-        {errors.siteLink?.message && <p>{String(errors.siteLink.message)}</p>}
+        {errors.siteLink?.message && <p className={styles.error}>{String(errors.siteLink.message)}</p>}
       </p>
 
       <p className={styles.item}>
