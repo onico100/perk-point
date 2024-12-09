@@ -76,11 +76,16 @@ export const useFetchSuppliers = () => {
         ...updatedData,
       } as Supplier;
       setSuppliers(suppliers.map((s) => (s._id === id ? updatedSupplier : s)));
+      
+      let oldSupplier=currentSupplier
+      setCurrentSupplier(updatedSupplier)
       inProccesAlert("מעדכן")
-      return { previousSuppliers: suppliers };
+      return { previousSuppliers: suppliers , currentSupplier: oldSupplier};
     },
     onError: (_error, _variables, context: any) => {
       setSuppliers(context.previousSuppliers);
+      setCurrentSupplier(context.oldSupplier)
+      
       console.error("Failed to update supplier.");
       errorAlert("עדכון ספק נכשל")
     },
