@@ -3,6 +3,7 @@ import React from "react";
 import styles from "@/styles/Home/Footer.module.css";
 import { FaFacebook, FaTwitter } from "react-icons/fa";
 import { FaSquareInstagram } from "react-icons/fa6";
+import logoLight from "@/assets/logoLight.png";
 
 const Footer: React.FC = () => {
   return (
@@ -10,6 +11,13 @@ const Footer: React.FC = () => {
       <div className={styles.container}>
         {/* Brand/Info Section */}
         <div className={styles.brand}>
+          <div className={styles.logoContainer}>
+            <img
+              src={logoLight.src}
+              alt="Perk Point Logo"
+              className={styles.logo}
+            />
+          </div>
           <p>&copy; {new Date().getFullYear()} Perk Point</p>
           <p>כל הזכויות שמורות.</p>
         </div>
