@@ -132,7 +132,7 @@
 }
 
 .backButton {
-  position: absolute;
+  position: fixed;
   top: 10px;
   left: 10px;
   background: linear-gradient(to bottom, #b346e8, #87cdfa);
@@ -142,6 +142,13 @@
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  z-index: 1000;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
 }
 
 .content {
@@ -149,32 +156,70 @@
   margin-top: 50px;
   justify-content: flex-start;
   column-gap: 50px;
-
 }
 
+.leftColumn,
 .rightColumn {
-  width: 30%;
+  width: 45%;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
+.branches,
 .infoContainer {
-  border: 2px solid  #b346e8; 
-  border-radius: 12px;
+  position: relative; 
+  background-color: #f9f9f9;
   padding: 15px;
-  background-color: #f9f9f9; 
-  margin-bottom: 10px; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  margin-bottom: 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1; 
 }
+
+.logo {
+  width: 100%;
+  height: 65%;
+  position: relative;
+  border-radius: 12px;
+  margin-bottom: 10px; 
+  z-index: 1;
+  background-color: #f9f9f9;
+}
+
+.logo::before,
+.branches::before,
+.infoContainer::before {
+  content: '';
+  position: absolute; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1; 
+  border-radius: 12px;
+  padding: 2px;
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0); 
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; 
+  mask-composite: exclude; 
+}
+
 
 .infoLabel {
   font-size: 14px;
   font-weight: bold;
-  color: #b346e8; 
   margin-bottom: 10px;
   display: block;
   text-align: right;
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .infoBox {
@@ -205,39 +250,14 @@
 .backButton:hover,
 .button:hover
 {
-  background: linear-gradient(to bottom, #a404f5, #0497f2);
+  background: linear-gradient(to right, #a404f5, #0497f2);
 }
-
-.leftColumn {
-  width: 30%;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.logo {
-  width: 100%;
-  height: 65%;
-  border: 2px solid  #b346e8; 
-  border-radius: 12px;
-  margin-bottom: 10px; 
-}
-
-/* .branches {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  margin-bottom: 10px; 
-
-} */
-
 
 .branches {
   display: flex;
   flex-direction: column; 
   align-items: flex-start; 
   cursor: pointer;
-  margin-bottom: 10px; 
   gap: 10px; 
 }
 
@@ -268,21 +288,20 @@
   margin-top: 20px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .updateButton,
 .saveButton,
 .cancelButton {
   padding: 10px 20px;
-  background: linear-gradient(to bottom, #b346e8, #87cdfa);
+  background: linear-gradient(to right, #b346e8, #87cdfa);
   color: white;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
 }
-
-
 
 
 .branchItem {
