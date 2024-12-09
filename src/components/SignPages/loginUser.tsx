@@ -9,7 +9,6 @@ import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
 import { sendPasswordResetEmail } from "@/services/emailServices";
 //import LoginGoogleButton from "./authLogin";
 
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,8 +52,6 @@ export default function Login() {
     }
   };
 
-
-
   return (
     <div className={styles.loginPage}>
       {message && <p className="text-red-500">{message}</p>}
@@ -82,12 +79,13 @@ export default function Login() {
               required
             />
 
-          <p className="text-red-500 underline cursor-pointer text-xs"
-            onClick={() => setForgotPassword(!forgotPassword)}>
-            שכחתי סיסמה
-          </p>
-
-        </div>
+            <p
+              className="text-red-500 underline cursor-pointer text-xs"
+              onClick={() => setForgotPassword(!forgotPassword)}
+            >
+              שכחתי סיסמה
+            </p>
+          </div>
         )}
 
         <div className={styles.inlineContainer}>
@@ -97,10 +95,15 @@ export default function Login() {
           </Link>
         </div>
 
-        {!forgotPassword && <button type="submit" className={`${styles.formGroup} loginPage button`}>התחברות</button>}
-        {forgotPassword && (<button type="submit">שלח קישור לאיפוס סיסמה</button>)}
+        {!forgotPassword && (
+          <button type="submit" className={styles.loginPageButton}>
+            התחברות
+          </button>
+        )}
+        {forgotPassword && (
+          <button type="submit">שלח קישור לאיפוס סיסמה</button>
+        )}
         {message && <p>{message}</p>}
-
       </form>
       {/* <LoginGoogleButton /> */}
     </div>
