@@ -69,6 +69,7 @@ export default function RootLayout({
                 {children}
               </div>
             </div>
+            <Footer />
           </div>
 
           {isCalcPageVisible && (
@@ -77,7 +78,6 @@ export default function RootLayout({
             </div>
           )}
         </body>
-        <Footer />
       </html>
     </QueryClientProvider>
   );
