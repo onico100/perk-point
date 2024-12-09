@@ -10,7 +10,7 @@ import {
   getUserByCredentials,
 } from "@/services/usersServices";
 import { useRouter } from "next/navigation";
-import { errorAlert, successAlert } from "@/utils/sweet-alerts";
+import { errorAlert, inProccesAlert, successAlert } from "@/utils/sweet-alerts";
 
 const setCurrentUser = useGeneralStore.getState().setCurrentUser;
 const currentUser = useGeneralStore.getState().currentUser;
@@ -66,12 +66,18 @@ export const useUpdateUserById = () => {
   return useMutation<User, Error, { id: string; updatedData: Partial<User> }>({
     mutationFn: ({ id, updatedData }) => updateUserById(id, updatedData),
     onMutate: async ({ id, updatedData }) => {
+      inProccesAlert("מעדכן")
+      const oldUser= currentUser
       const newUser = { _id: id, ...updatedData } as User;
-      setCurrentUser(newUser);     
+      setCurrentUser(newUser);  
+      return oldUser   
     },
-    onError: (error, variables, context) => {
+    onError: (error, variables, context:any) => {
       console.error("Mutation error:", error);
-      errorAlert("נכשל");
+      if (context) {
+        setCurrentUser(context); 
+      }
+      //errorAlert("נכשל");
     },
   });
 };
