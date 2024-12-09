@@ -6,8 +6,24 @@ const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-        <p>&copy; {new Date().getFullYear()} Perk Point</p>
-        <p>כל הזכויות שמורות.</p>
+        <div>
+          <p>&copy; {new Date().getFullYear()} Perk Point</p>
+          <p>כל הזכויות שמורות.</p>
+        </div>
+        <nav>
+          <h2>מפת האתר</h2>
+          <ul className={styles.navLinks}>
+            <li>
+              <a href="/">בית</a>
+            </li>
+            <li>
+              <a href="/about">אודות</a>
+            </li>
+            <li>
+              <a href="/contact">צור קשר</a>
+            </li>
+          </ul>
+        </nav>
         <nav>
           <ul className={styles.navLinks}>
             <li>

@@ -20,7 +20,7 @@
 .aboutUs,
 .contactUs {
   flex: 1;
-  margin: 20px;
+  margin-right: 20px;
 }
 
 .aboutPage h2 {
