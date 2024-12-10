@@ -1,3 +1,5 @@
+import { UserGoogleFormValues } from "@/types/types";
+
 export const databaseName = "benefits-site";
 
 const { MongoClient, ObjectId } = require("mongodb");
@@ -83,4 +85,35 @@ export async function getClientModeByEmailAndPassword(
     .collection(collection)
     .findOne({ email: email, password: password });
   return clientMode;
+}
+
+export async function findOrCreateUser({ email, name }: { email: string; name?: string }) {
+  let client;
+  console.log(`-----------findOrCreateUser: ${email}, ${name}`);
+  client = await connectDatabase();
+  const db = client.db("benefits-site");
+
+  const existingUser = await db.collection("users_collection").findOne({ email });
+  if (existingUser) {
+    console.log("--------User already exists", existingUser);
+    return existingUser;
+  }
+
+  const newUser: UserGoogleFormValues = {
+    username: name || "Anonymous User",
+    email,
+    password: "-1", 
+    city: "-1",
+    isActive: true,
+    clubs: [],
+    savedBenefits: [],
+    registrationDate: new Date().toISOString(),
+  };
+
+  console.log("--------new user", newUser);
+
+
+  const result = await db.collection("users_collection").insertOne(newUser);
+  console.log("--------User created id", result.insertedId);
+  return { ...newUser, _id: result.insertedId };
 }

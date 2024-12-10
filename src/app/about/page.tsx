@@ -34,7 +34,9 @@ const About = () => {
               <FaPhoneAlt /> 0599999999
             </li>
             <li>
-              <IoIosMail /> 999999999@example.com
+              <a href="mailto:PerkPointSite@gmail.com">
+                <IoIosMail /> PerkPointSite@gmail.com
+              </a>
             </li>
           </div>
         </div>
