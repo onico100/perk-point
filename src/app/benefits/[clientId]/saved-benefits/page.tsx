@@ -1,5 +1,5 @@
 "use client";
-import { BenefitsContainer } from "@/components";
+import { BenefitsContainer2 } from "@/components";
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode, PreMode } from "@/types/types";
 
@@ -9,5 +9,5 @@ export default function savedBenefits() {
 
   if (clientMode == ClientMode.connection) setClientMode(ClientMode.general);
 
-  return <BenefitsContainer />;
+  return <BenefitsContainer2 />;
 }
