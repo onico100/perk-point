@@ -45,7 +45,7 @@ export default function PasswordReset() {
 
       if (response.ok) {
         setMessage("איפוס הסיסמה בוצע בהצלחה. מעביר לעמוד התחברות...");
-        setTimeout(() => router.push("/login"), 3000);
+        setTimeout(() => router.push("/login-user"), 3000);
       } else {
         const data = await response.json();
         setMessage(data.message || "שגיאה באיפוס הסיסמה");

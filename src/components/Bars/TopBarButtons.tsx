@@ -79,7 +79,7 @@ const TopBarButtons: React.FC = () => {
             isScrolled ? styles.buttonContainerScrolled : ""
           }`}
         >
-          <h1>{`שלום ${currentUser?.username}`}</h1>
+          <h1>{currentUser?.username}</h1>
           <button
             className={`${styles.signupButton} ${
               isScrolled ? styles.signupButtonScrolled : ""
@@ -97,7 +97,7 @@ const TopBarButtons: React.FC = () => {
             isScrolled ? styles.buttonContainerScrolled : ""
           }`}
         >
-          <h1>{`שלום ${currentSupplier?.providerName}`}</h1>
+          <h1>{currentSupplier?.providerName}</h1>
           <button
             className={`${styles.signupButton} ${
               isScrolled ? styles.signupButtonScrolled : ""
