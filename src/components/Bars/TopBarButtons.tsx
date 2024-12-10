@@ -1,12 +1,29 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/Bars/TopBar.module.css";
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode } from "@/types/types";
 import { useRouter } from "next/navigation";
-import userProfile from "@/assets/user-profile.svg";
+import { PiUserCircleThin } from "react-icons/pi";
 
 const TopBarButtons: React.FC = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true); // Set to true if scrolled 50px down
+      } else {
+        setIsScrolled(false); // Reset if back to top
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup listener on unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const router = useRouter();
   const {
     clientMode,
@@ -31,36 +48,61 @@ const TopBarButtons: React.FC = () => {
   return (
     <>
       {clientMode === "GENERAL" && (
-        <div className={styles.buttonsContainer}>
+        <div
+          className={`${styles.buttonContainer} ${
+            isScrolled ? styles.buttonContainerScrolled : ""
+          }`}
+        >
           <button
-            className={styles.loginButton}
+            className={`${styles.loginButton} ${
+              isScrolled ? styles.loginButtonScrolled : ""
+            }`}
             onClick={() => handleConnectionMode("/login-user")}
           >
-            <img src={userProfile.src} alt="icon" className={styles.icon} />
+            <PiUserCircleThin className={styles.icon} />
           </button>
           <button
-            className={styles.signupButton}
+            className={`${styles.signupButton} ${
+              isScrolled ? styles.signupButtonScrolled : ""
+            }`}
             onClick={() => handleConnectionMode("/login-supplier")}
           >
             כניסת ספקים
           </button>
-
         </div>
       )}
 
       {clientMode === "USER" && (
-        <div className={styles.buttonsContainer}>
+        <div
+          className={`${styles.buttonContainer} ${
+            isScrolled ? styles.buttonContainerScrolled : ""
+          }`}
+        >
           <h1>{`שלום ${currentUser?.username}`}</h1>
-          <button className={styles.signupButton} onClick={handleDisconnect}>
+          <button
+            className={`${styles.signupButton} ${
+              isScrolled ? styles.signupButtonScrolled : ""
+            }`}
+            onClick={handleDisconnect}
+          >
             התנתקות
           </button>
         </div>
       )}
 
       {clientMode === "SUPPLIER" && (
-        <div className={styles.buttonsContainer}>
+        <div
+          className={`${styles.buttonContainer} ${
+            isScrolled ? styles.buttonContainerScrolled : ""
+          }`}
+        >
           <h1>{`שלום ${currentSupplier?.providerName}`}</h1>
-          <button className={styles.signupButton} onClick={handleDisconnect}>
+          <button
+            className={`${styles.signupButton} ${
+              isScrolled ? styles.signupButtonScrolled : ""
+            }`}
+            onClick={handleDisconnect}
+          >
             התנתקות
           </button>
         </div>
