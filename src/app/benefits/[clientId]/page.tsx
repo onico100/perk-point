@@ -1,5 +1,5 @@
 "use client";
-import { BenefitsTry } from "@/components";
+import { BenefitsContainer } from "@/components";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
@@ -14,10 +14,8 @@ export default function ClientId() {
   const params = useParams();
   const id = params.clientId;
 
-  // Ensure general mode is set if in connection mode
   if (clientMode === ClientMode.connection) setClientMode(ClientMode.general);
 
-  // Calculate benefits to show and the title
   let benefitsToShow: Benefit[] = [];
   let currentTitle = titles[0];
 
@@ -38,5 +36,5 @@ export default function ClientId() {
 
   if (isLoadingB || isFetchingB) return <LoadingSpinner />;
 
-  return <BenefitsTry benefits={benefitsToShow} title={currentTitle} />;
+  return <BenefitsContainer benefits={benefitsToShow} title={currentTitle} />;
 }
