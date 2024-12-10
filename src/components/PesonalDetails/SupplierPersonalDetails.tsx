@@ -42,6 +42,7 @@ const formSchema = z.object({
   // selectedCategories: z.array(z.string()).nonempty("חייב לבחור לפחות קטגוריה אחת."),
 });
 
+console.log("bbb")
 export default function SupplierPersonalDetails({
   currentSupplier,
 }: SupplierPersonalDetailsProps) {
