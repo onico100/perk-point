@@ -9,7 +9,6 @@ export default function LoginUserPage() {
     <div className={styles.centerContainer}>
       <div className={styles.centerContent}>
         <LoginUserComponent />
-        <LoginGoogleForm/>
       </div>
     </div>
   );
