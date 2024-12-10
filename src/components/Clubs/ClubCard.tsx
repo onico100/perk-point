@@ -100,7 +100,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
         className={styles.link}
         onClick={() => window.open(club.clubLink, "_blank")}
       >
-        {club.clubLink}
+        מעבר לאתר המועדון
       </p>
       {clientMode === "USER" &&
         (id === "0" ? (
