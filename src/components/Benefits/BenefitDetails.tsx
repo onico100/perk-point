@@ -7,6 +7,7 @@ import { Benefit, Supplier, Club, ClientMode, Branch } from "@/types/types";
 import styles from "@/styles/Benefits/BenefitDetais.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
+import { confirmExternalNavigation, beforeActionAlert, confirmChangesAlert } from "@/utils/sweet-alerts";
 import { FaPlusCircle, FaMinusCircle, FaMapMarkerAlt, FaArrowRight } from "react-icons/fa";
 
 const BenefitDetails = () => {
@@ -22,8 +23,8 @@ const BenefitDetails = () => {
     undefined
   );
   const [showBranches, setShowBranches] = useState(false);
-  const [dropdownVisible, setDropdownVisible] = useState(false); // State for dropdown visibility
-  const [selectedBranch, setSelectedBranch] = useState(null); // State for the selected branch
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedBranch, setSelectedBranch] = useState(null);
 
   const pathname = usePathname();
   const specificBenefitId = pathname.split("/")[3];
@@ -47,26 +48,39 @@ const BenefitDetails = () => {
   }, [isUpdateMode, specificBenefit]);
 
   const handleSave = async () => {
-    if (updatedBenefit) {
-      try {
-        if (updatedBenefit._id) {
-          await updateBenefit({
-            id: updatedBenefit._id,
-            updatedData: {
-              description: updatedBenefit.description,
-              redemptionConditions: updatedBenefit.redemptionConditions,
-              expirationDate: updatedBenefit.expirationDate,
-              branches: updatedBenefit.branches,
-              isActive: updatedBenefit.isActive,
-            },
-          });
-          console.log("הטבה עודכנה בהצלחה");
+    const userConfirmed = await confirmChangesAlert();
+
+    if (userConfirmed) {
+
+      if (updatedBenefit) {
+        try {
+          if (updatedBenefit._id) {
+            await updateBenefit({
+              id: updatedBenefit._id,
+              updatedData: {
+                description: updatedBenefit.description,
+                redemptionConditions: updatedBenefit.redemptionConditions,
+                expirationDate: updatedBenefit.expirationDate,
+                branches: updatedBenefit.branches,
+                isActive: updatedBenefit.isActive,
+              },
+            });
+            console.log("הטבה עודכנה בהצלחה");
+          }
+        } catch (error) {
+          console.error("Error updating benefit:", error);
         }
-      } catch (error) {
-        console.error("Error updating benefit:", error);
       }
     }
     setIsUpdateMode(false);
+  };
+
+  const handleCancel = async () => {
+    const userConfirmed = await beforeActionAlert("האם אתה בטוח שברצונך לבטל את השינויים?", "ביטול");
+  
+    if (userConfirmed) {
+      setIsUpdateMode(false);
+    }
   };
 
   const toggleBranches = () => setShowBranches((prev) => !prev);
@@ -83,6 +97,16 @@ const BenefitDetails = () => {
       });
       setSelectedBranch(null);
       setDropdownVisible(false);
+    }
+  };
+
+  const handleLinkClick = async (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    href: string) => {
+    event.preventDefault();
+    const userConfirmed = await confirmExternalNavigation(href);
+    if (userConfirmed) {
+      window.open(href, "_blank");
     }
   };
 
@@ -123,6 +147,16 @@ const BenefitDetails = () => {
 
   const supplierBranches = specificSupplier ? specificSupplier.branches : [];
 
+  const availableBranches = supplierBranches?.filter((branch) => {
+    return !updatedBenefit?.branches.some(
+      (existingBranch) => existingBranch.nameBranch === branch.nameBranch && existingBranch.city === branch.city
+    );
+  });
+
+  const allBranchesSelected = supplierBranches && supplierBranches.length > 0 &&
+    updatedBenefit?.branches.length === supplierBranches.length;
+
+
 
   return (
     <div className={styles.container}>
@@ -152,6 +186,7 @@ const BenefitDetails = () => {
                 className={styles.button}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => handleLinkClick(e, specificClub.clubLink)}
               >
                 מעבר להטבה: {specificClub ? specificClub.clubName : ""}
               </a>
@@ -212,58 +247,74 @@ const BenefitDetails = () => {
               )}
             </div>
             <div className={styles.branches}>
-              <div className={styles.branchLink}>
-                <FaMapMarkerAlt className={styles.icon} />
-                <span onClick={toggleBranches} className={styles.branchText}>
-                  רשימת הסניפים
-                </span>
-              </div>
-              {showBranches && (
-                <>
-                  {specificBenefit?.branches && specificBenefit.branches.length > 0 ? (
-                    <ul className={styles.branchList}>
-                      {specificBenefit.branches.map((branch, index) => (
-                        <li key={index} className={styles.branchItem}>
-                          <div className={`${styles.branchInfo} ${isUpdateMode ? styles.editing : ''}`}>
-                            {isUpdateMode && (
-                              <FaMinusCircle
-                                className={styles.icon}
-                                onClick={() => handleRemoveBranch(branch)}
-                              />
-                            )}
-                            {branch.city}, {branch.nameBranch}
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <div>כול הסניפים</div>
-                  )}
-                  {isUpdateMode && (
-                    <div className={styles.addBranch}>
-                      <FaPlusCircle className={styles.icon} onClick={toggleDropdown} />
-                      {dropdownVisible && (
-                        <div className={styles.dropdown}>
-                          <select
-                            onChange={(e) => {
-                              const branch = JSON.parse(e.target.value);
-                              setSelectedBranch(branch);
-                              handleAddBranch(branch);
-                            }}
-                          >
-                            <option value="">בחר סניף</option>
-                            {supplierBranches?.map((branch, index) => (
-                              <option key={index} value={JSON.stringify(branch)}>
-                                {branch.city}, {branch.nameBranch}
+              <div className={styles.branchesScroll}>
+                <div className={styles.branchLink}>
+                  <FaMapMarkerAlt className={styles.icon} />
+                  <span onClick={toggleBranches} className={styles.branchText}>
+                    רשימת הסניפים
+                  </span>
+                </div>
+                {showBranches && (
+                  <>
+                    {updatedBenefit?.branches && updatedBenefit.branches.length > 0 ? (
+                      !isUpdateMode && allBranchesSelected ? (
+                        <div className={styles.allBranchesText}>כל הסניפים</div>
+                      ) : (
+                        <ul className={styles.branchList}>
+                          {updatedBenefit.branches.map((branch, index) => (
+                            <li key={index} className={styles.branchItem}>
+                              <div
+                                className={`${styles.branchInfo} ${isUpdateMode ? styles.editing : ""
+                                  }`}
+                              >
+                                {isUpdateMode && (
+                                  <FaMinusCircle
+                                    className={styles.icon}
+                                    onClick={() => handleRemoveBranch(branch)}
+                                  />
+                                )}
+                                <div className={styles.branchLocation}>
+                                  <span className={styles.branchCity}>{branch.city}</span>
+                                  <span className={styles.branchAddress}>
+                                    {branch.nameBranch}
+                                  </span>
+                                </div>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      )
+                    ) : (
+                      <div>אין סניפים</div>
+                    )}
+                    {isUpdateMode && (
+                      <div className={styles.addBranch}>
+                        <FaPlusCircle className={styles.icon} onClick={toggleDropdown} />
+                        {dropdownVisible && (
+                          <div className={styles.dropdown}>
+                            <select
+                              onChange={(e) => {
+                                const branch = JSON.parse(e.target.value);
+                                setSelectedBranch(branch);
+                                handleAddBranch(branch);
+                              }}
+                            >
+                              <option value="">
+                                {availableBranches && availableBranches.length > 0 ? "בחר סניף" : "כול הסניפים נבחרו"}
                               </option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </>
-              )}
+                              {availableBranches?.map((branch, index) => (
+                                <option key={index} value={JSON.stringify(branch)}>
+                                  {branch.city}, {branch.nameBranch}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
             {specificSupplier && specificSupplier.siteLink ? (
               <a
@@ -271,6 +322,7 @@ const BenefitDetails = () => {
                 className={styles.button}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => handleLinkClick(e, specificClub.clubLink)}
               >
                 מעבר לאתר העסק
               </a>
@@ -296,7 +348,7 @@ const BenefitDetails = () => {
                 </button>
                 <button
                   className={styles.cancelButton}
-                  onClick={() => setIsUpdateMode(false)}
+                  onClick={handleCancel}
                 >
                   ביטול
                 </button>

@@ -49,3 +49,30 @@ export const helloAlert = async (action) => {
     showConfirmButton: false
   });
 }
+
+export const confirmExternalNavigation = (link) => {
+  return Swal.fire({
+    title: "אזהרה",
+    text: "אתם עומדים לעזוב את האתר, האם ברצונכם להמשיך?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "כן, המשך",
+    cancelButtonText: "ביטול",
+    reverseButtons: true,
+  }).then((result) => result.isConfirmed);
+};
+
+export const confirmChangesAlert = async () => {
+  const result = await Swal.fire({
+    title: "האם אתה בטוח?",
+    text: "האם אתה רוצה לשמור את השינויים?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#b346e8",
+    cancelButtonColor: "#858282",
+    cancelButtonText: "לא, ביטול",
+    confirmButtonText: "כן, שמור שינויים",
+  });
+
+  return result.isConfirmed;
+};
