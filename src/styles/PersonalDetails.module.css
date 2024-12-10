@@ -72,6 +72,7 @@
 
 .editButton {
   cursor: pointer;
+  margin: 7px;
 }
 
 .editButton:hover {
