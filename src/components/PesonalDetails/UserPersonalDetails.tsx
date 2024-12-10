@@ -6,8 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { CiEdit } from "react-icons/ci";
-import { beforeActionAlert, errorAlert, successAlert } from "@/utils/sweet-alerts";
+import { MdOutlineModeEditOutline,MdOutlineEditOff  } from "react-icons/md";
+import {
+  beforeActionAlert,
+  errorAlert,
+  inProccesAlert,
+  successAlert,
+} from "@/utils/sweet-alerts";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
 
 interface UserPersonalDetailsProps {
@@ -17,7 +22,6 @@ interface UserPersonalDetailsProps {
 const formSchema = z.object({
   username: z.string().min(3, "שם המשתמש חייב להיות לפחות 3 תווים."),
   email: z.string().email("כתובת אימייל אינה חוקית."),
-  password: z.string().min(6, "סיסמה חייבת להכיל לפחות 6 תווים."),
   city: z.string().min(2, "יש להזין עיר."),
 });
 
@@ -45,21 +49,33 @@ export default function UserPersonalDetails({
   }, [editMode, currentUser, setValue]);
 
   const editUser = async (data: any) => {
-     console.log(22,data);
     try {
-      const alertConfirm = await beforeActionAlert("", "ערוך");
+      const alertConfirm = await beforeActionAlert("", "עריכה");
       if (alertConfirm) {
         if (currentUser?._id) {
-          await updateUser({
-            id: currentUser._id, 
-            updatedData: { 
-              ...currentUser, 
-              ...data 
+          await updateUser(
+            {
+              id: currentUser._id,
+              updatedData: {
+                username: data?.username,
+                email: data?.email,
+                clubs: currentUser?.clubs,
+                registrationDate: currentUser?.registrationDate,
+                savedBenefits: currentUser?.savedBenefits,
+                city: data?.city,
+                isActive: currentUser?.isActive,
+                password: currentUser?.password,
+              },
+            },
+            {
+              onSuccess: () => {
+                successAlert("משתמש נערך ");
+              },
+              onError: (error) => {
+                errorAlert("שגיאה בעריכת המשתמש");
+              },
             }
-          });
-          successAlert("משתמש נערך בהצלחה");
-        } else {
-          throw new Error("ID של המשתמש אינו חוקי");
+          );
         }
       }
     } catch (err) {
@@ -69,39 +85,34 @@ export default function UserPersonalDetails({
       setEditMode(false);
     }
   };
-  
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>פרטי משתמש</h2>
       <div className={styles.buttonsContainer}>
-        {editMode && (
-          <button
-            className={styles.submitButton}
-            onClick={() =>handleSubmit(editUser)}
-          >
-            שמור
-          </button>
-        )}
         <button
+          type="button"
           className={styles.editButton}
           onClick={() => setEditMode(!editMode)}
         >
-          <CiEdit />
+          {!editMode ? <MdOutlineModeEditOutline /> : <MdOutlineEditOff />}
         </button>
       </div>
 
       <p className={styles.item}>
         <span className={styles.label}>שם:</span>
         {editMode ? (
-          <input id="name" {...register("name")} className={styles.input}
-          defaultValue={currentUser?.username} 
+          <input
+            id="username"
+            {...register("username")}
+            className={styles.input}
+            defaultValue={currentUser?.username}
           />
         ) : (
           currentUser?.username
         )}
-        {errors.name?.message && (
-          <p className={styles.error}>{String(errors.name.message)}</p>
+        {errors.username?.message && (
+          <p className={styles.error}>{String(errors.username.message)}</p>
         )}
       </p>
 
@@ -112,22 +123,26 @@ export default function UserPersonalDetails({
             id="mail"
             type="email"
             defaultValue={currentUser?.email}
-            {...register("mail")}
+            {...register("email")}
             className={styles.input}
           />
         ) : (
           currentUser.email
         )}
-        {errors.mail?.message && (
-          <p className={styles.error}>{String(errors.mail.message)}</p>
+        {errors.email?.message && (
+          <p className={styles.error}>{String(errors.email.message)}</p>
         )}
       </p>
 
       <p className={styles.item}>
         <span className={styles.label}>עיר:</span>
         {editMode ? (
-          <input id="city" {...register("city")} className={styles.input} 
-          defaultValue={currentUser?.city}/>
+          <input
+            id="city"
+            {...register("city")}
+            className={styles.input}
+            defaultValue={currentUser?.city}
+          />
         ) : (
           currentUser.city
         )}
@@ -140,6 +155,14 @@ export default function UserPersonalDetails({
         <span className={styles.label}>תאריך הרשמה:</span>
         {new Date(currentUser.registrationDate).toLocaleDateString("he-IL")}
       </p>
+      {editMode && (
+          <button
+            className={styles.submitButton}
+            onClick={handleSubmit(editUser)}
+          >
+            שמור
+          </button>
+        )}
     </div>
   );
 }

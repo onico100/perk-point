@@ -20,7 +20,9 @@ const Contact = () => {
           <FaPhoneAlt /> 0599999999
         </li>
         <li>
-          <IoIosMail /> perkpointsite@gmail.com
+          <a href="mailto:PerkPointSite@gmail.com">
+            <IoIosMail /> PerkPointSite@gmail.com
+          </a>
         </li>
       </div>
     </div>

@@ -6,7 +6,11 @@ import styles from "@/styles/Clubs/ClubCard.module.css";
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
-import {beforeActionAlert, successAlert, errorAlert} from "@/utils/sweet-alerts";
+import {
+  beforeActionAlert,
+  successAlert,
+  errorAlert,
+} from "@/utils/sweet-alerts";
 
 interface ClubCardProps {
   club: Club;
@@ -19,55 +23,71 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
   const { currentUser, clientMode, setCurrentUser } = useGeneralStore();
   const { mutate: updateUser, error } = useUpdateUserById();
 
-
-  const addClub = async() => {
-    let alertConfirm= await beforeActionAlert("","הוספה")
+  const addClub = async () => {
+    let alertConfirm = await beforeActionAlert("", "הוספה");
     if (alertConfirm) {
       if (
         currentUser?.clubs?.some((existingClub) => existingClub === club?._id)
       ) {
-        errorAlert("מועדון זה כבר קיים אצלך.")
+        errorAlert("מועדון זה כבר קיים אצלך.");
         return;
       }
 
       if (typeof currentUser?._id === "string") {
-        await updateUser({
-          id: currentUser?._id,
-        updatedData: {
-          username: currentUser?.username,
-          email: currentUser?.email,
-          clubs:  [...(currentUser?.clubs || []), club._id],
-          registrationDate: currentUser?.registrationDate,
-          savedBenefits: currentUser?.savedBenefits,
-          city: currentUser?.city,
-          isActive: currentUser?.isActive,
-          password: currentUser?.password, 
-        },
-        });
+        await updateUser(
+          {
+            id: currentUser?._id,
+            updatedData: {
+              username: currentUser?.username,
+              email: currentUser?.email,
+              clubs: [...(currentUser?.clubs || []), club._id],
+              registrationDate: currentUser?.registrationDate,
+              savedBenefits: currentUser?.savedBenefits,
+              city: currentUser?.city,
+              isActive: currentUser?.isActive,
+              password: currentUser?.password,
+            },
+          },
+          {
+            // onSuccess: () => {
+            //   successAlert("מועדון נוסף");
+            // },
+            onError: (error: Error) => {
+              errorAlert("שגיאה בהוספת מועדון. נסה שוב מאוחר יותר.");
+            },
+          }
+        );
       }
-      successAlert("מועדון נוסף")
     }
   };
 
-  const deleteClub = async() => {
-    let alertConfirm= await beforeActionAlert("","הסרה")
+  const deleteClub = async () => {
+    let alertConfirm = await beforeActionAlert("", "הסרה");
+   
     if (alertConfirm) {
       if (typeof currentUser?._id === "string") {
         await updateUser({
-           id: currentUser?._id,
-         updatedData: {
-           username: currentUser?.username,
-           email: currentUser?.email,
-           clubs:currentUser?.clubs.filter(c =>c !=club._id),
-           registrationDate: currentUser?.registrationDate,
-           savedBenefits: currentUser?.savedBenefits,
-           city: currentUser?.city,
-           isActive: currentUser?.isActive,
-           password: currentUser?.password, 
-         },
-         });
-       }
-       successAlert("הוסר")
+          id: currentUser?._id,
+          updatedData: {
+            username: currentUser?.username,
+            email: currentUser?.email,
+            clubs: currentUser?.clubs.filter((c) => c != club._id),
+            registrationDate: currentUser?.registrationDate,
+            savedBenefits: currentUser?.savedBenefits,
+            city: currentUser?.city,
+            isActive: currentUser?.isActive,
+            password: currentUser?.password,
+          },
+        },
+        {
+          // onSuccess: () => {
+          //   successAlert("מועדון הוסר");
+          // },
+          onError: (error: Error) => {
+            errorAlert("שגיאה בהסרת מועדון. נסה שוב מאוחר יותר.");
+          },
+        });
+      }
     }
   };
 
@@ -80,7 +100,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
         className={styles.link}
         onClick={() => window.open(club.clubLink, "_blank")}
       >
-        {club.clubLink}
+        מעבר לאתר המועדון
       </p>
       {clientMode === "USER" &&
         (id === "0" ? (
