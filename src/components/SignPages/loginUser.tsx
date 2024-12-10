@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
 import { sendPasswordResetEmail } from "@/services/emailServices";
 import { signIn } from "@/auth";
+import LoginGoogleForm from "./loginGoogleForm";
 //import { signIn } from "next-auth/react";
 //import LoginGoogleButton from "./authLogin";
 
@@ -59,57 +60,61 @@ export default function Login() {
     <div className={styles.loginPage}>
       {message && <p className="text-red-500">{message}</p>}
       <h1 className={styles.titleSign}>התחברות לקוח</h1>
-      <form onSubmit={handleSubmit} className={styles.formContainer}>
-        <div className={styles.formGroup}>
-          <label htmlFor="email">כתובת אימייל:</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        {!forgotPassword && (
+      <div className={styles.signOption}>
+      <div className="sign">
+        <form onSubmit={handleSubmit} className={styles.formContainer}>
           <div className={styles.formGroup}>
-            <label htmlFor="password">סיסמא:</label>
             <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="כתובת אימייל"
               required
+              className={styles.inputField}
             />
-
-            <p
-              className="text-red-500 underline cursor-pointer text-xs"
-              onClick={() => setForgotPassword(!forgotPassword)}
-            >
-              שכחתי סיסמה
-            </p>
           </div>
-        )}
 
-        <div className={styles.inlineContainer}>
-          <p>איך לך עדיין משתמש?</p>
-          <Link className={styles.link} href={"/register-user"}>
-            הירשם
-          </Link>
-        </div>
+          {!forgotPassword && (
+            <div className={styles.formGroup}>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="סיסמא"
+                required
+                className={styles.inputField}
+              />
+              <p
+                className="text-red-500 underline cursor-pointer text-xs"
+                onClick={() => setForgotPassword(!forgotPassword)}
+              >
+                שכחתי סיסמה
+              </p>
+            </div>
+          )}
 
-        {!forgotPassword && (
-          <button type="submit" className={styles.loginPageButton}>
-            התחברות
-          </button>
-        )}
-        {forgotPassword && (
-          <button type="submit">שלח קישור לאיפוס סיסמה</button>
-        )}
-        {message && <p>{message}</p>}
-      </form>
-      
 
+
+          {!forgotPassword && ( <button type="submit" className={styles.loginPageButton}>התחברות</button> )}
+          {forgotPassword && <button type="submit">שלח קישור לאיפוס סיסמה</button>}
+          {message && <p>{message}</p>}
+
+          <br/>
+          
+        </form>
+      </div>
+      <div className="google">
+        <h2>או</h2>
+        <LoginGoogleForm/></div>
+      </div> 
+
+      <div className={styles.noAccountLink}>
+            <Link  href={"/register-user"}>
+              אין לך עדיין משתמש? הרשמה
+            </Link>
+      </div>
     </div>
   );
 }
