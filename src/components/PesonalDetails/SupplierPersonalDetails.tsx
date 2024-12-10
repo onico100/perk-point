@@ -16,8 +16,6 @@ import {
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 
-// import debounce from "lodash.debounce";
-// import my_http from "@/services/http";
 
 interface SupplierPersonalDetailsProps {
   currentSupplier: Supplier;
@@ -25,24 +23,26 @@ interface SupplierPersonalDetailsProps {
 
 const formSchema = z.object({
   providerName: z.string().min(3, "שם הספק חייב להיות לפחות 3 תווים."),
+ 
   email: z.string().email("כתובת אימייל אינה חוקית."),
+ 
   businessName: z.string().min(3, "יש להזין שם עסק בעל לפחות 3 תווים."),
+ 
   phoneNumber: z
     .string()
     .regex(/^\d{9,10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
   siteLink: z.string().url("כתובת האתר אינה חוקית."),
-  //supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
+  
   supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית.")
   .optional()
   .or(z.literal("")),
+  
   selectedCategories: z.array(z.string()).refine(
     (selectedCategories) => {
       return selectedCategories.length > 0;
     },
     { message: "נא לבחור לפחות קטגוריה אחד" }
   ),
-  //branches: z.array(branchSchema).nonempty("חייב להוסיף לפחות סניף אחד."),
-  // selectedCategories: z.array(z.string()).nonempty("חייב לבחור לפחות קטגוריה אחת."),
 });
 
 console.log("bbb")
@@ -72,6 +72,7 @@ export default function SupplierPersonalDetails({
       setValue("phoneNumber", currentSupplier?.phoneNumber);
       setValue("siteLink", currentSupplier?.siteLink);
       setValue("supplierLogo", currentSupplier?.supplierLogo);
+      setValue("selectedCategories", currentSupplier?.selectedCategories);
       console.log(currentSupplier)
     }
   }, [editMode, currentSupplier, setValue]);
@@ -355,47 +356,6 @@ export default function SupplierPersonalDetails({
           </div>
         )}
       </p>
-
-      {/* "העתקה מתמר- מהרשמת ספק" */}
-      {/* <div className={styles.formGroup}>
-      <h2 className="font-bold">סניפים:</h2>
-      <button
-        type="button"
-        onClick={() => toggleBranchDropdown(0)}
-        className={styles.dropdownButton}
-      >
-        בחר סניפים
-        <span>{branchDropdownVisible === 0 ? "▲" : "▼"}</span>
-      </button>
-      {branchDropdownVisible === 0 && (
-        <div className={styles.dropdownBranches}>
-          {loading ? (
-            <p>טוען...</p>
-          ) : (
-            suggestions.map((branch, idx) => (
-              <label key={idx} className={styles.checkboxItem}>
-                <input
-                  type="checkbox"
-                  value={branch}
-                  onChange={() => onBranchSelect(branch)}
-                />
-                {branch}
-              </label>
-            ))
-          )}
-        </div>
-      )}
-      <ul>
-        {fields.map((branch, index) => (
-          <li key={branch.id} className={styles.selectedBranch}>
-            {branch.nameBranch} - {branch.city}
-            <button type="button" onClick={() => remove(index)}>
-              הסר
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>*/}
             {editMode && (
           <button
             className={styles.submitButton}
