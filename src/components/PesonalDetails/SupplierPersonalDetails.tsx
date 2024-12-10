@@ -105,6 +105,7 @@ export default function SupplierPersonalDetails({
   };
 
 
+
   const editSupplier = async (data: any) => {
     try {
       const alertConfirm = await beforeActionAlert("", "עריכה");
