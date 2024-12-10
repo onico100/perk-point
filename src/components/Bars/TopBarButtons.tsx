@@ -38,6 +38,7 @@ const TopBarButtons: React.FC = () => {
     setClientMode(ClientMode.general);
     setCurrentSupplier(null);
     setCurrentUser(null);
+    router.push("/");
   };
 
   const handleConnectionMode = (path: string) => {
