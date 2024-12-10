@@ -23,6 +23,7 @@ const BenefitsTry = ({ benefits, title }: BenefitsTryProps) => {
   const { clientMode } = useGeneralStore();
 
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>(benefits);
+
   // const [branchFilter, setBranchFilter] = useState(""); // **State for branchFilter**
   const params = useParams();
   const id = params.clientId;

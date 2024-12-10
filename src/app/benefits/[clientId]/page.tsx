@@ -3,7 +3,7 @@ import { BenefitsTry } from "@/components";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
-import { Benefit, ClientMode, PreMode } from "@/types/types";
+import { Benefit, ClientMode } from "@/types/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -16,32 +16,37 @@ export default function ClientId() {
   const [currentTitle, setCurrentTitle] = useState(titles[0]);
   const params = useParams();
   const id = params.clientId;
+
   useEffect(() => {
+    console.log("benefits:", benefits);
+    console.log("currentUser:", currentUser);
+    console.log("clientMode:", clientMode);
+
+    if (!benefits) return;
+
     if (id !== "0") {
       if (clientMode === "USER") {
-        setBenefitsToShow(
-          benefits?.filter((b: Benefit) =>
-            currentUser?.clubs.includes(b.clubId)
-          ) || []
-        );
+        const userBenefits =
+          benefits.filter((b) => currentUser?.clubs.includes(b.clubId)) || [];
+        setBenefitsToShow(userBenefits);
         setCurrentTitle(titles[1]);
       } else if (clientMode === "SUPPLIER") {
-        console.log("supplierId: " + id);
-        benefits?.forEach((element: any) => {
-          console.log("b: " + element.supplierId);
-        });
-        setBenefitsToShow(
-          benefits?.filter((b: Benefit) => b.supplierId == id) || []
-        );
+        console.log("supplierId:", id);
+        const supplierBenefits =
+          benefits.filter((b) => b.supplierId === id) || [];
+        setBenefitsToShow(supplierBenefits);
         setCurrentTitle(titles[2]);
       }
     } else {
-      setBenefitsToShow(benefits || []);
+      setBenefitsToShow(benefits); // Default: show all benefits
+      setCurrentTitle(titles[0]);
     }
-  }, [benefits, currentUser]);
+  }, [benefits, currentUser, clientMode, id]);
 
-  if (clientMode == ClientMode.connection) setClientMode(ClientMode.general);
+  // Ensure general mode is set if in connection mode
+  if (clientMode === ClientMode.connection) setClientMode(ClientMode.general);
 
   if (isLoadingB || isFetchingB) return <LoadingSpinner />;
+
   return <BenefitsTry benefits={benefitsToShow} title={currentTitle} />;
 }
