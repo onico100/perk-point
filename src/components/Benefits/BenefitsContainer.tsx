@@ -12,12 +12,12 @@ import { useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Link from "next/link";
 
-interface BenefitsTryProps {
+interface BenefitsContainerProps {
   benefits: Benefit[];
   title: string;
 }
 
-const BenefitsContainer = ({ benefits, title }: BenefitsTryProps) => {
+const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const { suppliers } = useFetchSuppliers();
   const { clubs, categories } = useFetchGeneral();
   const { clientMode } = useGeneralStore();
