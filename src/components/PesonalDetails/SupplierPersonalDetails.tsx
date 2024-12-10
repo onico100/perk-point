@@ -16,8 +16,6 @@ import {
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 
-// import debounce from "lodash.debounce";
-// import my_http from "@/services/http";
 
 interface SupplierPersonalDetailsProps {
   currentSupplier: Supplier;
@@ -25,21 +23,26 @@ interface SupplierPersonalDetailsProps {
 
 const formSchema = z.object({
   providerName: z.string().min(3, "שם הספק חייב להיות לפחות 3 תווים."),
+ 
   email: z.string().email("כתובת אימייל אינה חוקית."),
+ 
   businessName: z.string().min(3, "יש להזין שם עסק בעל לפחות 3 תווים."),
+ 
   phoneNumber: z
     .string()
     .regex(/^\d{9,10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
   siteLink: z.string().url("כתובת האתר אינה חוקית."),
-  supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
+  
+  supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית.")
+  .optional()
+  .or(z.literal("")),
+  
   selectedCategories: z.array(z.string()).refine(
     (selectedCategories) => {
       return selectedCategories.length > 0;
     },
     { message: "נא לבחור לפחות קטגוריה אחד" }
   ),
-  //branches: z.array(branchSchema).nonempty("חייב להוסיף לפחות סניף אחד."),
-  // selectedCategories: z.array(z.string()).nonempty("חייב לבחור לפחות קטגוריה אחת."),
 });
 
 console.log("bbb")
@@ -50,6 +53,7 @@ export default function SupplierPersonalDetails({
   const { categories } = useGeneralStore();
   const { updateSupplier } = useFetchSuppliers();
   const [selectAll, setSelectAll] = useState(true);
+  const [uploading, setUploading] = useState(false);
 
   const {
     register,
@@ -68,9 +72,40 @@ export default function SupplierPersonalDetails({
       setValue("phoneNumber", currentSupplier?.phoneNumber);
       setValue("siteLink", currentSupplier?.siteLink);
       setValue("supplierLogo", currentSupplier?.supplierLogo);
+      setValue("selectedCategories", currentSupplier?.selectedCategories);
       console.log(currentSupplier)
     }
   }, [editMode, currentSupplier, setValue]);
+
+  const handleLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "PerkPoint"); 
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const data = await response.json();
+        if (data.secure_url) {
+          setValue("supplierLogo", data.secure_url);
+          successAlert("העלאת תמונה הצליחה!");
+        }
+      } catch (error) {
+        errorAlert("שגיאה בהעלאת התמונה");
+      } finally {
+        setUploading(false);
+      }
+    }
+  };
+
+
 
   const editSupplier = async (data: any) => {
     try {
@@ -129,31 +164,37 @@ export default function SupplierPersonalDetails({
         </button>
       </div>
       {currentSupplier.supplierLogo && (
-        <>
-          <img
-            src={currentSupplier.supplierLogo}
-            alt="לוגו ספק"
-            className={styles.logo}
-          />
-          {editMode && (
-            <>
-              <span className={styles.label}>לוגו ספק:</span>
-              <input
-                className={styles.input}
-                id="supplierLogo"
-                type="url"
-                {...register("supplierLogo")}
-                defaultValue={currentSupplier?.supplierLogo}
-              />
-              {errors.supplierLogo?.message && (
-                <p className={styles.error}>
-                  {String(errors.supplierLogo.message)}
-                </p>
-              )}
-            </>
-          )}
-        </>
-      )}
+           <p className={styles.item}>
+           <span className={styles.label}>לוגו ספק:</span>
+           {editMode ? (
+             <>
+               <input
+                 className={styles.input}
+                 id="supplierLogo"
+                 type="url"
+                 {...register("supplierLogo")}
+                 defaultValue={currentSupplier?.supplierLogo}
+                 placeholder="או הכנס קישור"
+               />              <input
+               id="logoUpload"
+               type="file"
+               accept="image/*"
+               onChange={handleLogoUpload}
+             />
+             {uploading && <p>Uploading...</p>}
+           </>
+         ) : (
+           currentSupplier?.supplierLogo && (
+             <img
+               src={currentSupplier.supplierLogo}
+               alt="לוגו ספק"
+               className={styles.logo}
+             />
+           )
+         )}
+       
+       </p>
+     )}
 
       <p className={styles.item}>
         <span className={styles.label}>שם ספק:</span>
@@ -315,47 +356,6 @@ export default function SupplierPersonalDetails({
           </div>
         )}
       </p>
-
-      {/* "העתקה מתמר- מהרשמת ספק" */}
-      {/* <div className={styles.formGroup}>
-      <h2 className="font-bold">סניפים:</h2>
-      <button
-        type="button"
-        onClick={() => toggleBranchDropdown(0)}
-        className={styles.dropdownButton}
-      >
-        בחר סניפים
-        <span>{branchDropdownVisible === 0 ? "▲" : "▼"}</span>
-      </button>
-      {branchDropdownVisible === 0 && (
-        <div className={styles.dropdownBranches}>
-          {loading ? (
-            <p>טוען...</p>
-          ) : (
-            suggestions.map((branch, idx) => (
-              <label key={idx} className={styles.checkboxItem}>
-                <input
-                  type="checkbox"
-                  value={branch}
-                  onChange={() => onBranchSelect(branch)}
-                />
-                {branch}
-              </label>
-            ))
-          )}
-        </div>
-      )}
-      <ul>
-        {fields.map((branch, index) => (
-          <li key={branch.id} className={styles.selectedBranch}>
-            {branch.nameBranch} - {branch.city}
-            <button type="button" onClick={() => remove(index)}>
-              הסר
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>*/}
             {editMode && (
           <button
             className={styles.submitButton}
