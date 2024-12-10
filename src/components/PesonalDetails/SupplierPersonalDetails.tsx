@@ -42,6 +42,7 @@ const formSchema = z.object({
   // selectedCategories: z.array(z.string()).nonempty("חייב לבחור לפחות קטגוריה אחת."),
 });
 
+console.log("bbb")
 export default function SupplierPersonalDetails({
   currentSupplier,
 }: SupplierPersonalDetailsProps) {
@@ -49,23 +50,6 @@ export default function SupplierPersonalDetails({
   const { categories } = useGeneralStore();
   const { updateSupplier } = useFetchSuppliers();
   const [selectAll, setSelectAll] = useState(true);
-
-  // const [suggestions, setSuggestions] = useState<string[]>([]);
-  // const [loading, setLoading] = useState(false);
-  // const [branchDropdownVisible, setBranchDropdownVisible] = useState<number | null>(null);
-
-  // const { control, watch } = useForm({
-  //   defaultValues: {
-  //     branches: [],
-  //   },
-  // });
-
-  // const { fields, append, remove } = useFieldArray({
-  //   control,
-  //   name: "branches",
-  // });
-
-  // const businessName = watch("businessName");
 
   const {
     register,
@@ -87,59 +71,6 @@ export default function SupplierPersonalDetails({
       console.log(currentSupplier)
     }
   }, [editMode, currentSupplier, setValue]);
-
-  // useEffect(() => {
-  //   if (businessName) {
-  //     fetchBranches(businessName, 0);
-  //   }
-  // }, [businessName]);
-
-  // const fetchBranches = debounce(async (textQuery: string, branchIndex: number) => {
-  //   if (textQuery.trim().length >= 2) {
-  //     try {
-  //       setLoading(true);
-  //       const response = await my_http.post(`/googleAutocomplete/post`, {
-  //         textQuery,
-  //       });
-  //       const branchesFromGoogle = response.data.formattedPlaces;
-  //       const citySuggestions = branchesFromGoogle
-  //         ? branchesFromGoogle.map((place: any) => place.name + " " + place.address)
-  //         : [];
-  //       setSuggestions(citySuggestions);
-  //       setBranchDropdownVisible(branchIndex);
-  //     } catch (error) {
-  //       console.error("Error fetching suggestions:", error);
-  //       setSuggestions([]);
-  //       setBranchDropdownVisible(null);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   } else {
-  //     setSuggestions([]);
-  //     setBranchDropdownVisible(null);
-  //   }
-  // }, 300);
-
-  // const toggleBranchDropdown = (index: number) => {
-  //   if (branchDropdownVisible === index) {
-  //     setBranchDropdownVisible(null);
-  //   } else {
-  //     fetchBranches(businessName, 0);
-  //     setBranchDropdownVisible(index);
-  //   }
-  // };
-
-  // const onBranchSelect = (branch: string) => {
-  //   const extractCity = (branch: string): string => {
-  //     const parts = branch.split(",");
-  //     return parts.length >= 2 ? parts[1].trim() : "לא ידועה";
-  //   };
-  //   const city = extractCity(branch);
-  //   const existingBranches = watch("branches");
-  //   if (!existingBranches.some((b) => b.nameBranch === branch)) {
-  //     append({ nameBranch: branch, city });
-  //   }
-  // };
 
   const editSupplier = async (data: any) => {
     try {
