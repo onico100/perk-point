@@ -3,7 +3,7 @@
 import { Category, Supplier } from "@/types/types";
 import styles from "@/styles/PersonalDetails.module.css";
 import { useState, useEffect } from "react";
-import { CiEdit } from "react-icons/ci";
+import { MdOutlineModeEditOutline,MdOutlineEditOff  } from "react-icons/md";
 import { z } from "zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -190,7 +190,7 @@ export default function SupplierPersonalDetails({
           className={styles.editButton}
           onClick={() => setEditMode(!editMode)}
         >
-          <CiEdit />
+          {!editMode ?(<MdOutlineModeEditOutline />):(<MdOutlineEditOff />)}
         </button>
       </div>
       {currentSupplier.supplierLogo && (
