@@ -33,8 +33,8 @@ export const {
       }
 
       try {
-        await findOrCreateUser({ email, name });
-        return true;
+        const addedUser= await findOrCreateUser({ email, name });
+        return addedUser;
       } catch (error) {
         console.error("Error creating user:", error);
         return false;
