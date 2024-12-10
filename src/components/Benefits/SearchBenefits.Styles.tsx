@@ -32,24 +32,6 @@ export const InputContainer = styled.div`
     }
 `;
 
-export const SupplierInput = styled.input`
-    padding: 10px;
-    margin: 0;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    opacity: 0.4;
-    width: 100%; 
-    height: 40px; 
-    font-size: 14px;
-    color: black;
-
-
-
-    &:focus {
-        opacity: 1;
-    }
-
-`;
 
 export const SelectContainer = styled.div<{ $isOpen: boolean }>`
     flex: 1;  
@@ -79,7 +61,27 @@ export const SelectLabel = styled.label`
     border-radius: 7px;
     height: 40px; 
     line-height: 40px; 
+        font-size: 14px;
     width: 100%;
+`;
+
+export const SupplierInput = styled.input`
+    padding: 10px;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    opacity: 0.4;
+    width: 100%; 
+    height: 40px; 
+    font-size: 14px;
+    color: black;
+
+
+
+    &:focus {
+        opacity: 1;
+    }
+
 `;
 
 export const Dropdown = styled.div`

@@ -1,3 +1,4 @@
+//perk-point/src/components/SignPages/loginUser.tsx
 "use client";
 import { useState } from "react";
 import useGeneralStore from "@/stores/generalStore";
@@ -7,6 +8,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
 import { sendPasswordResetEmail } from "@/services/emailServices";
+import { signIn } from "@/auth";
+//import { signIn } from "next-auth/react";
 //import LoginGoogleButton from "./authLogin";
 
 
@@ -102,7 +105,8 @@ export default function Login() {
         {message && <p>{message}</p>}
 
       </form>
-      {/* <LoginGoogleButton /> */}
+      
+
     </div>
   );
 }

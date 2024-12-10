@@ -15,6 +15,8 @@ import { errorAlert, successAlert } from "@/utils/sweet-alerts";
 const setCurrentUser = useGeneralStore.getState().setCurrentUser;
 const currentUser = useGeneralStore.getState().currentUser;
 
+
+
 // Fetch user by ID
 export const useGetUserById = (id: string) => {
   return useQuery<User, Error>({

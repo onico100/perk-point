@@ -39,3 +39,5 @@ export async function deleteUserById(id: string): Promise<{ message: string }> {
   const response = await my_http.delete(`/users/delete/${id}`);
   return response.data;
 }
+
+
