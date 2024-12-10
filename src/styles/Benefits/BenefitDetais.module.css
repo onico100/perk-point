@@ -137,41 +137,45 @@
   cursor: pointer;
 }
 
+.icon {
+  margin-right: 10px;
+  cursor: pointer;
+}
 
+.plusIcon{
+  margin-right: 10px;
+  cursor: pointer;
+  align-items: center;
+
+}
 
 .addBranch {
   margin-top: 10px;
   display: flex;
   align-items: center;
+  justify-content: center; 
+
 }
 
 .addBranch select {
   width: 100%;
   padding: 8px;
   font-size: 14px;
+  margin-left: 10px;
 }
 
 .branchLink {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-}
-
-.icon {
-  margin-right: 10px;
-  cursor: pointer;
+  text-align: center;
 }
 
 .branchText {
   font-size: 16px;
   color: #333;
   text-decoration: underline;
-}
-
-.branchList {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0 0;
 }
 
 .branchItem {
@@ -197,16 +201,40 @@
   display: none;
 }
 
-.icon.fa-minus-circle {
-  font-size: 20px;
-  width: 24px;
-  height: 24px;
-  /* display: none; */
+.branchList {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+
+.minIcon {
+  width: 15px;
+  height: 15px;
   transition: transform 0.2s ease;
 }
 
-.icon.fa-minus-circle:hover {
+.minIcon:hover {
   transform: scale(1.1); 
+}
+
+.branchLocation{
+  display: flex;
+  flex-direction: column;
+  max-width: 83%;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.branchCity {
+  font-size: 16px; 
+  font-weight: bold;
+  color: black;
+}
+
+.branchAddress {
+  font-size: 12px; 
+  color: lightgrey; 
+  display: block;
 }
 
 .dropdown {
@@ -251,20 +279,3 @@
   transform: scale(1.05);
 }
 
-.branchLocation{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.branchCity {
-  font-size: 16px; 
-  font-weight: bold;
-  color: black;
-}
-
-.branchAddress {
-  font-size: 12px; 
-  color: lightgrey; 
-  display: block;
-}

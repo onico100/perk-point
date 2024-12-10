@@ -269,7 +269,7 @@ const BenefitDetails = () => {
                               >
                                 {isUpdateMode && (
                                   <FaMinusCircle
-                                    className={styles.icon}
+                                    className={styles.minIcon}
                                     onClick={() => handleRemoveBranch(branch)}
                                   />
                                 )}
@@ -289,7 +289,7 @@ const BenefitDetails = () => {
                     )}
                     {isUpdateMode && (
                       <div className={styles.addBranch}>
-                        <FaPlusCircle className={styles.icon} onClick={toggleDropdown} />
+                        <FaPlusCircle className={styles.plusIcon} onClick={toggleDropdown} />
                         {dropdownVisible && (
                           <div className={styles.dropdown}>
                             <select
