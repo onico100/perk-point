@@ -84,6 +84,7 @@ export default function SupplierPersonalDetails({
       setValue("phoneNumber", currentSupplier?.phoneNumber);
       setValue("siteLink", currentSupplier?.siteLink);
       setValue("supplierLogo", currentSupplier?.supplierLogo);
+      console.log(currentSupplier)
     }
   }, [editMode, currentSupplier, setValue]);
 
