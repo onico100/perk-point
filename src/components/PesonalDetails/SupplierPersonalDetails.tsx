@@ -31,7 +31,10 @@ const formSchema = z.object({
     .string()
     .regex(/^\d{9,10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
   siteLink: z.string().url("כתובת האתר אינה חוקית."),
-  supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
+  //supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
+  supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית.")
+  .optional()
+  .or(z.literal("")),
   selectedCategories: z.array(z.string()).refine(
     (selectedCategories) => {
       return selectedCategories.length > 0;
@@ -50,6 +53,7 @@ export default function SupplierPersonalDetails({
   const { categories } = useGeneralStore();
   const { updateSupplier } = useFetchSuppliers();
   const [selectAll, setSelectAll] = useState(true);
+  const [uploading, setUploading] = useState(false);
 
   const {
     register,
@@ -71,6 +75,36 @@ export default function SupplierPersonalDetails({
       console.log(currentSupplier)
     }
   }, [editMode, currentSupplier, setValue]);
+
+  const handleLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "PerkPoint"); 
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const data = await response.json();
+        if (data.secure_url) {
+          setValue("supplierLogo", data.secure_url);
+          successAlert("העלאת תמונה הצליחה!");
+        }
+      } catch (error) {
+        errorAlert("שגיאה בהעלאת התמונה");
+      } finally {
+        setUploading(false);
+      }
+    }
+  };
+
+
 
   const editSupplier = async (data: any) => {
     try {
@@ -129,31 +163,37 @@ export default function SupplierPersonalDetails({
         </button>
       </div>
       {currentSupplier.supplierLogo && (
-        <>
-          <img
-            src={currentSupplier.supplierLogo}
-            alt="לוגו ספק"
-            className={styles.logo}
-          />
-          {editMode && (
-            <>
-              <span className={styles.label}>לוגו ספק:</span>
-              <input
-                className={styles.input}
-                id="supplierLogo"
-                type="url"
-                {...register("supplierLogo")}
-                defaultValue={currentSupplier?.supplierLogo}
-              />
-              {errors.supplierLogo?.message && (
-                <p className={styles.error}>
-                  {String(errors.supplierLogo.message)}
-                </p>
-              )}
-            </>
-          )}
-        </>
-      )}
+           <p className={styles.item}>
+           <span className={styles.label}>לוגו ספק:</span>
+           {editMode ? (
+             <>
+               <input
+                 className={styles.input}
+                 id="supplierLogo"
+                 type="url"
+                 {...register("supplierLogo")}
+                 defaultValue={currentSupplier?.supplierLogo}
+                 placeholder="או הכנס קישור"
+               />              <input
+               id="logoUpload"
+               type="file"
+               accept="image/*"
+               onChange={handleLogoUpload}
+             />
+             {uploading && <p>Uploading...</p>}
+           </>
+         ) : (
+           currentSupplier?.supplierLogo && (
+             <img
+               src={currentSupplier.supplierLogo}
+               alt="לוגו ספק"
+               className={styles.logo}
+             />
+           )
+         )}
+       
+       </p>
+     )}
 
       <p className={styles.item}>
         <span className={styles.label}>שם ספק:</span>
