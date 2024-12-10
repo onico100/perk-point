@@ -18,9 +18,9 @@ export default function ClientId() {
   const id = params.clientId;
 
   useEffect(() => {
-    console.log("benefits:", benefits);
-    console.log("currentUser:", currentUser);
-    console.log("clientMode:", clientMode);
+    console.log(33, "benefits:", benefits);
+    console.log(33, "currentUser:", currentUser);
+    console.log(33, "clientMode:", clientMode);
 
     if (!benefits) return;
 
@@ -40,6 +40,8 @@ export default function ClientId() {
     } else {
       setBenefitsToShow(benefits); // Default: show all benefits
       setCurrentTitle(titles[0]);
+      console.log(33, "benefitsAfter", benefits);
+      console.log(33, "benefitToShow", benefitsToShow);
     }
   }, [benefits, currentUser, clientMode, id]);
 
