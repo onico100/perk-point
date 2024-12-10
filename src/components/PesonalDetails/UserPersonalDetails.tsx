@@ -90,15 +90,6 @@ export default function UserPersonalDetails({
     <div className={styles.container}>
       <h2 className={styles.title}>פרטי משתמש</h2>
       <div className={styles.buttonsContainer}>
-        {editMode && (
-          <button
-            type="button"
-            className={styles.submitButton}
-            onClick={handleSubmit(editUser)}
-          >
-            שמור
-          </button>
-        )}
         <button
           type="button"
           className={styles.editButton}
@@ -164,6 +155,14 @@ export default function UserPersonalDetails({
         <span className={styles.label}>תאריך הרשמה:</span>
         {new Date(currentUser.registrationDate).toLocaleDateString("he-IL")}
       </p>
+      {editMode && (
+          <button
+            className={styles.submitButton}
+            onClick={handleSubmit(editUser)}
+          >
+            שמור
+          </button>
+        )}
     </div>
   );
 }

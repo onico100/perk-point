@@ -13,7 +13,7 @@ import {successAlert, inProccesAlert, errorAlert } from "@/utils/sweet-alerts";
 
 export const useFetchBenefits = () => {
   const setBenefits = useBenefitStore((state: any) => state.setBenefits); 
-
+const {benefits}=useBenefitStore()
   const queryClient = useQueryClient();
 
   // Fetch all benefits
@@ -34,8 +34,10 @@ export const useFetchBenefits = () => {
       const { benefits } = useBenefitStore.getState();
       const previousBenefits = [...benefits];
       const tempBenefit = { ...newBenefit, _id: "temp-id" };
-      setBenefits([...benefits, tempBenefit]);
-    
+      let updatedBenefits=[...benefits, tempBenefit]
+   
+      queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
+
       inProccesAlert("מוסיף")
     
       return { previousBenefits };
