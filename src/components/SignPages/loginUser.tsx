@@ -1,25 +1,22 @@
 //perk-point/src/components/SignPages/loginUser.tsx
 "use client";
 import { useState } from "react";
-import useGeneralStore from "@/stores/generalStore";
 import { useLoginUser } from "@/hooks/useFetchUsers";
 import styles from "@/styles/SignPages/sign.module.css";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
 import { sendPasswordResetEmail } from "@/services/emailServices";
-import { signIn } from "@/auth";
 import LoginGoogleForm from "./loginGoogleForm";
-//import { signIn } from "next-auth/react";
-//import LoginGoogleButton from "./authLogin";
 
-export default function Login() {
+export default  function  Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
   const [message, setMessage] = useState("");
   const loginUserMutation = useLoginUser();
   const router = useRouter();
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
