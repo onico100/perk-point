@@ -7,36 +7,45 @@ import { useSession } from "next-auth/react";
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode, User } from "@/types/types";
 import { useRouter } from "next/navigation";
+import { checkEmailService, returnUserCheckEmailService } from "@/services/emailServices";
 
 
 const LoginGoogleForm = () => {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const setCurrentUser = useGeneralStore((state) => state.setCurrentUser);
+  const setClientMode = useGeneralStore.getState().setClientMode;
 
   const router = useRouter();
-  useEffect(() => {
+
+  const fetchUser = async () => {
     if (session?.user) {
       console.log("Session user:", session.user);
-
-      const userS: User = {
-        _id: session.user.id || "", 
-        username: session.user.name || "",
-        email: session.user.email || "",
-        clubs: [], 
-        registrationDate: new Date().toISOString(), 
-        savedBenefits: [], 
-        city: "",
-        isActive: true, 
-        password: "", 
-      };
-
-      setCurrentUser(userS);
-      const setClientMode = useGeneralStore.getState().setClientMode;
-      setClientMode(ClientMode.user);
-      router.push("/");
-      console.log("Current user:", userS);
+      const exitedUser = await returnUserCheckEmailService(session.user.email || "---")|| null;
+      console.log("Existed user:", exitedUser);
+      if (exitedUser) {
+          const userS = {
+          _id: exitedUser?._id || "", 
+          username: exitedUser?.username|| "",
+          email: exitedUser?.email || "",
+          clubs: [], 
+          registrationDate: exitedUser?.registrationDate || new Date().toISOString(), 
+          savedBenefits: [], 
+          city: exitedUser?.city || "",
+          isActive: true, 
+          password: exitedUser?.password || "", 
+        };
+        setCurrentUser(userS);
+        setClientMode(ClientMode.user);
+        router.push("/"); 
+      } else {
+        console.error("User not found or error occurred.");
+      }
     }
+  }
+
+  useEffect(() => {
+    fetchUser();
   }, [session]);
 
 

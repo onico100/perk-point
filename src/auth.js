@@ -36,14 +36,10 @@ export const {
         return false;
       }
       try {
-        const addedUser= await findOrCreateUser({ email, name });
-        console.log("signIn addedUser:", addedUser);
-        setCurrentUser(user);
-        setClientMode(ClientMode.user);
+        await findOrCreateUser({ email, name });
         return true; 
       } 
       catch (error) {
-        console.error("Error creating user:", error); 
         return false;
       }
     },
