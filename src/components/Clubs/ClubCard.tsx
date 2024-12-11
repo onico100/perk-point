@@ -8,6 +8,7 @@ import useGeneralStore from "@/stores/generalStore";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
 import {
   beforeActionAlert,
+  confirmExternalNavigation,
   successAlert,
   errorAlert,
 } from "@/utils/sweet-alerts";
@@ -63,7 +64,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
 
   const deleteClub = async () => {
     let alertConfirm = await beforeActionAlert("", "הסרה");
-   
+
     if (alertConfirm) {
       if (typeof currentUser?._id === "string") {
         await updateUser({
@@ -79,17 +80,26 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
             password: currentUser?.password,
           },
         },
-        {
-          // onSuccess: () => {
-          //   successAlert("מועדון הוסר");
-          // },
-          onError: (error: Error) => {
-            errorAlert("שגיאה בהסרת מועדון. נסה שוב מאוחר יותר.");
-          },
-        });
+          {
+            // onSuccess: () => {
+            //   successAlert("מועדון הוסר");
+            // },
+            onError: (error: Error) => {
+              errorAlert("שגיאה בהסרת מועדון. נסה שוב מאוחר יותר.");
+            },
+          });
       }
     }
   };
+
+  const handleLinkClick = async (
+    href: string) => {
+    const userConfirmed = await confirmExternalNavigation(href);
+    if (userConfirmed) {
+      window.open(href, "_blank");
+    }
+  };
+
 
   return (
     <div className={styles.clubCard}>
@@ -98,8 +108,8 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
       <div className={styles.name}>{club.clubName}</div>
       <p
         className={styles.link}
-        onClick={() => window.open(club.clubLink, "_blank")}
-      >
+        onClick={() => handleLinkClick(club.clubLink)}
+        >
         מעבר לאתר המועדון
       </p>
       {clientMode === "USER" &&
