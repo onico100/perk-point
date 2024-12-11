@@ -5,14 +5,14 @@
 
 .topContainer {
   display: flex;
-  align-items: center; 
+  align-items: center;
   justify-content: center;
   position: relative;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 .backIcon {
-  position: absolute; 
+  position: absolute;
   right: 0;
   font-size: 24px;
   cursor: pointer;
@@ -22,12 +22,11 @@
   transform: scale(1.1);
 }
 
-
 .expiredTitle {
-  color: red; 
+  color: red;
   margin-left: 10px;
-  font-size: 32px; 
-  font-weight: bold; 
+  font-size: 32px;
+  font-weight: bold;
 }
 
 .contentContainer {
@@ -69,8 +68,8 @@
   align-items: flex-start;
   overflow-y: auto;
   gap: 10px;
-  max-height: 300px; 
-  position: relative; 
+  max-height: 300px;
+  position: relative;
   border-radius: 12px;
 }
 
@@ -81,10 +80,10 @@
   object-fit: contain;
 } */
 .logo {
-  width: 100%; 
+  width: 100%;
   height: auto;
-  max-height: 100%; 
-  border-radius: 12px; 
+  max-height: 100%;
+  border-radius: 12px;
   object-fit: contain;
 }
 
@@ -103,7 +102,7 @@
 .logoContainer {
   position: relative;
   background-color: #f9f9f9;
-  padding: 15px; 
+  padding: 15px;
   margin-bottom: 10px;
   border-radius: 12px;
   justify-content: center;
@@ -112,14 +111,14 @@
   width: auto;
   height: 60%;
   display: flex;
-  align-items: center; 
-  overflow: hidden; 
+  align-items: center;
+  overflow: hidden;
 }
 
 .logoContainer::before,
 .branches::before,
 .infoContainer::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -129,17 +128,12 @@
   border-radius: 12px;
   padding: 2px;
   background: linear-gradient(to right, #b346e8, #87cdfa);
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
 }
-
 
 .infoLabel {
   font-size: 14px;
@@ -163,7 +157,6 @@
   font-size: 14px;
 }
 
-
 .button {
   display: block;
   padding: 10px;
@@ -182,19 +175,17 @@
   cursor: pointer;
 }
 
-.plusIcon{
-  margin-right: 10px;
+.plusIcon {
   cursor: pointer;
   align-items: center;
-
+  margin-bottom: 2px;
 }
 
 .addBranch {
   margin-top: 10px;
   display: flex;
   align-items: center;
-  justify-content: center; 
-
+  justify-content: center;
 }
 
 .addBranch select {
@@ -232,7 +223,7 @@
 }
 
 .branchInfo::before {
-  content: '➤';
+  content: "➤";
   font-size: 14px;
   margin-right: 10px;
 }
@@ -254,10 +245,10 @@
 }
 
 .minIcon:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
 
-.branchLocation{
+.branchLocation {
   display: flex;
   flex-direction: column;
   max-width: 83%;
@@ -266,14 +257,14 @@
 }
 
 .branchCity {
-  font-size: 16px; 
+  font-size: 16px;
   font-weight: bold;
   color: black;
 }
 
 .branchAddress {
-  font-size: 12px; 
-  color: lightgrey; 
+  font-size: 12px;
+  color: lightgrey;
   display: block;
 }
 
@@ -318,5 +309,3 @@
 .button:hover {
   transform: scale(1.05);
 }
-
-
