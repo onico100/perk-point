@@ -10,7 +10,6 @@ import { MdOutlineModeEditOutline,MdOutlineEditOff  } from "react-icons/md";
 import {
   beforeActionAlert,
   errorAlert,
-  inProccesAlert,
   successAlert,
 } from "@/utils/sweet-alerts";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
@@ -50,7 +49,7 @@ export default function UserPersonalDetails({
 
   const editUser = async (data: any) => {
     try {
-      const alertConfirm = await beforeActionAlert("", "עריכה");
+      const alertConfirm = await beforeActionAlert("");
       if (alertConfirm) {
         if (currentUser?._id) {
           await updateUser(
@@ -69,7 +68,7 @@ export default function UserPersonalDetails({
             },
             {
               onSuccess: () => {
-                successAlert("משתמש נערך ");
+                successAlert("משתמש נערך בהצלחה!");
               },
               onError: (error) => {
                 errorAlert("שגיאה בעריכת המשתמש");

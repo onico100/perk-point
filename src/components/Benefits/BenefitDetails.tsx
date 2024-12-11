@@ -79,7 +79,7 @@ const BenefitDetails = () => {
   };
 
   const handleCancel = async () => {
-    const userConfirmed = await beforeActionAlert("האם אתה בטוח שברצונך לבטל את השינויים?", "ביטול");
+    const userConfirmed = await beforeActionAlert("האם אתה בטוח שברצונך לבטל את השינויים?");
     if (userConfirmed) {
       setUpdateState(prev => ({ ...prev, isUpdateMode: false }));
     }

@@ -68,14 +68,14 @@ export const useUpdateUserById = () => {
   return useMutation<User, Error, { id: string; updatedData: Partial<User> }>({
     mutationFn: ({ id, updatedData }) => updateUserById(id, updatedData),
     onMutate: async ({ id, updatedData }) => {
-      inProccesAlert("מעדכן")
+      inProccesAlert("...מעדכן")
       const oldUser= currentUser
       const newUser = { _id: id, ...updatedData } as User;
       setCurrentUser(newUser);  
       return oldUser   
     },
     onSuccess:()=>{
-      successAlert("המידע עודכן");
+      successAlert("המידע עודכן בהצלחה!");
     },
     onError: (error, variables, context:any) => {
       console.error("Mutation error:", error);
@@ -94,7 +94,7 @@ export const useDeleteUserById = () => {
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.general);
       setCurrentUser(null);
-      successAlert("משתמש נמחק")
+      successAlert("משתמש נמחק בהצלחה!")
     },
     onError: (error) => {
       console.error("Mutation error:", error);

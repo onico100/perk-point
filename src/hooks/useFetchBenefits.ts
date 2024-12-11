@@ -38,12 +38,12 @@ const {benefits}=useBenefitStore()
    
       queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
 
-      inProccesAlert("מוסיף")
+      inProccesAlert("...מוסיף")
     
       return { previousBenefits };
     },
     onSuccess: () => {
-      successAlert("הטבה נוספה")
+      successAlert("הטבה נוספה בהצלחה!")
     },
     onError: (error, _, context: any) => {
       if (context?.previousBenefits) {
@@ -72,7 +72,7 @@ const {benefits}=useBenefitStore()
             )
           : []
       );
-      inProccesAlert("מעדכן")
+      inProccesAlert("...מעדכן")
       return { previousBenefits };
     },
     onError: (_error, _data, context) => {
@@ -91,10 +91,10 @@ const {benefits}=useBenefitStore()
         (benefit) => benefit._id !== benefitId
       );
       queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
-      inProccesAlert("מוחק")
+      inProccesAlert("...מוחק")
       return { previousBenefits };
     },
-    onSuccess:async () => {successAlert("הטבה נמחקה")},
+    onSuccess:async () => {successAlert("הטבה נמחקה בהצלחה!")},
     onError: (_error, _variables, context: any) => {
       const { setBenefits } = useBenefitStore.getState();
       setBenefits(context.previousBenefits);
