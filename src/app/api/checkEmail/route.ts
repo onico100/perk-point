@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     const userExists = await db.collection("users_collection").findOne({ email });
     const supplierExists = await db.collection("suppliers_collection").findOne({ email });
 
-    return NextResponse.json({ exists: !!userExists || !!supplierExists });
+    return NextResponse.json({ exists: !!userExists || !!supplierExists , user: userExists || supplierExists });
   } catch (error) {
     console.error("Error checking email:", error);
     return NextResponse.json(
