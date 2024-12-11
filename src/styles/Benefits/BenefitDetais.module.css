@@ -183,9 +183,10 @@
 }
 
 .plusIcon{
-  margin-right: 10px;
   cursor: pointer;
   align-items: center;
+  z-index: 1;
+  margin-bottom: 2px;
 
 }
 
