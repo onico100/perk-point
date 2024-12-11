@@ -26,7 +26,8 @@ export default function ClientId() {
           benefits.filter(
             (b) =>
               currentUser?.clubs.includes(b.clubId) &&
-              b.expirationDate > new Date()
+              b.expirationDate &&
+              new Date(b.expirationDate) > new Date()
           ) || [];
         currentTitle = titles[1];
       } else if (clientMode === "SUPPLIER") {
@@ -35,7 +36,9 @@ export default function ClientId() {
       }
     } else {
       benefitsToShow =
-        benefits.filter((b) => b.expirationDate > new Date()) || [];
+        benefits.filter(
+          (b) => b.expirationDate && new Date(b.expirationDate) > new Date()
+        ) || [];
     }
   }
 
