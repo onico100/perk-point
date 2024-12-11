@@ -1,6 +1,11 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { findOrCreateUser } from "@/services/mongo"; 
+import { ClientMode } from "@/types/types";
+import useGeneralStore from "@/stores/generalStore";
+
+const setCurrentUser = useGeneralStore.getState().setCurrentUser;
+const setClientMode = useGeneralStore.getState().setClientMode;
 
 export const {
   handlers: { GET, POST },
@@ -26,17 +31,19 @@ export const {
   callbacks: {
     async signIn({ user }) {
       const { email, name } = user;
-
       if (!email) {
         console.error("Email is missing from Google response.");
         return false;
       }
-
       try {
         const addedUser= await findOrCreateUser({ email, name });
-        return addedUser;
-      } catch (error) {
-        console.error("Error creating user:", error);
+        console.log("signIn addedUser:", addedUser);
+        setCurrentUser(user);
+        setClientMode(ClientMode.user);
+        return true; 
+      } 
+      catch (error) {
+        console.error("Error creating user:", error); 
         return false;
       }
     },
