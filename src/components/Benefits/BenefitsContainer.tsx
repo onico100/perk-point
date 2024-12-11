@@ -24,7 +24,6 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
 
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>(benefits);
 
-  // const [branchFilter, setBranchFilter] = useState(""); // **State for branchFilter**
   const params = useParams();
   const id = params.clientId;
 
@@ -41,7 +40,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       suppliers?.map((supplier) => [supplier._id, supplier])
     );
 
-    const filteredBenefits = benefitsToShow?.filter((benefit) => {
+    const filteredBenefits = benefits?.filter((benefit) => {
       const supplier = supplierMap.get(benefit.supplierId);
 
       if (
