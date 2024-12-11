@@ -46,7 +46,6 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   const deleteBenefitFunc = async () => {
     let alertConfirm = await beforeActionAlert(
       "לא תוכל לשחזר לאחר מחיקה",
-      "מחיקה"
     );
 
     if (alertConfirm) {
@@ -55,7 +54,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   };
 
   const addToFavorits = async () => {
-    let alertConfirm = await beforeActionAlert("", "הוספה");
+    let alertConfirm = await beforeActionAlert("");
     if (alertConfirm) {
       if (
         currentUser?.savedBenefits?.some(
@@ -84,12 +83,12 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           },
         });
       }
-      successAlert(" נוסף לשמורים ");
+      successAlert(" נוסף לשמורים בהצלחה! ");
     }
   };
 
   const deleteFromFavorits = async () => {
-    let alertConfirm = await beforeActionAlert("", "הסרה משמורים");
+    let alertConfirm = await beforeActionAlert("");
     if (alertConfirm) {
       if (typeof currentUser?._id === "string") {
         await updateUser({
@@ -108,7 +107,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           },
         });
       }
-      successAlert(" הוסר משמורים");
+      successAlert(" הוסר משמורים בהצלחה!");
     }
   };
 
