@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode, User } from "@/types/types";
 import { useRouter } from "next/navigation";
-import { checkEmailService, returnUserCheckEmailService } from "@/services/emailServices";
+import { returnUserCheckEmailService } from "@/services/emailServices";
 
 
 const LoginGoogleForm = () => {
