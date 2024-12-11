@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode, User } from "@/types/types";
+import { useRouter } from "next/navigation";
 
 
 const LoginGoogleForm = () => {
@@ -13,6 +14,7 @@ const LoginGoogleForm = () => {
   const { data: session } = useSession();
   const setCurrentUser = useGeneralStore((state) => state.setCurrentUser);
 
+  const router = useRouter();
   useEffect(() => {
     if (session?.user) {
       console.log("Session user:", session.user);
@@ -32,6 +34,7 @@ const LoginGoogleForm = () => {
       setCurrentUser(userS);
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.user);
+      router.push("/");
       console.log("Current user:", userS);
     }
   }, [session]);
