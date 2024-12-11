@@ -7,7 +7,7 @@ import { Benefit, Club, Supplier, Branch } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Benefits/BenefitsContainer.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Link from "next/link";
@@ -29,6 +29,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
 
   const params = useParams();
   const id = params.clientId;
+  const pathName = usePathname();
 
   const handleSearch = (
     supplierFilter: string,
@@ -110,7 +111,8 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       <div className={styles.mainContainer}>
         <div className={styles.titleContainer}>
           <div className={styles.title}>{title}</div>
-          {clientMode == "SUPPLIER" && id != "0" && (
+          {((clientMode == "SUPPLIER" && id != "0") ||
+            pathName.includes("/saved-benefits")) && (
             <div className={styles.toggleContainer}>
               <label className={styles.toggleLabel}>
                 <input
