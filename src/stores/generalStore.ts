@@ -4,7 +4,6 @@ import {
   Category,
   Club,
   ClientMode,
-  PreMode,
   User,
   Supplier,
 } from "@/types/types";
@@ -19,8 +18,7 @@ interface GeneralStore {
   clientMode: ClientMode;
   setClientMode: (clientMode: ClientMode) => void;
 
-  preMode: PreMode;
-  setPreMode: (preMode: PreMode) => void;
+
 
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
@@ -40,9 +38,6 @@ const useGeneralStore = create<GeneralStore>()(
 
       clientMode: ClientMode.general,
       setClientMode: (clientMode: ClientMode) => set({ clientMode }),
-
-      preMode: PreMode.user,
-      setPreMode: (preMode: PreMode) => set({ preMode }),
 
       currentUser: null,
       setCurrentUser: (user: User | null) => 

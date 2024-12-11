@@ -92,11 +92,7 @@ export enum ClientMode {
   user = "USER",
 }
 
-export enum PreMode {
-  supplier = "SUPPLIER",
-  user = "USER",
-  none = "NONE",
-}
+
 
 export const userSchema = z.object({
   username: z.string().min(3, "שם המשתמש חייב להיות לפחות 3 תווים."),

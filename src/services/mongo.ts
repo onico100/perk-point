@@ -70,7 +70,7 @@ export async function deleteDocumentById(
   const db = client.db(databaseName);
   const result = await db
     .collection(collection)
-    .updateOne({ _id: new ObjectId(id) }, { $set: { isActive: false } }); // Mark as inactive
+    .updateOne({ _id: new ObjectId(id) }, { $set: { isActive: false } });
   return result;
 }
 
@@ -88,32 +88,24 @@ export async function getClientModeByEmailAndPassword(
 }
 
 export async function findOrCreateUser({ email, name }: { email: string; name?: string }) {
-  let client;
-  console.log(`-----------findOrCreateUser: ${email}, ${name}`);
-  client = await connectDatabase();
+  let client = await connectDatabase();
   const db = client.db("benefits-site");
-
   const existingUser = await db.collection("users_collection").findOne({ email });
-  if (existingUser) {
-    console.log("--------User already exists", existingUser);
-    return existingUser;
-  }
+  if (existingUser) { return existingUser; }
 
   const newUser: UserGoogleFormValues = {
-    username: name || "Anonymous User",
+    username: name || "Anonymous Google User",
     email,
-    password: "-1", 
-    city: "-1",
+    password: null, // No password for Google users 
+    city: null,
     isActive: true,
     clubs: [],
     savedBenefits: [],
     registrationDate: new Date().toISOString(),
   };
 
-  console.log("--------new user", newUser);
-
 
   const result = await db.collection("users_collection").insertOne(newUser);
-  console.log("--------User created id", result.insertedId);
+
   return { ...newUser, _id: result.insertedId };
 }
