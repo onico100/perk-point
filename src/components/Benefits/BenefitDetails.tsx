@@ -80,6 +80,7 @@ const BenefitDetails = () => {
 
   const handleCancel = async () => {
     const userConfirmed = await beforeActionAlert("האם אתה בטוח שברצונך לבטל את השינויים?", "ביטול");
+    
     if (userConfirmed) {
       setUpdateState(prev => ({ ...prev, isUpdateMode: false }));
     }
@@ -146,7 +147,9 @@ const BenefitDetails = () => {
     return !updateState.updatedBenefit?.branches.some(existingBranch => existingBranch.nameBranch === branch.nameBranch && existingBranch.city === branch.city);
   });
 
+
   const isExpired = updateState.updatedBenefit?.expirationDate && new Date(updateState.updatedBenefit.expirationDate) < new Date();
+
 
 
   return (
