@@ -6,6 +6,7 @@ import {
   ClientMode,
   User,
   Supplier,
+ // Branch,
 } from "@/types/types";
 
 interface GeneralStore {
@@ -18,13 +19,14 @@ interface GeneralStore {
   clientMode: ClientMode;
   setClientMode: (clientMode: ClientMode) => void;
 
-
-
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
 
   currentSupplier: Supplier | null;
   setCurrentSupplier: (supplier: Supplier | null) => void;
+
+  // supplierBranches: string[];
+  // setSupplierBranches: (branches: string[]) => void;
 }
 
 const useGeneralStore = create<GeneralStore>()(
@@ -46,6 +48,9 @@ const useGeneralStore = create<GeneralStore>()(
       currentSupplier: null,
       setCurrentSupplier: (supplier: Supplier | null) =>
         set({ currentSupplier: supplier }),
+
+      // supplierBranches: [],
+      // setSupplierBranches: (supplierBranches: string[]) => set({ supplierBranches }),
     }),
     {
       name: "general-store",
