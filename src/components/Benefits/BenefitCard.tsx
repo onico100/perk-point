@@ -6,7 +6,8 @@ import styles from "@/styles/Benefits/benefitCard.module.css";
 
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
-import { MdDelete, MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { FaStar, FaRegStar } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { TbCalendarOff } from "react-icons/tb";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import {
@@ -140,11 +141,11 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           (existingBenefit) => existingBenefit === benefit?._id
         ) ? (
           <div className={styles.favoriteIcon} onClick={deleteFromFavorits}>
-            <MdFavorite />
+            <FaStar />
           </div>
         ) : (
           <div className={styles.favoriteIcon} onClick={addToFavorits}>
-            <MdFavoriteBorder />
+            <FaRegStar />
           </div>
         ))}
 
