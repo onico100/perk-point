@@ -23,6 +23,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const { clientMode } = useGeneralStore();
 
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>(benefits);
+  const [showValidBenefits, setShowValidBenefits] = useState(true); // Toggle state
 
   const params = useParams();
   const id = params.clientId;
@@ -43,6 +44,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
     const filteredBenefits = benefits?.filter((benefit) => {
       const supplier = supplierMap.get(benefit.supplierId);
 
+      // Apply filters based on search inputs
       if (
         supplierFilter &&
         (!supplier || !supplier.businessName.includes(supplierFilter))
@@ -73,8 +75,26 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       }
       return true;
     });
-    console.log(filteredBenefits, "filteredBenefits", supplierFilter);
-    setBenefitsToShow(filteredBenefits || []);
+
+    // Filter further based on toggle state
+    const dateFilteredBenefits = filteredBenefits?.filter((benefit) => {
+      const isExpired = new Date(benefit.expirationDate) < new Date();
+      return showValidBenefits ? !isExpired : isExpired;
+    });
+
+    setBenefitsToShow(dateFilteredBenefits || []);
+  };
+
+  const handleToggle = () => {
+    setShowValidBenefits((prev) => !prev);
+
+    // Reapply date filter after toggling
+    const dateFilteredBenefits = benefits?.filter((benefit) => {
+      const isExpired = new Date(benefit.expirationDate) < new Date();
+      return showValidBenefits ? isExpired : !isExpired;
+    });
+
+    setBenefitsToShow(dateFilteredBenefits || []);
   };
 
   return (
@@ -85,6 +105,18 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
           categories={categories}
           onSearch={handleSearch}
         />
+        <div className={styles.toggleContainer}>
+          <label className={styles.toggleLabel}>
+            <input
+              type="checkbox"
+              checked={showValidBenefits}
+              onChange={handleToggle}
+              className={styles.hiddenCheckbox}
+            />
+            <span className={styles.toggleSwitch}></span>
+            Show {showValidBenefits ? "Valid Benefits" : "Expired Benefits"}
+          </label>
+        </div>
       </div>
       <div className={styles.mainContainer}>
         <div className={styles.title}>{title}</div>
