@@ -6,14 +6,14 @@ import styles from "@/styles/Benefits/benefitCard.module.css";
 
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { TbCalendarOff } from "react-icons/tb";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import {
   beforeActionAlert,
   errorAlert,
   successAlert,
 } from "@/utils/sweet-alerts";
-import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
 
@@ -31,9 +31,9 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   const router = useRouter();
   const params = useParams();
   const { currentUser } = useGeneralStore();
-  const { mutate: updateUser, error } = useUpdateUserById();
-
+  const { mutate: updateUser } = useUpdateUserById();
   const { deleteBenefit } = useFetchBenefits();
+  const isExpired: boolean = new Date(benefit.expirationDate) < new Date();
 
   const id = params.clientId;
   const { clientMode } = useGeneralStore();
@@ -112,7 +112,12 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   };
 
   return (
-    <div className={styles.benefitCard}>
+    <div className={`${styles.benefitCard} ${isExpired ? styles.expierd : ""}`}>
+      {isExpired && (
+        <div className={styles.expiredOverlay}>
+          <TbCalendarOff className={styles.expiredIcon} />
+        </div>
+      )}
       {supplier && supplier.supplierLogo ? (
         <img
           src={supplier.supplierLogo}
@@ -123,7 +128,10 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
         <div className={styles.logo}></div>
       )}
       <hr className={styles.divider} />
-      <p className={styles.description}> {benefit.description.substring(0, 16)}</p>
+      <p className={styles.description}>
+        {" "}
+        {benefit.description.substring(0, 16)}
+      </p>
       <div className={styles.clubName}>{club?.clubName.substring(0, 20)}</div>
 
       {id != "0" &&

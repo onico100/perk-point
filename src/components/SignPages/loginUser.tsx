@@ -1,25 +1,22 @@
 //perk-point/src/components/SignPages/loginUser.tsx
 "use client";
 import { useState } from "react";
-import useGeneralStore from "@/stores/generalStore";
 import { useLoginUser } from "@/hooks/useFetchUsers";
 import styles from "@/styles/SignPages/sign.module.css";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
 import { sendPasswordResetEmail } from "@/services/emailServices";
-import { signIn } from "@/auth";
 import LoginGoogleForm from "./loginGoogleForm";
-//import { signIn } from "next-auth/react";
-//import LoginGoogleButton from "./authLogin";
 
-export default function Login() {
+export default  function  Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
   const [message, setMessage] = useState("");
   const loginUserMutation = useLoginUser();
   const router = useRouter();
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -91,13 +88,9 @@ export default function Login() {
               </p>
             </div>
           )}
-
-
-
           {!forgotPassword && ( <button type="submit" className={styles.loginPageButton}>התחברות</button> )}
           {forgotPassword && <button type="submit">שלח קישור לאיפוס סיסמה</button>}
           {message && <p>{message}</p>}
-
           <br/>
           
         </form>
@@ -109,7 +102,7 @@ export default function Login() {
 
       <div className={styles.noAccountLink}>
             <Link  href={"/register-user"}>
-              אין לך עדיין משתמש? הרשמה
+              פעם ראשונה באתר? הרשמה
             </Link>
       </div>
     </div>
