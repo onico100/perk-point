@@ -120,11 +120,11 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           className={styles.logo}
         />
       ) : (
-        <div></div>
+        <div className={styles.logo}></div>
       )}
       <hr className={styles.divider} />
-      <p className={styles.description}>{benefit.description}</p>
-      <div className={styles.clubName}>{club?.clubName}</div>
+      <p className={styles.description}> {benefit.description.substring(0, 16)}</p>
+      <div className={styles.clubName}>{club?.clubName.substring(0, 20)}</div>
 
       {id != "0" &&
         clientMode == "USER" &&

@@ -1,15 +1,20 @@
 "use client";
 
-import { Category, Supplier } from "@/types/types";
+import { Branch, Category, Supplier } from "@/types/types";
 import styles from "@/styles/PersonalDetails.module.css";
 import { useState, useEffect } from "react";
-import { CiEdit } from "react-icons/ci";
+import { MdOutlineModeEditOutline, MdOutlineEditOff } from "react-icons/md";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useGeneralStore from "@/stores/generalStore";
-import { beforeActionAlert, errorAlert, successAlert } from "@/utils/sweet-alerts";
+import {
+  beforeActionAlert,
+  errorAlert,
+  successAlert,
+} from "@/utils/sweet-alerts";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
+import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 
 interface SupplierPersonalDetailsProps {
   currentSupplier: Supplier;
@@ -17,15 +22,35 @@ interface SupplierPersonalDetailsProps {
 
 const formSchema = z.object({
   providerName: z.string().min(3, "שם הספק חייב להיות לפחות 3 תווים."),
+
   email: z.string().email("כתובת אימייל אינה חוקית."),
+
   businessName: z.string().min(3, "יש להזין שם עסק בעל לפחות 3 תווים."),
+
   phoneNumber: z
     .string()
     .regex(/^\d{9,10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
   siteLink: z.string().url("כתובת האתר אינה חוקית."),
-  supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
-  //branches: z.array(branchSchema).nonempty("חייב להוסיף לפחות סניף אחד."),
- // selectedCategories: z.array(z.string()).nonempty("חייב לבחור לפחות קטגוריה אחת."),
+
+  supplierLogo: z
+    .string()
+    .url("כתובת ה- URL של הלוגו אינה חוקית.")
+    .optional()
+    .or(z.literal("")),
+
+  selectedCategories: z.array(z.string()).refine(
+    (selectedCategories) => {
+      return selectedCategories.length > 0;
+    },
+    { message: "נא לבחור לפחות קטגוריה אחד" }
+  ),
+
+  // branches: z.array(z.string()).refine(
+  //   (branches) => {
+  //     return branches.length > 0;
+  //   },
+  //   { message: "נא לבחור לפחות סניף אחד" }
+  // ),
 });
 
 export default function SupplierPersonalDetails({
@@ -33,7 +58,11 @@ export default function SupplierPersonalDetails({
 }: SupplierPersonalDetailsProps) {
   const [editMode, setEditMode] = useState(false);
   const { categories } = useGeneralStore();
-  const {updateSupplier}=useFetchSuppliers()
+  const { updateSupplier } = useFetchSuppliers();
+  const [ischooseCategories, setIschooseCategories] = useState(true);
+  const [selectAll, setSelectAll] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  let branches1 = currentSupplier?.branches;
 
   const {
     register,
@@ -44,6 +73,7 @@ export default function SupplierPersonalDetails({
     resolver: zodResolver(formSchema),
   });
 
+
   useEffect(() => {
     if (editMode) {
       setValue("providerName", currentSupplier?.providerName);
@@ -52,42 +82,77 @@ export default function SupplierPersonalDetails({
       setValue("phoneNumber", currentSupplier?.phoneNumber);
       setValue("siteLink", currentSupplier?.siteLink);
       setValue("supplierLogo", currentSupplier?.supplierLogo);
+      setValue("selectedCategories", currentSupplier?.selectedCategories);
+      setValue("branches", selectAll ? branches1?.map(b=>b.nameBranch) : []);
     }
   }, [editMode, currentSupplier, setValue]);
 
-  const editSupplier = async(data: any) => {
+  const handleLogoUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "PerkPoint");
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const data = await response.json();
+        if (data.secure_url) {
+          setValue("supplierLogo", data.secure_url);
+          successAlert("העלאת תמונה הצליחה!");
+        }
+      } catch (error) {
+        errorAlert("שגיאה בהעלאת התמונה");
+      } finally {
+        setUploading(false);
+      }
+    }
+  };
+
+  const editSupplier = async (data: any) => {
     try {
       const alertConfirm = await beforeActionAlert("", "עריכה");
       if (alertConfirm) {
-        if (currentSupplier?._id) {
 
+        if (currentSupplier?._id) 
+          {
+          console.log(data);
+       //  let updatedBranches=branches1?.filter(b=>data.branches.includes(b.nameBranch))
           await updateSupplier(
             {
               id: currentSupplier._id,
               updatedData: {
                 providerName: data?.providerName,
-                password:currentSupplier?.password,
+                password: currentSupplier?.password,
                 email: data?.email,
                 businessName: data?.businessName,
-                //change to data.---
                 categories: currentSupplier?.categories,
                 phoneNumber: data?.phoneNumber,
                 registrationDate: currentSupplier?.registrationDate,
-                //change to data.---
                 branches: currentSupplier?.branches,
+               // branches: updatedBranches,
                 siteLink: data?.siteLink,
                 supplierLogo: data?.supplierLogo,
                 isActive: currentSupplier?.isActive,
-                selectedCategories: currentSupplier?.selectedCategories,
+                selectedCategories: data?.selectedCategories,
               },
             },
             {
               onSuccess: () => {
+                console.log(25, currentSupplier);
                 successAlert("ספק נערך ");
               },
-              onError:() => {
+              onError: () => {
                 errorAlert("שגיאה בעריכת ספק");
-              }
+              },
             }
           );
         }
@@ -98,48 +163,50 @@ export default function SupplierPersonalDetails({
     } finally {
       setEditMode(false);
     }
-
   };
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>פרטי ספק</h2>
       <div className={styles.buttonsContainer}>
-        {editMode && (
-          <button className={styles.submitButton} onClick={handleSubmit(editSupplier)}>
-            שמור 
-          </button>
-        )}
         <button
           className={styles.editButton}
           onClick={() => setEditMode(!editMode)}
         >
-          <CiEdit />
+          {!editMode ? <MdOutlineModeEditOutline /> : <MdOutlineEditOff />}
         </button>
       </div>
       {currentSupplier.supplierLogo && (
-        <>
-          <img
-            src={currentSupplier.supplierLogo}
-            alt="לוגו ספק"
-            className={styles.logo}
-          />
-          {editMode && (
+        <p className={styles.item}>
+          <span className={styles.label}>לוגו ספק:</span>
+          {editMode ? (
             <>
-              <span className={styles.label}>לוגו ספק:</span>
               <input
                 className={styles.input}
                 id="supplierLogo"
                 type="url"
                 {...register("supplierLogo")}
-                defaultValue={currentSupplier?.supplierLogo} 
+                defaultValue={currentSupplier?.supplierLogo}
+                placeholder="או הכנס קישור"
+              />{" "}
+              <input
+                id="logoUpload"
+                type="file"
+                accept="image/*"
+                onChange={handleLogoUpload}
               />
-              {errors.supplierLogo?.message && (
-                <p className={styles.error}>{String(errors.supplierLogo.message)}</p>
-              )}
+              {uploading && <p>Uploading...</p>}
             </>
+          ) : (
+            currentSupplier?.supplierLogo && (
+              <img
+                src={currentSupplier.supplierLogo}
+                alt="לוגו ספק"
+                className={styles.logo}
+              />
+            )
           )}
-        </>
+        </p>
       )}
 
       <p className={styles.item}>
@@ -149,7 +216,7 @@ export default function SupplierPersonalDetails({
             id="providerName"
             {...register("providerName")}
             className={styles.input}
-            defaultValue={currentSupplier?.providerName} 
+            defaultValue={currentSupplier?.providerName}
           />
         ) : (
           currentSupplier.providerName
@@ -167,12 +234,14 @@ export default function SupplierPersonalDetails({
             id="email"
             type="email"
             {...register("email")}
-            defaultValue={currentSupplier?.email} 
+            defaultValue={currentSupplier?.email}
           />
         ) : (
           currentSupplier.email
         )}
-        {errors.email?.message && <p className={styles.error}>{String(errors.email.message)}</p>}
+        {errors.email?.message && (
+          <p className={styles.error}>{String(errors.email.message)}</p>
+        )}
       </p>
 
       <p className={styles.item}>
@@ -199,7 +268,7 @@ export default function SupplierPersonalDetails({
             className={styles.input}
             id="phoneNumber"
             {...register("phoneNumber")}
-            defaultValue={currentSupplier?.phoneNumber} 
+            defaultValue={currentSupplier?.phoneNumber}
           />
         ) : (
           currentSupplier.phoneNumber
@@ -212,7 +281,9 @@ export default function SupplierPersonalDetails({
       {currentSupplier.registrationDate && (
         <p className={styles.item}>
           <span className={styles.label}>תאריך הרשמה:</span>
-          {new Date(currentSupplier.registrationDate).toLocaleDateString("he-IL")}
+          {new Date(currentSupplier.registrationDate).toLocaleDateString(
+            "he-IL"
+          )}
         </p>
       )}
 
@@ -224,7 +295,7 @@ export default function SupplierPersonalDetails({
             type="url"
             {...register("siteLink")}
             className={styles.input}
-            defaultValue={currentSupplier?.siteLink} 
+            defaultValue={currentSupplier?.siteLink}
           />
         ) : (
           <a
@@ -236,236 +307,124 @@ export default function SupplierPersonalDetails({
             {currentSupplier.siteLink}
           </a>
         )}
-        {errors.siteLink?.message && <p className={styles.error}>{String(errors.siteLink.message)}</p>}
+        {errors.siteLink?.message && (
+          <p className={styles.error}>{String(errors.siteLink.message)}</p>
+        )}
       </p>
 
       <p className={styles.item}>
         <span className={styles.label}>קטגוריות:</span>
-        {currentSupplier &&
-        currentSupplier.categories &&
-        currentSupplier?.categories?.length > 1
-          ? categories
-              .filter((category: Category) =>
-                currentSupplier?.categories?.some(
-                  (supplierCategoryId) =>
-                    supplierCategoryId.toString() === category._id
-                )
-              )
-              .map((category: Category) => (
-                <div key={category._id}>°{category.categoryName}</div>
-              ))
-          : " אין קטגוריות "}
+        {editMode ? (
+          <div className={styles.inputContainer}>
+            <div>
+              <button
+                onClick={() => setIschooseCategories(!ischooseCategories)}
+                className={styles.selectButton}
+              >
+                <span>בחר קטגוריות</span>
+                {!ischooseCategories ? <SlArrowUp /> : <SlArrowDown />}
+              </button>
+            </div>
+
+            {!ischooseCategories && (
+              <div className={styles.categoryList}>
+                {categories.map((c: Category) => (
+                  <label key={c.categoryName} className={styles.branchLabel}>
+                    <input
+                      type="checkbox"
+                      value={c._id}
+                      {...register("selectedCategories")}
+                      defaultChecked={currentSupplier?.selectedCategories?.includes(
+                        c._id
+                      )}
+                    />
+                    {c.categoryName}
+                  </label>
+                ))}
+              </div>
+            )}
+
+            {errors.selectedCategories && !ischooseCategories && (
+              <span className={styles.error}>
+                {errors.selectedCategories.message as string}
+              </span>
+            )}
+          </div>
+        ) : (
+          <div>
+            {currentSupplier &&
+            currentSupplier.selectedCategories &&
+            currentSupplier?.selectedCategories?.length > 0
+              ? categories
+                  .filter((category: Category) =>
+                    currentSupplier?.selectedCategories?.some(
+                      (supplierCategoryId) =>
+                        supplierCategoryId.toString() === category._id
+                    )
+                  )
+                  .map((category: Category) => (
+                    <div key={category._id}>° {category.categoryName}</div>
+                  ))
+              : "אין קטגוריות"}
+          </div>
+        )}
       </p>
+
+      <p>
+      <span className={styles.label}>סניפים:</span>
+      {editMode ?(<div className={styles.inputContainer}>
+        <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={selectAll}
+                onChange={() => setSelectAll(!selectAll)}
+              />
+              כל הסניפים
+            </label>
+          </div>
+          {!selectAll && (
+            <div className={styles.branchList}>
+              {branches1?.map((b: Branch) => (
+                <label key={b.nameBranch} className={styles.branchLabel}>
+                  <input
+                    type="checkbox"
+                    value={b.nameBranch}
+                    {...register("branches")}
+                  />
+                  {b.nameBranch}, {b.city}
+                </label>
+              ))}
+            </div>
+          )}
+          {errors.branches && !selectAll && (
+            <span className={styles.error}>
+              {errors.branches.message as string}
+            </span>
+          )}
+        </div>)
+        :(
+          <div>
+          {currentSupplier &&
+          currentSupplier.branches &&
+          currentSupplier?.branches?.length > 0
+            ? branches1?.map((b: Branch) => (
+                  <div key={b.nameBranch}>° {b.nameBranch}, {b.city}.</div>
+                ))
+            : "אין סניפים זמינים"}
+        </div>
+        )}
+        
+          
+      </p>
+      {editMode && (
+        <button
+          className={styles.submitButton}
+          onClick={handleSubmit(editSupplier)}
+        >
+          שמור
+        </button>
+      )}
     </div>
   );
 }
-
-
-// "use client";
-
-// import { Category, Supplier } from "@/types/types";
-// import styles from "@/styles/PersonalDetails.module.css";
-// import { useState } from "react";
-// import { CiEdit } from "react-icons/ci";
-// import { z } from "zod";
-// import { useForm } from "react-hook-form";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import useGeneralStore from "@/stores/generalStore";
-
-// interface SupplierPersonalDetailsProps {
-//   currentSupplier: Supplier;
-// }
-
-// const formSchema = z.object({
-//   providerName: z.string().min(3, "שם הספק חייב להיות לפחות 3 תווים."),
-//   email: z.string().email("כתובת אימייל אינה חוקית."),
-//   businessName: z.string().min(3, "יש להזין שם עסק בעל לפחות 3 תווים."),
-//   phoneNumber: z
-//     .string()
-//     .regex(/^\d{9,10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
-//   siteLink: z.string().url("כתובת האתר אינה חוקית."),
-//   supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
-//   //branches: z.array(branchSchema).nonempty("חייב להוסיף לפחות סניף אחד."),
-//   // selectedCategories: z.array(z.string()).nonempty("חייב לבחור לפחות קטגוריה אחת."),
-// });
-
-// export default function SupplierPersonalDetails({
-//   currentSupplier,
-// }: SupplierPersonalDetailsProps) {
-//   const [editMode, setEditMode] = useState(false);
-//   const { categories } = useGeneralStore();
-
-//   const {
-//     register,
-//     handleSubmit,
-//     setValue,
-//     formState: { errors },
-//   } = useForm({
-//     resolver: zodResolver(formSchema),
-//   });
-
-//   const editSupplier = () => {
-//     setEditMode(false);
-//   };
-
-//   return (
-//     <div className={styles.container}>
-//       <h2 className={styles.title}>פרטי ספק</h2>
-//       <div className={styles.buttonsContainer}>
-//         {editMode && (
-//           <button className={styles.submitButton} onClick={handleSubmit(editSupplier)}>
-//             שמור 
-//           </button>
-//         )}
-//         <button
-//           className={styles.editButton}
-//           onClick={() => setEditMode(!editMode)}
-//         >
-//           <CiEdit />
-//         </button>
-//       </div>
-//       {currentSupplier.supplierLogo && (
-//         <>
-//           <img
-//             src={currentSupplier.supplierLogo}
-//             alt="לוגו ספק"
-//             className={styles.logo}
-//           />
-//           {editMode && (
-//             <>
-//               <span className={styles.label}>לוגו ספק:</span>
-//               <input
-//                 className={styles.input}
-//                 value={currentSupplier?.supplierLogo}
-//                 id="supplierLogo"
-//                 type="url"
-//                 {...register("supplierLogo")}
-//               />
-//               {errors.supplierLogo?.message && (
-//                 <p>{String(errors.supplierLogo.message)}</p>
-//               )}
-//             </>
-//           )}
-//         </>
-//       )}
-
-//       <p className={styles.item}>
-//         <span className={styles.label}>שם ספק:</span>
-//         {editMode ? (
-//           <>
-//             <input
-//               id="providerName"
-//               {...register("providerName")}
-//               className={styles.input}
-//               value={currentSupplier?.providerName}
-//             />
-//             {errors.providerName?.message && (
-//               <p>{String(errors.providerName.message)}</p>
-//             )}
-//           </>
-//         ) : (
-//           currentSupplier.providerName
-//         )}
-//       </p>
-
-//       <p className={styles.item}>
-//         <span className={styles.label}>אימייל:</span>
-//         {editMode ? (
-//           <input
-//             className={styles.input}
-//             id="email"
-//             type="email"
-//             {...register("email")}
-//             value={currentSupplier?.email}
-//           />
-//         ) : (
-//           currentSupplier.email
-//         )}
-//         {errors.email?.message && <p>{String(errors.email.message)}</p>}
-//       </p>
-
-//       <p className={styles.item}>
-//         <span className={styles.label}>שם עסק:</span>
-//         {editMode ? (
-//           <input
-//             className={styles.input}
-//             id="businessName"
-//             {...register("businessName")}
-//             value={currentSupplier?.businessName}
-//           />
-//         ) : (
-//           currentSupplier.businessName
-//         )}
-//         {errors.businessName?.message && (
-//           <p>{String(errors.businessName.message)}</p>
-//         )}
-//       </p>
-
-//       <p className={styles.item}>
-//         <span className={styles.label}>מספר טלפון:</span>
-//         {editMode ? (
-//           <input
-//             className={styles.input}
-//             id="phoneNumber"
-//             {...register("phoneNumber")}
-//             value={currentSupplier?.phoneNumber}
-//           />
-//         ) : (
-//           currentSupplier.phoneNumber
-//         )}
-//         {errors.phoneNumber?.message && (
-//           <p>{String(errors.phoneNumber.message)}</p>
-//         )}
-//       </p>
-
-//       {currentSupplier.registrationDate && (
-//         <p className={styles.item}>
-//           <span className={styles.label}>תאריך הרשמה:</span>
-//           {new Date(currentSupplier.registrationDate).toLocaleDateString(
-//             "he-IL"
-//           )}
-//         </p>
-//       )}
-
-//       <p className={styles.item}>
-//         <span className={styles.label}>קישור לאתר:</span>
-//         {editMode ? (
-//           <input
-//             id="siteLink"
-//             type="url"
-//             {...register("siteLink")}
-//             className={styles.input}
-//             value={currentSupplier?.siteLink}
-//           />
-//         ) : (
-//           <a
-//             href={currentSupplier.siteLink}
-//             target="_blank"
-//             rel="noopener noreferrer"
-//             className={styles.link}
-//           >
-//             {currentSupplier.siteLink}
-//           </a>
-//         )}
-//         {errors.siteLink?.message && <p>{String(errors.siteLink.message)}</p>}
-//       </p>
-//       <p className={styles.item}>
-//         <span className={styles.label}>קטגוריות:</span>
-//         {currentSupplier &&
-//         currentSupplier.categories &&
-//         currentSupplier?.categories?.length > 1
-//           ? categories
-//               .filter((category: Category) =>
-//                 currentSupplier?.categories?.some(
-//                   (supplierCategoryId) =>
-//                     supplierCategoryId.toString() === category._id
-//                 )
-//               )
-//               .map((category: Category) => (
-//                 <div key={category._id}>°{category.categoryName}</div>
-//               ))
-//           : " אין קטגוריות "}
-//       </p>
-//     </div>
-//   );
-// }

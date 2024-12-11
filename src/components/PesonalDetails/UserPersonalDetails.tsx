@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { CiEdit } from "react-icons/ci";
+import { MdOutlineModeEditOutline,MdOutlineEditOff  } from "react-icons/md";
 import {
   beforeActionAlert,
   errorAlert,
@@ -25,7 +25,9 @@ const formSchema = z.object({
   city: z.string().min(2, "יש להזין עיר."),
 });
 
-export default function UserPersonalDetails({currentUser,}: UserPersonalDetailsProps) {
+export default function UserPersonalDetails({
+  currentUser,
+}: UserPersonalDetailsProps) {
   const [editMode, setEditMode] = useState(false);
   const { mutate: updateUser, error } = useUpdateUserById();
 
@@ -51,7 +53,6 @@ export default function UserPersonalDetails({currentUser,}: UserPersonalDetailsP
       const alertConfirm = await beforeActionAlert("", "עריכה");
       if (alertConfirm) {
         if (currentUser?._id) {
-
           await updateUser(
             {
               id: currentUser._id,
@@ -70,9 +71,9 @@ export default function UserPersonalDetails({currentUser,}: UserPersonalDetailsP
               onSuccess: () => {
                 successAlert("משתמש נערך ");
               },
-              onError:(error) => {
+              onError: (error) => {
                 errorAlert("שגיאה בעריכת המשתמש");
-              }
+              },
             }
           );
         }
@@ -89,21 +90,12 @@ export default function UserPersonalDetails({currentUser,}: UserPersonalDetailsP
     <div className={styles.container}>
       <h2 className={styles.title}>פרטי משתמש</h2>
       <div className={styles.buttonsContainer}>
-        {editMode && (
-          <button
-            type="button"
-            className={styles.submitButton}
-            onClick={handleSubmit(editUser)}
-          >
-            שמור
-          </button>
-        )}
         <button
           type="button"
           className={styles.editButton}
           onClick={() => setEditMode(!editMode)}
         >
-          <CiEdit />
+          {!editMode ? <MdOutlineModeEditOutline /> : <MdOutlineEditOff />}
         </button>
       </div>
 
@@ -163,6 +155,14 @@ export default function UserPersonalDetails({currentUser,}: UserPersonalDetailsP
         <span className={styles.label}>תאריך הרשמה:</span>
         {new Date(currentUser.registrationDate).toLocaleDateString("he-IL")}
       </p>
+      {editMode && (
+          <button
+            className={styles.submitButton}
+            onClick={handleSubmit(editUser)}
+          >
+            שמור
+          </button>
+        )}
     </div>
   );
 }

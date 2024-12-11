@@ -1,3 +1,4 @@
+//perk-point/src/components/SignPages/loginUser.tsx
 "use client";
 import { useState } from "react";
 import useGeneralStore from "@/stores/generalStore";
@@ -7,6 +8,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
 import { sendPasswordResetEmail } from "@/services/emailServices";
+import { signIn } from "@/auth";
+import LoginGoogleForm from "./loginGoogleForm";
+//import { signIn } from "next-auth/react";
 //import LoginGoogleButton from "./authLogin";
 
 export default function Login() {
@@ -14,7 +18,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
   const [message, setMessage] = useState("");
-  const preMode = useGeneralStore((state) => state.preMode);
   const loginUserMutation = useLoginUser();
   const router = useRouter();
 
@@ -24,7 +27,7 @@ export default function Login() {
       handleForgotPassword();
       return;
     }
-    if (preMode === "USER") {
+    else {
       loginUserMutation.mutate(
         { email, password },
         {
@@ -38,8 +41,6 @@ export default function Login() {
           },
         }
       );
-    } else {
-      errorAlert("לא נבחר מצב התחברות (משתמש או ספק)");
     }
   };
 
@@ -56,56 +57,61 @@ export default function Login() {
     <div className={styles.loginPage}>
       {message && <p className="text-red-500">{message}</p>}
       <h1 className={styles.titleSign}>התחברות לקוח</h1>
-      <form onSubmit={handleSubmit} className={styles.formContainer}>
-        <div className={styles.formGroup}>
-          <label htmlFor="email">כתובת אימייל:</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        {!forgotPassword && (
+      <div className={styles.signOption}>
+      <div className="sign">
+        <form onSubmit={handleSubmit} className={styles.formContainer}>
           <div className={styles.formGroup}>
-            <label htmlFor="password">סיסמא:</label>
             <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="כתובת אימייל"
               required
+              className={styles.inputField}
             />
-
-            <p
-              className="text-red-500 underline cursor-pointer text-xs"
-              onClick={() => setForgotPassword(!forgotPassword)}
-            >
-              שכחתי סיסמה
-            </p>
           </div>
-        )}
 
-        <div className={styles.inlineContainer}>
-          <p>איך לך עדיין משתמש?</p>
-          <Link className={styles.link} href={"/register-user"}>
-            הירשם
-          </Link>
-        </div>
+          {!forgotPassword && (
+            <div className={styles.formGroup}>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="סיסמא"
+                required
+                className={styles.inputField}
+              />
+              <p
+                className="text-red-500 underline cursor-pointer text-xs"
+                onClick={() => setForgotPassword(!forgotPassword)}
+              >
+                שכחתי סיסמה
+              </p>
+            </div>
+          )}
 
-        {!forgotPassword && (
-          <button type="submit" className={styles.loginPageButton}>
-            התחברות
-          </button>
-        )}
-        {forgotPassword && (
-          <button type="submit">שלח קישור לאיפוס סיסמה</button>
-        )}
-        {message && <p>{message}</p>}
-      </form>
-      {/* <LoginGoogleButton /> */}
+
+
+          {!forgotPassword && ( <button type="submit" className={styles.loginPageButton}>התחברות</button> )}
+          {forgotPassword && <button type="submit">שלח קישור לאיפוס סיסמה</button>}
+          {message && <p>{message}</p>}
+
+          <br/>
+          
+        </form>
+      </div>
+      <div className="google">
+        <h2>או</h2>
+        <LoginGoogleForm/></div>
+      </div> 
+
+      <div className={styles.noAccountLink}>
+            <Link  href={"/register-user"}>
+              אין לך עדיין משתמש? הרשמה
+            </Link>
+      </div>
     </div>
   );
 }

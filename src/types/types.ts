@@ -92,11 +92,7 @@ export enum ClientMode {
   user = "USER",
 }
 
-export enum PreMode {
-  supplier = "SUPPLIER",
-  user = "USER",
-  none = "NONE",
-}
+
 
 export const userSchema = z.object({
   username: z.string().min(3, "שם המשתמש חייב להיות לפחות 3 תווים."),
@@ -106,3 +102,17 @@ export const userSchema = z.object({
 });
 
 export type UserFormValues = z.infer<typeof userSchema>;
+
+export const userGoogleSchema = z.object({
+  username: z.string().min(3, "שם המשתמש חייב להיות לפחות 3 תווים."),
+  email: z.string().email("כתובת אימייל אינה חוקית."),
+  password: z.string().nullable(),
+  city: z.string().nullable(),
+  isActive: z.boolean().nullable(),
+  clubs: z.array(z.string()).nullable(),
+  savedBenefits: z.array(z.string()).nullable(),
+  registrationDate: z.string().nullable(),
+
+});
+
+export type UserGoogleFormValues = z.infer<typeof userGoogleSchema>;

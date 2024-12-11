@@ -1,3 +1,5 @@
+import { UserGoogleFormValues } from "@/types/types";
+
 export const databaseName = "benefits-site";
 
 const { MongoClient, ObjectId } = require("mongodb");
@@ -68,7 +70,7 @@ export async function deleteDocumentById(
   const db = client.db(databaseName);
   const result = await db
     .collection(collection)
-    .updateOne({ _id: new ObjectId(id) }, { $set: { isActive: false } }); // Mark as inactive
+    .updateOne({ _id: new ObjectId(id) }, { $set: { isActive: false } });
   return result;
 }
 
@@ -83,4 +85,27 @@ export async function getClientModeByEmailAndPassword(
     .collection(collection)
     .findOne({ email: email, password: password });
   return clientMode;
+}
+
+export async function findOrCreateUser({ email, name }: { email: string; name?: string }) {
+  let client = await connectDatabase();
+  const db = client.db("benefits-site");
+  const existingUser = await db.collection("users_collection").findOne({ email });
+  if (existingUser) { return existingUser; }
+
+  const newUser: UserGoogleFormValues = {
+    username: name || "Anonymous Google User",
+    email,
+    password: null, // No password for Google users 
+    city: null,
+    isActive: true,
+    clubs: [],
+    savedBenefits: [],
+    registrationDate: new Date().toISOString(),
+  };
+
+
+  const result = await db.collection("users_collection").insertOne(newUser);
+
+  return { ...newUser, _id: result.insertedId };
 }

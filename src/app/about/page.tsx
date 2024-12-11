@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "@/styles/about.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode, PreMode } from "@/types/types";
+import { ClientMode} from "@/types/types";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 
@@ -34,7 +34,9 @@ const About = () => {
               <FaPhoneAlt /> 0599999999
             </li>
             <li>
-              <IoIosMail /> 999999999@example.com
+              <a href="mailto:PerkPointSite@gmail.com">
+                <IoIosMail /> PerkPointSite@gmail.com
+              </a>
             </li>
           </div>
         </div>

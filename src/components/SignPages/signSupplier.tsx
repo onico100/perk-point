@@ -19,8 +19,11 @@ export default function SignSupplierComponent() {
   const { categories, isLoadingCategories } = useFetchGeneral();
   const [emailExists, setEmailExists] = useState(false);
   const [isCategoryDropdownVisible, setIsCategoryDropdownVisible] = useState(false);
-  const [branchDropdownVisible, setBranchDropdownVisible] = useState<number | null>(null); 
- 
+  const [branchDropdownVisible, setBranchDropdownVisible] = useState<number | null>(null);
+
+  const [uploading, setUploading] = useState(false);
+
+
 
   // const {
   //   register,
@@ -57,8 +60,8 @@ export default function SignSupplierComponent() {
     if (businessName) {
       fetchBranches(businessName, 0);
     }
-  }, [businessName]);  
-  
+  }, [businessName]);
+
 
 
   const fetchBranches = debounce(async (textQuery: string, branchIndex: number) => {
@@ -86,13 +89,13 @@ export default function SignSupplierComponent() {
       setBranchDropdownVisible(null);
     }
   }, 300);
-  
+
   const toggleBranchDropdown = (index: number) => {
     if (branchDropdownVisible === index) {
-      setBranchDropdownVisible(null); 
+      setBranchDropdownVisible(null);
     } else {
-      fetchBranches(businessName, 0); 
-      setBranchDropdownVisible(index); 
+      fetchBranches(businessName, 0);
+      setBranchDropdownVisible(index);
     }
   };
 
@@ -110,9 +113,37 @@ export default function SignSupplierComponent() {
   };
 
 
-  
+
 
   const router = useRouter();
+
+  const handleLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "your-upload-preset"); // Replace with your Cloudinary preset
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const data = await response.json();
+        if (data.secure_url) {
+          setValue("supplierLogo", data.secure_url);
+          successAlert("העלאת תמונה הצליחה!");
+        }
+      } catch (error) {
+        errorAlert("שגיאה בהעלאת התמונה");
+      } finally {
+        setUploading(false);
+      }
+    }
+  };
 
   const onSubmit = async (data: SupplierFormValues) => {
     console.log("SupplierFormValues:", data);
@@ -121,12 +152,12 @@ export default function SignSupplierComponent() {
       setEmailExists(true);
       return;
     }
-  
+
 
     addSupplier(data, {
       onSuccess: () => {
         successAlert("הספק נוסף בהצלחה!").then(() => {
-          router.push("/"); 
+          router.push("/");
         });
       },
       onError: (error: Error) => {
@@ -135,7 +166,7 @@ export default function SignSupplierComponent() {
       },
     });
   };
-  
+
 
   return (
     <div className={styles.loginPage}>
@@ -184,103 +215,124 @@ export default function SignSupplierComponent() {
         </div>
 
         {/* Supplier Logo */}
-        <div className={styles.formGroup}>
+        {/* <div className={styles.formGroup}>
           <label htmlFor="supplierLogo">קישור ללוגו:</label>
           <input id="supplierLogo" type="url" {...register("supplierLogo")} />
           {errors.supplierLogo && <p>{errors.supplierLogo.message}</p>}
+        </div> */}
+
+        <div className={styles.formGroup}>
+          <label htmlFor="supplierLogo">לוגו ספק:</label>
+          <input
+            id="supplierLogo"
+            type="url"
+            {...register("supplierLogo")}
+            className={styles.input}
+            placeholder="הזן כתובת URL של תמונה"
+          />
+          <input
+            id="logoUpload"
+            type="file"
+            accept="image/*"
+            onChange={handleLogoUpload}
+          />
+          {uploading && <p>Uploading...</p>}
+          {errors.supplierLogo?.message && (
+            <p className={styles.error}>{String(errors.supplierLogo.message)}</p>
+          )}
         </div>
 
         {/* Categories Selection */}
         <div className={styles.formGroup}>
-        <h2 className="font-bold">בחר קטגוריות:</h2>
-        {isLoadingCategories ? (
-          <p>טוען קטגוריות...</p>
-        ) : (
-          <div className={styles.dropdownContainer}>
-            <button
-              type="button"
-              className={styles.dropdownButton}
-              onClick={() => setIsCategoryDropdownVisible((prev) => !prev)} // שליטה בקטגוריות בלבד
-            >
-              בחר קטגוריות
-            </button>
-            {isCategoryDropdownVisible && (
-              <div className={styles.dropdownContent}>
-                {categories?.map((category: Category) => (
-                  <div key={category._id} className={styles.checkboxItem}>
-                    <input
-                      type="checkbox"
-                      value={category._id}
-                      id={`category-${category._id}`}
-                      {...register("selectedCategories")}
-                    />
-                    <label htmlFor={`category-${category._id}`}>{category.categoryName}</label>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-        {errors.selectedCategories && <p className="text-red-500">{errors.selectedCategories.message}</p>}
-      </div>
+          <h2 className="font-bold">בחר קטגוריות:</h2>
+          {isLoadingCategories ? (
+            <p>טוען קטגוריות...</p>
+          ) : (
+            <div className={styles.dropdownContainer}>
+              <button
+                type="button"
+                className={styles.dropdownButton}
+                onClick={() => setIsCategoryDropdownVisible((prev) => !prev)} // שליטה בקטגוריות בלבד
+              >
+                בחר קטגוריות
+              </button>
+              {isCategoryDropdownVisible && (
+                <div className={styles.dropdownContent}>
+                  {categories?.map((category: Category) => (
+                    <div key={category._id} className={styles.checkboxItem}>
+                      <input
+                        type="checkbox"
+                        value={category._id}
+                        id={`category-${category._id}`}
+                        {...register("selectedCategories")}
+                      />
+                      <label htmlFor={`category-${category._id}`}>{category.categoryName}</label>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+          {errors.selectedCategories && <p className="text-red-500">{errors.selectedCategories.message}</p>}
+        </div>
 
 
         {/* Branches */}
         <div className={styles.formGroup}>
-      <h2 className="font-bold">סניפים:</h2>
-      <button
-        type="button"
-        onClick={() => toggleBranchDropdown(0)}
-        className={styles.dropdownButton}
-      >
-        בחר סניפים
-        <span>{branchDropdownVisible === 0 ? "▲" : "▼"}</span>
-      </button>
-      {branchDropdownVisible === 0 && (
-        <div className={styles.dropdownBranches}>
-          {loading ? (
-            <p>טוען...</p>
-          ) : (
-            suggestions.map((branch, idx) => (
-              <label key={idx} className={styles.checkboxItem}>
-                <input
-                  type="checkbox"
-                  value={branch}
-                  onChange={() => onBranchSelect(branch)}
-                />
-                {branch}
-              </label>
-            ))
+          <h2 className="font-bold">סניפים:</h2>
+          <button
+            type="button"
+            onClick={() => toggleBranchDropdown(0)}
+            className={styles.dropdownButton}
+          >
+            בחר סניפים
+            <span>{branchDropdownVisible === 0 ? "▲" : "▼"}</span>
+          </button>
+          {branchDropdownVisible === 0 && (
+            <div className={styles.dropdownBranches}>
+              {loading ? (
+                <p>טוען...</p>
+              ) : (
+                suggestions.map((branch, idx) => (
+                  <label key={idx} className={styles.checkboxItem}>
+                    <input
+                      type="checkbox"
+                      value={branch}
+                      onChange={() => onBranchSelect(branch)}
+                    />
+                    {branch}
+                  </label>
+                ))
+              )}
+            </div>
           )}
+          <ul>
+            {fields.map((branch, index) => (
+              <li key={branch.id} className={styles.selectedBranch}>
+                {branch.nameBranch} - {branch.city}
+                <button type="button" onClick={() => remove(index)}>
+                  הסר
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
-      )}
-      <ul>
-        {fields.map((branch, index) => (
-          <li key={branch.id} className={styles.selectedBranch}>
-            {branch.nameBranch} - {branch.city}
-            <button type="button" onClick={() => remove(index)}>
-              הסר
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
 
 
         {emailExists && (
-            <div className="text-red-500 mb-4">
-              <p>
-                אימייל זה כבר קיים במערכת{" "}
-                <br />
-                <span
-                  className="text-red-500 underline cursor-pointer"
-                  onClick={() => router.push("/login-supplier")}
-                >
-                  למעבר לדף התחברות
-                </span>
-              </p>
-            </div>
-          )}
+          <div className="text-red-500 mb-4">
+            <p>
+              אימייל זה כבר קיים במערכת{" "}
+              <br />
+              <span
+                className="text-red-500 underline cursor-pointer"
+                onClick={() => router.push("/login-supplier")}
+              >
+                למעבר לדף התחברות
+              </span>
+            </p>
+          </div>
+        )}
 
         <button type="submit" className={styles.loginPageButton}>
           הרשמה
@@ -289,3 +341,4 @@ export default function SignSupplierComponent() {
     </div>
   );
 }
+
