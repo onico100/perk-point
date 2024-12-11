@@ -5,7 +5,7 @@ import styles from "./google.module.css";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode, User, UserFormValues } from "@/types/types";
+import { ClientMode, User } from "@/types/types";
 
 
 const LoginGoogleForm = () => {
@@ -18,15 +18,15 @@ const LoginGoogleForm = () => {
       console.log("Session user:", session.user);
 
       const userS: User = {
-        _id: session.user.id || "", // או ערך ברירת מחדל
+        _id: session.user.id || "", 
         username: session.user.name || "",
         email: session.user.email || "",
-        clubs: [], // ברירת מחדל לרשימה ריקה
-        registrationDate: "", // תאריך ריק
-        savedBenefits: [], // ברירת מחדל לרשימה ריקה
+        clubs: [], 
+        registrationDate: new Date().toISOString(), 
+        savedBenefits: [], 
         city: "",
-        isActive: true, // ברירת מחדל לערך בוליאני
-        password: "", // או null אם לא בשימוש
+        isActive: true, 
+        password: "", 
       };
 
       setCurrentUser(userS);
