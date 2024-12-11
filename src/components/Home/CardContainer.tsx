@@ -7,7 +7,7 @@ const cardData = [
     id: 1,
     image: "/clubs.png",
     title: " המועדונים שלנו",
-    buttonText: "לכל המועודנים",
+    buttonText: "לכל המועדונים",
     buttonLink: "/clubs/0",
     marginTop: "0px", // No offset for the first card
   },
