@@ -46,12 +46,12 @@ const formSchema = z.object({
     { message: "נא לבחור לפחות קטגוריה אחד" }
   ),
 
-  // branches: z.array(z.string()).refine(
-  //   (branches) => {
-  //     return branches.length > 0;
-  //   },
-  //   { message: "נא לבחור לפחות סניף אחד" }
-  // ),
+  branches: z.array(z.string()).refine(
+    (branches) => {
+      return branches.length > 0;
+    },
+    { message: "נא לבחור לפחות סניף אחד" }
+  ),
 });
 
 export default function SupplierPersonalDetails({
@@ -136,8 +136,8 @@ export default function SupplierPersonalDetails({
       const alertConfirm = await beforeActionAlert("", "עריכה");
       if (alertConfirm) {
         if (currentSupplier?._id) {
-          console.log(data);
-          //let updatedBranches=allBranches?.filter(b=>data.branches.includes(b.nameBranch))
+          let updatedBranches= selectAll ? allBranches : allBranches?.filter(b=>data.branches.includes(b.nameBranch))
+          
           await updateSupplier(
             {
               id: currentSupplier._id,
@@ -149,8 +149,7 @@ export default function SupplierPersonalDetails({
                 categories: currentSupplier?.categories,
                 phoneNumber: data?.phoneNumber,
                 registrationDate: currentSupplier?.registrationDate,
-                branches: currentSupplier?.branches,
-                //branches: updatedBranches,
+                branches: updatedBranches,
                 siteLink: data?.siteLink,
                 supplierLogo: data?.supplierLogo,
                 isActive: currentSupplier?.isActive,
