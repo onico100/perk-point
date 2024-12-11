@@ -77,7 +77,7 @@ const BenefitDetails = () => {
 
   const handleCancel = async () => {
     const userConfirmed = await beforeActionAlert("האם אתה בטוח שברצונך לבטל את השינויים?", "ביטול");
-  
+
     if (userConfirmed) {
       setIsUpdateMode(false);
     }
@@ -156,14 +156,18 @@ const BenefitDetails = () => {
   const allBranchesSelected = supplierBranches && supplierBranches.length > 0 &&
     updatedBenefit?.branches.length === supplierBranches.length;
 
-
+  const isExpired = updatedBenefit?.expirationDate && new Date(updatedBenefit.expirationDate) < new Date();
 
   return (
     <div className={styles.container}>
-      <FaArrowRight
-        className={styles.backIcon}
-        onClick={() => router.back()}
-      />
+      <div className={styles.topContainer}>
+        <FaArrowRight
+          className={styles.backIcon}
+          onClick={() => router.back()}
+        />
+        {isExpired && <span className={styles.expiredTitle}>פג תוקף</span>}
+      </div>
+
       <div className={styles.contentContainer}>
         <div className={styles.content}>
           <div className={styles.rightColumn}>

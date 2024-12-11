@@ -3,15 +3,31 @@
   font-family: Arial, sans-serif;
 }
 
+.topContainer {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  position: relative;
+  margin-bottom: 20px; 
+}
 
 .backIcon {
-  right: 20%;
+  position: absolute; 
+  right: 0;
   font-size: 24px;
   cursor: pointer;
 }
 
 .backIcon:hover {
   transform: scale(1.1);
+}
+
+
+.expiredTitle {
+  color: red; 
+  margin-left: 10px;
+  font-size: 32px; 
+  font-weight: bold; 
 }
 
 .contentContainer {
@@ -278,4 +294,5 @@
 .button:hover {
   transform: scale(1.05);
 }
+
 
