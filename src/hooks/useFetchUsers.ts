@@ -68,7 +68,7 @@ export const useUpdateUserById = () => {
   return useMutation<User, Error, { id: string; updatedData: Partial<User> }>({
     mutationFn: ({ id, updatedData }) => updateUserById(id, updatedData),
     onMutate: async ({ id, updatedData }) => {
-      inProccesAlert("...מעדכן")
+      inProccesAlert("מעדכן...")
       const oldUser= currentUser
       const newUser = { _id: id, ...updatedData } as User;
       setCurrentUser(newUser);  

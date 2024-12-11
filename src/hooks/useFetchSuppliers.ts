@@ -43,7 +43,7 @@ export const useFetchSuppliers = () => {
       if (!existingSupplier) {
         setSuppliers([...suppliers, newSupplier]);
       }
-      inProccesAlert("...מוסיף")
+      inProccesAlert("מוסיף...")
       return { previousSuppliers: suppliers };
     },
     onError: (error, _, context: any) => {
@@ -79,7 +79,7 @@ export const useFetchSuppliers = () => {
       
       let oldSupplier=currentSupplier
       setCurrentSupplier(updatedSupplier)
-      inProccesAlert("...מעדכן")
+      inProccesAlert("מעדכן...")
       return { previousSuppliers: suppliers , currentSupplier: oldSupplier};
     },
     onError: (_error, _variables, context: any) => {
