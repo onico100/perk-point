@@ -3,7 +3,7 @@ import { BenefitsContainer } from "@/components";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
-import { Benefit, ClientMode, PreMode } from "@/types/types";
+import { Benefit, ClientMode } from "@/types/types";
 import { useParams } from "next/navigation";
 
 export default function savedBenefits() {
