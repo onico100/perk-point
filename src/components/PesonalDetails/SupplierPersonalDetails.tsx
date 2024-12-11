@@ -16,6 +16,7 @@ import {
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import my_http from "@/services/http";
+import { getbranchesByBusinessName } from "@/services/branchesService";
 
 interface SupplierPersonalDetailsProps {
   currentSupplier: Supplier;
@@ -181,26 +182,10 @@ export default function SupplierPersonalDetails({
 
     if (textQuery.trim().length >= 2) {
       try {
-        const response = await my_http.post(`/googleAutocomplete/post`, {
-          textQuery,
-        });
-        const branchesFromGoogle = response.data.formattedPlaces;
+       let allBranchesFromService= await getbranchesByBusinessName(textQuery)
 
-        const extractCity = (branch: string): string => {
-          const parts = branch.split(",");
-          return parts.length >= 2 ? parts[1].trim() : "לא ידועה";
-        };
-
-        const citySuggestions: Branch[] = branchesFromGoogle
-          ? branchesFromGoogle.map((place: any) => {
-              return {
-                nameBranch: place.name + " " + place.address,
-                city: extractCity(place.address),
-              } as Branch;
-            })
-          : [];
-
-        setAllBranches(citySuggestions);
+        setAllBranches(allBranchesFromService);
+        
       } catch (error) {
         console.error("Error fetching suggestions:", error);
         setAllBranches([]);
