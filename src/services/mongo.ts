@@ -106,6 +106,8 @@ export async function findOrCreateUser({ email, name }: { email: string; name?: 
 
 
   const result = await db.collection("users_collection").insertOne(newUser);
+  console.log("New user created:", result.insertedId);
 
-  return { ...newUser, _id: result.insertedId };
+
+  return { ...newUser, _id: result.insertedId.toString() };
 }
