@@ -4,7 +4,7 @@ import { findOrCreateUser } from "@/services/mongo";
 
 export const {
   handlers: { GET, POST },
-  auth,
+  auth : auth,
   signIn,
   signOut,
 } = NextAuth({
