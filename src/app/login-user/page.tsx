@@ -17,10 +17,10 @@ const LoginUserContent = () => {
     );
   }
 
-  if (session?.user) {
-    router.push("/404"); 
-    return null; 
-  }
+  // if (session?.user) {
+  //   router.push("/404"); 
+  //   return null; 
+  // }
 
   return (
     <div className={styles.centerContainer}>
