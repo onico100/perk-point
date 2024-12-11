@@ -79,7 +79,7 @@
 }
 
 input[type="checkbox"]:checked + .toggleSwitch {
-  background-color: #4caf50;
+  background: linear-gradient(to right, #b247e8, #ac5ceb);
 }
 
 input[type="checkbox"]:checked + .toggleSwitch::before {
@@ -87,4 +87,11 @@ input[type="checkbox"]:checked + .toggleSwitch::before {
 }
 .hiddenCheckbox {
   display: none;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }

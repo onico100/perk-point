@@ -22,8 +22,10 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const { clubs, categories } = useFetchGeneral();
   const { clientMode } = useGeneralStore();
 
-  const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>(benefits);
-  const [showValidBenefits, setShowValidBenefits] = useState(true); // Toggle state
+  const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>(
+    benefits.filter((benefit) => new Date(benefit.expirationDate) >= new Date())
+  );
+  const [showValidBenefits, setShowValidBenefits] = useState(true);
 
   const params = useParams();
   const id = params.clientId;
@@ -76,7 +78,6 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       return true;
     });
 
-    // Filter further based on toggle state
     const dateFilteredBenefits = filteredBenefits?.filter((benefit) => {
       const isExpired = new Date(benefit.expirationDate) < new Date();
       return showValidBenefits ? !isExpired : isExpired;
@@ -88,7 +89,6 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const handleToggle = () => {
     setShowValidBenefits((prev) => !prev);
 
-    // Reapply date filter after toggling
     const dateFilteredBenefits = benefits?.filter((benefit) => {
       const isExpired = new Date(benefit.expirationDate) < new Date();
       return showValidBenefits ? isExpired : !isExpired;
@@ -105,21 +105,26 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
           categories={categories}
           onSearch={handleSearch}
         />
-        <div className={styles.toggleContainer}>
-          <label className={styles.toggleLabel}>
-            <input
-              type="checkbox"
-              checked={showValidBenefits}
-              onChange={handleToggle}
-              className={styles.hiddenCheckbox}
-            />
-            <span className={styles.toggleSwitch}></span>
-            Show {showValidBenefits ? "Valid Benefits" : "Expired Benefits"}
-          </label>
-        </div>
       </div>
+
       <div className={styles.mainContainer}>
-        <div className={styles.title}>{title}</div>
+        <div className={styles.titleContainer}>
+          <div className={styles.title}>{title}</div>
+          {clientMode == "SUPPLIER" && id != "0" && (
+            <div className={styles.toggleContainer}>
+              <label className={styles.toggleLabel}>
+                <input
+                  type="checkbox"
+                  checked={showValidBenefits}
+                  onChange={handleToggle}
+                  className={styles.hiddenCheckbox}
+                />
+                <span className={styles.toggleSwitch}></span>
+                {showValidBenefits ? "הטבות בתוקף" : "הטבות לא בתוקף"}
+              </label>
+            </div>
+          )}
+        </div>
         <div className={styles.cardsContainer}>
           {benefitsToShow?.map((benefit) => (
             <BenefitsCard
