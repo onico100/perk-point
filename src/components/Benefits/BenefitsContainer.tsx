@@ -7,7 +7,7 @@ import { Benefit, Club, Supplier, Branch } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Benefits/BenefitsContainer.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Link from "next/link";
@@ -22,10 +22,14 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const { clubs, categories } = useFetchGeneral();
   const { clientMode } = useGeneralStore();
 
-  const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>(benefits);
+  const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>(
+    benefits.filter((benefit) => new Date(benefit.expirationDate) >= new Date())
+  );
+  const [showValidBenefits, setShowValidBenefits] = useState(true);
 
   const params = useParams();
   const id = params.clientId;
+  const pathName = usePathname();
 
   const handleSearch = (
     supplierFilter: string,
@@ -43,6 +47,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
     const filteredBenefits = benefits?.filter((benefit) => {
       const supplier = supplierMap.get(benefit.supplierId);
 
+      // Apply filters based on search inputs
       if (
         supplierFilter &&
         (!supplier || !supplier.businessName.includes(supplierFilter))
@@ -73,8 +78,24 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       }
       return true;
     });
-    console.log(filteredBenefits, "filteredBenefits", supplierFilter);
-    setBenefitsToShow(filteredBenefits || []);
+
+    const dateFilteredBenefits = filteredBenefits?.filter((benefit) => {
+      const isExpired = new Date(benefit.expirationDate) < new Date();
+      return showValidBenefits ? !isExpired : isExpired;
+    });
+
+    setBenefitsToShow(dateFilteredBenefits || []);
+  };
+
+  const handleToggle = () => {
+    setShowValidBenefits((prev) => !prev);
+
+    const dateFilteredBenefits = benefits?.filter((benefit) => {
+      const isExpired = new Date(benefit.expirationDate) < new Date();
+      return showValidBenefits ? isExpired : !isExpired;
+    });
+
+    setBenefitsToShow(dateFilteredBenefits || []);
   };
 
   return (
@@ -86,8 +107,26 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
           onSearch={handleSearch}
         />
       </div>
+
       <div className={styles.mainContainer}>
-        <div className={styles.title}>{title}</div>
+        <div className={styles.titleContainer}>
+          <div className={styles.title}>{title}</div>
+          {((clientMode == "SUPPLIER" && id != "0") ||
+            pathName.includes("/saved-benefits")) && (
+            <div className={styles.toggleContainer}>
+              <label className={styles.toggleLabel}>
+                <input
+                  type="checkbox"
+                  checked={showValidBenefits}
+                  onChange={handleToggle}
+                  className={styles.hiddenCheckbox}
+                />
+                <span className={styles.toggleSwitch}></span>
+                {showValidBenefits ? "הטבות בתוקף" : "הטבות לא בתוקף"}
+              </label>
+            </div>
+          )}
+        </div>
         <div className={styles.cardsContainer}>
           {benefitsToShow?.map((benefit) => (
             <BenefitsCard
