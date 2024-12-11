@@ -25,7 +25,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
   const { mutate: updateUser, error } = useUpdateUserById();
 
   const addClub = async () => {
-    let alertConfirm = await beforeActionAlert("", "הוספה");
+    let alertConfirm = await beforeActionAlert("");
     if (alertConfirm) {
       if (
         currentUser?.clubs?.some((existingClub) => existingClub === club?._id)
@@ -63,7 +63,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
   };
 
   const deleteClub = async () => {
-    let alertConfirm = await beforeActionAlert("", "הסרה");
+    let alertConfirm = await beforeActionAlert("");
 
     if (alertConfirm) {
       if (typeof currentUser?._id === "string") {

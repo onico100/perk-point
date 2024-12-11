@@ -135,7 +135,7 @@ export default function SupplierPersonalDetails({
 
   const editSupplier = async (data: any) => {
     try {
-      const alertConfirm = await beforeActionAlert("", "עריכה");
+      const alertConfirm = await beforeActionAlert("");
       if (alertConfirm) {
         if (currentSupplier?._id) {
           let updatedBranches = selectAll ? allBranches : allBranches?.filter(b => data.branches.includes(b.nameBranch))
@@ -161,7 +161,7 @@ export default function SupplierPersonalDetails({
             {
               onSuccess: () => {
                 console.log(25, currentSupplier);
-                successAlert("ספק נערך ");
+                successAlert("ספק נערך בהצלחה!");
               },
               onError: () => {
                 errorAlert("שגיאה בעריכת ספק");

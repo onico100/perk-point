@@ -43,7 +43,7 @@ export const useFetchSuppliers = () => {
       if (!existingSupplier) {
         setSuppliers([...suppliers, newSupplier]);
       }
-      inProccesAlert("מוסיף")
+      inProccesAlert("מוסיף...")
       return { previousSuppliers: suppliers };
     },
     onError: (error, _, context: any) => {
@@ -57,7 +57,7 @@ export const useFetchSuppliers = () => {
       setCurrentSupplier(supplier);
       setClientMode(ClientMode.supplier);
       console.log("Supplier added and stored successfully!", currentSupplier);
-      successAlert("משתמש נוסף")
+      successAlert("משתמש נוסף בהצלחה!")
       router.push("/");
     },
   });
@@ -79,7 +79,7 @@ export const useFetchSuppliers = () => {
       
       let oldSupplier=currentSupplier
       setCurrentSupplier(updatedSupplier)
-      inProccesAlert("מעדכן")
+      inProccesAlert("מעדכן...")
       return { previousSuppliers: suppliers , currentSupplier: oldSupplier};
     },
     onError: (_error, _variables, context: any) => {
@@ -91,7 +91,7 @@ export const useFetchSuppliers = () => {
     },
     onSuccess: () => {
       console.log("Supplier updated successfully!");
-      successAlert("עדכון ספק בוצע")
+      successAlert("עדכון ספק בוצע בהצלחה!")
      // queryClient.invalidateQueries({ queryKey: ["suppliers"] });
     },
   });
