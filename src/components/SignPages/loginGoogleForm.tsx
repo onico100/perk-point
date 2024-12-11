@@ -1,7 +1,7 @@
 "use client"
 import { FcGoogle } from "react-icons/fc"; 
 import { doSocialLogin } from "./actions";
-import styles from "./google.module.css";
+import styles from "@/styles/SignPages/google.module.css";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useGeneralStore from "@/stores/generalStore";
@@ -20,9 +20,7 @@ const LoginGoogleForm = () => {
 
   const fetchUser = async () => {
     if (session?.user) {
-      console.log("Session user:", session.user);
       const exitedUser = await returnUserCheckEmailService(session.user.email || "---")|| null;
-      console.log("Existed user:", exitedUser);
       if (exitedUser) {
           const userS = {
           _id: exitedUser?._id || "", 
