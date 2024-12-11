@@ -18,7 +18,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
   const [message, setMessage] = useState("");
-  const preMode = useGeneralStore((state) => state.preMode);
   const loginUserMutation = useLoginUser();
   const router = useRouter();
 
@@ -28,7 +27,7 @@ export default function Login() {
       handleForgotPassword();
       return;
     }
-    if (preMode === "USER") {
+    else {
       loginUserMutation.mutate(
         { email, password },
         {
@@ -42,8 +41,6 @@ export default function Login() {
           },
         }
       );
-    } else {
-      errorAlert("לא נבחר מצב התחברות (משתמש או ספק)");
     }
   };
 

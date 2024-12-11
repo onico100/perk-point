@@ -1,7 +1,7 @@
 "use client";
 import { BenefitsContainer2 } from "@/components";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode, PreMode } from "@/types/types";
+import { ClientMode } from "@/types/types";
 
 export default function savedBenefits() {
   const setClientMode = useGeneralStore((state) => state.setClientMode);

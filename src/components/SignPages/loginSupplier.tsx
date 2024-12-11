@@ -15,7 +15,6 @@ export default function SupplierLoginComponent() {
   const [password, setPassword] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
   const [message, setMessage] = useState("");
-  const preMode = useGeneralStore((state) => state.preMode);
   const loginUserMutation = useLoginUser();
   const { loginSupplier } = useFetchSuppliers();
   const router = useRouter();
