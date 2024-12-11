@@ -15,6 +15,7 @@ import {
 } from "@/utils/sweet-alerts";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
+import my_http from "@/services/http";
 
 interface SupplierPersonalDetailsProps {
   currentSupplier: Supplier;
@@ -45,12 +46,12 @@ const formSchema = z.object({
     { message: "נא לבחור לפחות קטגוריה אחד" }
   ),
 
-  // branches: z.array(z.string()).refine(
-  //   (branches) => {
-  //     return branches.length > 0;
-  //   },
-  //   { message: "נא לבחור לפחות סניף אחד" }
-  // ),
+  branches: z.array(z.string()).refine(
+    (branches) => {
+      return branches.length > 0;
+    },
+    { message: "נא לבחור לפחות סניף אחד" }
+  ),
 });
 
 export default function SupplierPersonalDetails({
@@ -60,10 +61,10 @@ export default function SupplierPersonalDetails({
   const { categories } = useGeneralStore();
   const { updateSupplier } = useFetchSuppliers();
   const [ischooseCategories, setIschooseCategories] = useState(true);
-  const [selectAll, setSelectAll] = useState(true);
+  const [selectAll, setSelectAll] = useState(false);
   const [uploading, setUploading] = useState(false);
-  let branches1 = currentSupplier?.branches;
-
+  const [allBranches, setAllBranches] = useState<any[]>([]);
+  const [booleanResults,setBooleanResults]=useState<boolean[]>([])
   const {
     register,
     handleSubmit,
@@ -73,9 +74,17 @@ export default function SupplierPersonalDetails({
     resolver: zodResolver(formSchema),
   });
 
-
   useEffect(() => {
+
     if (editMode) {
+      let booleanResults2: boolean[] = allBranches.map((b: Branch) =>
+        currentSupplier?.branches?.some((branch: Branch) => branch.nameBranch === b.nameBranch) as boolean
+      );
+      setBooleanResults(booleanResults2);  
+    
+      const containsAllBranches = booleanResults2.every(b => b === true);
+      setSelectAll(containsAllBranches)
+
       setValue("providerName", currentSupplier?.providerName);
       setValue("email", currentSupplier?.email);
       setValue("businessName", currentSupplier?.businessName);
@@ -83,9 +92,14 @@ export default function SupplierPersonalDetails({
       setValue("siteLink", currentSupplier?.siteLink);
       setValue("supplierLogo", currentSupplier?.supplierLogo);
       setValue("selectedCategories", currentSupplier?.selectedCategories);
-      setValue("branches", selectAll ? branches1?.map(b=>b.nameBranch) : []);
+      setValue("branches",selectAll ? allBranches?.map((b) => b.nameBranch) :
+       currentSupplier?.branches?.map((b) => b.nameBranch));
     }
   }, [editMode, currentSupplier, setValue]);
+
+  useEffect(() => {
+    fetchBranches();
+  }, []);
 
   const handleLogoUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -121,11 +135,9 @@ export default function SupplierPersonalDetails({
     try {
       const alertConfirm = await beforeActionAlert("", "עריכה");
       if (alertConfirm) {
-
-        if (currentSupplier?._id) 
-          {
-          console.log(data);
-       //  let updatedBranches=branches1?.filter(b=>data.branches.includes(b.nameBranch))
+        if (currentSupplier?._id) {
+          let updatedBranches= selectAll ? allBranches : allBranches?.filter(b=>data.branches.includes(b.nameBranch))
+          
           await updateSupplier(
             {
               id: currentSupplier._id,
@@ -137,8 +149,7 @@ export default function SupplierPersonalDetails({
                 categories: currentSupplier?.categories,
                 phoneNumber: data?.phoneNumber,
                 registrationDate: currentSupplier?.registrationDate,
-                branches: currentSupplier?.branches,
-               // branches: updatedBranches,
+                branches: updatedBranches,
                 siteLink: data?.siteLink,
                 supplierLogo: data?.supplierLogo,
                 isActive: currentSupplier?.isActive,
@@ -162,6 +173,40 @@ export default function SupplierPersonalDetails({
       errorAlert("שגיאה בעריכת ספק");
     } finally {
       setEditMode(false);
+    }
+  };
+
+  const fetchBranches = async () => {
+    let textQuery = currentSupplier?.businessName;
+
+    if (textQuery.trim().length >= 2) {
+      try {
+        const response = await my_http.post(`/googleAutocomplete/post`, {
+          textQuery,
+        });
+        const branchesFromGoogle = response.data.formattedPlaces;
+
+        const extractCity = (branch: string): string => {
+          const parts = branch.split(",");
+          return parts.length >= 2 ? parts[1].trim() : "לא ידועה";
+        };
+
+        const citySuggestions: Branch[] = branchesFromGoogle
+          ? branchesFromGoogle.map((place: any) => {
+              return {
+                nameBranch: place.name + " " + place.address,
+                city: extractCity(place.address),
+              } as Branch;
+            })
+          : [];
+
+        setAllBranches(citySuggestions);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
+        setAllBranches([]);
+      }
+    } else {
+      setAllBranches([]);
     }
   };
 
@@ -371,51 +416,51 @@ export default function SupplierPersonalDetails({
       </p>
 
       <p>
-      <span className={styles.label}>סניפים:</span>
-      {editMode ?(<div className={styles.inputContainer}>
-        <div>
-            <label>
-              <input
-                type="checkbox"
-                checked={selectAll}
-                onChange={() => setSelectAll(!selectAll)}
-              />
-              כל הסניפים
-            </label>
-          </div>
-          {!selectAll && (
-            <div className={styles.branchList}>
-              {branches1?.map((b: Branch) => (
-                <label key={b.nameBranch} className={styles.branchLabel}>
-                  <input
-                    type="checkbox"
-                    value={b.nameBranch}
-                    {...register("branches")}
-                  />
-                  {b.nameBranch}, {b.city}
-                </label>
-              ))}
+        <span className={styles.label}>סניפים:</span>
+        {editMode ? (
+          <div className={styles.inputContainer}>
+            <div>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={selectAll}
+                  onChange={() => setSelectAll(!selectAll)}
+                />
+                כל הסניפים
+              </label>
             </div>
-          )}
-          {errors.branches && !selectAll && (
-            <span className={styles.error}>
-              {errors.branches.message as string}
-            </span>
-          )}
-        </div>)
-        :(
+            {!selectAll && (
+              <div className={styles.branchList}>
+                {allBranches?.map((b: Branch,index) => (
+                  <label key={b.nameBranch} className={styles.branchLabel}>
+                    <input
+                      type="checkbox"
+                      value={b.nameBranch}
+                      {...register("branches")}
+                      defaultChecked={booleanResults[index]}
+                    />
+                    {b.nameBranch}.
+                  </label>
+                ))}
+              </div>
+            )}
+            {errors.branches && !selectAll && (
+              <span className={styles.error}>
+                {errors.branches.message as string}
+              </span>
+            )}
+          </div>
+        ) : (
           <div>
-          {currentSupplier &&
-          currentSupplier.branches &&
-          currentSupplier?.branches?.length > 0
-            ? branches1?.map((b: Branch) => (
-                  <div key={b.nameBranch}>° {b.nameBranch}, {b.city}.</div>
+            {currentSupplier &&
+            currentSupplier.branches &&
+            currentSupplier?.branches?.length > 0
+              ? currentSupplier?.branches?.map((b: Branch) => (
+                  <div key={b.nameBranch}>° {b.nameBranch}.</div>
                 ))
-            : "אין סניפים זמינים"}
-        </div>
+              : "אין סניפים זמינים"}
+          </div>
         )}
-        
-          
       </p>
       {editMode && (
         <button

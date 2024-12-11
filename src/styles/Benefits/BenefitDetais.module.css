@@ -3,15 +3,31 @@
   font-family: Arial, sans-serif;
 }
 
+.topContainer {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  position: relative;
+  margin-bottom: 20px; 
+}
 
 .backIcon {
-  right: 20%;
+  position: absolute; 
+  right: 0;
   font-size: 24px;
   cursor: pointer;
 }
 
 .backIcon:hover {
   transform: scale(1.1);
+}
+
+
+.expiredTitle {
+  color: red; 
+  margin-left: 10px;
+  font-size: 32px; 
+  font-weight: bold; 
 }
 
 .contentContainer {
@@ -58,22 +74,46 @@
   border-radius: 12px;
 }
 
-.logoContainer {
+/* .logo {
+  height: 120px;
+  width: 120px; 
+  border-radius: 12px;
+  object-fit: contain;
+} */
+.logo {
+  width: 100%; 
+  height: auto;
+  max-height: 100%; 
+  border-radius: 12px; 
+  object-fit: contain;
+}
+
+/* .logoContainer {
   position: relative;
   background-color: #f9f9f9;
-  height: 55%;
+  height: 60%;
   padding: 15px;
   margin-bottom: 10px;
   border-radius: 12px;
+  justify-content: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1;
-}
+} */
 
-.logo {
-  width: 100%;
-  height: 100%;
+.logoContainer {
+  position: relative;
+  background-color: #f9f9f9;
+  padding: 15px; 
+  margin-bottom: 10px;
   border-radius: 12px;
-  object-fit: contain;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  width: auto;
+  height: 60%;
+  display: flex;
+  align-items: center; 
+  overflow: hidden; 
 }
 
 .logoContainer::before,
@@ -278,4 +318,5 @@
 .button:hover {
   transform: scale(1.05);
 }
+
 
