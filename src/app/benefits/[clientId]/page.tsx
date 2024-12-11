@@ -23,14 +23,22 @@ export default function ClientId() {
     if (id !== "0") {
       if (clientMode === "USER") {
         benefitsToShow =
-          benefits.filter((b) => currentUser?.clubs.includes(b.clubId)) || [];
+          benefits.filter(
+            (b) =>
+              currentUser?.clubs.includes(b.clubId) &&
+              b.expirationDate &&
+              new Date(b.expirationDate) >= new Date()
+          ) || [];
         currentTitle = titles[1];
       } else if (clientMode === "SUPPLIER") {
         benefitsToShow = benefits.filter((b) => b.supplierId === id) || [];
         currentTitle = titles[2];
       }
     } else {
-      benefitsToShow = benefits; // Default: show all benefits
+      benefitsToShow =
+        benefits.filter(
+          (b) => b.expirationDate && new Date(b.expirationDate) >= new Date()
+        ) || [];
     }
   }
 
