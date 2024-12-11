@@ -91,13 +91,9 @@ export default function Login() {
               </p>
             </div>
           )}
-
-
-
           {!forgotPassword && ( <button type="submit" className={styles.loginPageButton}>התחברות</button> )}
           {forgotPassword && <button type="submit">שלח קישור לאיפוס סיסמה</button>}
           {message && <p>{message}</p>}
-
           <br/>
           
         </form>
@@ -109,7 +105,7 @@ export default function Login() {
 
       <div className={styles.noAccountLink}>
             <Link  href={"/register-user"}>
-              אין לך עדיין משתמש? הרשמה
+              פעם ראשונה באתר? הרשמה
             </Link>
       </div>
     </div>
