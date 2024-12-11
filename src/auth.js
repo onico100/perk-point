@@ -59,6 +59,6 @@ export const {
     },
   },
   pages: {
-    signIn: "/login-user",
+    signIn: "/",
   },
 });
