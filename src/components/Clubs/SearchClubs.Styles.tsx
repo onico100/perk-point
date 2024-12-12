@@ -13,7 +13,7 @@ export const SearchContainer = styled.div`
 export const SearchIcon = styled(FaSearch)`
     position: absolute;
     margin-left: 15px;
-    left: 10px; 
+    left: 20px; 
     top: 50%;
     transform: translateY(-50%);
     color: grey;
@@ -22,7 +22,7 @@ export const SearchIcon = styled(FaSearch)`
 export const InputContainer = styled.div`
     position: relative;
     padding-left: 30px;
-    width: 30%;
+    width: 35%;
     
     &:focus-within ${SearchIcon} {
         color: black;
