@@ -11,6 +11,7 @@ interface BenefitInfoLeftProps {
     toggleBranches: () => void;
     isUpdateMode: boolean;
     availableBranches: Branch[] | undefined;
+    allBranchesSelected: boolean | undefined;
     handleAddBranch: (branch: Branch) => void;
     handleRemoveBranch: (branch: Branch) => void;
     dropdownVisible: boolean;
@@ -25,6 +26,7 @@ const BenefitInfoLeft: React.FC<BenefitInfoLeftProps> = ({
     toggleBranches,
     isUpdateMode,
     availableBranches,
+    allBranchesSelected,
     handleAddBranch,
     handleRemoveBranch,
     dropdownVisible,
@@ -52,21 +54,25 @@ const BenefitInfoLeft: React.FC<BenefitInfoLeftProps> = ({
                 {showBranches && (
                     <>
                         {updatedBenefit?.branches && updatedBenefit.branches.length > 0 ? (
-                            <ul className={styles.branchList}>
-                                {updatedBenefit?.branches?.map((branch, index) => (
-                                    <li key={index} className={styles.branchItem}>
-                                        <div className={`${styles.branchInfo} ${isUpdateMode ? styles.editing : ""}`}>
-                                            {isUpdateMode && (
-                                                <FaMinusCircle className={styles.minIcon} onClick={() => handleRemoveBranch(branch)} />
-                                            )}
-                                            <div className={styles.branchLocation}>
-                                                <span className={styles.branchCity}>{branch.city}</span>
-                                                <span className={styles.branchAddress}>{branch.nameBranch}</span>
+                            !isUpdateMode && allBranchesSelected ? (
+                                <div className={styles.allBranchesText}>כל הסניפים</div>
+                            ) : (
+                                <ul className={styles.branchList}>
+                                    {updatedBenefit?.branches?.map((branch, index) => (
+                                        <li key={index} className={styles.branchItem}>
+                                            <div className={`${styles.branchInfo} ${isUpdateMode ? styles.editing : ""}`}>
+                                                {isUpdateMode && (
+                                                    <FaMinusCircle className={styles.minIcon} onClick={() => handleRemoveBranch(branch)} />
+                                                )}
+                                                <div className={styles.branchLocation}>
+                                                    <span className={styles.branchCity}>{branch.city}</span>
+                                                    <span className={styles.branchAddress}>{branch.nameBranch}</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )
                         ) : (
                             <div>אין סניפים</div>
                         )}
@@ -79,8 +85,7 @@ const BenefitInfoLeft: React.FC<BenefitInfoLeftProps> = ({
                                             const branch = JSON.parse(e.target.value);
                                             handleAddBranch(branch);
                                         }}>
-                                            <option value="">{availableBranches && availableBranches.length > 0 ? "בחר סניף" : "כול הסניפים נבחרו"}</option>
-                                            {availableBranches?.map((branch, index) => (
+                                            {availableBranches && availableBranches.length > 0 ? "בחר סניף" : "כול הסניפים נבחרו"}                                            {availableBranches?.map((branch, index) => (
                                                 <option key={index} value={JSON.stringify(branch)}>
                                                     {branch.city}, {branch.nameBranch}
                                                 </option>

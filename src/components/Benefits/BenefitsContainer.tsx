@@ -107,12 +107,10 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
           onSearch={handleSearch}
         />
       </div>
-
       <div className={styles.mainContainer}>
         <div className={styles.titleContainer}>
           <div className={styles.title}>{title}</div>
-          {((clientMode == "SUPPLIER" && id != "0") ||
-            pathName.includes("/saved-benefits")) && (
+          {id != "0" && (
             <div className={styles.toggleContainer}>
               <label className={styles.toggleLabel}>
                 <input

@@ -6,7 +6,8 @@ import styles from "@/styles/Benefits/benefitCard.module.css";
 
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
-import { MdDelete, MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { FaStar, FaRegStar } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { TbCalendarOff } from "react-icons/tb";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import {
@@ -45,7 +46,6 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   const deleteBenefitFunc = async () => {
     let alertConfirm = await beforeActionAlert(
       "לא תוכל לשחזר לאחר מחיקה",
-      "מחיקה"
     );
 
     if (alertConfirm) {
@@ -54,7 +54,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   };
 
   const addToFavorits = async () => {
-    let alertConfirm = await beforeActionAlert("", "הוספה");
+    let alertConfirm = await beforeActionAlert("");
     if (alertConfirm) {
       if (
         currentUser?.savedBenefits?.some(
@@ -83,12 +83,12 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           },
         });
       }
-      successAlert(" נוסף לשמורים ");
+      successAlert(" נוסף לשמורים בהצלחה! ");
     }
   };
 
   const deleteFromFavorits = async () => {
-    let alertConfirm = await beforeActionAlert("", "הסרה משמורים");
+    let alertConfirm = await beforeActionAlert("");
     if (alertConfirm) {
       if (typeof currentUser?._id === "string") {
         await updateUser({
@@ -107,7 +107,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           },
         });
       }
-      successAlert(" הוסר משמורים");
+      successAlert(" הוסר משמורים בהצלחה!");
     }
   };
 
@@ -140,11 +140,11 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           (existingBenefit) => existingBenefit === benefit?._id
         ) ? (
           <div className={styles.favoriteIcon} onClick={deleteFromFavorits}>
-            <MdFavorite />
+            <FaStar />
           </div>
         ) : (
           <div className={styles.favoriteIcon} onClick={addToFavorits}>
-            <MdFavoriteBorder />
+            <FaRegStar />
           </div>
         ))}
 

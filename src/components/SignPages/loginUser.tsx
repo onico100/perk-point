@@ -2,7 +2,7 @@
 "use client";
 import { useState } from "react";
 import { useLoginUser } from "@/hooks/useFetchUsers";
-import styles from "@/styles/SignPages/sign.module.css";
+import styles from "@/styles/SignPages/login.module.css";
 import Link from "next/link";
 import {  useRouter } from "next/navigation";
 import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
@@ -52,7 +52,7 @@ export default  function  Login() {
 
   return (
     <div className={styles.loginPage}>
-      {message && <p className="text-red-500">{message}</p>}
+      
       <h1 className={styles.titleSign}>התחברות לקוח</h1>
       <div className={styles.signOption}>
       <div className="sign">
@@ -89,8 +89,9 @@ export default  function  Login() {
             </div>
           )}
           {!forgotPassword && ( <button type="submit" className={styles.loginPageButton}>התחברות</button> )}
+          {message && <p className="text-red-500">{message}</p>}
           {forgotPassword && <button type="submit">שלח קישור לאיפוס סיסמה</button>}
-          {message && <p>{message}</p>}
+    
           <br/>
           
         </form>
