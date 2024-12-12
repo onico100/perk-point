@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 import { SelectContainer, SelectLabel, Dropdown, DropdownOption } from './SearchBenefits.Styles';
 
@@ -11,6 +11,7 @@ interface DropdownFilterProps {
 
 const DropdownFilter: React.FC<DropdownFilterProps> = ({ label, options, selectedOptions, onChange }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const toggleSelection = (id: string) => {
         const isSelected = selectedOptions.includes(id);
@@ -20,10 +21,21 @@ const DropdownFilter: React.FC<DropdownFilterProps> = ({ label, options, selecte
         onChange(newSelection);
     };
 
+    const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+        if (!dropdownRef.current?.contains(e.relatedTarget as Node)) {
+            setDropdownOpen(false);
+        }
+    };
+
     return (
-        <SelectContainer $isOpen={dropdownOpen}>
+        <SelectContainer
+            ref={dropdownRef}
+            $isOpen={dropdownOpen}
+            tabIndex={0} 
+            onBlur={handleBlur}
+        >
             <SelectLabel onClick={() => setDropdownOpen(!dropdownOpen)}>
-                {selectedOptions.length > 0 ? `${selectedOptions.length} selected` : label}
+                {selectedOptions.length > 0 ? `${selectedOptions.length} ${label}` : `בחר ${label}`}
                 <FaChevronDown />
             </SelectLabel>
             {dropdownOpen && (
@@ -46,3 +58,4 @@ const DropdownFilter: React.FC<DropdownFilterProps> = ({ label, options, selecte
 };
 
 export default DropdownFilter;
+
