@@ -5,7 +5,6 @@ import {useState } from "react";
 import {
   SearchContainer,
   InputContainer,
-  ClubInput,
   SearchIcon,
 } from "./SearchClubs.Styles";
 import { LoadingSpinner, ClubCard, TextInputFilter } from "@/components";
