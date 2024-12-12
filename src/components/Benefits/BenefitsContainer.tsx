@@ -29,7 +29,6 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
 
   const params = useParams();
   const id = params.clientId;
-  const pathName = usePathname();
 
   const handleSearch = (
     supplierFilter: string,

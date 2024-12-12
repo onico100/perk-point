@@ -1,6 +1,5 @@
 "use client";
-import { BenefitsContainer } from "@/components";
-import LoadingSpinner from "@/components/Loading/LoadingSpinner";
+import { BenefitsContainer, LoadingSpinner } from "@/components";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
 import { Benefit, ClientMode } from "@/types/types";
