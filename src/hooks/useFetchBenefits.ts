@@ -75,6 +75,9 @@ const {benefits}=useBenefitStore()
       inProccesAlert("מעדכן...")
       return { previousBenefits };
     },
+    onSuccess: (_error, _data, context) => {
+      successAlert("הטבה עודכנה בהצלחה!")
+    },
     onError: (_error, _data, context) => {
       errorAlert("עדכון הטבה נכשל")
     },
@@ -90,6 +93,9 @@ const {benefits}=useBenefitStore()
       const updatedBenefits = benefits.filter(
         (benefit) => benefit._id !== benefitId
       );
+      console.log(benefitId)
+      console.log(benefits)
+      console.log(updatedBenefits)
       queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
       inProccesAlert("מוחק...")
       return { previousBenefits };

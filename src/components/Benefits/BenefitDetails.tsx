@@ -70,7 +70,7 @@ const BenefitDetails = () => {
               isActive: updateState.updatedBenefit.isActive,
             },
           });
-          console.log("הטבה עודכנה בהצלחה");
+          
         }
       } catch (error) {
         console.error("Error updating benefit:", error);

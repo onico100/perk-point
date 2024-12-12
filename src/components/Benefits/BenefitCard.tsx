@@ -83,7 +83,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           },
         });
       }
-      successAlert(" נוסף לשמורים בהצלחה! ");
+      //successAlert(" נוסף לשמורים בהצלחה! ");
     }
   };
 
@@ -107,7 +107,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           },
         });
       }
-      successAlert(" הוסר משמורים בהצלחה!");
+      //successAlert(" הוסר משמורים בהצלחה!");
     }
   };
 
