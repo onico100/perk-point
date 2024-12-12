@@ -1,4 +1,3 @@
-// components/Footer.tsx
 import React from "react";
 import styles from "@/styles/Home/Footer.module.css";
 import { FaFacebook, FaTwitter } from "react-icons/fa";
@@ -9,7 +8,6 @@ const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-        {/* Brand/Info Section */}
         <div className={styles.brand}>
           <div className={styles.logoContainer}>
             <img

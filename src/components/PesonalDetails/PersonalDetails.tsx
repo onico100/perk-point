@@ -1,9 +1,11 @@
 "use client";
 
 import useGeneralStore from "@/stores/generalStore";
-import SupplierPersonalDetails from "./SupplierPersonalDetails";
-import UserPersonalDetails from "./UserPersonalDetails";
-import LoadingSpinner from "@/components/Loading/LoadingSpinner";
+import {
+  SupplierPersonalDetails,
+  LoadingSpinner,
+  UserPersonalDetails,
+} from "@/components";
 
 export default function PersonalDetails() {
   const { currentUser, currentSupplier } = useGeneralStore();
@@ -14,8 +16,10 @@ export default function PersonalDetails() {
 
   return (
     <>
-      {currentUser && <UserPersonalDetails currentUser={currentUser}></UserPersonalDetails>}
-      {currentSupplier && <SupplierPersonalDetails currentSupplier={currentSupplier}></SupplierPersonalDetails>}
+      {currentUser && <UserPersonalDetails currentUser={currentUser} />}
+      {currentSupplier && (
+        <SupplierPersonalDetails currentSupplier={currentSupplier} />
+      )}
     </>
   );
 }

@@ -1,14 +1,13 @@
-"use client"
-import { FcGoogle } from "react-icons/fc"; 
+"use client";
+import { FcGoogle } from "react-icons/fc";
 import { doSocialLogin } from "./actions";
 import styles from "@/styles/SignPages/google.module.css";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode, User } from "@/types/types";
+import { ClientMode } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { returnUserCheckEmailService } from "@/services/emailServices";
-
 
 const LoginGoogleForm = () => {
   const [loading, setLoading] = useState(false);
@@ -20,45 +19,44 @@ const LoginGoogleForm = () => {
 
   const fetchUser = async () => {
     if (session?.user) {
-      const exitedUser = await returnUserCheckEmailService(session.user.email || "---")|| null;
+      const exitedUser =
+        (await returnUserCheckEmailService(session.user.email || "---")) ||
+        null;
       if (exitedUser) {
-          const userS = {
-          _id: exitedUser?._id || "", 
-          username: exitedUser?.username|| "",
+        const userS = {
+          _id: exitedUser?._id || "",
+          username: exitedUser?.username || "",
           email: exitedUser?.email || "",
-          clubs: [], 
-          registrationDate: exitedUser?.registrationDate || new Date().toISOString(), 
-          savedBenefits: [], 
+          clubs: [],
+          registrationDate:
+            exitedUser?.registrationDate || new Date().toISOString(),
+          savedBenefits: [],
           city: exitedUser?.city || "",
-          isActive: true, 
-          password: exitedUser?.password || "", 
+          isActive: true,
+          password: exitedUser?.password || "",
         };
         setCurrentUser(userS);
         setClientMode(ClientMode.user);
-        router.push("/"); 
+        router.push("/");
       } else {
         console.error("User not found or error occurred.");
       }
     }
-  }
+  };
 
   useEffect(() => {
     fetchUser();
   }, [session]);
-
-
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const action = formData.get("action");
     if (action) {
-      setLoading(true); 
+      setLoading(true);
       await doSocialLogin(formData);
-      setLoading(false); 
-    } else {
-      console.error("Action is null");
-    }
+      setLoading(false);
+    } else console.error("Action is null");
   };
 
   return (

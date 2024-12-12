@@ -1,6 +1,5 @@
 "use client";
-import { BenefitsContainer } from "@/components";
-import LoadingSpinner from "@/components/Loading/LoadingSpinner";
+import { BenefitsContainer, LoadingSpinner } from "@/components";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
 import { Benefit, ClientMode } from "@/types/types";
@@ -11,8 +10,6 @@ export default function savedBenefits() {
   const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
   const { currentUser, clientMode } = useGeneralStore();
   const title = "שמורים";
-  const params = useParams();
-  const id = params.clientId;
 
   if (clientMode == ClientMode.connection) setClientMode(ClientMode.general);
 

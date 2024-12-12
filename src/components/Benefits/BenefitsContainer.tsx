@@ -1,6 +1,6 @@
 "use client";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
-import BenefitsCard from "@/components/Benefits/BenefitCard";
+import {BenefitsCard} from "@/components";
 import SearchBenefits from "./SearchBenefits";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { Benefit, Club, Supplier, Branch } from "@/types/types";
@@ -29,7 +29,6 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
 
   const params = useParams();
   const id = params.clientId;
-  const pathName = usePathname();
 
   const handleSearch = (
     supplierFilter: string,
