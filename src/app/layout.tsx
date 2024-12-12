@@ -14,18 +14,18 @@ import {
 } from "@/components/index";
 import { useEffect, useState } from "react"; // Import useState
 
-
 const queryClient = new QueryClient();
 
-export default function RootLayout({children, }: Readonly<{ children: React.ReactNode }>) 
-{
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   const [isCalcPageVisible, setIsCalcPageVisible] = useState(false);
-  useEffect(() => {
-    document.title = "PerkPoint";
-  }, []);
+  // useEffect(() => {
+  //   document.title = "PerkPoint";
+  // }, []);
   return (
     <QueryClientProvider client={queryClient}>
-      <html lang="en" >
+      <html lang="en">
         <Head>
           <title>PerkPoint</title>
           <link rel="icon" href="/favicon.ico" sizes="any" />

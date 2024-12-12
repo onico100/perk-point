@@ -9,11 +9,11 @@ import {
   deleteBenefitById,
   updateBenefitById,
 } from "@/services/benefitsServices";
-import {successAlert, inProccesAlert, errorAlert } from "@/utils/sweet-alerts";
+import { successAlert, inProccesAlert, errorAlert } from "@/utils/sweet-alerts";
 
 export const useFetchBenefits = () => {
-  const setBenefits = useBenefitStore((state: any) => state.setBenefits); 
-const {benefits}=useBenefitStore()
+  const setBenefits = useBenefitStore((state: any) => state.setBenefits);
+  const { benefits } = useBenefitStore();
   const queryClient = useQueryClient();
 
   // Fetch all benefits
@@ -34,22 +34,22 @@ const {benefits}=useBenefitStore()
       const { benefits } = useBenefitStore.getState();
       const previousBenefits = [...benefits];
       const tempBenefit = { ...newBenefit, _id: "temp-id" };
-      let updatedBenefits=[...benefits, tempBenefit]
-   
+      let updatedBenefits = [...benefits, tempBenefit];
+
       queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
 
-      inProccesAlert("מוסיף...")
-    
+      inProccesAlert("מוסיף...");
+
       return { previousBenefits };
     },
     onSuccess: () => {
-      successAlert("הטבה נוספה בהצלחה!")
+      successAlert("הטבה נוספה בהצלחה!");
     },
     onError: (error, _, context: any) => {
       if (context?.previousBenefits) {
         setBenefits(context.previousBenefits);
       }
-      errorAlert("הוספת הטבה נכשלה.")
+      errorAlert("הוספת הטבה נכשלה.");
     },
   });
 
@@ -72,14 +72,14 @@ const {benefits}=useBenefitStore()
             )
           : []
       );
-      inProccesAlert("מעדכן...")
+      inProccesAlert("מעדכן...");
       return { previousBenefits };
     },
     onSuccess: (_error, _data, context) => {
-      successAlert("הטבה עודכנה בהצלחה!")
+      successAlert("הטבה עודכנה בהצלחה!");
     },
     onError: (_error, _data, context) => {
-      errorAlert("עדכון הטבה נכשל")
+      errorAlert("עדכון הטבה נכשל");
     },
   });
 
@@ -93,18 +93,21 @@ const {benefits}=useBenefitStore()
       const updatedBenefits = benefits.filter(
         (benefit) => benefit._id !== benefitId
       );
-      console.log(benefitId)
-      console.log(benefits)
-      console.log(updatedBenefits)
+      console.log(benefitId);
+      console.log(benefits);
+      console.log(updatedBenefits);
+      setBenefits(updatedBenefits);
       queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
-      inProccesAlert("מוחק...")
+      inProccesAlert("מוחק...");
       return { previousBenefits };
     },
-    onSuccess:async () => {successAlert("הטבה נמחקה בהצלחה!")},
+    onSuccess: async () => {
+      successAlert("הטבה נמחקה בהצלחה!");
+    },
     onError: (_error, _variables, context: any) => {
       const { setBenefits } = useBenefitStore.getState();
       setBenefits(context.previousBenefits);
-      errorAlert("מחיקת הטבה נכשלה.")
+      errorAlert("מחיקת הטבה נכשלה.");
     },
   });
 

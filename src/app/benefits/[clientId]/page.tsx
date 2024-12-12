@@ -36,6 +36,9 @@ export default function ClientId() {
     }
   }
 
+  console.log(11, "benefits", benefits);
+  console.log(11, "benefitstoshow", benefitsToShow);
+
   if (isLoadingB || isFetchingB) return <LoadingSpinner />;
 
   return <BenefitsContainer benefits={benefitsToShow} title={currentTitle} />;
