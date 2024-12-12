@@ -28,24 +28,3 @@ export const InputContainer = styled.div`
         color: black;
     }
 `;
-
-export const ClubInput = styled.input`
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    flex: 1;
-    opacity: 0.4;
-    color: black;
-    width: 100%;
-    height: 40px; 
-
-    &:focus {
-        opacity: 1;
-    }
-
-    ::placeholder { 
-        font-size: 12px;
-        color: black;
-    }
-`;
