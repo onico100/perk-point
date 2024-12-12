@@ -3,7 +3,6 @@
 import React from "react";
 import { Benefit, Club, Supplier } from "@/types/types";
 import styles from "@/styles/Benefits/benefitCard.module.css";
-
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
 import { FaStar, FaRegStar } from "react-icons/fa";
@@ -44,9 +43,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   };
 
   const deleteBenefitFunc = async () => {
-    let alertConfirm = await beforeActionAlert(
-      "לא תוכל לשחזר לאחר מחיקה",
-    );
+    let alertConfirm = await beforeActionAlert("לא תוכל לשחזר לאחר מחיקה");
 
     if (alertConfirm) {
       if (benefit._id) deleteBenefit(benefit._id);
