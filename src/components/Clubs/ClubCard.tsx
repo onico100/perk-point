@@ -1,15 +1,13 @@
 "use client";
-
 import React from "react";
-import { Club, User } from "@/types/types";
+import { Club } from "@/types/types";
 import styles from "@/styles/Clubs/ClubCard.module.css";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
 import {
   beforeActionAlert,
   confirmExternalNavigation,
-  successAlert,
   errorAlert,
 } from "@/utils/sweet-alerts";
 
@@ -50,10 +48,8 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
             },
           },
           {
-            // onSuccess: () => {
-            //   successAlert("מועדון נוסף");
-            // },
             onError: (error: Error) => {
+              console.log("error", error);
               errorAlert("שגיאה בהוספת מועדון. נסה שוב מאוחר יותר.");
             },
           }
@@ -67,49 +63,44 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
 
     if (alertConfirm) {
       if (typeof currentUser?._id === "string") {
-        await updateUser({
-          id: currentUser?._id,
-          updatedData: {
-            username: currentUser?.username,
-            email: currentUser?.email,
-            clubs: currentUser?.clubs.filter((c) => c != club._id),
-            registrationDate: currentUser?.registrationDate,
-            savedBenefits: currentUser?.savedBenefits,
-            city: currentUser?.city,
-            isActive: currentUser?.isActive,
-            password: currentUser?.password,
-          },
-        },
+        await updateUser(
           {
-            // onSuccess: () => {
-            //   successAlert("מועדון הוסר");
-            // },
+            id: currentUser?._id,
+            updatedData: {
+              username: currentUser?.username,
+              email: currentUser?.email,
+              clubs: currentUser?.clubs.filter((c) => c != club._id),
+              registrationDate: currentUser?.registrationDate,
+              savedBenefits: currentUser?.savedBenefits,
+              city: currentUser?.city,
+              isActive: currentUser?.isActive,
+              password: currentUser?.password,
+            },
+          },
+          {
             onError: (error: Error) => {
+              console.log("error", error);
               errorAlert("שגיאה בהסרת מועדון. נסה שוב מאוחר יותר.");
             },
-          });
+          }
+        );
       }
     }
   };
 
-  const handleLinkClick = async (
-    href: string) => {
+  const handleLinkClick = async (href: string) => {
     const userConfirmed = await confirmExternalNavigation(href);
     if (userConfirmed) {
       window.open(href, "_blank");
     }
   };
 
-
   return (
     <div className={styles.clubCard}>
       <img src={club.clubLogo} alt="Brand Logo" className={styles.logo} />
       <hr className={styles.divider} />
       <div className={styles.name}>{club.clubName}</div>
-      <p
-        className={styles.link}
-        onClick={() => handleLinkClick(club.clubLink)}
-        >
+      <p className={styles.link} onClick={() => handleLinkClick(club.clubLink)}>
         מעבר לאתר המועדון
       </p>
       {clientMode === "USER" &&

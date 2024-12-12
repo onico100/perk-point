@@ -1,5 +1,6 @@
 "use client"
 import Swal from 'sweetalert2'
+import 'animate.css';
 
 export const beforeActionAlert = async (sendText) => {
   const result = await Swal.fire({
@@ -19,7 +20,10 @@ export const beforeActionAlert = async (sendText) => {
 export const inProccesAlert = async (action) => {
   Swal.fire({
     title: action,
-    showConfirmButton: false
+    showConfirmButton: false,
+    customClass: {
+      title: 'animate__animated animate__pulse animate__infinite', // Continuous pulsing animation
+    },
   });
 }
 

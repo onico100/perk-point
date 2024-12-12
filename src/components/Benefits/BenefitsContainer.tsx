@@ -1,6 +1,6 @@
 "use client";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
-import BenefitsCard from "@/components/Benefits/BenefitCard";
+import { BenefitsCard } from "@/components";
 import SearchBenefits from "./SearchBenefits";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { Benefit, Club, Supplier, Branch } from "@/types/types";
@@ -8,7 +8,7 @@ import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Benefits/BenefitsContainer.module.css";
 import useGeneralStore from "@/stores/generalStore";
 import { useParams, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Link from "next/link";
 
@@ -22,14 +22,19 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const { clubs, categories } = useFetchGeneral();
   const { clientMode } = useGeneralStore();
 
-  const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>(
-    benefits.filter((benefit) => new Date(benefit.expirationDate) >= new Date())
-  );
+  const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
   const [showValidBenefits, setShowValidBenefits] = useState(true);
 
   const params = useParams();
   const id = params.clientId;
-  const pathName = usePathname();
+
+  useEffect(() => {
+    setBenefitsToShow(
+      benefits.filter(
+        (benefit) => new Date(benefit.expirationDate) >= new Date()
+      )
+    );
+  }, [benefits]);
 
   const handleSearch = (
     supplierFilter: string,
@@ -97,6 +102,9 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
 
     setBenefitsToShow(dateFilteredBenefits || []);
   };
+
+  console.log(111, "benefits", benefits);
+  console.log(111, "benefitstoshow", benefitsToShow);
 
   return (
     <div className={styles.container}>

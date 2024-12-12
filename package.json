@@ -16,6 +16,7 @@
     "@tanstack/react-query": "^5.61.5",
     "@tanstack/react-query-persist-client": "^5.61.5",
     "@types/mongodb": "^4.0.6",
+    "animate.css": "^4.1.1",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "framer-motion": "^11.12.0",

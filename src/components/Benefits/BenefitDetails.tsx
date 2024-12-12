@@ -9,10 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
 import { confirmExternalNavigation, beforeActionAlert, confirmChangesAlert } from "@/utils/sweet-alerts";
 import { FaArrowRight } from "react-icons/fa";
-import LoadingSpinner from "@/components/Loading/LoadingSpinner";
-import BenefitInfoRight from "./BenefitInfoRight";
-import BenefitInfoLeft from "./BenefitInfoLeft";
-import ActionButtons from "./ActionButtons";
+import {LoadingSpinner , BenefitInfoRight, BenefitInfoLeft, ActionButtons}from "@/components";
 
 interface UpdateState {
   isUpdateMode: boolean;
@@ -70,7 +67,7 @@ const BenefitDetails = () => {
               isActive: updateState.updatedBenefit.isActive,
             },
           });
-          console.log("הטבה עודכנה בהצלחה");
+          
         }
       } catch (error) {
         console.error("Error updating benefit:", error);
