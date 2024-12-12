@@ -4,9 +4,7 @@ import {
     SearchContainer,
     InputContainer,
 } from './SearchBenefits.Styles';
-import DropdownFilter from './DropdownFilter';
-import TextInputFilter from './TextInputFilter';
-import DateFilterComponent from './DateFilterComponent';
+import {DropdownFilter, TextInputFilter, DateFilterComponent} from '@/components';
 
 interface Club {
     _id: string;

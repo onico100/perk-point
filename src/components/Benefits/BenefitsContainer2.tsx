@@ -1,6 +1,6 @@
 "use client";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
-import BenefitsCard from "@/components/Benefits/BenefitCard";
+import {BenefitsCard, LoadingSpinner} from "@/components";
 import SearchBenefits from "./SearchBenefits";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { Benefit, Club, Supplier, Branch } from "@/types/types";
@@ -11,7 +11,6 @@ import { useParams, usePathname } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Link from "next/link";
-import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 
 const BenefitsContainer2 = () => {
   const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
