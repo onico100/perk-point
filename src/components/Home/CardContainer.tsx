@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "./Card";
+import Card from "./HomeCard";
 import styles from "@/styles/Home/CardContainer.module.css";
 
 const cardData = [

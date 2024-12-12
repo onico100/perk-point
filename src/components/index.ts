@@ -3,7 +3,6 @@ import TopBar from "./Bars/TopBar";
 import TopBarButtons from "./Bars/TopBarButtons";
 import BenefitsCard from "./Benefits/BenefitCard";
 import BenefitsDetails from "./Benefits/BenefitDetails";
-import BenefitsContainer2 from "./Benefits/BenefitsContainer2";
 import BenefitsContainer from "./Benefits/BenefitsContainer";
 import ActionButtons from "./Benefits/ActionButtons";
 import AddBenefit from "./Benefits/AddBenefit";
@@ -26,6 +25,8 @@ import Footer from "./Home/Footer";
 import LoadingSpinner from "./Loading/LoadingSpinner";
 import ClubCard from "@/components/Clubs/ClubCard";
 import ClubsContainer from "@/components/Clubs/ClubsContainer";
+import SupplierPersonalDetails from "./PesonalDetails/SupplierPersonalDetails";
+import UserPersonalDetails from "./PesonalDetails/UserPersonalDetails";
 
 export {
   SupplierLoginComponent,
@@ -35,7 +36,6 @@ export {
   TopBar,
   TopBarButtons,
   BenefitsCard,
-  BenefitsContainer2,
   BenefitsDetails,
   signUser,
   SignSupplierComponent,
@@ -56,5 +56,6 @@ export {
   DropdownFilter,
   SearchBenefits,
   TextInputFilter,
-
+  SupplierPersonalDetails,
+  UserPersonalDetails,
 };

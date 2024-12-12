@@ -1,14 +1,13 @@
 "use client";
 import { Club } from "@/types/types";
 import styles from "@/styles/Clubs/ClubsContainer.module.css";
-import {useState } from "react";
+import { useState } from "react";
 import {
   SearchContainer,
   InputContainer,
   SearchIcon,
 } from "./SearchClubs.Styles";
-import { LoadingSpinner, ClubCard, TextInputFilter } from "@/components";
-
+import { ClubCard, TextInputFilter } from "@/components";
 
 interface ClubsContainerProps {
   clubs: Club[];
@@ -32,11 +31,11 @@ const ClubsContainer = ({ clubs, title }: ClubsContainerProps) => {
       <div className={styles.searchBarContainer}>
         <SearchContainer>
           <InputContainer>
-              <TextInputFilter
-                placeholder="חיפש מועדון"
-                value={searchQuery}
-                onChange={handleSearch}
-              />
+            <TextInputFilter
+              placeholder="חיפש מועדון"
+              value={searchQuery}
+              onChange={handleSearch}
+            />
             <SearchIcon />
           </InputContainer>
         </SearchContainer>

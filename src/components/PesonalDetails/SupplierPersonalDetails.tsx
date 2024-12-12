@@ -5,7 +5,7 @@ import styles from "@/styles/PersonalDetails.module.css";
 import { useState, useEffect } from "react";
 import { MdOutlineModeEditOutline, MdOutlineEditOff } from "react-icons/md";
 import { z } from "zod";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useGeneralStore from "@/stores/generalStore";
 import {
@@ -16,7 +16,6 @@ import {
 } from "@/utils/sweet-alerts";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
-import my_http from "@/services/http";
 import { getbranchesByBusinessName } from "@/services/branchesService";
 
 interface SupplierPersonalDetailsProps {
@@ -66,7 +65,7 @@ export default function SupplierPersonalDetails({
   const [selectAll, setSelectAll] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [allBranches, setAllBranches] = useState<any[]>([]);
-  const [booleanResults, setBooleanResults] = useState<boolean[]>([])
+  const [booleanResults, setBooleanResults] = useState<boolean[]>([]);
   const {
     register,
     handleSubmit,
@@ -77,16 +76,17 @@ export default function SupplierPersonalDetails({
   });
 
   useEffect(() => {
-
     if (editMode) {
-      let booleanResults2: boolean[] = allBranches.map((b: Branch) =>
-        currentSupplier?.branches?.some((branch: Branch) => branch.nameBranch === b.nameBranch) as boolean
+      let booleanResults2: boolean[] = allBranches.map(
+        (b: Branch) =>
+          currentSupplier?.branches?.some(
+            (branch: Branch) => branch.nameBranch === b.nameBranch
+          ) as boolean
       );
       setBooleanResults(booleanResults2);
 
-      const containsAllBranches = booleanResults2.every(b => b === true);
-      setSelectAll(containsAllBranches)
-
+      const containsAllBranches = booleanResults2.every((b) => b === true);
+      setSelectAll(containsAllBranches);
       setValue("providerName", currentSupplier?.providerName);
       setValue("email", currentSupplier?.email);
       setValue("businessName", currentSupplier?.businessName);
@@ -94,8 +94,12 @@ export default function SupplierPersonalDetails({
       setValue("siteLink", currentSupplier?.siteLink);
       setValue("supplierLogo", currentSupplier?.supplierLogo);
       setValue("selectedCategories", currentSupplier?.selectedCategories);
-      setValue("branches", selectAll ? allBranches?.map((b) => b.nameBranch) :
-        currentSupplier?.branches?.map((b) => b.nameBranch));
+      setValue(
+        "branches",
+        selectAll
+          ? allBranches?.map((b) => b.nameBranch)
+          : currentSupplier?.branches?.map((b) => b.nameBranch)
+      );
     }
   }, [editMode, currentSupplier, setValue]);
 
@@ -138,7 +142,9 @@ export default function SupplierPersonalDetails({
       const alertConfirm = await beforeActionAlert("");
       if (alertConfirm) {
         if (currentSupplier?._id) {
-          let updatedBranches = selectAll ? allBranches : allBranches?.filter(b => data.branches.includes(b.nameBranch))
+          let updatedBranches = selectAll
+            ? allBranches
+            : allBranches?.filter((b) => data.branches.includes(b.nameBranch));
 
           await updateSupplier(
             {
@@ -183,10 +189,9 @@ export default function SupplierPersonalDetails({
 
     if (textQuery.trim().length >= 2) {
       try {
-        let allBranchesFromService = await getbranchesByBusinessName(textQuery)
+        let allBranchesFromService = await getbranchesByBusinessName(textQuery);
 
         setAllBranches(allBranchesFromService);
-
       } catch (error) {
         console.error("Error fetching suggestions:", error);
         setAllBranches([]);
@@ -198,7 +203,8 @@ export default function SupplierPersonalDetails({
 
   const handleLinkClick = async (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    href: any) => {
+    href: any
+  ) => {
     event.preventDefault();
 
     const userConfirmed = await confirmExternalNavigation(href);
@@ -396,18 +402,18 @@ export default function SupplierPersonalDetails({
         ) : (
           <div>
             {currentSupplier &&
-              currentSupplier.selectedCategories &&
-              currentSupplier?.selectedCategories?.length > 0
+            currentSupplier.selectedCategories &&
+            currentSupplier?.selectedCategories?.length > 0
               ? categories
-                .filter((category: Category) =>
-                  currentSupplier?.selectedCategories?.some(
-                    (supplierCategoryId) =>
-                      supplierCategoryId.toString() === category._id
+                  .filter((category: Category) =>
+                    currentSupplier?.selectedCategories?.some(
+                      (supplierCategoryId) =>
+                        supplierCategoryId.toString() === category._id
+                    )
                   )
-                )
-                .map((category: Category) => (
-                  <div key={category._id}>° {category.categoryName}</div>
-                ))
+                  .map((category: Category) => (
+                    <div key={category._id}>° {category.categoryName}</div>
+                  ))
               : "אין קטגוריות"}
           </div>
         )}
@@ -451,11 +457,11 @@ export default function SupplierPersonalDetails({
         ) : (
           <div>
             {currentSupplier &&
-              currentSupplier.branches &&
-              currentSupplier?.branches?.length > 0
+            currentSupplier.branches &&
+            currentSupplier?.branches?.length > 0
               ? currentSupplier?.branches?.map((b: Branch) => (
-                <div key={b.nameBranch}>° {b.nameBranch}.</div>
-              ))
+                  <div key={b.nameBranch}>° {b.nameBranch}.</div>
+                ))
               : "אין סניפים זמינים"}
           </div>
         )}
