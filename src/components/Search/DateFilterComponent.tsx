@@ -1,5 +1,5 @@
 import React from 'react';
-import { DateLabel, DateInput } from './SearchBenefits.Styles';
+import { DateLabel, DateInput } from '../Benefits/SearchBenefits.Styles';
 
 interface DateFilterProps {
     startDate: Date | null;

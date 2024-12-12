@@ -1,5 +1,5 @@
 import React from 'react';
-import { SupplierInput, InputContainer } from './SearchBenefits.Styles';
+import { SupplierInput, InputContainer } from '../Benefits/SearchBenefits.Styles';
 
 interface TextInputProps {
     placeholder: string;

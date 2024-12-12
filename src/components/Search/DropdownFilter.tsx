@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
-import { SelectContainer, SelectLabel, Dropdown, DropdownOption } from './SearchBenefits.Styles';
+import { SelectContainer, SelectLabel, Dropdown, DropdownOption } from '../Benefits/SearchBenefits.Styles';
 
 interface DropdownFilterProps {
     label: string;
