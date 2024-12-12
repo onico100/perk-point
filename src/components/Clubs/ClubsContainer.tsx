@@ -1,17 +1,15 @@
 "use client";
 import { Club } from "@/types/types";
-import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Clubs/ClubsContainer.module.css";
-import useGeneralStore from "@/stores/generalStore";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import {useState } from "react";
 import {
   SearchContainer,
   InputContainer,
   ClubInput,
   SearchIcon,
 } from "./SearchClubs.Styles";
-import { LoadingSpinner, ClubCard } from "@/components";
+import { LoadingSpinner, ClubCard, TextInputFilter } from "@/components";
+
 
 interface ClubsContainerProps {
   clubs: Club[];
@@ -22,17 +20,24 @@ const ClubsContainer = ({ clubs, title }: ClubsContainerProps) => {
   const [clubsToShow, setClubsToShow] = useState<Club[]>(clubs);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    const filteredClubs = clubs.filter((club) =>
+      club.clubName.toLowerCase().includes(query.toLowerCase())
+    );
+    setClubsToShow(filteredClubs);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.searchBarContainer}>
         <SearchContainer>
           <InputContainer>
-            <ClubInput
-              type="text"
-              placeholder="חיפש מועדון"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+              <TextInputFilter
+                placeholder="חיפש מועדון"
+                value={searchQuery}
+                onChange={handleSearch}
+              />
             <SearchIcon />
           </InputContainer>
         </SearchContainer>
