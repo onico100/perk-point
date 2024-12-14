@@ -13,6 +13,7 @@ import {
   CalcPage,
   Footer,
 } from "@/components/index";
+import useGeneralStore from "@/stores/generalStore";
 
 
 const queryClient = new QueryClient();
@@ -25,11 +26,6 @@ export default function RootLayout({
   const { clientMode, currentSupplier, currentUser } = useGeneralStore();
 
   useEffect(() => {
-    document.title = "PerkPoint";
-  }, []);
-
-  useEffect(() => {
-    // אם המשתמש במצב USER או SUPPLIER ה-sidebar יוצג
     if ((clientMode === "USER" && currentUser)|| (clientMode === "SUPPLIER"&& currentSupplier)) {
       setIsSidebarVisible(true);
     } else {
