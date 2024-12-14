@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import localFont from "next/font/local";
 import Head from "next/head";
 import "./globals.css";
@@ -12,20 +13,33 @@ import {
   CalcPage,
   Footer,
 } from "@/components/index";
-import { useEffect, useState } from "react"; // Import useState
-
+import useGeneralStore from "@/stores/generalStore";
 
 const queryClient = new QueryClient();
 
-export default function RootLayout({children, }: Readonly<{ children: React.ReactNode }>) 
-{
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false); // בדיקה אם ה-sidebar פעיל
   const [isCalcPageVisible, setIsCalcPageVisible] = useState(false);
+  const { clientMode, currentSupplier, currentUser } = useGeneralStore();
+
   useEffect(() => {
     document.title = "PerkPoint";
   }, []);
+
+  useEffect(() => {
+    // אם המשתמש במצב USER או SUPPLIER ה-sidebar יוצג
+    if ((clientMode === "USER" && currentUser)|| (clientMode === "SUPPLIER"&& currentSupplier)) {
+      setIsSidebarVisible(true);
+    } else {
+      setIsSidebarVisible(false);
+    }
+  }, [clientMode]);
+  
   return (
     <QueryClientProvider client={queryClient}>
-      <html lang="en" >
+      <html lang="en">
         <Head>
           <title>PerkPoint</title>
           <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -49,8 +63,12 @@ export default function RootLayout({children, }: Readonly<{ children: React.Reac
           )}
           <div className="layout">
             <TopBar />
-            <div className="mainContent">
-              <SideBar />
+            <div
+              className={`mainContent ${
+                isSidebarVisible ? "withSidebar" : ""
+              }`} /* שינוי דינמי */
+            >
+              {isSidebarVisible && <SideBar />}
               <div className="main">
                 <CalcButton onClick={() => setIsCalcPageVisible(true)} />
                 {children}
