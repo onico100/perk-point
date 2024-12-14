@@ -13,7 +13,7 @@ import {
   CalcPage,
   Footer,
 } from "@/components/index";
-import useGeneralStore from "@/stores/generalStore";
+
 
 const queryClient = new QueryClient();
 
