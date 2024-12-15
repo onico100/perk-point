@@ -7,9 +7,18 @@ import { Benefit, Supplier, Club, ClientMode, Branch } from "@/types/types";
 import styles from "@/styles/Benefits/BenefitDetais.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
-import { confirmExternalNavigation, beforeActionAlert, confirmChangesAlert } from "@/utils/sweet-alerts";
+import {
+  confirmExternalNavigation,
+  beforeActionAlert,
+  confirmChangesAlert,
+} from "@/utils/sweet-alerts";
 import { FaArrowRight } from "react-icons/fa";
-import {LoadingSpinner , BenefitInfoRight, BenefitInfoLeft, ActionButtons}from "@/components";
+import {
+  LoadingSpinner,
+  BenefitInfoRight,
+  BenefitInfoLeft,
+  ActionButtons,
+} from "@/components";
 
 interface UpdateState {
   isUpdateMode: boolean;
@@ -21,9 +30,11 @@ interface UpdateState {
 
 const BenefitDetails = () => {
   const router = useRouter();
-  const { benefits, isLoadingB, isFetchingB, updateBenefit } = useFetchBenefits();
+  const { benefits, isLoadingB, isFetchingB, updateBenefit } =
+    useFetchBenefits();
   const { suppliers, isLoadingS, isFetchingS } = useFetchSuppliers();
-  const { clubs, isLoadingCategories, isFetchingCategories } = useFetchGeneral();
+  const { clubs, isLoadingCategories, isFetchingCategories } =
+    useFetchGeneral();
   const clientMode = useGeneralStore((state) => state.clientMode);
   const currentSupplier = useGeneralStore((state) => state.currentSupplier);
 
@@ -49,7 +60,7 @@ const BenefitDetails = () => {
   );
 
   useEffect(() => {
-    setUpdateState(prev => ({ ...prev, updatedBenefit: specificBenefit }));
+    setUpdateState((prev) => ({ ...prev, updatedBenefit: specificBenefit }));
   }, [specificBenefit]);
 
   const handleSave = async () => {
@@ -61,35 +72,42 @@ const BenefitDetails = () => {
             id: updateState.updatedBenefit._id,
             updatedData: {
               description: updateState.updatedBenefit.description,
-              redemptionConditions: updateState.updatedBenefit.redemptionConditions,
+              redemptionConditions:
+                updateState.updatedBenefit.redemptionConditions,
               expirationDate: updateState.updatedBenefit.expirationDate,
               branches: updateState.updatedBenefit.branches,
               isActive: updateState.updatedBenefit.isActive,
             },
           });
-          
         }
       } catch (error) {
         console.error("Error updating benefit:", error);
       }
     }
-    setUpdateState(prev => ({ ...prev, isUpdateMode: false }));
+    setUpdateState((prev) => ({ ...prev, isUpdateMode: false }));
   };
 
   const handleCancel = async () => {
-    const userConfirmed = await beforeActionAlert("האם אתה בטוח שברצונך לבטל את השינויים?");
+    const userConfirmed = await beforeActionAlert(
+      "האם אתה בטוח שברצונך לבטל את השינויים?"
+    );
 
     if (userConfirmed) {
-      setUpdateState(prev => ({ ...prev, isUpdateMode: false }));
+      setUpdateState((prev) => ({ ...prev, isUpdateMode: false }));
     }
   };
 
-  const toggleBranches = () => setUpdateState(prev => ({ ...prev, showBranches: !prev.showBranches }));
-  const toggleDropdown = () => setUpdateState(prev => ({ ...prev, dropdownVisible: !prev.dropdownVisible }));
+  const toggleBranches = () =>
+    setUpdateState((prev) => ({ ...prev, showBranches: !prev.showBranches }));
+  const toggleDropdown = () =>
+    setUpdateState((prev) => ({
+      ...prev,
+      dropdownVisible: !prev.dropdownVisible,
+    }));
 
   const handleAddBranch = (branch: Branch) => {
     if (updateState.updatedBenefit) {
-      setUpdateState(prev => ({
+      setUpdateState((prev) => ({
         ...prev,
         updatedBenefit: {
           ...prev.updatedBenefit,
@@ -103,11 +121,14 @@ const BenefitDetails = () => {
 
   const handleRemoveBranch = (branchToRemove: Branch) => {
     if (updateState.updatedBenefit) {
-      setUpdateState(prev => ({
+      setUpdateState((prev) => ({
         ...prev,
         updatedBenefit: {
           ...prev.updatedBenefit,
-          branches: prev.updatedBenefit?.branches?.filter(branch => branch !== branchToRemove) || [], // Initialize branches if undefined
+          branches:
+            prev.updatedBenefit?.branches?.filter(
+              (branch) => branch !== branchToRemove
+            ) || [], // Initialize branches if undefined
         } as Benefit,
       }));
     }
@@ -115,7 +136,7 @@ const BenefitDetails = () => {
 
   const handleChange = (field: keyof Benefit, value: string) => {
     if (updateState.updatedBenefit) {
-      setUpdateState(prev => ({
+      setUpdateState((prev) => ({
         ...prev,
         updatedBenefit: {
           ...prev.updatedBenefit,
@@ -127,7 +148,8 @@ const BenefitDetails = () => {
 
   const handleLinkClick = async (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    href: string) => {
+    href: string
+  ) => {
     event.preventDefault();
     const userConfirmed = await confirmExternalNavigation(href);
     if (userConfirmed) {
@@ -135,26 +157,45 @@ const BenefitDetails = () => {
     }
   };
 
-  if (isLoadingB || isFetchingB || isLoadingS || isFetchingS || isLoadingCategories || isFetchingCategories) {
+  if (
+    isLoadingB ||
+    isFetchingB ||
+    isLoadingS ||
+    isFetchingS ||
+    isLoadingCategories ||
+    isFetchingCategories
+  ) {
     return <LoadingSpinner />;
   }
 
-  const isCurrentSupplierBenefit = currentSupplier && specificSupplier && currentSupplier._id === specificSupplier._id;
+  const isCurrentSupplierBenefit =
+    currentSupplier &&
+    specificSupplier &&
+    currentSupplier._id === specificSupplier._id;
   const supplierBranches = specificSupplier ? specificSupplier.branches : [];
-  const availableBranches = supplierBranches?.filter(branch => {
-    return !updateState.updatedBenefit?.branches.some(existingBranch => existingBranch.nameBranch === branch.nameBranch && existingBranch.city === branch.city);
+  const availableBranches = supplierBranches?.filter((branch) => {
+    return !updateState.updatedBenefit?.branches.some(
+      (existingBranch) =>
+        existingBranch.nameBranch === branch.nameBranch &&
+        existingBranch.city === branch.city
+    );
   });
 
-
-  const isExpired = updateState.updatedBenefit?.expirationDate && new Date(updateState.updatedBenefit.expirationDate) < new Date();
-  const allBranchesSelected = supplierBranches && supplierBranches.length > 0 &&
+  const isExpired =
+    updateState.updatedBenefit?.expirationDate &&
+    new Date(updateState.updatedBenefit.expirationDate) < new Date();
+  const allBranchesSelected =
+    supplierBranches &&
+    supplierBranches.length > 0 &&
     updateState.updatedBenefit?.branches.length === supplierBranches.length;
-
 
   return (
     <div className={styles.container}>
       <div className={styles.topContainer}>
-        <FaArrowRight className={styles.backIcon} onClick={() => router.back()} />
+        <FaArrowRight
+          className={styles.backIcon}
+          onClick={() => router.back()}
+        />
         {isExpired && <span className={styles.expiredTitle}>פג תוקף</span>}
       </div>
       <div className={styles.contentContainer}>
@@ -182,16 +223,17 @@ const BenefitDetails = () => {
             handleLinkClick={handleLinkClick}
           />
         </div>
-        {
-          isCurrentSupplierBenefit && clientMode === ClientMode.supplier &&(
-            <ActionButtons
-              isUpdateMode={updateState.isUpdateMode}
-              setIsUpdateMode={() => setUpdateState(prev => ({ ...prev, isUpdateMode: true }))}
-              handleSave={handleSave}
-              handleCancel={handleCancel}
-            />
-          )
-        }
+        {(clientMode == "ADMIN" ||
+          (isCurrentSupplierBenefit && clientMode === ClientMode.supplier)) && (
+          <ActionButtons
+            isUpdateMode={updateState.isUpdateMode}
+            setIsUpdateMode={() =>
+              setUpdateState((prev) => ({ ...prev, isUpdateMode: true }))
+            }
+            handleSave={handleSave}
+            handleCancel={handleCancel}
+          />
+        )}
       </div>
     </div>
   );
