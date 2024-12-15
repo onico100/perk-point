@@ -123,7 +123,6 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
                   type="checkbox"
                   checked={selectedBranches.some(
                     (b) => b.nameBranch === suggestion.nameBranch,
-                    
                   )}
                   onChange={() => toggleBranchSelection(suggestion)}
                 />
