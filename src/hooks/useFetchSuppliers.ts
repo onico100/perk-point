@@ -75,7 +75,9 @@ export const useFetchSuppliers = () => {
         ...suppliers.find((s) => s._id === id),
         ...updatedData,
       } as Supplier;
-      setSuppliers(suppliers.map((s) => (s._id === id ? updatedSupplier : s)));
+      let updatedSuppliers=suppliers.map((s) => (s._id === id ? updatedSupplier : s))
+      setSuppliers(updatedSuppliers);
+      queryClient.setQueryData<Supplier[]>(["suppliers"], updatedSuppliers);
       
       let oldSupplier=currentSupplier
       setCurrentSupplier(updatedSupplier)
