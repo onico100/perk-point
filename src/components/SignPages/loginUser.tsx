@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useLoginUser } from "@/hooks/useFetchUsers";
 import styles from "@/styles/SignPages/login.module.css";
 import Link from "next/link";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
 import { sendPasswordResetEmail } from "@/services/emailServices";
 import LoginGoogleForm from "./loginGoogleForm";
 
-export default  function  Login() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -17,28 +17,34 @@ export default  function  Login() {
   const loginUserMutation = useLoginUser();
   const router = useRouter();
 
+  const loginAsExampleUser = async () => {
+    const email = "userexample@try.com";
+    await setEmail(email);
+    await setPassword("useruser");
+    login();
+  };
 
+  const login = () => {
+    loginUserMutation.mutate(
+      { email, password },
+      {
+        onSuccess: (user) => {
+          helloAlert(`שלום ${user.username} ☺️`);
+          router.push(`benefits/${user._id}`);
+        },
+        onError: (error) => {
+          console.error(error);
+          errorAlert("התחברות נכשלה: פרטי לקוח אינם תקינים.");
+        },
+      }
+    );
+  };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (forgotPassword) {
       handleForgotPassword();
       return;
-    }
-    else {
-      loginUserMutation.mutate(
-        { email, password },
-        {
-          onSuccess: (user) => {
-            helloAlert(`שלום ${user.username} ☺️`);
-            router.push(`benefits/${user._id}`);
-          },
-          onError: (error) => {
-            console.error(error);
-            errorAlert("התחברות נכשלה: פרטי לקוח אינם תקינים.");
-          },
-        }
-      );
-    }
+    } else login();
   };
 
   const handleForgotPassword = async () => {
@@ -52,59 +58,63 @@ export default  function  Login() {
 
   return (
     <div className={styles.loginPage}>
-      
       <h1 className={styles.titleSign}>התחברות לקוח</h1>
       <div className={styles.signOption}>
-      <div className="sign">
-        <form onSubmit={handleSubmit} className={styles.formContainer}>
-          <div className={styles.formGroup}>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="כתובת אימייל"
-              required
-              className={styles.inputField}
-            />
-          </div>
-
-          {!forgotPassword && (
+        <div className="sign">
+          <form onSubmit={handleSubmit} className={styles.formContainer}>
             <div className={styles.formGroup}>
               <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="סיסמא"
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="כתובת אימייל"
                 required
                 className={styles.inputField}
               />
-              <p
-                className="text-red-500 underline cursor-pointer text-xs"
-                onClick={() => setForgotPassword(!forgotPassword)}
-              >
-                שכחתי סיסמה
-              </p>
             </div>
-          )}
-          {!forgotPassword && ( <button type="submit" className={styles.loginPageButton}>התחברות</button> )}
-          {message && <p className="text-red-500">{message}</p>}
-          {forgotPassword && <button type="submit">שלח קישור לאיפוס סיסמה</button>}
-    
-          <br/>
-          
-        </form>
+
+            {!forgotPassword && (
+              <div className={styles.formGroup}>
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="סיסמא"
+                  required
+                  className={styles.inputField}
+                />
+                <p
+                  className="text-red-500 underline cursor-pointer text-xs"
+                  onClick={() => setForgotPassword(!forgotPassword)}
+                >
+                  שכחתי סיסמה
+                </p>
+              </div>
+            )}
+            {!forgotPassword && (
+              <button type="submit" className={styles.loginPageButton}>
+                התחברות
+              </button>
+            )}
+            {message && <p className="text-red-500">{message}</p>}
+            {forgotPassword && (
+              <button type="submit">שלח קישור לאיפוס סיסמה</button>
+            )}
+
+            <br />
+          </form>
+        </div>
+        <div className="google">
+          <h2>או</h2>
+          <LoginGoogleForm />
+        </div>
+        <button onClick={loginAsExampleUser}>התחברות כלקוח לדוגמא</button>
       </div>
-      <div className="google">
-        <h2>או</h2>
-        <LoginGoogleForm/></div>
-      </div> 
 
       <div className={styles.noAccountLink}>
-            <Link  href={"/register-user"}>
-              פעם ראשונה באתר? הרשמה
-            </Link>
+        <Link href={"/register-user"}>פעם ראשונה באתר? הרשמה</Link>
       </div>
     </div>
   );
