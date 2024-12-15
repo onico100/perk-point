@@ -3,8 +3,11 @@ import { Branch } from "@/types/types";
 
 export async function getbranchesByBusinessName(textQuery:string): Promise<Branch[]> {
     try {
+        const googlePlacesEndpoint = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+
         const response = await my_http.post(`/googleAutocomplete/post`, {
           textQuery,
+          country: "IL",
         });
         const branchesFromGoogle = response.data.formattedPlaces;
 
