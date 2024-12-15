@@ -1,6 +1,20 @@
-# Recipes App
+# Perk Point App
 
-The website is tailored for managing benefit inventories, specifically for user clubs, and allows users to quickly and conveniently access their eligible benefits.
+The Perk Point App is designed to streamline the management of benefit inventories for user clubs. It provides users with a seamless and efficient way to access their eligible benefits.
+
+### **User Side**
+
+- **Club-Specific Benefits:** Users can view benefits tied to their specific clubs.
+- **Advanced Search:** Search benefits by categories, clubs, place, date, and more.
+- **Saved Benefits:** Save favorite benefits for quick access.
+- **Benefit Calculator:** A built-in tool to calculate the price of each product after applying eligible benefits.
+
+### **Supplier Side**
+
+- **Manage Benefits**:
+  - **Add**: Easily add new benefits to the company's inventory.
+  - **Update**: Modify existing benefits.
+  - **Delete**: Remove benefits no longer offered.
 
 ## Installation
 
@@ -33,13 +47,31 @@ The website is tailored for managing benefit inventories, specifically for user 
 
 ## Technologies Used
 
-- **Frontend:**: Next.js ver 14 with TypeScript.
-- **React Query:** for state management and API calls
-- **Zustand:** for global state management
-- **Zod:** for validation
-- **Backend:** Node.js (using Next.js API routes).
-- **Database:** MongoDB for data storage.
-- **Styling:** CSS
+**Frontend:**
+
+- Next.js (v14): React-based framework for building modern web applications.
+- TypeScript: For type safety and improved development experience.
+- React Query: Handles API calls and caching.
+- Zustand: Lightweight global state management.
+- Zod: Ensures robust validation of user inputs.
+
+**Backend:**
+
+- Node.js (using Next.js API routes).
+
+  **Database:**
+
+- MongoDB for data storage.
+
+**Styling:**
+
+- CSS: Custom styles for a clean and responsive design.
+
+**Third-Party Libraries:**
+
+- **Cloudinary:** Efficient image storage and optimization.
+- **SweetAlert:** Interactive and user-friendly notifications.
+- **Google OAuth:** Secure authentication using Google accounts.
 
 ## App preview
 
