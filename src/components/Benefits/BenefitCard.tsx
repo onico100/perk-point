@@ -16,6 +16,7 @@ import {
 } from "@/utils/sweet-alerts";
 
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
+import YourBenefit from "./YourBenefit";
 
 interface BenefitsCardProps {
   benefit: Benefit;
@@ -30,7 +31,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
 }) => {
   const router = useRouter();
   const params = useParams();
-  const { currentUser } = useGeneralStore();
+  const { currentUser, currentSupplier } = useGeneralStore();
   const { mutate: updateUser } = useUpdateUserById();
   const { deleteBenefit } = useFetchBenefits();
   const isExpired: boolean = new Date(benefit.expirationDate) < new Date();
@@ -104,7 +105,6 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           },
         });
       }
-      //successAlert(" הוסר משמורים בהצלחה!");
     }
   };
 
@@ -125,12 +125,19 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
         <div className={styles.logo}></div>
       )}
       <hr className={styles.divider} />
+
       <p className={styles.description}>
         {" "}
         {benefit.description.substring(0, 16)}
       </p>
+     {  
+     currentSupplier?._id==benefit.supplierId && id=="0" &&     
+      <div className={styles.yourBenefit}>
+      <YourBenefit></YourBenefit>
+      </div>
+     }
       <div className={styles.clubName}>{club?.clubName.substring(0, 20)}</div>
-
+      
       {id != "0" &&
         clientMode == "USER" &&
         (currentUser?.savedBenefits?.some(
