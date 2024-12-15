@@ -5,9 +5,15 @@ import { useLoginUser } from "@/hooks/useFetchUsers";
 import styles from "@/styles/SignPages/login.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { errorAlert, helloAlert } from "@/utils/sweet-alerts";
+import {
+  beforeActionAlert,
+  confirmChangesAlert,
+  errorAlert,
+  helloAlert,
+} from "@/utils/sweet-alerts";
 import { sendPasswordResetEmail } from "@/services/emailServices";
 import LoginGoogleForm from "./loginGoogleForm";
+import styles2 from "@/styles/SignPages/google.module.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,15 +24,14 @@ export default function Login() {
   const router = useRouter();
 
   const loginAsExampleUser = async () => {
-    const email = "userexample@try.com";
-    await setEmail(email);
-    await setPassword("useruser");
-    login();
-  };
-
-  const login = () => {
+    const ift = await beforeActionAlert(
+      "בכניסה למצב לקוח לדוגמא אתה נכנס למצב בו כולם יכולים לערוך ולכן יתכן שהשינויים שעשית לא יישמרו למשך זמן"
+    );
+    if (!ift) return;
+    const emailA = "userexample@try.com";
+    const passwordA = "useruser";
     loginUserMutation.mutate(
-      { email, password },
+      { email: emailA, password: passwordA },
       {
         onSuccess: (user) => {
           helloAlert(`שלום ${user.username} ☺️`);
@@ -39,12 +44,27 @@ export default function Login() {
       }
     );
   };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (forgotPassword) {
       handleForgotPassword();
       return;
-    } else login();
+    } else {
+      loginUserMutation.mutate(
+        { email, password },
+        {
+          onSuccess: (user) => {
+            helloAlert(`שלום ${user.username} ☺️`);
+            router.push(`benefits/${user._id}`);
+          },
+          onError: (error) => {
+            console.error(error);
+            errorAlert("התחברות נכשלה: פרטי לקוח אינם תקינים.");
+          },
+        }
+      );
+    }
   };
 
   const handleForgotPassword = async () => {
@@ -110,7 +130,9 @@ export default function Login() {
           <h2>או</h2>
           <LoginGoogleForm />
         </div>
-        <button onClick={loginAsExampleUser}>התחברות כלקוח לדוגמא</button>
+        <button className={styles2.googleButton} onClick={loginAsExampleUser}>
+          התחברות כלקוח לדוגמא
+        </button>
       </div>
 
       <div className={styles.noAccountLink}>
