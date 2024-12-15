@@ -5,12 +5,13 @@ import { useEffect, useState } from "react";
 import debounce from "lodash.debounce";
 import my_http from "@/services/http";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { supplierSchema, SupplierFormValues, Category } from "@/types/types";
+import { supplierSchema, SupplierFormValues, Category, Branch } from "@/types/types";
 import styles from "@/styles/SignPages/sign.module.css";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useRouter } from "next/navigation";
 import { checkEmailService } from "@/services/emailServices";
 import { errorAlert, successAlert } from "@/utils/sweet-alerts";
+import { getbranchesByBusinessName } from "@/services/branchesService";
 
 export default function SignSupplierComponent() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -68,13 +69,17 @@ export default function SignSupplierComponent() {
     if (textQuery.trim().length >= 2) {
       try {
         setLoading(true);
-        const response = await my_http.post(`/googleAutocomplete/post`, {
-          textQuery,
-        });
-        const branchesFromGoogle = response.data.formattedPlaces;
-        const citySuggestions = branchesFromGoogle
-          ? branchesFromGoogle.map((place: any) => place.name + " " + place.address)
-          : [];
+        // const response = await my_http.post(`/googleAutocomplete/post`, {
+        //   textQuery,
+        // });
+        // const branchesFromGoogle = response.data.formattedPlaces;
+        // const citySuggestions = branchesFromGoogle
+        //   ? branchesFromGoogle.map((place: any) => place.name + " " + place.address)
+        //   : [];
+
+        let allBranchesFromService= await getbranchesByBusinessName(textQuery)
+        let citySuggestions= allBranchesFromService.map((place: Branch) => place.nameBranch)
+
         setSuggestions(citySuggestions);
         setBranchDropdownVisible(branchIndex);
       } catch (error) {
