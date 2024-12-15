@@ -91,7 +91,7 @@ export default function UserPersonalDetails({
     <div className={styles.container}>
       <h2 className={styles.title}>פרטי משתמש</h2>
       {isExamle && editMode && (
-        <h3>הנך במצב משתמש לדוגמא לכן לא תוכל לערוך שם או אימייל </h3>
+        <h3>הנך במצב משתמש לדוגמא לכן לא תוכל לערוך שם או אימייל. </h3>
       )}
       <div className={styles.buttonsContainer}>
         <button

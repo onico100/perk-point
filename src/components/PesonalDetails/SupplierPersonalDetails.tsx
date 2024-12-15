@@ -64,7 +64,7 @@ export default function SupplierPersonalDetails({
   const [selectAll, setSelectAll] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [allBranches, setAllBranches] = useState<any[]>([]);
-  const [booleanResults,setBooleanResults]=useState<boolean[]>([])
+  const [booleanResults, setBooleanResults] = useState<boolean[]>([]);
   const {
     register,
     handleSubmit,
@@ -74,16 +74,20 @@ export default function SupplierPersonalDetails({
     resolver: zodResolver(formSchema),
   });
 
+  const isExample =
+    currentSupplier.email == "supplier@example.com" ? true : false;
   useEffect(() => {
-
     if (editMode) {
-      let booleanResults2: boolean[] = allBranches.map((b: Branch) =>
-        currentSupplier?.branches?.some((branch: Branch) => branch.nameBranch === b.nameBranch) as boolean
+      let booleanResults2: boolean[] = allBranches.map(
+        (b: Branch) =>
+          currentSupplier?.branches?.some(
+            (branch: Branch) => branch.nameBranch === b.nameBranch
+          ) as boolean
       );
-      setBooleanResults(booleanResults2);  
-    
-      const containsAllBranches = booleanResults2.every(b => b === true);
-      setSelectAll(containsAllBranches)
+      setBooleanResults(booleanResults2);
+
+      const containsAllBranches = booleanResults2.every((b) => b === true);
+      setSelectAll(containsAllBranches);
 
       setValue("providerName", currentSupplier?.providerName);
       setValue("email", currentSupplier?.email);
@@ -92,8 +96,12 @@ export default function SupplierPersonalDetails({
       setValue("siteLink", currentSupplier?.siteLink);
       setValue("supplierLogo", currentSupplier?.supplierLogo);
       setValue("selectedCategories", currentSupplier?.selectedCategories);
-      setValue("branches",selectAll ? allBranches?.map((b) => b.nameBranch) :
-       currentSupplier?.branches?.map((b) => b.nameBranch));
+      setValue(
+        "branches",
+        selectAll
+          ? allBranches?.map((b) => b.nameBranch)
+          : currentSupplier?.branches?.map((b) => b.nameBranch)
+      );
     }
   }, [editMode, currentSupplier, setValue]);
 
@@ -136,8 +144,10 @@ export default function SupplierPersonalDetails({
       const alertConfirm = await beforeActionAlert("");
       if (alertConfirm) {
         if (currentSupplier?._id) {
-          let updatedBranches= selectAll ? allBranches : allBranches?.filter(b=>data.branches.includes(b.nameBranch))
-          
+          let updatedBranches = selectAll
+            ? allBranches
+            : allBranches?.filter((b) => data.branches.includes(b.nameBranch));
+
           await updateSupplier(
             {
               id: currentSupplier._id,
@@ -181,10 +191,9 @@ export default function SupplierPersonalDetails({
 
     if (textQuery.trim().length >= 2) {
       try {
-       let allBranchesFromService= await getbranchesByBusinessName(textQuery)
+        let allBranchesFromService = await getbranchesByBusinessName(textQuery);
 
         setAllBranches(allBranchesFromService);
-        
       } catch (error) {
         console.error("Error fetching suggestions:", error);
         setAllBranches([]);
@@ -197,6 +206,9 @@ export default function SupplierPersonalDetails({
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>פרטי ספק</h2>
+      {isExample && editMode && (
+        <h3>הנך במצב משתמש לדוגמא לכן לא תוכל לערוך שם או אימייל. </h3>
+      )}
       <div className={styles.buttonsContainer}>
         <button
           className={styles.editButton}
@@ -240,7 +252,7 @@ export default function SupplierPersonalDetails({
 
       <p className={styles.item}>
         <span className={styles.label}>שם ספק:</span>
-        {editMode ? (
+        {!isExample && editMode ? (
           <input
             id="providerName"
             {...register("providerName")}
@@ -257,7 +269,7 @@ export default function SupplierPersonalDetails({
 
       <p className={styles.item}>
         <span className={styles.label}>אימייל:</span>
-        {editMode ? (
+        {!isExample && editMode ? (
           <input
             className={styles.input}
             id="email"
@@ -415,7 +427,7 @@ export default function SupplierPersonalDetails({
             </div>
             {!selectAll && (
               <div className={styles.branchList}>
-                {allBranches?.map((b: Branch,index) => (
+                {allBranches?.map((b: Branch, index) => (
                   <label key={b.nameBranch} className={styles.branchLabel}>
                     <input
                       type="checkbox"
