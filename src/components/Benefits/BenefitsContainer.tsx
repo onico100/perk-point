@@ -118,7 +118,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       <div className={styles.mainContainer}>
         <div className={styles.titleContainer}>
           <div className={styles.title}>{title}</div>
-          {id != "0" && (
+          {(id != "0" || clientMode == "ADMIN") && (
             <div className={styles.toggleContainer}>
               <label className={styles.toggleLabel}>
                 <input

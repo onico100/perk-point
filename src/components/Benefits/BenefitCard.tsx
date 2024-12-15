@@ -130,14 +130,13 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
         {" "}
         {benefit.description.substring(0, 16)}
       </p>
-     {  
-     currentSupplier?._id==benefit.supplierId && id=="0" &&     
-      <div className={styles.yourBenefit}>
-      <YourBenefit></YourBenefit>
-      </div>
-     }
+      {currentSupplier?._id == benefit.supplierId && id == "0" && (
+        <div className={styles.yourBenefit}>
+          <YourBenefit></YourBenefit>
+        </div>
+      )}
       <div className={styles.clubName}>{club?.clubName.substring(0, 20)}</div>
-      
+
       {id != "0" &&
         clientMode == "USER" &&
         (currentUser?.savedBenefits?.some(
@@ -152,7 +151,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           </div>
         ))}
 
-      {id != "0" && clientMode == "SUPPLIER" && (
+      {(clientMode == "ADMIN" || (id != "0" && clientMode == "SUPPLIER")) && (
         <div className={styles.deleteButton} onClick={deleteBenefitFunc}>
           <MdDelete />
         </div>
