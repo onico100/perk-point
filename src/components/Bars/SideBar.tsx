@@ -4,8 +4,14 @@ import useGeneralStore from "@/stores/generalStore";
 import styles from "@/styles/Bars/SideBar.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import linkStiles from "@/styles/Bars/Links.module.css";
-import { link } from "fs";
+//import linkStiles from "@/styles/Bars/Links.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGift,
+  faCreditCard,
+  faBookmark,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 const SideBar = () => {
   const { clientMode, currentSupplier, currentUser } = useGeneralStore();
@@ -22,15 +28,10 @@ const SideBar = () => {
   }
 
   const userButtons = [
-    { label: "ההטבות שלי", link: `/benefits/${currentUserId}` },
-    { label: "המועדונים שלי", link: `/clubs/${currentUserId}` },
-    { label: "שמורים", link: `/benefits/${currentUserId}/saved-benefits` },
-    { label: "פרטים אישיים", link: "/personalDetails" },
-  ];
-
-  const supplierButtons = [
-    { label: "הטבות החברה", link: `/benefits/${currentSupplierId}` },
-    { label: "פרטים אישיים", link: "/personalDetails" },
+    { label: "ההטבות שלי", link: `/benefits/${currentUserId}`, icon: faGift },
+    { label: "המועדונים שלי", link: `/clubs/${currentUserId}`, icon: faCreditCard },
+    { label: "שמורים", link: `/benefits/${currentUserId}/saved-benefits`, icon: faBookmark },
+    { label: "פרטים אישיים", link: "/personalDetails", icon: faUser },
   ];
 
   if (clientMode !== "USER" && clientMode !== "SUPPLIER") {
@@ -44,22 +45,11 @@ const SideBar = () => {
           <Link
             key={index}
             href={button.link}
-            className={`${linkStiles.barItem} ${
-              pathname === button.link ? linkStiles.active : ""
+            className={`${styles.barItem} ${
+              pathname === button.link ? styles.active : ""
             }`}
           >
-            {button.label}
-          </Link>
-        ))}
-      {clientMode === "SUPPLIER" &&
-        supplierButtons.map((button, index) => (
-          <Link
-            key={index}
-            href={button.link}
-            className={`${linkStiles.barItem} ${
-              pathname === button.link ? linkStiles.active : ""
-            }`}
-          >
+            <FontAwesomeIcon icon={button.icon} className={styles.icon} />
             {button.label}
           </Link>
         ))}
