@@ -5,14 +5,13 @@ import styles from "@/styles/PersonalDetails.module.css";
 import { useState, useEffect } from "react";
 import { MdOutlineModeEditOutline, MdOutlineEditOff } from "react-icons/md";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useGeneralStore from "@/stores/generalStore";
 import {
   beforeActionAlert,
   errorAlert,
   successAlert,
-  confirmExternalNavigation,
 } from "@/utils/sweet-alerts";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
@@ -65,7 +64,7 @@ export default function SupplierPersonalDetails({
   const [selectAll, setSelectAll] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [allBranches, setAllBranches] = useState<any[]>([]);
-  const [booleanResults, setBooleanResults] = useState<boolean[]>([]);
+  const [booleanResults,setBooleanResults]=useState<boolean[]>([])
   const {
     register,
     handleSubmit,
@@ -76,17 +75,16 @@ export default function SupplierPersonalDetails({
   });
 
   useEffect(() => {
-    if (editMode) {
-      let booleanResults2: boolean[] = allBranches.map(
-        (b: Branch) =>
-          currentSupplier?.branches?.some(
-            (branch: Branch) => branch.nameBranch === b.nameBranch
-          ) as boolean
-      );
-      setBooleanResults(booleanResults2);
 
-      const containsAllBranches = booleanResults2.every((b) => b === true);
-      setSelectAll(containsAllBranches);
+    if (editMode) {
+      let booleanResults2: boolean[] = allBranches.map((b: Branch) =>
+        currentSupplier?.branches?.some((branch: Branch) => branch.nameBranch === b.nameBranch) as boolean
+      );
+      setBooleanResults(booleanResults2);  
+    
+      const containsAllBranches = booleanResults2.every(b => b === true);
+      setSelectAll(containsAllBranches)
+
       setValue("providerName", currentSupplier?.providerName);
       setValue("email", currentSupplier?.email);
       setValue("businessName", currentSupplier?.businessName);
@@ -94,12 +92,8 @@ export default function SupplierPersonalDetails({
       setValue("siteLink", currentSupplier?.siteLink);
       setValue("supplierLogo", currentSupplier?.supplierLogo);
       setValue("selectedCategories", currentSupplier?.selectedCategories);
-      setValue(
-        "branches",
-        selectAll
-          ? allBranches?.map((b) => b.nameBranch)
-          : currentSupplier?.branches?.map((b) => b.nameBranch)
-      );
+      setValue("branches",selectAll ? allBranches?.map((b) => b.nameBranch) :
+       currentSupplier?.branches?.map((b) => b.nameBranch));
     }
   }, [editMode, currentSupplier, setValue]);
 
@@ -142,10 +136,8 @@ export default function SupplierPersonalDetails({
       const alertConfirm = await beforeActionAlert("");
       if (alertConfirm) {
         if (currentSupplier?._id) {
-          let updatedBranches = selectAll
-            ? allBranches
-            : allBranches?.filter((b) => data.branches.includes(b.nameBranch));
-
+          let updatedBranches= selectAll ? allBranches : allBranches?.filter(b=>data.branches.includes(b.nameBranch))
+          
           await updateSupplier(
             {
               id: currentSupplier._id,
@@ -167,7 +159,7 @@ export default function SupplierPersonalDetails({
             {
               onSuccess: () => {
                 console.log(25, currentSupplier);
-                successAlert("ספק נערך בהצלחה!");
+                successAlert("ספק נערך ");
               },
               onError: () => {
                 errorAlert("שגיאה בעריכת ספק");
@@ -189,27 +181,16 @@ export default function SupplierPersonalDetails({
 
     if (textQuery.trim().length >= 2) {
       try {
-        let allBranchesFromService = await getbranchesByBusinessName(textQuery);
+       let allBranchesFromService= await getbranchesByBusinessName(textQuery)
 
         setAllBranches(allBranchesFromService);
+        
       } catch (error) {
         console.error("Error fetching suggestions:", error);
         setAllBranches([]);
       }
     } else {
       setAllBranches([]);
-    }
-  };
-
-  const handleLinkClick = async (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    href: any
-  ) => {
-    event.preventDefault();
-
-    const userConfirmed = await confirmExternalNavigation(href);
-    if (userConfirmed) {
-      window.open(href, "_blank");
     }
   };
 
@@ -351,7 +332,6 @@ export default function SupplierPersonalDetails({
             target="_blank"
             rel="noopener noreferrer"
             className={styles.link}
-            onClick={(e) => handleLinkClick(e, currentSupplier.siteLink)}
           >
             {currentSupplier.siteLink}
           </a>
@@ -435,7 +415,7 @@ export default function SupplierPersonalDetails({
             </div>
             {!selectAll && (
               <div className={styles.branchList}>
-                {allBranches?.map((b: Branch, index) => (
+                {allBranches?.map((b: Branch,index) => (
                   <label key={b.nameBranch} className={styles.branchLabel}>
                     <input
                       type="checkbox"
