@@ -11,6 +11,7 @@ import {
   faCreditCard,
   faBookmark,
   faUser,
+  faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
 
 const SideBar = () => {
@@ -19,8 +20,8 @@ const SideBar = () => {
   let currentSupplierId = "0";
   let currentUserId = "0";
 
-  if (clientMode === "SUPPLIER" && currentSupplier) {
-    currentSupplierId = currentSupplier._id || "0";
+  if (clientMode === "SUPPLIER" && currentSupplier!== null ) {
+    currentSupplierId = currentSupplier._id|| "0";
   }
 
   if (clientMode === "USER" && currentUser !== null) {
@@ -34,6 +35,12 @@ const SideBar = () => {
     { label: "פרטים אישיים", link: "/personalDetails", icon: faUser },
   ];
 
+  const supplierButtons = [
+    { label: "הטבות החברה", link: `/benefits/${currentSupplierId}`, icon: faGift },
+    { label: "פרטים אישיים", link: "/personalDetails", icon: faUser },
+    { label: "ניהול סניפים", link: `/supplier-branches/${currentSupplierId}`, icon: faBuilding },
+  ];
+
   if (clientMode !== "USER" && clientMode !== "SUPPLIER") {
     return null;
   }
@@ -42,6 +49,19 @@ const SideBar = () => {
     <div className={styles.sidebar}>
       {clientMode === "USER" &&
         userButtons.map((button, index) => (
+          <Link
+            key={index}
+            href={button.link}
+            className={`${styles.barItem} ${
+              pathname === button.link ? styles.active : ""
+            }`}
+          >
+            <FontAwesomeIcon icon={button.icon} className={styles.icon} />
+            {button.label}
+          </Link>
+        ))}
+         {clientMode === "SUPPLIER" &&
+        supplierButtons.map((button, index) => (
           <Link
             key={index}
             href={button.link}
