@@ -12,12 +12,12 @@ interface SupplierBranchesProps {
 }
 
 const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) => {
-  const [assignedBranches, setAssignedBranches] = useState<Branch[]>([]); // סניפים משויכים
-  const [googleSuggestions, setGoogleSuggestions] = useState<Branch[]>([]); // הצעות מגוגל
-  const [selectedBranches, setSelectedBranches] = useState<Branch[]>([]); // סניפים שנבחרו לשמירה
+  const [assignedBranches, setAssignedBranches] = useState<Branch[]>([]); 
+  const [googleSuggestions, setGoogleSuggestions] = useState<Branch[]>([]); 
+  const [selectedBranches, setSelectedBranches] = useState<Branch[]>([]); 
   const [loading, setLoading] = useState(false);
 
-  const { updateSupplier } = useFetchSuppliers(); // קריאה לפונקציית עדכון ספק
+  const { updateSupplier } = useFetchSuppliers(); 
 
   useEffect(() => {
     if (currentSupplier?.branches) {
@@ -41,7 +41,13 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
     }
   };
 
-  const toggleBranchSelection = (branch: Branch) => {
+  const removeBranch = (branchName: string) => {
+    setSelectedBranches((prev) =>
+      prev.filter((branch) => branch.nameBranch !== branchName)
+    );
+  };
+
+  const toggleGoogleSuggestion = (branch: Branch) => {
     const isSelected = selectedBranches.some((b) => b.nameBranch === branch.nameBranch);
     if (isSelected) {
       setSelectedBranches((prev) =>
@@ -61,24 +67,23 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
         ...currentSupplier,
         branches: selectedBranches,
       };
-      console.log("updatedSupplier", updatedSupplier);
 
       await updateSupplier({
         id: currentSupplier._id || " ",
         updatedData: {
-            providerName: updatedSupplier.providerName,
-            password: updatedSupplier.password,
-            email: updatedSupplier.email,
-            businessName: updatedSupplier.businessName,
-            categories: updatedSupplier.categories,
-            phoneNumber: updatedSupplier.phoneNumber,
-            registrationDate: updatedSupplier.registrationDate,
-            branches: updatedSupplier.branches,
-            siteLink: updatedSupplier.siteLink,
-            supplierLogo: updatedSupplier.supplierLogo,
-            isActive: updatedSupplier.isActive,
-            selectedCategories: updatedSupplier.selectedCategories,
-          },
+          providerName: updatedSupplier.providerName,
+          password: updatedSupplier.password,
+          email: updatedSupplier.email,
+          businessName: updatedSupplier.businessName,
+          categories: updatedSupplier.categories,
+          phoneNumber: updatedSupplier.phoneNumber,
+          registrationDate: updatedSupplier.registrationDate,
+          branches: updatedSupplier.branches,
+          siteLink: updatedSupplier.siteLink,
+          supplierLogo: updatedSupplier.supplierLogo,
+          isActive: updatedSupplier.isActive,
+          selectedCategories: updatedSupplier.selectedCategories,
+        },
       });
 
       successAlert("השינויים נשמרו בהצלחה!");
@@ -97,16 +102,15 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
       <ul className={styles.branchList}>
         {assignedBranches.map((branch) => (
           <li key={branch.nameBranch} className={styles.branchItem}>
-            <label>
-              <input
-                type="checkbox"
-                checked={selectedBranches.some(
-                  (b) => b.nameBranch === branch.nameBranch
-                )}
-                onChange={() => toggleBranchSelection(branch)}
-              />
+            <span>
               {branch.nameBranch}, {branch.city}
-            </label>
+            </span>
+            <button
+              className={styles.removeButton}
+              onClick={() => removeBranch(branch.nameBranch)}
+            >
+              הסר
+            </button>
           </li>
         ))}
       </ul>
@@ -122,9 +126,9 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
                 <input
                   type="checkbox"
                   checked={selectedBranches.some(
-                    (b) => b.nameBranch === suggestion.nameBranch,
+                    (b) => b.nameBranch === suggestion.nameBranch
                   )}
-                  onChange={() => toggleBranchSelection(suggestion)}
+                  onChange={() => toggleGoogleSuggestion(suggestion)}
                 />
                 {suggestion.nameBranch}, {suggestion.city}
               </label>
