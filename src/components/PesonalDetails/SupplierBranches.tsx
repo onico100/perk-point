@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import styles from "@/styles/SupplierBranches.module.css";
+import styles from "@/styles/supplierBranches.module.css";
 import { Branch, Supplier } from "@/types/types";
 import { getbranchesByBusinessName } from "@/services/branchesService";
 import { successAlert, errorAlert, beforeActionAlert } from "@/utils/sweet-alerts";
