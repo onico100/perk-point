@@ -5,6 +5,13 @@
   padding: 5%;
 }
 
+.container h3 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #670606;
+}
+
 .title {
   font-size: 1.8rem;
   margin-bottom: 1rem;
@@ -27,16 +34,15 @@
   margin-bottom: 0.5rem;
   font-weight: bold;
   color: #555;
-  text-align: right; 
+  text-align: right;
 }
 
 .link {
   color: #0070f3;
   text-decoration: none;
-  word-wrap: break-word; 
-  word-break: break-word; 
+  word-wrap: break-word;
+  word-break: break-word;
 }
-
 
 .link:hover {
   text-decoration: underline;
@@ -63,11 +69,11 @@
   transform: scale(1.05);
 }
 
-.buttonsContainer{
+.buttonsContainer {
   display: flex;
   float: left;
   direction: rtl;
-  gap:20px;
+  gap: 20px;
 }
 
 .editButton {
@@ -90,9 +96,9 @@
   width: 100%;
   padding: 0.8rem;
   font-size: 1rem;
-  text-align: right; 
-  border: none; 
-  direction: rtl; 
+  text-align: right;
+  border: none;
+  direction: rtl;
   background-color: #ffffff;
 }
 
@@ -107,30 +113,29 @@
   color: #d9534f;
   font-size: 0.875rem;
   margin-top: 0.5rem;
-  text-align: right; 
+  text-align: right;
 }
 
-.branchLabel{
-  display: block; 
-  margin: 4px 0 4px 0; 
-  text-align: right; 
-  direction: rtl;  
+.branchLabel {
+  display: block;
+  margin: 4px 0 4px 0;
+  text-align: right;
+  direction: rtl;
 }
 
 .selectButton {
-  display: flex; 
-  align-items: center; 
-  gap: 8px; 
-  background-color: transparent; 
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
   border: none;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .selectButton span {
-  font-size: 16px; 
+  font-size: 16px;
 }
 
 .selectButton svg {
-  font-size: 16px; 
+  font-size: 16px;
 }
-

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { MdOutlineModeEditOutline,MdOutlineEditOff  } from "react-icons/md";
+import { MdOutlineModeEditOutline, MdOutlineEditOff } from "react-icons/md";
 import {
   beforeActionAlert,
   errorAlert,
@@ -29,6 +29,8 @@ export default function UserPersonalDetails({
 }: UserPersonalDetailsProps) {
   const [editMode, setEditMode] = useState(false);
   const { mutate: updateUser, error } = useUpdateUserById();
+
+  const isExamle = currentUser.email == "userexample@try.com" ? true : false;
 
   const {
     register,
@@ -88,6 +90,9 @@ export default function UserPersonalDetails({
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>פרטי משתמש</h2>
+      {isExamle && editMode && (
+        <h3>הנך במצב משתמש לדוגמא לכן לא תוכל לערוך שם או אימייל </h3>
+      )}
       <div className={styles.buttonsContainer}>
         <button
           type="button"
@@ -100,7 +105,7 @@ export default function UserPersonalDetails({
 
       <p className={styles.item}>
         <span className={styles.label}>שם:</span>
-        {editMode ? (
+        {!isExamle && editMode ? (
           <input
             id="username"
             {...register("username")}
@@ -117,7 +122,7 @@ export default function UserPersonalDetails({
 
       <p className={styles.item}>
         <span className={styles.label}>מייל:</span>
-        {editMode ? (
+        {!isExamle && editMode ? (
           <input
             id="mail"
             type="email"
@@ -155,13 +160,13 @@ export default function UserPersonalDetails({
         {new Date(currentUser.registrationDate).toLocaleDateString("he-IL")}
       </p>
       {editMode && (
-          <button
-            className={styles.submitButton}
-            onClick={handleSubmit(editUser)}
-          >
-            שמור
-          </button>
-        )}
+        <button
+          className={styles.submitButton}
+          onClick={handleSubmit(editUser)}
+        >
+          שמור
+        </button>
+      )}
     </div>
   );
 }
