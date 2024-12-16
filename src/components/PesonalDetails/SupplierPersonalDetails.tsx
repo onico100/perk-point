@@ -412,51 +412,7 @@ export default function SupplierPersonalDetails({
       </p>
 
       <p>
-        <span className={styles.label}>סניפים:</span>
-        {editMode ? (
-          <div className={styles.inputContainer}>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={selectAll}
-                  onChange={() => setSelectAll(!selectAll)}
-                />
-                כל הסניפים
-              </label>
-            </div>
-            {!selectAll && (
-              <div className={styles.branchList}>
-                {allBranches?.map((b: Branch, index) => (
-                  <label key={b.nameBranch} className={styles.branchLabel}>
-                    <input
-                      type="checkbox"
-                      value={b.nameBranch}
-                      {...register("branches")}
-                      defaultChecked={booleanResults[index]}
-                    />
-                    {b.nameBranch}.
-                  </label>
-                ))}
-              </div>
-            )}
-            {errors.branches && !selectAll && (
-              <span className={styles.error}>
-                {errors.branches.message as string}
-              </span>
-            )}
-          </div>
-        ) : (
-          <div>
-            {currentSupplier &&
-            currentSupplier.branches &&
-            currentSupplier?.branches?.length > 0
-              ? currentSupplier?.branches?.map((b: Branch) => (
-                  <div key={b.nameBranch}>° {b.nameBranch}.</div>
-                ))
-              : "אין סניפים זמינים"}
-          </div>
-        )}
+        <span className={styles.label} > <a href="/supplier-branches/0">  לעמוד הניהול הבא</a>לעדכון, ניהול ועריכת סניפים יש לעבור</span>
       </p>
       {editMode && (
         <button

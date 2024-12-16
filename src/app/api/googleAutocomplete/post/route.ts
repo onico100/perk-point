@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  console.log("1----- POST /googleAutocomplete");
 
   type Place = {
     displayName: { text: string };
@@ -14,12 +13,8 @@ export async function POST(req: Request) {
   };
 
   try {
-    const body = await req.json(); // קרא את ה-Body פעם אחת ושמור אותו במשתנה
-    console.log("2----- POST /googleAutocomplete", body);
-
+    const body = await req.json(); 
     const textQuery: string = body.textQuery;
-    console.log("3----- POST /googleAutocomplete", textQuery);
-
     if (!textQuery || textQuery.trim().length < 2) {
       return NextResponse.json(
         { error: "Query too short", places: [] },
@@ -35,14 +30,12 @@ export async function POST(req: Request) {
       headers: {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": GOOGLE_API_KEY || "",
-        //"X-Goog-FieldMask": "places.formattedAddress",
         "X-Goog-FieldMask": "places.displayName,places.types,places.formattedAddress,places.location",
       },
       body: JSON.stringify({
         textQuery,
         languageCode: "iw", 
-        maxResultCount: 100, 
-        //locationBias: { radiusMeters: 50000 }, // רדיוס סביב מיקום
+        maxResultCount: 200, 
       }),
     });
 
@@ -54,19 +47,6 @@ export async function POST(req: Request) {
         { status: 200 }
       );
     }
-
-    console.log("-------" , data.places)
-
-
-    const filteredPlaces = data.places
-      .filter((place) =>
-        place.types.some((type) =>
-          ["locality", "administrative_area_level_1", "administrative_area_level_2"].includes(type)
-        )
-      )
-      .filter((place, index, self) =>
-        index === self.findIndex((p) => p.displayName.text === place.displayName.text)
-      );
 
       const formattedPlaces = data.places.map((place) => {
         const addressParts = place.formattedAddress?.split(",") || [];
@@ -81,7 +61,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ formattedPlaces: formattedPlaces }, { status: 200 });
   } 
   catch (error) {
-    console.log("Places API error:", error);
     return NextResponse.json(
       { error: "Server error", places: [] },
       { status: 500 }
