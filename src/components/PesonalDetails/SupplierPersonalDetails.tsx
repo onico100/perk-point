@@ -422,7 +422,12 @@ const handleLogoUpload = (result: CloudinaryUploadResult) => {
       </p>
 
       <p>
-        <span className={styles.label} > <a href="/supplier-branches/0">  לעמוד הניהול הבא</a>לעדכון, ניהול ועריכת סניפים יש לעבור</span>
+        <span className={styles.label}>
+          {" "}
+          <a href="/supplier-branches/0">
+            לעריכת בניפים יש לעבור לעמוד עריכת סניפים
+          </a>
+        </span>
       </p>
       {editMode && (
         <button

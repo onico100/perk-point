@@ -29,9 +29,14 @@ export default function ClientId() {
         currentTitle = titles[2];
       }
     } else {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0)
+      
       benefitsToShow =
-        benefits.filter(
-          (b) => b.expirationDate && new Date(b.expirationDate) >= new Date()
+        benefits.filter((benefit) => {
+          const expirationDate = new Date(benefit.expirationDate);
+          expirationDate.setHours(0, 0, 0, 0); 
+          return expirationDate >= today;}
         ) || [];
     }
   }
