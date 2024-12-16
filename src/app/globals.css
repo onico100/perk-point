@@ -28,11 +28,11 @@ body {
 .mainContent {
   margin-top: 70px;
   display: flex;
-  transition: margin-right 0.3s ease; 
+  transition: margin-right 0.3s ease;
 }
 
 .mainContent.withSidebar {
-  margin-right: 18vw; 
+  margin-right: 18vw;
 }
 
 .main {
@@ -51,9 +51,8 @@ body {
   align-items: flex-start;
   padding: 20px;
   box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000; 
+  z-index: 1000;
 }
-
 
 .layout {
   display: flex;
@@ -61,6 +60,8 @@ body {
   position: relative;
   z-index: 2;
   box-sizing: border-box;
+  min-height: 100vh;
+  justify-content: space-between;
 }
 
 .overlay {

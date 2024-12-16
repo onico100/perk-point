@@ -15,7 +15,6 @@ import {
 } from "@/components/index";
 import useGeneralStore from "@/stores/generalStore";
 
-
 const queryClient = new QueryClient();
 
 export default function RootLayout({
@@ -26,13 +25,16 @@ export default function RootLayout({
   const { clientMode, currentSupplier, currentUser } = useGeneralStore();
 
   useEffect(() => {
-    if ((clientMode === "USER" && currentUser)|| (clientMode === "SUPPLIER"&& currentSupplier)) {
+    if (
+      (clientMode === "USER" && currentUser) ||
+      (clientMode === "SUPPLIER" && currentSupplier)
+    ) {
       setIsSidebarVisible(true);
     } else {
       setIsSidebarVisible(false);
     }
   }, [clientMode]);
-  
+
   return (
     <QueryClientProvider client={queryClient}>
       <html lang="en">
@@ -60,9 +62,7 @@ export default function RootLayout({
           <div className="layout">
             <TopBar />
             <div
-              className={`mainContent ${
-                isSidebarVisible ? "withSidebar" : ""
-              }`} /* שינוי דינמי */
+              className={`mainContent ${isSidebarVisible ? "withSidebar" : ""}`}
             >
               {isSidebarVisible && <SideBar />}
               <div className="main">
