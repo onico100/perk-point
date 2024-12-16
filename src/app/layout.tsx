@@ -22,7 +22,6 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const [isCalcPageVisible, setIsCalcPageVisible] = useState(false);
 
-  document.title = "PerkPoint";
   return (
     <QueryClientProvider client={queryClient}>
       <html lang="en">
