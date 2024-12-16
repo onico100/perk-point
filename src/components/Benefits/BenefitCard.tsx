@@ -34,8 +34,13 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   const { currentUser, currentSupplier } = useGeneralStore();
   const { mutate: updateUser } = useUpdateUserById();
   const { deleteBenefit } = useFetchBenefits();
-  const isExpired: boolean = new Date(benefit.expirationDate) < new Date();
-
+  
+  const today = new Date();
+  today.setHours(0, 0, 0, 0)
+  const expirationDate = new Date(benefit.expirationDate);
+  expirationDate.setHours(0, 0, 0, 0); 
+  const isExpired = expirationDate < today;
+  
   const id = params.clientId;
   const { clientMode } = useGeneralStore();
 
