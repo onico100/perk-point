@@ -20,21 +20,7 @@ const queryClient = new QueryClient();
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false); // בדיקה אם ה-sidebar פעיל
   const [isCalcPageVisible, setIsCalcPageVisible] = useState(false);
-  const { clientMode, currentSupplier, currentUser } = useGeneralStore();
-
-  useEffect(() => {
-    if (
-      (clientMode === "USER" && currentUser) ||
-      (clientMode === "SUPPLIER" && currentSupplier)
-    ) {
-      setIsSidebarVisible(true);
-    } else {
-      setIsSidebarVisible(false);
-    }
-  }, [clientMode]);
-
   return (
     <QueryClientProvider client={queryClient}>
       <html lang="en">
@@ -61,10 +47,8 @@ export default function RootLayout({
           )}
           <div className="layout">
             <TopBar />
-            <div
-              className={`mainContent ${isSidebarVisible ? "withSidebar" : ""}`}
-            >
-              {isSidebarVisible && <SideBar />}
+            <div className={"mainContent"}>
+              <SideBar />
               <div className="main">
                 <CalcButton onClick={() => setIsCalcPageVisible(true)} />
                 {children}
