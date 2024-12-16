@@ -1,7 +1,7 @@
 "use client";
 
 import { Branch, Category, Supplier } from "@/types/types";
-import styles from "@/styles/PersonalDetails.module.css";
+import styles from "@/styles/PersonalDetails/PersonalDetails.module.css";
 import { useState, useEffect } from "react";
 import { MdOutlineModeEditOutline, MdOutlineEditOff } from "react-icons/md";
 import { z } from "zod";
