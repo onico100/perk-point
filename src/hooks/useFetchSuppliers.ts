@@ -12,7 +12,7 @@ import useGeneralStore from "@/stores/generalStore";
 import { useRouter } from "next/navigation";
 import { errorAlert, inProccesAlert, successAlert } from "@/utils/sweet-alerts";
 export const useFetchSuppliers = () => {
-  const { setSuppliers } = useSupplierStore.getState();
+  const { suppliers, setSuppliers } = useSupplierStore();
   const setClientMode = useGeneralStore.getState().setClientMode;
   const setCurrentSupplier = useGeneralStore.getState().setCurrentSupplier;
   const currentSupplier = useGeneralStore.getState().currentSupplier;
@@ -30,38 +30,56 @@ export const useFetchSuppliers = () => {
     staleTime: 600000,
   });
 
-
   const addSupplierMutation = useMutation({
     mutationFn: addSupplier,
     onMutate: async (nSupplier: Supplier) => {
-      console.log("addSupplierMutation newSupplier", nSupplier)
-      const { suppliers } = useSupplierStore.getState();
+      console.log("addSupplierMutation newSupplier", nSupplier);
+
       const newSupplier = { ...nSupplier, _id: "temp-id" };
       const existingSupplier = suppliers.find(
         (s) => s.email === nSupplier.email
       );
+      let previousSuppliers = [...suppliers];
+
       if (!existingSupplier) {
-        setSuppliers([...suppliers, newSupplier]);
+        let updatedSupplier = [...suppliers, newSupplier];
+        setSuppliers(updatedSupplier);
+        queryClient.setQueryData<Supplier[]>(["suppliers"], updatedSupplier);
       }
-      inProccesAlert("מוסיף...")
-      return { previousSuppliers: suppliers };
+      inProccesAlert("מוסיף...");
+      return { previousSuppliers: previousSuppliers };
     },
     onError: (error, _, context: any) => {
       if (context?.previousSuppliers) {
         const { setSuppliers } = useSupplierStore.getState();
         setSuppliers(context.previousSuppliers);
-        errorAlert("הוספת משתמש נכשלה")
+        errorAlert("הוספת משתמש נכשלה");
       }
     },
     onSuccess: (supplier) => {
       setCurrentSupplier(supplier);
       setClientMode(ClientMode.supplier);
+
+      console.log(5555,supplier._id)
+      console.log(5555,suppliers)
+      const updateSuppliers = [...suppliers];
+      updateSuppliers.forEach((s, index) => {
+        if (s._id === "temp-id") {
+          updateSuppliers[index] = { ...updateSuppliers[index], _id: supplier._id };
+          console.log(888, "Updated", updateSuppliers[index]);
+        }
+      });
+      
+      setSuppliers(updateSuppliers);
+      queryClient.setQueryData<Supplier[]>(["suppliers"], updateSuppliers);
+     
+      setSuppliers(updateSuppliers);
+
       console.log("Supplier added and stored successfully!", currentSupplier);
-      successAlert("משתמש נוסף בהצלחה!")
+      successAlert("משתמש נוסף בהצלחה!");
       router.push("/");
     },
   });
-
 
   const updateSupplierMutation = useMutation<
     Supplier,
@@ -75,26 +93,28 @@ export const useFetchSuppliers = () => {
         ...suppliers.find((s) => s._id === id),
         ...updatedData,
       } as Supplier;
-      let updatedSuppliers=suppliers.map((s) => (s._id === id ? updatedSupplier : s))
+      let updatedSuppliers = suppliers.map((s) =>
+        s._id === id ? updatedSupplier : s
+      );
       setSuppliers(updatedSuppliers);
       queryClient.setQueryData<Supplier[]>(["suppliers"], updatedSuppliers);
-      
-      let oldSupplier=currentSupplier
-      setCurrentSupplier(updatedSupplier)
-      inProccesAlert("מעדכן...")
-      return { previousSuppliers: suppliers , currentSupplier: oldSupplier};
+
+      let oldSupplier = currentSupplier;
+      setCurrentSupplier(updatedSupplier);
+      inProccesAlert("מעדכן...");
+      return { previousSuppliers: suppliers, currentSupplier: oldSupplier };
     },
     onError: (_error, _variables, context: any) => {
       setSuppliers(context.previousSuppliers);
-      setCurrentSupplier(context.oldSupplier)
-      
+      setCurrentSupplier(context.oldSupplier);
+
       console.error("Failed to update supplier.");
-      errorAlert("עדכון ספק נכשל")
+      errorAlert("עדכון ספק נכשל");
     },
     onSuccess: () => {
       console.log("Supplier updated successfully!");
-      successAlert("עדכון ספק בוצע בהצלחה!")
-     // queryClient.invalidateQueries({ queryKey: ["suppliers"] });
+      successAlert("עדכון ספק בוצע בהצלחה!");
+      // queryClient.invalidateQueries({ queryKey: ["suppliers"] });
     },
   });
 
