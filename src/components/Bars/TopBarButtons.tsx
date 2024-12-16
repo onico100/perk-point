@@ -31,7 +31,6 @@ const TopBarButtons: React.FC = () => {
 
     window.addEventListener("scroll", handleScroll);
 
-    // Cleanup listener on unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -48,7 +47,6 @@ const TopBarButtons: React.FC = () => {
     router.push(path);
   };
 
-  // Determine if the path includes "benefit" or "club"
   const isSpecialPath =
     pathName.includes("benefit") || pathName.includes("club");
 

@@ -1,9 +1,8 @@
 .sidebar {
-  background: linear-gradient(to bottom right, #87cdfa, #b346e8);
+  background-color: #f5f5f5f5;
   box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px 10px;
-  width: 16.5vw;
-
+  width: 15.5vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -11,11 +10,16 @@
   position: fixed;
   right: 0;
   z-index: 1000;
+  color: #000;
+}
+
+.specialPath {
+  background: linear-gradient(to bottom right, #87cdfa, #b346e8);
+  color: #ffffff;
 }
 
 .barItem {
-  color: #ffffff;
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 8px 0;
   padding: 12px 10px;
   border-radius: 8px;
