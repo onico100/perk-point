@@ -10,24 +10,22 @@ import {
   beforeActionAlert,
 } from "@/utils/sweet-alerts";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
+import { ConnectionCheckOutFailedEvent } from "mongodb";
 
 interface SupplierBranchesProps {
   currentSupplier: Supplier;
 }
 
-const SupplierBranches: React.FC<SupplierBranchesProps> = ({
-  currentSupplier,
-}) => {
-  const [assignedBranches, setAssignedBranches] = useState<Branch[]>([]);
-  const [googleSuggestions, setGoogleSuggestions] = useState<Branch[]>([]);
-  const [selectedBranches, setSelectedBranches] = useState<Branch[]>([]);
+const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) => {
+  const [googleSuggestions, setGoogleSuggestions] = useState<Branch[]>([]); 
+  const [selectedBranches, setSelectedBranches] = useState<Branch[]>([]); 
   const [loading, setLoading] = useState(false);
 
   const { updateSupplier } = useFetchSuppliers();
 
   useEffect(() => {
+    console.log("currentSupplier", currentSupplier);
     if (currentSupplier?.branches) {
-      setAssignedBranches(currentSupplier.branches);
       setSelectedBranches(currentSupplier.branches);
     }
     fetchGoogleSuggestions(currentSupplier.businessName || "");
@@ -35,7 +33,6 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({
 
   const fetchGoogleSuggestions = async (businessName: string) => {
     if (!businessName) return;
-
     setLoading(true);
     try {
       const suggestions = await getbranchesByBusinessName(businessName);
@@ -46,12 +43,8 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({
       setLoading(false);
     }
   };
-
-  const removeBranch = (branchName: string) => {
-    setSelectedBranches((prev) =>
-      prev.filter((branch) => branch.nameBranch !== branchName)
-    );
-  };
+  
+  
 
   const toggleGoogleSuggestion = (branch: Branch) => {
     const isSelected = selectedBranches.some(
@@ -70,12 +63,14 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({
     try {
       const confirm = await beforeActionAlert("האם לשמור את השינויים?");
       if (!confirm) return;
-
+  
       const updatedSupplier = {
         ...currentSupplier,
         branches: selectedBranches,
       };
 
+      console.log("updatedSupplier", updatedSupplier);
+  
       await updateSupplier({
         id: currentSupplier._id || " ",
         updatedData: {
@@ -94,54 +89,53 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({
         },
       });
 
+      const updatedSuggestions = googleSuggestions.filter(
+        (suggestion) =>
+          !selectedBranches.some(
+            (branch) => branch.nameBranch === suggestion.nameBranch
+          )
+      );
+      setGoogleSuggestions(updatedSuggestions);
+  
       successAlert("השינויים נשמרו בהצלחה!");
     } catch (error) {
       errorAlert("שגיאה בשמירת השינויים.");
     }
   };
+  
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>
         ניהול סניפים עבור {currentSupplier?.businessName}
       </h2>
+      <h4>
+        יש לבחור סניפים להוספה או להסרה
+      </h4>
 
-      <h3>סניפים משויכים</h3>
-      <ul className={styles.branchList}>
-        {assignedBranches.map((branch) => (
-          <li key={branch.nameBranch} className={styles.branchItem}>
-            <span>
-              {branch.nameBranch}, {branch.city}
-            </span>
-            <button
-              className={styles.removeButton}
-              onClick={() => removeBranch(branch.nameBranch)}
-            >
-              הסר
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      <h3>הצעות מגוגל</h3>
       {loading ? (
         <p>טוען...</p>
       ) : (
         <ul className={styles.suggestions}>
-          {googleSuggestions.map((suggestion) => (
-            <li key={suggestion.nameBranch} className={styles.suggestionItem}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={selectedBranches.some(
-                    (b) => b.nameBranch === suggestion.nameBranch
-                  )}
-                  onChange={() => toggleGoogleSuggestion(suggestion)}
-                />
-                {suggestion.nameBranch}, {suggestion.city}
-              </label>
-            </li>
-          ))}
+          {googleSuggestions.map((suggestion) => {
+            return (
+              <li key={suggestion.nameBranch} className={styles.suggestionItem}>
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={selectedBranches.some(
+                      (b) => b.nameBranch === suggestion.nameBranch
+                    )}
+                    onChange={() => toggleGoogleSuggestion(suggestion)}
+                    className={styles.customCheckbox} 
+                  />
+                  <span className={styles.branchName}>
+                    {suggestion.nameBranch}, {suggestion.city}
+                  </span>
+                </label>
+              </li>
+            );
+          })}
         </ul>
       )}
 

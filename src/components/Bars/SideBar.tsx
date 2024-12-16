@@ -21,6 +21,7 @@ const SideBar = () => {
   let currentUserId = "0";
 
   if (clientMode === "SUPPLIER" && currentSupplier !== null) {
+    console.log("currentSupplier side bar", currentSupplier);
     currentSupplierId = currentSupplier._id || "0";
   }
 
