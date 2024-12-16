@@ -72,32 +72,34 @@ const SideBar = () => {
         isSpecialPath ? styles.specialPath : ""
       }`}
     >
-      {clientMode === "USER" &&
-        userButtons.map((button, index) => (
-          <Link
-            key={index}
-            href={button.link}
-            className={`${styles.barItem} ${
-              pathname === button.link ? styles.active : ""
-            }`}
-          >
-            <FontAwesomeIcon icon={button.icon} className={styles.icon} />
-            {button.label}
-          </Link>
-        ))}
-      {clientMode === "SUPPLIER" &&
-        supplierButtons.map((button, index) => (
-          <Link
-            key={index}
-            href={button.link}
-            className={`${styles.barItem} ${
-              pathname === button.link ? styles.active : ""
-            }`}
-          >
-            <FontAwesomeIcon icon={button.icon} className={styles.icon} />
-            {button.label}
-          </Link>
-        ))}
+      <div className={styles.barItemContainer}>
+        {clientMode === "USER" &&
+          userButtons.map((button, index) => (
+            <Link
+              key={index}
+              href={button.link}
+              className={`${styles.barItem} ${
+                pathname === button.link ? styles.active : ""
+              }`}
+            >
+              <FontAwesomeIcon icon={button.icon} className={styles.icon} />
+              {button.label}
+            </Link>
+          ))}
+        {clientMode === "SUPPLIER" &&
+          supplierButtons.map((button, index) => (
+            <Link
+              key={index}
+              href={button.link}
+              className={`${styles.barItem} ${
+                pathname === button.link ? styles.active : ""
+              }`}
+            >
+              <FontAwesomeIcon icon={button.icon} className={styles.icon} />
+              {button.label}
+            </Link>
+          ))}
+      </div>
     </div>
   );
 };
