@@ -1,13 +1,12 @@
-"use client";
 import React, { useState } from "react";
 import useGeneralStore from "@/stores/generalStore";
 import * as XLSX from "xlsx";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import { successAlert } from "@/utils/sweet-alerts";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
+import styles from "./addXlsx.module.css"; 
 import { Branch, Club } from "@/types/types";
 
-// הגדרת הטיפוס Benefit
 interface Benefit {
   supplierId: string;
   clubId: string;
@@ -23,7 +22,7 @@ export default function AddXlsxComponent() {
   const { addBenefit } = useFetchBenefits();
   const { clubs } = useFetchGeneral();
 
-  const [excelData, setExcelData] = useState<Benefit[]>([]); // הגדרת טיפוס המצב
+  const [excelData, setExcelData] = useState<Benefit[]>([]);
   const [excelPreview, setExcelPreview] = useState(false);
 
   const handleExcelUpload = (
@@ -41,7 +40,6 @@ export default function AddXlsxComponent() {
       const sheet = workbook.Sheets[sheetName];
       const parsedData = XLSX.utils.sheet_to_json(sheet);
 
-      // עיבוד ההטבות
       const benefits = parsedData
         .map((row: any) => {
           const associatedClubs = clubs
@@ -60,7 +58,7 @@ export default function AddXlsxComponent() {
         })
         .flat();
 
-      setExcelData(benefits); // הגדרת הנתונים כראוי
+      setExcelData(benefits);
       setExcelPreview(true);
     };
 
@@ -78,19 +76,20 @@ export default function AddXlsxComponent() {
   };
 
   return (
-    <div>
-      <h2>הוספת הטבות מקובץ Excel</h2>
-      <button onClick={() => downloadTemplate(clubs || [])}>
+    <div className={styles.container}>
+      <h2 className={styles.title}>הוספת הטבות מקובץ Excel</h2>
+      <button onClick={() => downloadTemplate(clubs || [])} className={styles.button}>
         הורדת תבנית Excel
       </button>
       <input
         type="file"
         accept=".xlsx, .xls"
         onChange={(e) => handleExcelUpload(e, clubs || [])}
+        className={styles.input}
       />
 
       {excelPreview && (
-        <div>
+        <div className={styles.preview}>
           <h3>תצוגה מקדימה של ההטבות</h3>
           <ul>
             {excelData.map((benefit, index) => (
@@ -112,6 +111,7 @@ export default function AddXlsxComponent() {
               setExcelData([]);
               setExcelPreview(false);
             }}
+            className={styles.approveButton}
           >
             אישור והוספה
           </button>
