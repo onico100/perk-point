@@ -1,5 +1,4 @@
 "use client";
-import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import { BenefitsCard } from "@/components";
 import SearchBenefits from "./SearchBenefits";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
