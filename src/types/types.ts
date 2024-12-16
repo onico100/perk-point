@@ -15,13 +15,16 @@ export const supplierSchema = z.object({
   email: z.string().email("כתובת אימייל אינה חוקית."),
   password: z.string().min(6, "סיסמה חייבת להכיל לפחות 6 תווים."),
   businessName: z.string().min(3, "יש להזין שם עסק בעל לפחות 3 תווים."),
-  phoneNumber: z.string().regex(/^\d{9,10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
+  phoneNumber: z
+    .string()
+    .regex(/^\d{9,10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
   siteLink: z.string().url("כתובת האתר אינה חוקית."),
   supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
   branches: z.array(branchSchema).nonempty("חייב להוסיף לפחות סניף אחד."),
-  selectedCategories: z.array(z.string()).nonempty("חייב לבחור לפחות קטגוריה אחת."),
+  selectedCategories: z
+    .array(z.string())
+    .nonempty("חייב לבחור לפחות קטגוריה אחת."),
 });
-
 
 export type SupplierFormValues = z.infer<typeof supplierSchema>;
 export type BranchZ = z.infer<typeof branchSchema>;
@@ -71,6 +74,13 @@ export interface Supplier {
   selectedCategories?: string[];
 }
 
+export interface Admin {
+  _id?: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
 export interface Category {
   _id: string;
   categoryName: string;
@@ -81,7 +91,7 @@ export interface Club {
   _id: string;
   clubName: string;
   clubLink: string;
-  clubLogo:string;
+  clubLogo: string;
   isActive: Boolean;
 }
 
@@ -90,9 +100,8 @@ export enum ClientMode {
   connection = "CONNECTION",
   supplier = "SUPPLIER",
   user = "USER",
+  admin = "ADMIN",
 }
-
-
 
 export const userSchema = z.object({
   username: z.string().min(3, "שם המשתמש חייב להיות לפחות 3 תווים."),
@@ -112,9 +121,6 @@ export const userGoogleSchema = z.object({
   clubs: z.array(z.string()).nullable(),
   savedBenefits: z.array(z.string()).nullable(),
   registrationDate: z.string().nullable(),
-
 });
 
 export type UserGoogleFormValues = z.infer<typeof userGoogleSchema>;
-
-

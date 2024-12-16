@@ -36,7 +36,7 @@
 
 .rightSide {
   display: flex;
-  margin-right: 30px;
+
   justify-content: space-between;
   align-items: center;
 }

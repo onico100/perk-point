@@ -29,10 +29,15 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const id = params.clientId;
 
   useEffect(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0)
+
     setBenefitsToShow(
-      benefits.filter(
-        (benefit) => new Date(benefit.expirationDate) >= new Date()
-      )
+      benefits.filter((benefit) => {
+        const expirationDate = new Date(benefit.expirationDate);
+        expirationDate.setHours(0, 0, 0, 0); 
+        return expirationDate >= today;
+      })
     );
   }, [benefits]);
 
@@ -96,7 +101,13 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
     setShowValidBenefits((prev) => !prev);
 
     const dateFilteredBenefits = benefits?.filter((benefit) => {
-      const isExpired = new Date(benefit.expirationDate) < new Date();
+      const today = new Date();
+      today.setHours(0, 0, 0, 0)
+
+      const expirationDate = new Date(benefit.expirationDate);
+      expirationDate.setHours(0, 0, 0, 0); 
+
+      const isExpired = expirationDate < today;
       return showValidBenefits ? isExpired : !isExpired;
     });
 
@@ -118,7 +129,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       <div className={styles.mainContainer}>
         <div className={styles.titleContainer}>
           <div className={styles.title}>{title}</div>
-          {id != "0" && (
+          {(id != "0" || clientMode == "ADMIN") && (
             <div className={styles.toggleContainer}>
               <label className={styles.toggleLabel}>
                 <input

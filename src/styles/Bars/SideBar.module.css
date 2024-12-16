@@ -1,21 +1,30 @@
 .sidebar {
-  background: linear-gradient(to bottom right, #3866b7, #af3bed);  
-  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px 10px;
-  width: 18vw;
-  border-left: 5px solid #fff;
-  height: 100vh;
+  background-color: #f5f5f5;
+  padding: 0 10px;
+  width: 15vw;
+  right: 0;
+  top: 15vh;
+  max-height: 500000000000vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  z-index: 1000;
+}
+
+.specialPath {
+  background: linear-gradient(to bottom right, #87caf9, #b346e8);
+  color: #ffffff;
+}
+
+.barItemContainer {
+  margin-top: 20px;
   position: fixed;
-  right: 0; 
-  z-index: 1000; 
+  display: flex;
+  flex-direction: column;
 }
 
 .barItem {
-  color: #ffffff;
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 8px 0;
   padding: 12px 10px;
   border-radius: 8px;
@@ -23,7 +32,6 @@
   align-items: center;
   gap: 10px;
   transition: all 0.3s ease;
-  
 }
 
 .barItem:hover {

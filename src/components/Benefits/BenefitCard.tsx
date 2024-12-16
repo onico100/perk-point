@@ -34,8 +34,13 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   const { currentUser, currentSupplier } = useGeneralStore();
   const { mutate: updateUser } = useUpdateUserById();
   const { deleteBenefit } = useFetchBenefits();
-  const isExpired: boolean = new Date(benefit.expirationDate) < new Date();
-
+  
+  const today = new Date();
+  today.setHours(0, 0, 0, 0)
+  const expirationDate = new Date(benefit.expirationDate);
+  expirationDate.setHours(0, 0, 0, 0); 
+  const isExpired = expirationDate < today;
+  
   const id = params.clientId;
   const { clientMode } = useGeneralStore();
 
@@ -130,14 +135,13 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
         {" "}
         {benefit.description.substring(0, 16)}
       </p>
-     {  
-     currentSupplier?._id==benefit.supplierId && id=="0" &&     
-      <div className={styles.yourBenefit}>
-      <YourBenefit></YourBenefit>
-      </div>
-     }
+      {currentSupplier?._id == benefit.supplierId && id == "0" && (
+        <div className={styles.yourBenefit}>
+          <YourBenefit></YourBenefit>
+        </div>
+      )}
       <div className={styles.clubName}>{club?.clubName.substring(0, 20)}</div>
-      
+
       {id != "0" &&
         clientMode == "USER" &&
         (currentUser?.savedBenefits?.some(
@@ -152,7 +156,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           </div>
         ))}
 
-      {id != "0" && clientMode == "SUPPLIER" && (
+      {(clientMode == "ADMIN" || (id != "0" && clientMode == "SUPPLIER")) && (
         <div className={styles.deleteButton} onClick={deleteBenefitFunc}>
           <MdDelete />
         </div>

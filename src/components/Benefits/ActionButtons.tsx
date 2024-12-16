@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import styles from "@/styles/Benefits/BenefitDetais.module.css";
 import { ClientMode } from "@/types/types";
