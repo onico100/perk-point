@@ -1,9 +1,14 @@
 import my_http from "@/services/http";
+import { Category } from "@/types/types";
 
 export async function getAllCategories() {
     try {
         const response = await my_http.get("/categories/get");
-        return response.data;
+       
+        const sortedData = response.data.sort((a:Category, b:Category) => {
+            return a.categoryName.localeCompare(b.categoryName, 'he');
+        });
+        return sortedData;
     }
     catch (error) {
         console.error(error);
