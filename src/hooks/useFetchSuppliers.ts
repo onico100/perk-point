@@ -114,7 +114,6 @@ export const useFetchSuppliers = () => {
     onSuccess: () => {
       console.log("Supplier updated successfully!");
       successAlert("עדכון ספק בוצע בהצלחה!");
-      // queryClient.invalidateQueries({ queryKey: ["suppliers"] });
     },
   });
 
