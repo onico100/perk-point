@@ -6,6 +6,7 @@
   top: 15vh;
   max-height: 500000000000vh;
   min-height: 100vh;
+  min-width: 50px;
   display: flex;
   flex-direction: column;
   z-index: 1000;
@@ -42,4 +43,10 @@
 .icon {
   font-size: 1.2rem;
   margin-left: 10px;
+}
+
+@media (max-width: 850px) {
+  .labelShow {
+    display: none; /* Hide the buttons */
+  }
 }

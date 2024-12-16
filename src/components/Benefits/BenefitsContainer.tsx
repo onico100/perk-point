@@ -4,7 +4,7 @@ import SearchBenefits from "./SearchBenefits";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { Benefit, Club, Supplier, Branch } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
-import styles from "@/styles/Benefits/BenefitsContainer.module.css";
+import styles from "@/styles/Benefits/BenefitsGrid.module.css";
 import useGeneralStore from "@/stores/generalStore";
 import { useParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -29,12 +29,12 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
 
   useEffect(() => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0)
+    today.setHours(0, 0, 0, 0);
 
     setBenefitsToShow(
       benefits.filter((benefit) => {
         const expirationDate = new Date(benefit.expirationDate);
-        expirationDate.setHours(0, 0, 0, 0); 
+        expirationDate.setHours(0, 0, 0, 0);
         return expirationDate >= today;
       })
     );
@@ -101,10 +101,10 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
 
     const dateFilteredBenefits = benefits?.filter((benefit) => {
       const today = new Date();
-      today.setHours(0, 0, 0, 0)
+      today.setHours(0, 0, 0, 0);
 
       const expirationDate = new Date(benefit.expirationDate);
-      expirationDate.setHours(0, 0, 0, 0); 
+      expirationDate.setHours(0, 0, 0, 0);
 
       const isExpired = expirationDate < today;
       return showValidBenefits ? isExpired : !isExpired;
