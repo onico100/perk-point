@@ -84,7 +84,7 @@ const SideBar = () => {
               }`}
             >
               <FontAwesomeIcon icon={button.icon} className={styles.icon} />
-              {button.label}
+              <div className={styles.labelShow}>{button.label}</div>
             </Link>
           ))}
         {clientMode === "SUPPLIER" &&
@@ -97,7 +97,7 @@ const SideBar = () => {
               }`}
             >
               <FontAwesomeIcon icon={button.icon} className={styles.icon} />
-              {button.label}
+              <div className={styles.labelShow}>{button.label}</div>
             </Link>
           ))}
       </div>
