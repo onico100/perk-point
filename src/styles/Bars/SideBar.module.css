@@ -5,6 +5,7 @@
   right: 0;
   top: 15vh;
   max-height: 500000000000vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   z-index: 1000;

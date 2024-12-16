@@ -14,7 +14,7 @@
 }
 
 .logoContainer {
-  width: 15.5vw;
+  width: 15vw;
   height: auto;
   justify-content: center;
 }
@@ -36,7 +36,7 @@
 
 .rightSide {
   display: flex;
-  margin-right: 30px;
+
   justify-content: space-between;
   align-items: center;
 }
