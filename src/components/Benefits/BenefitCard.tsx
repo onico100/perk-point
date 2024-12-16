@@ -140,7 +140,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           <YourBenefit></YourBenefit>
         </div>
       )}
-      <div className={styles.clubName}>{club?.clubName.substring(0, 20)}</div>
+      <div className={styles.clubName}>{club?.clubName.substring(0, 18)}</div>
 
       {id != "0" &&
         clientMode == "USER" &&
