@@ -1,7 +1,5 @@
-import styled from 'styled-components';
-import { FaCalculator, FaChevronDown, FaChevronRight  } from 'react-icons/fa';
-
-
+import styled from "styled-components";
+import { FaCalculator, FaChevronDown, FaChevronRight } from "react-icons/fa";
 
 export const Form = styled.form`
   margin-bottom: 20px;
@@ -74,11 +72,11 @@ export const Dropdown = styled.div`
   background: linear-gradient(to right, #b346e8, #87cdfa);
 `;
 
-export const IconDown =styled(FaChevronDown)`
+export const IconDown = styled(FaChevronDown)`
   margin-right: 10px;
 `;
 
-export const IconRight =styled(FaChevronRight)`
+export const IconRight = styled(FaChevronRight)`
   margin-right: 10px;
 `;
 
@@ -196,6 +194,7 @@ export const CalcButtonContainer = styled.div`
   position: fixed;
   bottom: 20px;
   left: 20px;
+  z-index: 10000;
 `;
 
 export const CalcButtonStyled = styled.button`
@@ -210,6 +209,7 @@ export const CalcButtonStyled = styled.button`
   align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  z-index: 10000;
 
   &:hover {
     transform: scale(1.05);

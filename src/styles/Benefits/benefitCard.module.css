@@ -1,28 +1,26 @@
 .benefitCard {
-  width: 200px;
-  height: 220px;
-  padding: 20px;
-  margin: 0.5vw;
+  width: 240px;
+  height: 270px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  padding: 30px;
   font-family: Arial, sans-serif;
   position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-right: 1vw;
+  margin-bottom: 1vw;
 }
 
 .benefitCard:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  transform: scale(1.03);
 }
 
 .logo {
-  height: 60px;
+  height: 80px;
   width: auto;
   margin-bottom: 10px;
 }
-
 
 .divider {
   width: 100%;
@@ -42,7 +40,7 @@
 }
 
 .clubName {
-  font-size: 14px;
+  font-size: 18px;
   margin-bottom: 20px;
   color: #585757;
   margin: 0 10px 40px 0;
@@ -53,15 +51,15 @@
 }
 
 .button {
-  height: 30px;
-  width: 120px;
-  font-size: medium;
   background: linear-gradient(to bottom, #b346e8, #87cdfa);
+  height: 35px;
+  width: 140px;
   color: white;
   border: none;
   border-radius: 10px;
   padding: 0;
   cursor: pointer;
+  font-size: large;
   font-weight: bold;
   transition: background 0.3s ease;
   text-align: center;
@@ -74,11 +72,6 @@
   bottom: 20px;
   left: 30px;
 }
-
-
-
-
-
 .deleteButton svg {
   font-size: 35px;
   color: #474747;
@@ -92,8 +85,10 @@
 
 .expiredOverlay {
   position: absolute;
-  left: 15px;
-  z-index: 15;
+  top: 185px;
+  left: 30px;
+
+  z-index: 10;
 }
 
 .expiredIcon {
@@ -103,9 +98,11 @@
   text-align: center;
 }
 
-.yourBenefit{
-  width: 50px;
+.favoriteIcon {
   position: absolute;
-  top: 135px;
-  left: 20px;
+  bottom: 25px;
+  right: 25px;
+  font-size: 25px;
+  color: #474747;
+  cursor: pointer;
 }

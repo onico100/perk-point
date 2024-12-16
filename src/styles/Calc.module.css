@@ -200,6 +200,7 @@ label + input {
   position: fixed;
   bottom: 20px;
   left: 20px;
+  z-index: 100000000;
 }
 .calcButton button {
   width: 60px;
@@ -213,6 +214,7 @@ label + input {
   align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  z-index: 10000000;
 }
 
 .calcButton button:hover {

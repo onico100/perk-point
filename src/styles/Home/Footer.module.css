@@ -3,8 +3,9 @@
   padding: 40px 20px;
   color: #333;
   font-size: 14px;
-
   width: 100%;
+  z-index: 2000;
+  height: 200px;
 }
 
 .container {
