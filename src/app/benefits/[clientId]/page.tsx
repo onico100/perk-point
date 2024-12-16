@@ -19,7 +19,8 @@ export default function ClientId() {
   // let benefitsToShow: Benefit[] = [];
   let currentTitle = titles[0];
 
-  const benefitsToShow = getFilteredBenefits(benefits, id, clientMode, titles, currentUser);
+  let benefitsToShow: Benefit[] = [];
+  benefitsToShow = getFilteredBenefits(benefits, id, clientMode, titles, currentUser);
 
   // if (benefits) {
   //   if (id !== "0") {
