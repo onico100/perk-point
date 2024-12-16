@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { BenefitsContainer, LoadingSpinner } from "@/components";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
@@ -10,6 +11,8 @@ export default function ClientId() {
   const setClientMode = useGeneralStore((state) => state.setClientMode);
   const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
   const { currentUser, clientMode } = useGeneralStore();
+  const [currentTitle, setCurrentTitle] = useState("");
+
   const titles = ["כל ההטבות", "ההטבות שלי", "הטבות החברה"];
   const params = useParams();
   const id = params.clientId;
@@ -17,10 +20,10 @@ export default function ClientId() {
   if (clientMode === ClientMode.connection) setClientMode(ClientMode.general);
 
   // let benefitsToShow: Benefit[] = [];
-  let currentTitle = titles[0];
+  // let currentTitle = titles[0];
 
   let benefitsToShow: Benefit[] = [];
-  benefitsToShow = getFilteredBenefits(benefits, id, clientMode, titles, currentUser);
+  benefitsToShow = getFilteredBenefits(benefits, id, clientMode, titles, currentUser, setCurrentTitle);
 
   // if (benefits) {
   //   if (id !== "0") {

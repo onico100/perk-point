@@ -4,7 +4,8 @@ export const getFilteredBenefits = (
     clientMode: any,
     // currentTitle: any,
     titles: any,
-    currentUser: any
+    currentUser: any,
+    setCurrentTitle: any
 ) => {
     let benefitsToShow: any;
 
@@ -12,10 +13,10 @@ export const getFilteredBenefits = (
         if (clientMode === "USER") {
             benefitsToShow =
                 benefits.filter((b: any) => currentUser?.clubs.includes(b.clubId)) || [];
-            const currentTitle = titles[1];
+            setCurrentTitle(titles[1]);
         } else if (clientMode === "SUPPLIER") {
             benefitsToShow = benefits.filter((b: any) => b.supplierId === id) || [];
-            const currentTitle = titles[2];
+            setCurrentTitle(titles[2]);
         }
     } else {
         benefitsToShow =
