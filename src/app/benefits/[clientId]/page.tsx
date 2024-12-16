@@ -4,6 +4,7 @@ import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
 import { Benefit, ClientMode } from "@/types/types";
 import { useParams } from "next/navigation";
+import { getFilteredBenefits } from "./utils";
 
 export default function ClientId() {
   const setClientMode = useGeneralStore((state) => state.setClientMode);
@@ -15,26 +16,28 @@ export default function ClientId() {
 
   if (clientMode === ClientMode.connection) setClientMode(ClientMode.general);
 
-  let benefitsToShow: Benefit[] = [];
+  // let benefitsToShow: Benefit[] = [];
   let currentTitle = titles[0];
 
-  if (benefits) {
-    if (id !== "0") {
-      if (clientMode === "USER") {
-        benefitsToShow =
-          benefits.filter((b) => currentUser?.clubs.includes(b.clubId)) || [];
-        currentTitle = titles[1];
-      } else if (clientMode === "SUPPLIER") {
-        benefitsToShow = benefits.filter((b) => b.supplierId === id) || [];
-        currentTitle = titles[2];
-      }
-    } else {
-      benefitsToShow =
-        benefits.filter(
-          (b) => b.expirationDate && new Date(b.expirationDate) >= new Date()
-        ) || [];
-    }
-  }
+  const benefitsToShow = getFilteredBenefits(benefits, id, clientMode, titles, currentUser);
+
+  // if (benefits) {
+  //   if (id !== "0") {
+  //     if (clientMode === "USER") {
+  //       benefitsToShow =
+  //         benefits.filter((b) => currentUser?.clubs.includes(b.clubId)) || [];
+  //       currentTitle = titles[1];
+  //     } else if (clientMode === "SUPPLIER") {
+  //       benefitsToShow = benefits.filter((b) => b.supplierId === id) || [];
+  //       currentTitle = titles[2];
+  //     }
+  //   } else {
+  //     benefitsToShow =
+  //       benefits.filter(
+  //         (b) => b.expirationDate && new Date(b.expirationDate) >= new Date()
+  //       ) || [];
+  //   }
+  // }
 
   console.log(11, "benefits", benefits);
   console.log(11, "benefitstoshow", benefitsToShow);
