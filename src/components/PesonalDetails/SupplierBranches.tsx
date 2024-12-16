@@ -1,10 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import styles from "@/styles/supplierBranches.module.css";
+import styles from "@/styles/PersonalDetails/supplierBranches.module.css";
 import { Branch, Supplier } from "@/types/types";
 import { getbranchesByBusinessName } from "@/services/branchesService";
-import { successAlert, errorAlert, beforeActionAlert } from "@/utils/sweet-alerts";
+import {
+  successAlert,
+  errorAlert,
+  beforeActionAlert,
+} from "@/utils/sweet-alerts";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { ConnectionCheckOutFailedEvent } from "mongodb";
 
@@ -17,7 +21,7 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
   const [selectedBranches, setSelectedBranches] = useState<Branch[]>([]); 
   const [loading, setLoading] = useState(false);
 
-  const { updateSupplier } = useFetchSuppliers(); 
+  const { updateSupplier } = useFetchSuppliers();
 
   useEffect(() => {
     console.log("currentSupplier", currentSupplier);
@@ -43,7 +47,9 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
   
 
   const toggleGoogleSuggestion = (branch: Branch) => {
-    const isSelected = selectedBranches.some((b) => b.nameBranch === branch.nameBranch);
+    const isSelected = selectedBranches.some(
+      (b) => b.nameBranch === branch.nameBranch
+    );
     if (isSelected) {
       setSelectedBranches((prev) =>
         prev.filter((b) => b.nameBranch !== branch.nameBranch)

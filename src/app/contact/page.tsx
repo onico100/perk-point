@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import styles from "@/styles/about.module.css";
+import styles from "@/styles/general/about.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode} from "@/types/types";
+import { ClientMode } from "@/types/types";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 
