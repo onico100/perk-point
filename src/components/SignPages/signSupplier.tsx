@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import { checkEmailService } from "@/services/emailServices";
 import { errorAlert, successAlert } from "@/utils/sweet-alerts";
 import { getbranchesByBusinessName } from "@/services/branchesService";
+import { CldUploadWidget } from 'next-cloudinary';
+
 
 export default function SignSupplierComponent() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -104,7 +106,7 @@ export default function SignSupplierComponent() {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", "your-upload-preset"); // Replace with your Cloudinary preset
+        formData.append("upload_preset", "PerkPoint"); 
         const response = await fetch(
           `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
           {
