@@ -3,7 +3,7 @@ import TopBar from "./Bars/TopBar";
 import TopBarButtons from "./Bars/TopBarButtons";
 import BenefitsCard from "./Benefits/BenefitCard";
 import BenefitsDetails from "./Benefits/BenefitDetails";
-import BenefitsContainer from "./Benefits/BenefitsContainer";
+import BenefitsContainer from "./Benefits/BenefitsGrid";
 import ActionButtons from "./Benefits/ActionButtons";
 import AddBenefit from "./Benefits/AddBenefit";
 import BenefitInfoLeft from "./Benefits/BenefitInfoLeft";
