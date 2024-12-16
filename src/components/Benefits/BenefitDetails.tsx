@@ -1,11 +1,9 @@
 "use client";
-import { useFetchBenefits } from "@/hooks/useFetchBenefits";
-import { useEffect, useState } from "react";
-import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { useFetchGeneral } from "@/hooks/useFetchGeneral";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Benefit, Supplier, Club, ClientMode, Branch } from "@/types/types";
 import styles from "@/styles/Benefits/BenefitDetais.module.css";
-import { usePathname, useRouter } from "next/navigation";
+import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
 import {
   confirmExternalNavigation,
@@ -14,54 +12,37 @@ import {
 } from "@/utils/sweet-alerts";
 import { FaArrowRight } from "react-icons/fa";
 import {
-  LoadingSpinner,
   BenefitInfoRight,
   BenefitInfoLeft,
   ActionButtons,
 } from "@/components";
+import { UpdateState } from "@/types/benefits/types"
 
-interface UpdateState {
-  isUpdateMode: boolean;
-  updatedBenefit: Benefit | undefined;
-  showBranches: boolean;
-  dropdownVisible: boolean;
-  selectedBranch: Branch | null;
+
+
+interface BenefitsDetailsProps {
+  specificBenefit?: Benefit;
+  specificSupplier?: Supplier;
+  specificClub?: Club;
 }
 
-const BenefitDetails = () => {
+const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, specificSupplier, specificClub }) => {
+
   const router = useRouter();
-  const { benefits, isLoadingB, isFetchingB, updateBenefit } =
-    useFetchBenefits();
-  const { suppliers, isLoadingS, isFetchingS } = useFetchSuppliers();
-  const { clubs, isLoadingCategories, isFetchingCategories } =
-    useFetchGeneral();
+
+  const { updateBenefit } = useFetchBenefits();
+
   const clientMode = useGeneralStore((state) => state.clientMode);
   const currentSupplier = useGeneralStore((state) => state.currentSupplier);
 
+
   const [updateState, setUpdateState] = useState<UpdateState>({
     isUpdateMode: false,
-    updatedBenefit: undefined,
+    updatedBenefit: specificBenefit || undefined,
     showBranches: false,
     dropdownVisible: false,
     selectedBranch: null,
   });
-
-  const pathname = usePathname();
-  const specificBenefitId = pathname.split("/")[3];
-
-  const specificBenefit: Benefit | undefined = benefits?.find(
-    (benefit) => benefit._id === specificBenefitId
-  );
-  const specificSupplier: Supplier | undefined = suppliers?.find(
-    (supplier) => supplier._id === specificBenefit?.supplierId
-  );
-  const specificClub = clubs?.find(
-    (club: Club) => club._id === specificBenefit?.clubId
-  );
-
-  useEffect(() => {
-    setUpdateState((prev) => ({ ...prev, updatedBenefit: specificBenefit }));
-  }, [specificBenefit]);
 
   const handleSave = async () => {
     const userConfirmed = await confirmChangesAlert();
@@ -84,7 +65,8 @@ const BenefitDetails = () => {
         console.error("Error updating benefit:", error);
       }
     }
-    setUpdateState((prev) => ({ ...prev, isUpdateMode: false }));
+    setUpdateState((prev) => ({ ...prev, isUpdateMode: false, selectedBranch: null, }));
+
   };
 
   const handleCancel = async () => {
@@ -93,55 +75,15 @@ const BenefitDetails = () => {
     );
 
     if (userConfirmed) {
-      setUpdateState((prev) => ({ ...prev, isUpdateMode: false }));
-    }
-  };
-
-  const toggleBranches = () =>
-    setUpdateState((prev) => ({ ...prev, showBranches: !prev.showBranches }));
-  const toggleDropdown = () =>
-    setUpdateState((prev) => ({
-      ...prev,
-      dropdownVisible: !prev.dropdownVisible,
-    }));
-
-  const handleAddBranch = (branch: Branch) => {
-    if (updateState.updatedBenefit) {
+      console.log(specificBenefit?.branches)
       setUpdateState((prev) => ({
-        ...prev,
+        ...prev, 
+        isUpdateMode: false, 
         updatedBenefit: {
           ...prev.updatedBenefit,
-          branches: [...(prev.updatedBenefit?.branches || []), branch], // Initialize branches if undefined
-        } as Benefit,
+          branches: specificBenefit ? specificBenefit.branches : [],
+        }as Benefit, 
         selectedBranch: null,
-        dropdownVisible: false,
-      }));
-    }
-  };
-
-  const handleRemoveBranch = (branchToRemove: Branch) => {
-    if (updateState.updatedBenefit) {
-      setUpdateState((prev) => ({
-        ...prev,
-        updatedBenefit: {
-          ...prev.updatedBenefit,
-          branches:
-            prev.updatedBenefit?.branches?.filter(
-              (branch) => branch !== branchToRemove
-            ) || [], // Initialize branches if undefined
-        } as Benefit,
-      }));
-    }
-  };
-
-  const handleChange = (field: keyof Benefit, value: string) => {
-    if (updateState.updatedBenefit) {
-      setUpdateState((prev) => ({
-        ...prev,
-        updatedBenefit: {
-          ...prev.updatedBenefit,
-          [field]: field === "expirationDate" ? new Date(value) : value,
-        } as Benefit,
       }));
     }
   };
@@ -157,37 +99,15 @@ const BenefitDetails = () => {
     }
   };
 
-  if (
-    isLoadingB ||
-    isFetchingB ||
-    isLoadingS ||
-    isFetchingS ||
-    isLoadingCategories ||
-    isFetchingCategories
-  ) {
-    return <LoadingSpinner />;
-  }
-
   const isCurrentSupplierBenefit =
     currentSupplier &&
     specificSupplier &&
     currentSupplier._id === specificSupplier._id;
-  const supplierBranches = specificSupplier ? specificSupplier.branches : [];
-  const availableBranches = supplierBranches?.filter((branch) => {
-    return !updateState.updatedBenefit?.branches.some(
-      (existingBranch) =>
-        existingBranch.nameBranch === branch.nameBranch &&
-        existingBranch.city === branch.city
-    );
-  });
 
-  const isExpired =
-    updateState.updatedBenefit?.expirationDate &&
+
+  const isExpired = updateState.updatedBenefit?.expirationDate &&
     new Date(updateState.updatedBenefit.expirationDate) < new Date();
-  const allBranchesSelected =
-    supplierBranches &&
-    supplierBranches.length > 0 &&
-    updateState.updatedBenefit?.branches.length === supplierBranches.length;
+
 
   return (
     <div className={styles.container}>
@@ -204,39 +124,34 @@ const BenefitDetails = () => {
             updatedBenefit={updateState.updatedBenefit}
             specificBenefit={specificBenefit}
             isUpdateMode={updateState.isUpdateMode}
-            handleChange={handleChange}
             specificClub={specificClub}
             handleLinkClick={handleLinkClick}
+            setUpdateState={setUpdateState}
           />
           <BenefitInfoLeft
             updatedBenefit={updateState.updatedBenefit}
             specificSupplier={specificSupplier}
-            showBranches={updateState.showBranches}
-            toggleBranches={toggleBranches}
+            showBranches={updateState.showBranches}//
             isUpdateMode={updateState.isUpdateMode}
-            availableBranches={availableBranches}
-            allBranchesSelected={allBranchesSelected}
-            handleAddBranch={handleAddBranch}
-            handleRemoveBranch={handleRemoveBranch}
-            dropdownVisible={updateState.dropdownVisible}
-            toggleDropdown={toggleDropdown}
+            dropdownVisible={updateState.dropdownVisible}//
             handleLinkClick={handleLinkClick}
+            setUpdateState={setUpdateState}
           />
         </div>
         {(clientMode == "ADMIN" ||
           (isCurrentSupplierBenefit && clientMode === ClientMode.supplier)) && (
-          <ActionButtons
-            isUpdateMode={updateState.isUpdateMode}
-            setIsUpdateMode={() =>
-              setUpdateState((prev) => ({ ...prev, isUpdateMode: true }))
-            }
-            handleSave={handleSave}
-            handleCancel={handleCancel}
-          />
-        )}
+            <ActionButtons
+              isUpdateMode={updateState.isUpdateMode}
+              setIsUpdateMode={() =>
+                setUpdateState((prev) => ({ ...prev, isUpdateMode: true }))
+              }
+              handleSave={handleSave}
+              handleCancel={handleCancel}
+            />
+          )}
       </div>
     </div>
   );
 };
 
-export default BenefitDetails;
+export default BenefitsDetails;
