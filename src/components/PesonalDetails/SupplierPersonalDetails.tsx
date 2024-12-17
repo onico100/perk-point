@@ -16,6 +16,8 @@ import {
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { getbranchesByBusinessName } from "@/services/branchesService";
+import { CldUploadWidget, CloudinaryUploadWidgetResults } from 'next-cloudinary';
+
 
 interface SupplierPersonalDetailsProps {
   currentSupplier: Supplier;
@@ -109,33 +111,28 @@ export default function SupplierPersonalDetails({
     fetchBranches();
   }, []);
 
-  const handleLogoUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setUploading(true);
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "PerkPoint");
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        const data = await response.json();
-        if (data.secure_url) {
-          setValue("supplierLogo", data.secure_url);
-          successAlert("העלאת תמונה הצליחה!");
-        }
-      } catch (error) {
-        errorAlert("שגיאה בהעלאת התמונה");
-      } finally {
-        setUploading(false);
+  const handleLogoUpload = async (result: CloudinaryUploadWidgetResults) => {
+    setUploading(true); 
+    try {
+      console.log("Upload result:", result);
+      if (
+        result &&
+        result.info &&
+        typeof result.info === "object" &&
+        "secure_url" in result.info
+      ) {
+        const secureUrl = result.info.secure_url as string;
+
+        setValue("supplierLogo", secureUrl);
+        await successAlert("העלאת תמונה הצליחה!"); 
+      } else {
+        throw new Error("שגיאה בהעלאת התמונה"); 
       }
+    } catch (error) {
+      console.error("Error during upload:", error);
+      errorAlert("שגיאה בהעלאת התמונה");
+    } finally {
+      setUploading(false); 
     }
   };
 
@@ -221,23 +218,15 @@ export default function SupplierPersonalDetails({
         <p className={styles.item}>
           <span className={styles.label}>לוגו ספק:</span>
           {editMode ? (
-            <>
-              <input
-                className={styles.input}
-                id="supplierLogo"
-                type="url"
-                {...register("supplierLogo")}
-                defaultValue={currentSupplier?.supplierLogo}
-                placeholder="או הכנס קישור"
-              />{" "}
-              <input
-                id="logoUpload"
-                type="file"
-                accept="image/*"
-                onChange={handleLogoUpload}
-              />
-              {uploading && <p>Uploading...</p>}
-            </>
+            <CldUploadWidget uploadPreset="PerkPoint" onSuccess={handleLogoUpload} >
+              {({ open }) => {
+                return (
+                  <button onClick={() => open()}>
+                    Upload an Image
+                  </button>
+                );
+              }}
+            </CldUploadWidget>
           ) : (
             currentSupplier?.supplierLogo && (
               <img
@@ -394,18 +383,18 @@ export default function SupplierPersonalDetails({
         ) : (
           <div>
             {currentSupplier &&
-            currentSupplier.selectedCategories &&
-            currentSupplier?.selectedCategories?.length > 0
+              currentSupplier.selectedCategories &&
+              currentSupplier?.selectedCategories?.length > 0
               ? categories
-                  .filter((category: Category) =>
-                    currentSupplier?.selectedCategories?.some(
-                      (supplierCategoryId) =>
-                        supplierCategoryId.toString() === category._id
-                    )
+                .filter((category: Category) =>
+                  currentSupplier?.selectedCategories?.some(
+                    (supplierCategoryId) =>
+                      supplierCategoryId.toString() === category._id
                   )
-                  .map((category: Category) => (
-                    <div key={category._id}>° {category.categoryName}</div>
-                  ))
+                )
+                .map((category: Category) => (
+                  <div key={category._id}>° {category.categoryName}</div>
+                ))
               : "אין קטגוריות"}
           </div>
         )}
