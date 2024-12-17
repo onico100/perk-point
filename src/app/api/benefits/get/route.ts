@@ -14,7 +14,13 @@ export async function GET() {
       console.log("Connected to the database");
     }
     const benefits = await getAllDocuments(client, "benefits_collection");
-    return NextResponse.json(benefits);
+    return NextResponse.json(benefits, {
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+      },
+    });
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
