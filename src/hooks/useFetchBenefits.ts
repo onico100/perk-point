@@ -25,6 +25,7 @@ export const useFetchBenefits = () => {
       return benefits;
     },
     staleTime: 0,
+    gcTime: 0,
   });
 
   // Add new benefit
