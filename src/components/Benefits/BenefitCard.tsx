@@ -9,11 +9,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { TbCalendarOff } from "react-icons/tb";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
-import {
-  beforeActionAlert,
-  errorAlert,
-  successAlert,
-} from "@/utils/sweet-alerts";
+import { beforeActionAlert, errorAlert } from "@/utils/sweet-alerts";
 import { getVaildBenefits } from "@/utils/benefitsUtils";
 
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
@@ -79,7 +75,6 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           },
         });
       }
-      //successAlert(" נוסף לשמורים בהצלחה! ");
     }
   };
 

@@ -37,7 +37,6 @@ export async function POST(request: Request) {
     }
 
     const passwordMatch = await bcrypt.compare(password, admin.password);
-    console.log(passwordMatch);
     if (!passwordMatch) {
       return NextResponse.json(
         { error: "Invalid email or password" },
