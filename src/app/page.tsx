@@ -1,7 +1,9 @@
 "use client";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode} from "@/types/types";
+import { ClientMode } from "@/types/types";
 import { HomeComp } from "@/components/index";
+
+export const dynamic = "force-dynamic";
 
 export default function Home() {
   const setClientMode = useGeneralStore((state) => state.setClientMode);
