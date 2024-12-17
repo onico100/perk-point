@@ -69,3 +69,33 @@ body {
   height: 100vh;
   z-index: 10000;
 }
+
+.contactButton {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #7a5dd1;
+  color: white;
+  border: none;
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  z-index: 1001;
+}
+
+.contactButton:hover {
+  background-color: #5d4396;
+  transform: scale(1.1);
+}
+
+.iconStyle {
+  font-size: 2rem;
+  color: #ffffff;
+}

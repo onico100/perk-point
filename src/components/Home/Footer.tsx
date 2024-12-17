@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "@/styles/Home/Footer.module.css";
 import { FaFacebook, FaTwitter } from "react-icons/fa";
 import { FaSquareInstagram } from "react-icons/fa6";
 import logoLight from "@/assets/logoLight.png";
+import Contact from "@/components/Home/conCopm";
 
 const Footer: React.FC = () => {
+    const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
+    
   return (
+    <div >
+    {isContactPopupOpen && (
+      <Contact isPopupOpen={isContactPopupOpen} setIsPopupOpen={setIsContactPopupOpen} />
+    )}
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.brand}>
@@ -32,7 +39,7 @@ const Footer: React.FC = () => {
                 <a href="/about">אודות</a>
               </li>
               <li>
-                <a href="/contact">צור קשר</a>
+                <a onClick={() => setIsContactPopupOpen(true)}>צור קשר</a>
               </li>
             </ul>
           </div>
@@ -66,6 +73,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
     </footer>
+    </div>
   );
 };
 

@@ -60,6 +60,7 @@
 
 .linkColumn li {
   margin-bottom: 8px;
+  cursor: pointer;
 }
 
 .linkColumn a {

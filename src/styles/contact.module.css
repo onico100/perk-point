@@ -1,0 +1,121 @@
+/* עיצוב הפופאפ */
+.popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin-top: 10%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popupContent {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    padding: 20px 30px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  .popupTitle {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .popupLabel {
+    display: block;
+    text-align: right;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .popupInput,
+  .popupTextarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+  }
+
+  .emailName{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .emailNameIn{
+
+    display: flex;
+    flex-direction: column;
+  }
+  .popupTextarea {
+    resize: none;
+    height: 120px;
+  }
+  
+  .popupButton {
+    background-color: #7a5dd1;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .popupButton:hover {
+    background-color: #5d4396;
+  }
+  
+  .popupClose {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .popupClose:hover {
+    color: red;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .popupClose {
+    position: absolute;
+    top: 12px;
+    font-size: 2rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    margin-right: 65%;
+  }
+  
+  .popupClose:hover {
+    color: red;
+  }
+  
