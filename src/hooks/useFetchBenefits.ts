@@ -35,7 +35,7 @@ export const useFetchBenefits = () => {
       const previousBenefits = [...benefits];
       const tempBenefit = { ...newBenefit, _id: "temp-id" };
       let updatedBenefits = [...benefits, tempBenefit];
-      //setBenefits(updatedBenefits);
+      setBenefits(updatedBenefits);
       queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
       setBenefits(updatedBenefits);
       inProccesAlert("מוסיף...");
