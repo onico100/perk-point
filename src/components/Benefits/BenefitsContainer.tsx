@@ -9,6 +9,7 @@ import useGeneralStore from "@/stores/generalStore";
 import { useParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { getVaildBenefits, getUnVAildBenefits } from "@/utils/benefitsUtils";
 import Link from "next/link";
 
 interface BenefitsContainerProps {
@@ -28,16 +29,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const id = params.clientId;
 
   useEffect(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    setBenefitsToShow(
-      benefits.filter((benefit) => {
-        const expirationDate = new Date(benefit.expirationDate);
-        expirationDate.setHours(0, 0, 0, 0);
-        return expirationDate >= today;
-      })
-    );
+    setBenefitsToShow(getVaildBenefits(benefits));
   }, [benefits]);
 
   const handleSearch = (
@@ -56,7 +48,6 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
     const filteredBenefits = benefits?.filter((benefit) => {
       const supplier = supplierMap.get(benefit.supplierId);
 
-      // Apply filters based on search inputs
       if (
         supplierFilter &&
         (!supplier || !supplier.businessName.includes(supplierFilter))
@@ -92,29 +83,16 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       const isExpired = new Date(benefit.expirationDate) < new Date();
       return showValidBenefits ? !isExpired : isExpired;
     });
-
     setBenefitsToShow(dateFilteredBenefits || []);
   };
 
   const handleToggle = () => {
     setShowValidBenefits((prev) => !prev);
-
-    const dateFilteredBenefits = benefits?.filter((benefit) => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const expirationDate = new Date(benefit.expirationDate);
-      expirationDate.setHours(0, 0, 0, 0);
-
-      const isExpired = expirationDate < today;
-      return showValidBenefits ? isExpired : !isExpired;
-    });
-
+    const dateFilteredBenefits = showValidBenefits
+      ? getUnVAildBenefits(benefits)
+      : getVaildBenefits(benefits);
     setBenefitsToShow(dateFilteredBenefits || []);
   };
-
-  console.log(111, "benefits", benefits);
-  console.log(111, "benefitstoshow", benefitsToShow);
 
   return (
     <div className={styles.container}>
