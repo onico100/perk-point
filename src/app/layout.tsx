@@ -16,6 +16,7 @@ import {
 import useGeneralStore from "@/stores/generalStore";
 
 const queryClient = new QueryClient();
+export const dynamic = "force-dynamic";
 
 export default function RootLayout({
   children,

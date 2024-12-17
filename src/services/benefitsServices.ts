@@ -12,6 +12,7 @@ import { Benefit } from "@/types/types";
 //         throw error;
 //     }
 // }
+export const dynamic = "force-dynamic";
 
 export async function getAllBenefits(): Promise<Benefit[]> {
   try {
