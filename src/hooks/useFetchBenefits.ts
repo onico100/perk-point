@@ -32,25 +32,19 @@ export const useFetchBenefits = () => {
     mutationFn: addBenefit,
     onMutate: async (newBenefit: Benefit) => {
       const { benefits } = useBenefitStore.getState();
-
       const previousBenefits = [...benefits];
-
       const tempBenefit = { ...newBenefit, _id: "temp-id" };
       let updatedBenefits = [...benefits, tempBenefit];
-
-      setBenefits(updatedBenefits);
-      
+      //setBenefits(updatedBenefits);
       queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
       setBenefits(updatedBenefits);
-
       inProccesAlert("מוסיף...");
-
       return { previousBenefits };
     },
     onSuccess: (addedBenefitId) => {
       const Updateid: string = JSON.stringify(addedBenefitId);
       const parsedId = JSON.parse(Updateid).insertedId;
-     
+
       const updateBenefits = [...benefits];
       updateBenefits.forEach((b, index) => {
         if (b._id === "temp-id") {
