@@ -5,15 +5,12 @@ import { Benefit, Club, Supplier } from "@/types/types";
 import styles from "@/styles/Benefits/benefitCard.module.css";
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
-import { FaStar, FaRegStar } from "react-icons/fa";
+import { BsPin, BsPinAngleFill } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { TbCalendarOff } from "react-icons/tb";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
-import {
-  beforeActionAlert,
-  errorAlert,
-  successAlert,
-} from "@/utils/sweet-alerts";
+import { beforeActionAlert, errorAlert } from "@/utils/sweet-alerts";
+import { getVaildBenefits } from "@/utils/benefitsUtils";
 
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
 import YourBenefit from "./YourBenefit";
@@ -34,13 +31,8 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   const { currentUser, currentSupplier } = useGeneralStore();
   const { mutate: updateUser } = useUpdateUserById();
   const { deleteBenefit } = useFetchBenefits();
-  
-  const today = new Date();
-  today.setHours(0, 0, 0, 0)
-  const expirationDate = new Date(benefit.expirationDate);
-  expirationDate.setHours(0, 0, 0, 0); 
-  const isExpired = expirationDate < today;
-  
+  const isExpired = getVaildBenefits([benefit]).length == 0;
+
   const id = params.clientId;
   const { clientMode } = useGeneralStore();
 
@@ -50,10 +42,7 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
 
   const deleteBenefitFunc = async () => {
     let alertConfirm = await beforeActionAlert("לא תוכל לשחזר לאחר מחיקה");
-
-    if (alertConfirm) {
-      if (benefit._id) deleteBenefit(benefit._id);
-    }
+    alertConfirm && benefit._id && deleteBenefit(benefit._id);
   };
 
   const addToFavorits = async () => {
@@ -86,7 +75,6 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           },
         });
       }
-      //successAlert(" נוסף לשמורים בהצלחה! ");
     }
   };
 
@@ -148,11 +136,11 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           (existingBenefit) => existingBenefit === benefit?._id
         ) ? (
           <div className={styles.favoriteIcon} onClick={deleteFromFavorits}>
-            <FaStar />
+            <BsPinAngleFill />
           </div>
         ) : (
           <div className={styles.favoriteIcon} onClick={addToFavorits}>
-            <FaRegStar />
+            <BsPin />
           </div>
         ))}
 

@@ -54,8 +54,6 @@ export async function PATCH(
 
     // Log incoming request data
     const data = await request.json();
-    console.log("Updating benefit with ID:", params.id, "Data:", data);
-
     const result = await updateDocumentById(
       client,
       "benefits_collection",
@@ -64,10 +62,7 @@ export async function PATCH(
     );
 
     if (result.matchedCount === 0) {
-      return NextResponse.json(
-        { error: "Benefit not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Benefit not found" }, { status: 404 });
     }
 
     return NextResponse.json({ modifiedCount: result.modifiedCount });

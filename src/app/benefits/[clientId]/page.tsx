@@ -4,6 +4,7 @@ import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
 import { Benefit, ClientMode } from "@/types/types";
 import { useParams } from "next/navigation";
+import { getVaildBenefits } from "@/utils/benefitsUtils";
 
 export default function ClientId() {
   const setClientMode = useGeneralStore((state) => state.setClientMode);
@@ -28,21 +29,8 @@ export default function ClientId() {
         benefitsToShow = benefits.filter((b) => b.supplierId === id) || [];
         currentTitle = titles[2];
       }
-    } else {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0)
-      
-      benefitsToShow =
-        benefits.filter((benefit) => {
-          const expirationDate = new Date(benefit.expirationDate);
-          expirationDate.setHours(0, 0, 0, 0); 
-          return expirationDate >= today;}
-        ) || [];
-    }
+    } else benefitsToShow = getVaildBenefits(benefits);
   }
-
-  console.log(11, "benefits", benefits);
-  console.log(11, "benefitstoshow", benefitsToShow);
 
   if (isLoadingB || isFetchingB) return <LoadingSpinner />;
 

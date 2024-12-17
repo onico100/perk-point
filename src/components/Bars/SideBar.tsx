@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faGift,
   faCreditCard,
-  faBookmark,
+  faThumbtack,
   faUser,
   faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
@@ -44,7 +44,7 @@ const SideBar = () => {
     {
       label: "שמורים",
       link: `/benefits/${currentUserId}/saved-benefits`,
-      icon: faBookmark,
+      icon: faThumbtack,
     },
     { label: "פרטים אישיים", link: "/personalDetails", icon: faUser },
   ];
