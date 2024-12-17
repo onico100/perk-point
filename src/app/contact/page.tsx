@@ -13,6 +13,7 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
