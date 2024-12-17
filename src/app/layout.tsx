@@ -5,7 +5,7 @@ import localFont from "next/font/local";
 import Head from "next/head";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Contact from "./contact/page";
+import Contact from "../components/Home/conCopm";
 import { BsChatDotsFill } from "react-icons/bs"; 
 
 import {
