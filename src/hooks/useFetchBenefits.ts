@@ -24,7 +24,7 @@ export const useFetchBenefits = () => {
       setBenefits(benefits);
       return benefits;
     },
-    staleTime: 0,
+    staleTime: 100000,
     gcTime: 0,
   });
 
