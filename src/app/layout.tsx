@@ -5,6 +5,8 @@ import localFont from "next/font/local";
 import Head from "next/head";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Contact from "./contact/page";
+import { BsChatDotsFill } from "react-icons/bs"; 
 
 import {
   SideBar,
@@ -21,6 +23,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const [isCalcPageVisible, setIsCalcPageVisible] = useState(false);
+  const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -63,6 +66,19 @@ export default function RootLayout({
               <CalcPage onClose={() => setIsCalcPageVisible(false)} />
             </div>
           )}
+
+
+        <button
+          className="contactButton"
+          onClick={() => setIsContactPopupOpen(true)}
+        >
+          <BsChatDotsFill className="iconStyle" />
+        </button>
+
+          {isContactPopupOpen && (
+            <Contact isPopupOpen={isContactPopupOpen} setIsPopupOpen={setIsContactPopupOpen} />
+          )}
+
         </body>
       </html>
     </QueryClientProvider>
