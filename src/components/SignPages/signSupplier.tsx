@@ -4,13 +4,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import debounce from "lodash.debounce";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import {SupplierFormValues, Category, Branch } from "@/types/types";
+import { SupplierFormValues, Category, Branch } from "@/types/types";
 import styles from "@/styles/SignPages/sign.module.css";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useRouter } from "next/navigation";
 import { checkEmailService } from "@/services/emailServices";
 import { errorAlert, successAlert } from "@/utils/sweet-alerts";
 import { getbranchesByBusinessName } from "@/services/branchesService";
+import { CldUploadWidget, CloudinaryUploadWidgetResults } from 'next-cloudinary';
+
 
 export default function SignSupplierComponent() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -57,8 +59,8 @@ export default function SignSupplierComponent() {
     if (textQuery.trim().length >= 2) {
       try {
         setLoading(true);
-        let allBranchesFromService= await getbranchesByBusinessName(textQuery)
-        let citySuggestions= allBranchesFromService.map((place: Branch) => place.nameBranch)
+        let allBranchesFromService = await getbranchesByBusinessName(textQuery)
+        let citySuggestions = allBranchesFromService.map((place: Branch) => place.nameBranch)
         setSuggestions(citySuggestions);
         setBranchDropdownVisible(branchIndex);
       } catch (error) {
@@ -96,32 +98,22 @@ export default function SignSupplierComponent() {
     }
   };
 
-
-  const handleLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setUploading(true);
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "PerkPoint");
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        const data = await response.json();
-        if (data.secure_url) {
-          setValue("supplierLogo", data.secure_url);
-          successAlert("העלאת תמונה הצליחה!");
-        }
-      } catch (error) {
-        errorAlert("שגיאה בהעלאת התמונה");
-      } finally {
-        setUploading(false);
+  const handleLogoUpload = async (result: CloudinaryUploadWidgetResults) => {
+    setUploading(true);
+    try {
+      console.log("Upload result:", result);
+      if (result && result.info && typeof result.info === "object" && "secure_url" in result.info) {
+        const secureUrl = result.info.secure_url as string;
+        setValue("supplierLogo", secureUrl);
+        await successAlert("העלאת תמונה הצליחה!");
+      } else {
+        throw new Error("שגיאה בהעלאת התמונה");
       }
+    } catch (error) {
+      console.error("Error during upload:", error);
+      errorAlert("שגיאה בהעלאת התמונה");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -152,7 +144,7 @@ export default function SignSupplierComponent() {
     <div className={styles.loginPage}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
 
-        
+
         {/* Business Name */}
         <div >
           <label htmlFor="businessName">שם העסק:</label>
@@ -160,7 +152,7 @@ export default function SignSupplierComponent() {
           {errors.businessName && <p>{errors.businessName.message}</p>}
         </div>
 
-        
+
         {/* Provider Name */}
         <div>
           <label htmlFor="providerName">
@@ -169,7 +161,7 @@ export default function SignSupplierComponent() {
           <input id="providerName" {...register("providerName")} />
           {errors.providerName && <p>{errors.providerName.message}</p>}
         </div>
-        
+
         {/* Email */}
         <div >
           <label htmlFor="email">אימייל:</label>
@@ -201,20 +193,15 @@ export default function SignSupplierComponent() {
 
         <div >
           <label htmlFor="supplierLogo">לוגו ספק:</label>
-          <input
-            id="supplierLogo"
-            type="url"
-            {...register("supplierLogo")}
-            className={styles.inputField}
-            placeholder="הזן כתובת URL של תמונה"
-          />
-          <input
-            id="logoUpload"
-            type="file"
-            accept="image/*"
-            onChange={handleLogoUpload}
-          />
-          {uploading && <p>Uploading...</p>}
+          <CldUploadWidget uploadPreset="PerkPoint" onSuccess={handleLogoUpload} >
+            {({ open }) => {
+              return (
+                <button onClick={() => open()}>
+                  Upload an Image
+                </button>
+              );
+            }}
+          </CldUploadWidget>
           {errors.supplierLogo?.message && (
             <p className={styles.error}>{String(errors.supplierLogo.message)}</p>
           )}
@@ -237,7 +224,7 @@ export default function SignSupplierComponent() {
                 <div className={styles.dropdownContent}>
                   {categories?.map((category: Category) => (
                     <div key={category._id} className={styles.checkboxItem}>
-                      <input  type="checkbox"  value={category._id}  id={`category-${category._id}`} {...register("selectedCategories")} />
+                      <input type="checkbox" value={category._id} id={`category-${category._id}`} {...register("selectedCategories")} />
                       <label htmlFor={`category-${category._id}`}>{category.categoryName}</label>
                     </div>
                   ))}
