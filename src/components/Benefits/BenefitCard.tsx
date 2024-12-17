@@ -5,15 +5,11 @@ import { Benefit, Club, Supplier } from "@/types/types";
 import styles from "@/styles/Benefits/benefitCard.module.css";
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
-import { FaStar, FaRegStar } from "react-icons/fa";
+import { BsPin, BsPinAngleFill } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { TbCalendarOff } from "react-icons/tb";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
-import {
-  beforeActionAlert,
-  errorAlert,
-  successAlert,
-} from "@/utils/sweet-alerts";
+import { beforeActionAlert, errorAlert } from "@/utils/sweet-alerts";
 import { getVaildBenefits } from "@/utils/benefitsUtils";
 
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
@@ -79,7 +75,6 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           },
         });
       }
-      //successAlert(" נוסף לשמורים בהצלחה! ");
     }
   };
 
@@ -141,11 +136,11 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
           (existingBenefit) => existingBenefit === benefit?._id
         ) ? (
           <div className={styles.favoriteIcon} onClick={deleteFromFavorits}>
-            <FaStar />
+            <BsPinAngleFill />
           </div>
         ) : (
           <div className={styles.favoriteIcon} onClick={addToFavorits}>
-            <FaRegStar />
+            <BsPin />
           </div>
         ))}
 
