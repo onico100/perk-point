@@ -1,12 +1,11 @@
 import axios from "axios";
 
 const my_http = axios.create({
-  url: "/api",
-  baseURL: "/api",
+  baseURL: "/api", // `url` here is redundant; remove it
   headers: {
-    "Content-type": "application/json",
+    "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
-    cache: "no-store",
+    "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
   },
 });
 
