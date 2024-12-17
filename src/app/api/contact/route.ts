@@ -3,7 +3,6 @@ import nodemailer from "nodemailer";
 
 export async function POST(request: NextRequest) {
   try {
-    // קבלת המידע מהבקשה
     const { name, email, message } = await request.json();
 
     if (!name || !email || !message) {
@@ -13,19 +12,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // הגדרת השירות לשליחת אימייל עם Nodemailer
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER, // כתובת המייל שלך
-        pass: process.env.EMAIL_PASS, // סיסמת אפליקציה (App Password)
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS, 
       },
     });
 
-    // פרטי ההודעה שתישלח אלייך
+
     const mailOptions = {
       from: email,
-      to: process.env.EMAIL_USER, // המייל שלך
+      to: process.env.EMAIL_USER,
       subject: "New Contact Form Submission",
       html: `
         <h3>התקבלה הודעת צור קשר</h3>
@@ -35,7 +34,7 @@ export async function POST(request: NextRequest) {
       `,
     };
 
-    // שליחת האימייל
+
     await transporter.sendMail(mailOptions);
 
     return NextResponse.json({ message: "Message sent successfully!" });
