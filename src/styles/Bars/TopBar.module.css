@@ -60,7 +60,7 @@
   border-radius: 10px;
   font-size: 13px;
   font-weight: bold;
-  background-color: white; /* Explicitly set the button's background to white */
+  background-color: white;
   cursor: pointer;
   padding: 10px 27px;
   margin: 0 20px 0 0;
