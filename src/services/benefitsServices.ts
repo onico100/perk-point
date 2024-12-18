@@ -1,6 +1,6 @@
+"use client";
 import my_http from "@/services/http";
 import { Benefit } from "@/types/types";
-
 
 export async function getAllBenefits(): Promise<Benefit[]> {
   try {

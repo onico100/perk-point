@@ -1,3 +1,4 @@
+"use client";
 import my_http from "./http";
 import { Admin } from "@/types/types";
 

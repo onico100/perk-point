@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import useSupplierStore from "@/stores/suppliersStore";
 import { ClientMode, Supplier } from "@/types/types";
@@ -61,7 +63,10 @@ export const useFetchSuppliers = () => {
       const updateSuppliers = [...suppliers];
       updateSuppliers.forEach((s, index) => {
         if (s._id === "temp-id") {
-          updateSuppliers[index] = { ...updateSuppliers[index], _id: supplier._id };
+          updateSuppliers[index] = {
+            ...updateSuppliers[index],
+            _id: supplier._id,
+          };
         }
       });
       setSuppliers(updateSuppliers);
