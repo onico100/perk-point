@@ -1,10 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { findOrCreateUser } from "@/services/mongo"; 
-import useGeneralStore from "@/stores/generalStore";
-
-const setCurrentUser = useGeneralStore.getState().setCurrentUser;
-const setClientMode = useGeneralStore.getState().setClientMode;
 
 export const {
   handlers: { GET, POST },

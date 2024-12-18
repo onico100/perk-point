@@ -14,7 +14,6 @@ export default function SupplierLoginComponent() {
   const [password, setPassword] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
   const [message, setMessage] = useState("");
-  const loginUserMutation = useLoginUser();
   const { loginSupplier } = useFetchSuppliers();
 
   const router = useRouter();
@@ -30,7 +29,7 @@ export default function SupplierLoginComponent() {
       { email: emailA, password: passwordA },
       {
         onSuccess: (supplier) => {
-          router.push(`benefits/${supplier._id}`);
+          router.push("/");
         },
         onError: (error) => {
           console.error(error);

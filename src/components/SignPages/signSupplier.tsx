@@ -24,8 +24,7 @@ export default function SignSupplierComponent() {
   const [uploading, setUploading] = useState(false);
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
-  const nextStep = () => setCurrentStep((prev) => prev + 1);
-  const prevStep = () => setCurrentStep((prev) => prev - 1);
+ 
   const {
     register,
     handleSubmit,
