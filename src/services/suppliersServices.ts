@@ -1,5 +1,6 @@
 import my_http from "./http";
 import { Supplier } from "@/types/types";
+export const fetchCache = "force-no-store";
 
 export async function getAllSuppliers(): Promise<Supplier[]> {
   const response = await my_http.get("/suppliers/get");
@@ -15,11 +16,17 @@ export async function getSupplierByCredentials(
   email: string,
   password: string
 ): Promise<Supplier> {
-  const response = await my_http.post("/suppliers/get/login", {email,password});
+  const response = await my_http.post("/suppliers/get/login", {
+    email,
+    password,
+  });
   return response.data;
 }
 
-type NewSupplier = Omit<Supplier, "_id" | "selectedCategories" | "registrationDate" | "branches" | "isActive">;
+type NewSupplier = Omit<
+  Supplier,
+  "_id" | "selectedCategories" | "registrationDate" | "branches" | "isActive"
+>;
 
 export async function addSupplier(supplier: NewSupplier): Promise<Supplier> {
   const response = await my_http.post("/suppliers/insert", supplier);

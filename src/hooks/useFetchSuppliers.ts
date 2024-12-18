@@ -11,7 +11,7 @@ import {
 import useGeneralStore from "@/stores/generalStore";
 import { useRouter } from "next/navigation";
 import { errorAlert, inProccesAlert, successAlert } from "@/utils/sweet-alerts";
-
+export const fetchCache = "force-no-store";
 export const useFetchSuppliers = () => {
   const { suppliers, setSuppliers } = useSupplierStore();
   const setClientMode = useGeneralStore.getState().setClientMode;
@@ -61,7 +61,10 @@ export const useFetchSuppliers = () => {
       const updateSuppliers = [...suppliers];
       updateSuppliers.forEach((s, index) => {
         if (s._id === "temp-id") {
-          updateSuppliers[index] = { ...updateSuppliers[index], _id: supplier._id };
+          updateSuppliers[index] = {
+            ...updateSuppliers[index],
+            _id: supplier._id,
+          };
         }
       });
       setSuppliers(updateSuppliers);

@@ -1,5 +1,6 @@
 import my_http from "./http";
 import { Admin } from "@/types/types";
+export const fetchCache = "force-no-store";
 
 export async function getSupplierByCredentials(
   email: string,

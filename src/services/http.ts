@@ -1,4 +1,5 @@
 import axios from "axios";
+export const fetchCache = "force-no-store";
 
 const my_http = axios.create({
   url: "/api",

@@ -10,6 +10,7 @@ import {
   updateBenefitById,
 } from "@/services/benefitsServices";
 import { successAlert, inProccesAlert, errorAlert } from "@/utils/sweet-alerts";
+export const fetchCache = "force-no-store";
 
 export const useFetchBenefits = () => {
   const setBenefits = useBenefitStore((state: any) => state.setBenefits);

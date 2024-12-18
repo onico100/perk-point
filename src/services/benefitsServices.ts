@@ -1,5 +1,6 @@
 import my_http from "@/services/http";
 import { Benefit } from "@/types/types";
+export const fetchCache = "force-no-store";
 export async function getAllBenefits(): Promise<Benefit[]> {
   try {
     const response = await my_http.get("/benefits/get", {

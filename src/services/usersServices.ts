@@ -1,6 +1,6 @@
 import my_http from "./http";
 import { User } from "@/types/types";
-
+export const fetchCache = "force-no-store";
 
 export async function getUserById(id: string): Promise<User> {
   const response = await my_http.get(`/users/get/${id}`);
@@ -35,5 +35,3 @@ export async function deleteUserById(id: string): Promise<{ message: string }> {
   const response = await my_http.delete(`/users/delete/${id}`);
   return response.data;
 }
-
-

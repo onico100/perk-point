@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
 import { useQuery } from "@tanstack/react-query";
 import useGeneralStore from "@/stores/generalStore";
 import { getAllCategories } from "@/services/categoriesService";
 import { getAllClubs } from "@/services/clubsService";
+export const fetchCache = "force-no-store";
 
 export const useFetchGeneral = () => {
   const setCategories = useGeneralStore((state: any) => state.setCategories);
