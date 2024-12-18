@@ -29,10 +29,10 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const id = params.clientId;
 
   useEffect(() => {
-    setBenefitsToShow(shuffleArray(getVaildBenefits(benefits)));
+    setBenefitsToShow(shuffleBenefits(getVaildBenefits(benefits)));
   }, [benefits]);
 
-  const shuffleArray = (benefits: Benefit[]) => {
+  const shuffleBenefits = (benefits: Benefit[]) => {
     return benefits.sort(() => Math.random() - 0.5);
   };
 
