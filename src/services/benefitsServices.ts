@@ -1,20 +1,17 @@
 import my_http from "@/services/http";
 import { Benefit } from "@/types/types";
-
 export async function getAllBenefits(): Promise<Benefit[]> {
   try {
-    const response = await fetch("/api/benefits/get", {
-      method: "GET",
-      headers: {
-        "Cache-Control": "no-cache",
-      },
+    // Use the built-in Next.js caching mechanism
+    const res = await fetch("/api/benefits/get", {
+      next: { revalidate: 0 }, // Revalidate on every request
     });
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch benefits: ${response.statusText}`);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch benefits: ${res.statusText}`);
     }
 
-    const allBenefits: Benefit[] = await response.json();
+    const allBenefits: Benefit[] = await res.json();
     const activeBenefits = allBenefits.filter((benefit) => benefit.isActive);
     return activeBenefits;
   } catch (error) {
