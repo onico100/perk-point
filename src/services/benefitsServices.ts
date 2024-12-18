@@ -3,7 +3,7 @@ import { Benefit } from "@/types/types";
 
 export async function getAllBenefits(): Promise<Benefit[]> {
   try {
-    const response = await fetch("/benefits/get", {
+    const response = await fetch("/api/benefits/get", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
