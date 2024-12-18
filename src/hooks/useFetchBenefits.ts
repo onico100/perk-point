@@ -95,9 +95,9 @@ export const useFetchBenefits = () => {
   const deleteBenefitMutation = useMutation({
     mutationFn: deleteBenefitById,
     onMutate: async (benefitId: string) => {
+      setIsMutating(true);
       await queryClient.cancelQueries({ queryKey: ["benefits"] });
-      const { benefits } = useBenefitStore.getState();
-      const previousBenefits = [...benefits];
+      const previousBenefits = queryClient.getQueryData(["benefits"]);
       const updatedBenefits = benefits.filter(
         (benefit) => benefit._id !== benefitId
       );
@@ -106,7 +106,9 @@ export const useFetchBenefits = () => {
       inProccesAlert("מוחק...");
       return { previousBenefits };
     },
-    onSuccess: async () => {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cars"] });
+      setIsMutating(false);
       successAlert("הטבה נמחקה בהצלחה!");
     },
     onError: (_error, _variables, context: any) => {
