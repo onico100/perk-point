@@ -6,14 +6,9 @@ export async function getAllBenefits(): Promise<Benefit[]> {
     const response = await fetch("/benefits/get", {
       method: "GET",
       headers: {
-        "Cache-Control": "no-cache", // Disable caching
+        "Content-Type": "application/json",
       },
     });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch benefits: ${response.statusText}`);
-    }
-
     const allBenefits: Benefit[] = await response.json();
     const activeBenefits = allBenefits.filter((benefit) => benefit.isActive);
     return activeBenefits;
