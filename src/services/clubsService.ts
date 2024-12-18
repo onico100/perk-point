@@ -1,4 +1,3 @@
-"use client";
 import my_http from "@/services/http";
 
 export async function getAllClubs() {
