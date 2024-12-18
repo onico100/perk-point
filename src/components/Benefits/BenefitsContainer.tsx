@@ -32,9 +32,6 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const params = useParams();
   const id = params.clientId;
 
-  const typeFilter = id !== "0" ? "filtersPersenal" : "filtersMain";
-
-
   useEffect(() => {
     setBenefitsToShow(shuffleBenefits(getVaildBenefits(benefits)));
   }, [benefits]);
