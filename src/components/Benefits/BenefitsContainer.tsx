@@ -11,6 +11,9 @@ import { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { getVaildBenefits, getUnVAildBenefits } from "@/utils/benefitsUtils";
 import Link from "next/link";
+import useFilterStore from "@/stores/filterStore";
+
+
 
 interface BenefitsContainerProps {
   benefits: Benefit[];
@@ -21,6 +24,8 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const { suppliers } = useFetchSuppliers();
   const { clubs, categories } = useFetchGeneral();
   const { clientMode } = useGeneralStore();
+  const { isBenefitDetailPage, setBenefitDetailPage, resetFilters, setFilters } = useFilterStore();
+
 
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
   const [showValidBenefits, setShowValidBenefits] = useState(true);
@@ -28,9 +33,20 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const params = useParams();
   const id = params.clientId;
 
+
+
   useEffect(() => {
     setBenefitsToShow(shuffleBenefits(getVaildBenefits(benefits)));
   }, [benefits]);
+
+  useEffect(() => {
+    if (!isBenefitDetailPage) {
+        resetFilters(); 
+    }
+    else{
+      setBenefitDetailPage(false);
+    }
+}, [resetFilters]);
 
   const shuffleBenefits = (benefits: Benefit[]) => {
     return benefits.sort(() => Math.random() - 0.5);
