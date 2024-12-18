@@ -12,7 +12,6 @@ import {
 import { sendPasswordResetEmail } from "@/services/emailServices";
 import LoginGoogleForm from "./loginGoogleForm";
 import styles2 from "@/styles/SignPages/google.module.css";
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +19,7 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const loginUserMutation = useLoginUser();
   const router = useRouter();
+
 
   const loginAsExampleUser = async () => {
     const ift = await beforeActionAlert(

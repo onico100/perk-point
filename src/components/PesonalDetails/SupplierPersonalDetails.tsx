@@ -402,7 +402,7 @@ export default function SupplierPersonalDetails({
         <span className={styles.label}>
           {" "}
           <a href="/supplier-branches/0">
-            לעריכת בניפים יש לעבור לעמוד עריכת סניפים
+          לניהול סניפים יש <u>לעבור לעמוד עריכת סניפים</u>
           </a>
         </span>
       </p>
