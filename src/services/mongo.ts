@@ -1,6 +1,7 @@
+"use server";
 import { UserGoogleFormValues, DocumentWithActive } from "@/types/types";
 
-export const databaseName = "benefits-site";
+const databaseName = "benefits-site";
 
 import { MongoClient, ObjectId } from "mongodb";
 
