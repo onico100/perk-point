@@ -2,7 +2,9 @@ import my_http from "@/services/http";
 import { Benefit } from "@/types/types";
 export async function getAllBenefits(): Promise<Benefit[]> {
   try {
-    const response = await my_http.get("/benefits/get");
+    const response = await my_http.get("/benefits/get", {
+      params: { _: new Date().getTime() },
+    });
     const allBenefits: Benefit[] = response.data;
     const activeBenefits = allBenefits.filter((benefit) => benefit.isActive);
     console.log(activeBenefits);
