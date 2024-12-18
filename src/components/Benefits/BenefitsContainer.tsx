@@ -29,8 +29,12 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const id = params.clientId;
 
   useEffect(() => {
-    setBenefitsToShow(getVaildBenefits(benefits));
+    setBenefitsToShow(shuffleBenefits(getVaildBenefits(benefits)));
   }, [benefits]);
+
+  const shuffleBenefits = (benefits: Benefit[]) => {
+    return benefits.sort(() => Math.random() - 0.5);
+  };
 
   const handleSearch = (
     supplierFilter: string,
@@ -73,7 +77,8 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       ) {
         return false;
       }
-      if (end && new Date(benefit.expirationDate) > end) {
+      if ((start && new Date(benefit.expirationDate) < start) || (end && new Date(benefit.expirationDate) > end)) 
+      {
         return false;
       }
       return true;
