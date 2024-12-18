@@ -10,19 +10,18 @@ import {
   updateBenefitById,
 } from "@/services/benefitsServices";
 import { successAlert, inProccesAlert, errorAlert } from "@/utils/sweet-alerts";
+import { useState } from "react";
 
 export const useFetchBenefits = () => {
   const setBenefits = useBenefitStore((state: any) => state.setBenefits);
-  const { benefits } = useBenefitStore();
   const queryClient = useQueryClient();
+  const [isMutating, setIsMutating] = useState(false);
+
+  const { benefits } = useBenefitStore();
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["benefits"],
-    queryFn: async () => {
-      const benefits = await getAllBenefits();
-      setBenefits(benefits);
-      return benefits;
-    },
+    queryFn: getAllBenefits,
     staleTime: 600000,
   });
 
