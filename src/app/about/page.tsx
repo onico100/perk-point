@@ -166,18 +166,18 @@ const About = () => {
           }}
         >
           <div className={styles.title2}>מה אומרים עלינו?</div>
-          <div className={styles.testimonial}>
+          <div className={styles.tellAbout}>
             <p>"החיים שלי נהיו הרבה יותר קלים מאז שאני משתמשת ב-PerkPoint!"</p>
             <p>- יעל, לקוחה מרוצה</p>
           </div>
-          <div className={styles.testimonial}>
+          <div className={styles.tellAbout}>
             <p>
               "לא יודעת איך הסתדרתי בעבר בלי perk-point! אתר פשוט ונח, ממליצה
               לכולם!"
             </p>
             <p>- רחל, לקוחה מרוצה</p>
           </div>
-          <div className={styles.testimonial}>
+          <div className={styles.tellAbout}>
             <p>"מצאתי את כל ההטבות שאני אוהב במקום אחד. פשוט מדהים!"</p>
             <p>- משה, לקוח מרוצה</p>
           </div>

@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Amatic+SC:wght@400;700&family=Assistant:wght@200..800&family=Varela+Round&display=swap');
+
+.assistant-title {
+  font-family: "Assistant", serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+}
+
 .aboutPage {
   background: linear-gradient(to bottom right, #b346e8, #87cdfa);
   color: white;
@@ -36,6 +45,13 @@
   width: 100%;
   max-width: 800px;
   height: 300px;
+  font-family: "Assistant", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  /* font-family: "Varela Round", serif;
+  font-weight: 400;
+  font-style: normal; */
 }
 
 .aboutPage h2 {
@@ -51,15 +67,6 @@
 .testimonials {
   margin-top: 50px;
   text-align: center;
-}
-
-.testimonial {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  max-width: 600px;
-  margin: 10px auto;
 }
 
 .animation {
@@ -89,6 +96,10 @@
   font-size: 1.7rem;
   margin-bottom: 20px;
   position: relative;
+  font-family: "Assistant", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
 }
 
 .title::after{
@@ -137,4 +148,15 @@
   align-items: center;
 }
 
+.tellAbout{
+  font-family: "Amatic SC", serif;
+  font-weight: 400;
+  font-style: normal;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 10px auto;
+}
 
