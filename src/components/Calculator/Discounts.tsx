@@ -2,7 +2,6 @@ import { useState } from "react";
 import { DiscountInputs } from "./types";
 import {
   DiscountSection,
-  Form,
   InputContainer,
   Input,
   SubmitButton,
@@ -32,7 +31,7 @@ export default function Discount({ onApplyDiscounts }: Props) {
     e: React.ChangeEvent<HTMLInputElement>,
     field: "buy" | "get"
   ) => {
-    const value = Number(e.target.value); // Using Number to convert input to a number
+    const value = Number(e.target.value); 
     setDiscountInputs((prev) => ({
       ...prev,
       discount3: { ...prev.discount3, [field]: value },
@@ -41,13 +40,12 @@ export default function Discount({ onApplyDiscounts }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(discountInputs);
     onApplyDiscounts(discountInputs);
-    setActiveLabel(null); // Close all inputs on submit
+    setActiveLabel(null); 
   };
 
   const toggleActiveLabel = (label: string) => {
-    setActiveLabel((prev) => (prev === label ? null : label)); // Toggle visibility
+    setActiveLabel((prev) => (prev === label ? null : label)); 
   };
 
   return (

@@ -1,4 +1,3 @@
-// app/terms/page.tsx
 import React from "react";
 
 const TermsPage: React.FC = () => {

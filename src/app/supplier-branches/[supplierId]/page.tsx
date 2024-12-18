@@ -2,9 +2,7 @@
 
 import useGeneralStore from "@/stores/generalStore";
 import {
-  SupplierPersonalDetails,
   LoadingSpinner,
-  UserPersonalDetails,
 } from "@/components";
 import SupplierBranches from "@/components/PesonalDetails/SupplierBranches";
 

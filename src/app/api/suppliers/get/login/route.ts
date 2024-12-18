@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
 import {
   connectDatabase,
-  getClientModeByEmailAndPassword,
 } from "@/services/mongo";
 import { NextResponse } from "next/server";
 

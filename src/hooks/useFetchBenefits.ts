@@ -16,7 +16,6 @@ export const useFetchBenefits = () => {
   const { benefits } = useBenefitStore();
   const queryClient = useQueryClient();
 
-  // Fetch all benefits
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["benefits"],
     queryFn: async () => {
@@ -27,7 +26,6 @@ export const useFetchBenefits = () => {
     staleTime: 600000,
   });
 
-  // Add new benefit
   const addBenefitMutation = useMutation({
     mutationFn: addBenefit,
     onMutate: async (newBenefit: Benefit) => {
@@ -48,13 +46,11 @@ export const useFetchBenefits = () => {
       updateBenefits.forEach((b, index) => {
         if (b._id === "temp-id") {
           updateBenefits[index] = { ...updateBenefits[index], _id: parsedId };
-          console.log(888, "Updated", updateBenefits[index]);
         }
       });
 
       setBenefits(updateBenefits);
       queryClient.setQueryData<Benefit[]>(["benefits"], updateBenefits);
-      console.log(8888, updateBenefits);
       setBenefits(updateBenefits);
 
       successAlert("הטבה נוספה בהצלחה!");
@@ -97,7 +93,6 @@ export const useFetchBenefits = () => {
     },
   });
 
-  // Delete benefit
   const deleteBenefitMutation = useMutation({
     mutationFn: deleteBenefitById,
     onMutate: async (benefitId: string) => {
@@ -107,9 +102,6 @@ export const useFetchBenefits = () => {
       const updatedBenefits = benefits.filter(
         (benefit) => benefit._id !== benefitId
       );
-      console.log(benefitId);
-      console.log(benefits);
-      console.log(updatedBenefits);
       setBenefits(updatedBenefits);
       queryClient.setQueryData<Benefit[]>(["benefits"], updatedBenefits);
       inProccesAlert("מוחק...");

@@ -8,14 +8,12 @@ import { useRouter } from "next/navigation";
 import { sendPasswordResetEmail } from "@/services/emailServices";
 import { beforeActionAlert } from "@/utils/sweet-alerts";
 import styles2 from "@/styles/SignPages/google.module.css";
-//import LoginGoogleButton from "./authLogin";
 
 export default function SupplierLoginComponent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
   const [message, setMessage] = useState("");
-  const loginUserMutation = useLoginUser();
   const { loginSupplier } = useFetchSuppliers();
 
   const router = useRouter();
@@ -31,7 +29,7 @@ export default function SupplierLoginComponent() {
       { email: emailA, password: passwordA },
       {
         onSuccess: (supplier) => {
-          router.push(`benefits/${supplier._id}`);
+          router.push("/");
         },
         onError: (error) => {
           console.error(error);

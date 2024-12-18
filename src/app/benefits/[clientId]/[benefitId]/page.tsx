@@ -6,6 +6,8 @@ import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { LoadingSpinner } from "@/components";
 import { usePathname } from "next/navigation";
 import { Benefit, Supplier, Club } from "@/types/types";
+import useFilterStore from "@/stores/filterStore";
+
 
 
 
@@ -14,6 +16,9 @@ export default function BenefitId() {
     const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
     const { suppliers, isLoadingS, isFetchingS } = useFetchSuppliers();
     const { clubs, isLoadingCategories, isFetchingCategories } = useFetchGeneral();
+    const setBenefitDetailPage = useFilterStore((state) => state.setBenefitDetailPage);
+    setBenefitDetailPage(true);
+
 
     const pathname = usePathname();
     const specificBenefitId = pathname.split("/")[3];
@@ -32,8 +37,6 @@ export default function BenefitId() {
     if (isLoadingB || isFetchingB || isLoadingS || isFetchingS || isLoadingCategories || isFetchingCategories) {
         return <LoadingSpinner />;
     }
-
-
 
 
     return (

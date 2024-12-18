@@ -14,7 +14,6 @@ export const useFetchGeneral = () => {
     queryFn: async () => {
       const categories = await getAllCategories();
       setCategories(categories);
-      console.log("useFetchGeneral categories", categories);
       const clubs = await getAllClubs();
       setClubs(clubs);
       return { categories, clubs };

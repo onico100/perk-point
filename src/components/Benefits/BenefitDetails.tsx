@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Benefit, Supplier, Club, ClientMode, Branch } from "@/types/types";
+import { Benefit, Supplier, Club, ClientMode } from "@/types/types";
 import styles from "@/styles/Benefits/BenefitDetais.module.css";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
@@ -75,7 +75,6 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, spec
     );
 
     if (userConfirmed) {
-      console.log(specificBenefit?.branches)
       setUpdateState((prev) => ({
         ...prev, 
         isUpdateMode: false, 
@@ -131,9 +130,9 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, spec
           <BenefitInfoLeft
             updatedBenefit={updateState.updatedBenefit}
             specificSupplier={specificSupplier}
-            showBranches={updateState.showBranches}//
+            showBranches={updateState.showBranches}
             isUpdateMode={updateState.isUpdateMode}
-            dropdownVisible={updateState.dropdownVisible}//
+            dropdownVisible={updateState.dropdownVisible}
             handleLinkClick={handleLinkClick}
             setUpdateState={setUpdateState}
           />

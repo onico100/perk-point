@@ -1,5 +1,5 @@
 'use server'
-import { signIn } from "@/auth";
+import { signIn} from '@/services/auth'
 
 export async function doSocialLogin(formData) {
   const action = formData.get('action');

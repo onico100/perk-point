@@ -1,4 +1,3 @@
-//perk-point/src/components/SignPages/loginUser.tsx
 "use client";
 import { useState } from "react";
 import { useLoginUser } from "@/hooks/useFetchUsers";
@@ -7,14 +6,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   beforeActionAlert,
-  confirmChangesAlert,
   errorAlert,
   helloAlert,
 } from "@/utils/sweet-alerts";
 import { sendPasswordResetEmail } from "@/services/emailServices";
 import LoginGoogleForm from "./loginGoogleForm";
 import styles2 from "@/styles/SignPages/google.module.css";
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +19,7 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const loginUserMutation = useLoginUser();
   const router = useRouter();
+
 
   const loginAsExampleUser = async () => {
     const ift = await beforeActionAlert(

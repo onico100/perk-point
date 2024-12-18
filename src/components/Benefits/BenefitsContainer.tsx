@@ -2,15 +2,18 @@
 import { BenefitsCard } from "@/components";
 import SearchBenefits from "./SearchBenefits";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { Benefit, Club, Supplier, Branch } from "@/types/types";
+import { Benefit, Club, Supplier } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Benefits/BenefitsGrid.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { getVaildBenefits, getUnVAildBenefits } from "@/utils/benefitsUtils";
 import Link from "next/link";
+import useFilterStore from "@/stores/filterStore";
+
+
 
 interface BenefitsContainerProps {
   benefits: Benefit[];
@@ -21,6 +24,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const { suppliers } = useFetchSuppliers();
   const { clubs, categories } = useFetchGeneral();
   const { clientMode } = useGeneralStore();
+  const { isBenefitDetailPage, setBenefitDetailPage, resetFiltersMain, setFiltersMain,resetFiltersPersenal, filtersMain, filtersPersenal } = useFilterStore();
 
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
   const [showValidBenefits, setShowValidBenefits] = useState(true);
@@ -29,8 +33,22 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const id = params.clientId;
 
   useEffect(() => {
-    setBenefitsToShow(getVaildBenefits(benefits));
+    setBenefitsToShow(shuffleBenefits(getVaildBenefits(benefits)));
   }, [benefits]);
+
+  useEffect(() => {
+    if (!isBenefitDetailPage) {
+        resetFiltersMain();
+        resetFiltersPersenal(); 
+    }
+    else{
+      setBenefitDetailPage(false);
+    }
+}, [resetFiltersMain, resetFiltersPersenal]);
+
+  const shuffleBenefits = (benefits: Benefit[]) => {
+    return benefits.sort(() => Math.random() - 0.5);
+  };
 
   const handleSearch = (
     supplierFilter: string,
@@ -73,7 +91,8 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       ) {
         return false;
       }
-      if (end && new Date(benefit.expirationDate) > end) {
+      if ((start && new Date(benefit.expirationDate) < start) || (end && new Date(benefit.expirationDate) > end)) 
+      {
         return false;
       }
       return true;

@@ -1,4 +1,3 @@
-// pages/admin/login.tsx
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -20,11 +19,10 @@ const AdminLogin = () => {
     try {
       const admin = await getSupplierByCredentials(email, password);
       if (admin) {
-        // Save admin details to local storage or context (for auth state)
         localStorage.setItem("admin", JSON.stringify(admin));
         const setClientMode = useGeneralStore.getState().setClientMode;
         setClientMode(ClientMode.admin);
-        router.push("/admin/dashboard"); // Redirect to dashboard after login
+        router.push("/admin/dashboard"); 
       }
     } catch (err) {
       setError("Invalid email or password. Please try again.");

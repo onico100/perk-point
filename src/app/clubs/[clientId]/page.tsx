@@ -25,7 +25,6 @@ export default function Clubs() {
       currentTitle = titles[1];
     } else {
       clubsToShow = clubs;
-      console.log("blaaaaaaaa");
     }
   }
 

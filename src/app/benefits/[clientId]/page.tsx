@@ -5,11 +5,15 @@ import useGeneralStore from "@/stores/generalStore";
 import { Benefit, ClientMode } from "@/types/types";
 import { useParams } from "next/navigation";
 import { getVaildBenefits } from "@/utils/benefitsUtils";
+import React from "react";
+
+
 
 export default function ClientId() {
   const setClientMode = useGeneralStore((state) => state.setClientMode);
   const { benefits, isLoadingB, isFetchingB } = useFetchBenefits();
   const { currentUser, clientMode } = useGeneralStore();
+
   const titles = ["כל ההטבות", "ההטבות שלי", "הטבות החברה"];
   const params = useParams();
   const id = params.clientId;

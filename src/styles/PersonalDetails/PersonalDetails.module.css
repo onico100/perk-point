@@ -54,6 +54,21 @@
   margin-bottom: 10px;
 }
 
+.uploadButton {
+  background-color: #ffff; 
+  border-radius: 4px; 
+  padding: 10px 15px; 
+  font-size: 16px; 
+  cursor: pointer;
+  transition: background-color 0.2s; 
+}
+
+.uploadButton:hover {
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .submitButton {
   width: 100%;
   padding: 0.8rem;
