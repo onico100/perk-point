@@ -1,11 +1,20 @@
 import my_http from "@/services/http";
 import { Benefit } from "@/types/types";
 
-
 export async function getAllBenefits(): Promise<Benefit[]> {
   try {
-    const response = await my_http.get("/benefits/get");
-    const allBenefits: Benefit[] = response.data;
+    const response = await fetch("/benefits/get", {
+      method: "GET",
+      headers: {
+        "Cache-Control": "no-cache", // Disable caching
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch benefits: ${response.statusText}`);
+    }
+
+    const allBenefits: Benefit[] = await response.json();
     const activeBenefits = allBenefits.filter((benefit) => benefit.isActive);
     return activeBenefits;
   } catch (error) {
