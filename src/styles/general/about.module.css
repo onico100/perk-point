@@ -73,13 +73,7 @@
   margin: 20px auto;
 }
 
-.animation1{
-  width: 50%;
-  max-width: 1000px;
-}
-
-.animation2,
-.animation4 {
+.animation {
   width: 50%;
   max-width: 1000px;
   margin: 20px auto;

@@ -63,9 +63,9 @@ const About = () => {
                 <br></br>במקום אחד נוח ונגיש.
               </p>
             </div>
-            <div className={styles.animation1}>
+            <div className={styles.animation}>
               <DotLottieReact
-                src="https://lottie.host/74d57e59-32cd-41e3-9dbb-9979b9f41633/Q2jWZmN4Pu.lottie"
+                src="https://lottie.host/ebf49ecb-6a76-4cfc-8d1d-a5bbd3d199c6/eqjFiyYtz1.lottie"
                 loop
                 autoplay
               />
@@ -78,7 +78,7 @@ const About = () => {
               if (el) sections.current.push(el);
             }}
           >
-            <div className={styles.animation2}>
+            <div className={styles.animation}>
               <DotLottieReact
                 src="https://lottie.host/c2b0438d-7cba-4b98-b6a9-61e591edcf7b/BzDLNrsWff.lottie"
                 autoplay
