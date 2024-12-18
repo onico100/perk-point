@@ -106,13 +106,12 @@
   }
   
   .popupClose {
-    position: absolute;
-    top: 12px;
+    position: relative;
     font-size: 2rem;
     color: #333;
     cursor: pointer;
     transition: color 0.2s ease;
-    margin-right: 65%;
+    margin-right: 85%;
   }
   
   .popupClose:hover {

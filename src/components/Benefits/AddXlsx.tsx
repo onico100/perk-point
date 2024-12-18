@@ -4,7 +4,7 @@ import * as XLSX from "xlsx";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import { successAlert } from "@/utils/sweet-alerts";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
-import styles from "./addXlsx.module.css";
+import styles from "@/styles/Benefits/addXlsx.module.css";
 import { Branch, Club } from "@/types/types";
 
 interface Benefit {
