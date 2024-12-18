@@ -128,20 +128,21 @@ export const DateInput = styled.input`
     }
 `;
 
-export const SearchButton = styled.button`
+export const RefreshButton = styled.button`
     padding: 10px 15px;
     position: absolute;
-    margin-left: 15px;
     left:0%;
-    background-color: white;
+    background-color: transparent;
     color: black;
-    opacity: 0.8;
-    border: 1px solid #ccc;
-    border-radius: 7px;
     cursor: pointer;
     height: 40px; 
 
-    &:hover {
-        opacity: 1;
+    span {
+        visibility: hidden; 
+        transition: visibility 0s, opacity 0.3s ease; 
+    }
+    &:hover span {
+        visibility: visible; 
+        opacity: 1; 
     }
 `;
