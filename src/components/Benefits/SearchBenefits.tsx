@@ -120,9 +120,11 @@ import {
     SearchContainer,
     SearchIcon,
     InputContainer,
+    RefreshButton,
 } from './SearchBenefits.Styles';
 import { DropdownFilter, TextInputFilter, DateFilterComponent } from '@/components';
 import { useParams } from "next/navigation";
+import { FaSync } from 'react-icons/fa';
 
 
 interface Club {
@@ -148,7 +150,7 @@ interface SearchProps {
 }
 
 const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) => {
-    const { filtersMain, filtersPersenal, setFiltersMain, setFiltersPersenal } = useFilterStore();
+    const { filtersMain, filtersPersenal, setFiltersMain, resetFiltersMain, resetFiltersPersenal, setFiltersPersenal } = useFilterStore();
     const params = useParams();
     const id = params.clientId;
     const typeFilter = id !== "0" ? "filtersPersenal" : "filtersMain";
@@ -219,6 +221,7 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
                     value={filters.branchFilter}
                     onChange={(value) => updateSearchFilters("branchFilter", value)}
                 />
+                <SearchIcon />
             </InputContainer>
             <DateFilterComponent
                 startDate={filters.expirationStart}
@@ -226,6 +229,16 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
                 onStartDateChange={(date) => updateSearchFilters("expirationStart", date)}
                 onEndDateChange={(date) => updateSearchFilters("expirationEnd", date)}
             />
+            <RefreshButton onClick={() => {
+                if (typeFilter === "filtersMain") {
+                    resetFiltersMain();
+                } else {
+                    resetFiltersPersenal();
+                }
+            }}>
+                <FaSync />
+                <span>ריענון</span>
+            </RefreshButton>
         </SearchContainer>
     );
 };
