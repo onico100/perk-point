@@ -6,7 +6,7 @@ const my_http = axios.create({
   headers: {
     "Content-type": "application/json",
     "Access-Control-Allow-Origin": "*",
-    "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    "Cache-Control": "no-store, no-cache",
   },
 });
 
