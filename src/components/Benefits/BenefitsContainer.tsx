@@ -2,11 +2,11 @@
 import { BenefitsCard } from "@/components";
 import SearchBenefits from "./SearchBenefits";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { Benefit, Club, Supplier, Branch } from "@/types/types";
+import { Benefit, Club, Supplier } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Benefits/BenefitsGrid.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { getVaildBenefits, getUnVAildBenefits } from "@/utils/benefitsUtils";

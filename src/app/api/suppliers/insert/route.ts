@@ -25,7 +25,6 @@ export async function POST(request: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    console.log("-----------data", data)
     const newSupplier = {
       ...data,
       password: hashedPassword, 
@@ -34,7 +33,6 @@ export async function POST(request: Request) {
       isActive: true,
     };
 
-    console.log("New supplier:", newSupplier);
 
     const result = await insertDocument(
       client,

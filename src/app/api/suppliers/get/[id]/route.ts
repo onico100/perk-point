@@ -5,7 +5,6 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  console.log("GET /api/suppliers/[id]");
   let client;
   try {
     client = await connectDatabase();
@@ -24,7 +23,6 @@ export async function GET(
     }
     return NextResponse.json(supplier);
   } catch (error: unknown) {
-    // Ensure 'error' is safely handled
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
     return NextResponse.json({ error: errorMessage }, { status: 500 });

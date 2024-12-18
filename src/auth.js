@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { findOrCreateUser } from "@/services/mongo"; 
-import { ClientMode } from "@/types/types";
 import useGeneralStore from "@/stores/generalStore";
 
 const setCurrentUser = useGeneralStore.getState().setCurrentUser;

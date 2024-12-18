@@ -5,7 +5,7 @@ import styles from "@/styles/PersonalDetails/PersonalDetails.module.css";
 import { useState, useEffect } from "react";
 import { MdOutlineModeEditOutline, MdOutlineEditOff } from "react-icons/md";
 import { z } from "zod";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useGeneralStore from "@/stores/generalStore";
 import {
@@ -114,7 +114,6 @@ export default function SupplierPersonalDetails({
   const handleLogoUpload = async (result: CloudinaryUploadWidgetResults) => {
     setUploading(true); 
     try {
-      console.log("Upload result:", result);
       if (
         result &&
         result.info &&
@@ -165,7 +164,6 @@ export default function SupplierPersonalDetails({
             },
             {
               onSuccess: () => {
-                console.log(25, currentSupplier);
                 successAlert("ספק נערך ");
               },
               onError: () => {

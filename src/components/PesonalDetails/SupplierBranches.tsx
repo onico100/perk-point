@@ -10,7 +10,6 @@ import {
   beforeActionAlert,
 } from "@/utils/sweet-alerts";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { ConnectionCheckOutFailedEvent } from "mongodb";
 
 interface SupplierBranchesProps {
   currentSupplier: Supplier;
@@ -24,7 +23,6 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
   const { updateSupplier } = useFetchSuppliers();
 
   useEffect(() => {
-    console.log("currentSupplier", currentSupplier);
     if (currentSupplier?.branches) {
       setSelectedBranches(currentSupplier.branches);
     }
@@ -68,8 +66,6 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
         ...currentSupplier,
         branches: selectedBranches,
       };
-
-      console.log("updatedSupplier", updatedSupplier);
   
       await updateSupplier({
         id: currentSupplier._id || " ",

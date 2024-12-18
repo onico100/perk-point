@@ -1,6 +1,5 @@
 "use client";
 import { useForm, useFieldArray } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import debounce from "lodash.debounce";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
@@ -101,7 +100,6 @@ export default function SignSupplierComponent() {
   const handleLogoUpload = async (result: CloudinaryUploadWidgetResults) => {
     setUploading(true);
     try {
-      console.log("Upload result:", result);
       if (result && result.info && typeof result.info === "object" && "secure_url" in result.info) {
         const secureUrl = result.info.secure_url as string;
         setValue("supplierLogo", secureUrl);
@@ -118,7 +116,6 @@ export default function SignSupplierComponent() {
   };
 
   const onSubmit = async (data: SupplierFormValues) => {
-    console.log("SupplierFormValues:", data);
     const emailExists = await checkEmailService(data.email);
     if (emailExists) {
       setEmailExists(true);
@@ -143,17 +140,11 @@ export default function SignSupplierComponent() {
   return (
     <div className={styles.loginPage}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-
-
-        {/* Business Name */}
         <div >
           <label htmlFor="businessName">שם העסק:</label>
           <input id="businessName" {...register("businessName")} className={styles.inputFieldField} />
           {errors.businessName && <p>{errors.businessName.message}</p>}
         </div>
-
-
-        {/* Provider Name */}
         <div>
           <label htmlFor="providerName">
             שם ספק (יש להכניס שם פרטי ולא את שם העסק):
@@ -161,30 +152,21 @@ export default function SignSupplierComponent() {
           <input id="providerName" {...register("providerName")} />
           {errors.providerName && <p>{errors.providerName.message}</p>}
         </div>
-
-        {/* Email */}
         <div >
           <label htmlFor="email">אימייל:</label>
           <input id="email" type="email" {...register("email")} />
           {errors.email && <p>{errors.email.message}</p>}
         </div>
-
-
-        {/* Password */}
         <div >
           <label htmlFor="password">סיסמה:</label>
           <input id="password" type="password" {...register("password")} />
           {errors.password && <p>{errors.password.message}</p>}
         </div>
-
-        {/* Phone Number */}
         <div >
           <label htmlFor="phoneNumber">מספר טלפון:</label>
           <input id="phoneNumber" {...register("phoneNumber")} />
           {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
         </div>
-
-        {/* Site Link */}
         <div >
           <label htmlFor="siteLink">קישור לאתר:</label>
           <input id="siteLink" type="url" {...register("siteLink")} />
@@ -197,7 +179,7 @@ export default function SignSupplierComponent() {
             {({ open }) => {
               return (
                 <button className={styles.uploadButton} onClick={() => open()}>
-                  Upload an Image
+                  החלפת לוגו
                 </button>
               );
             }}
@@ -206,8 +188,6 @@ export default function SignSupplierComponent() {
             <p className={styles.error}>{String(errors.supplierLogo.message)}</p>
           )}
         </div>
-
-        {/* Categories Selection */}
         <div >
           <h2 className="font-bold">בחר קטגוריות:</h2>
           {isLoadingCategories ? (
@@ -234,9 +214,6 @@ export default function SignSupplierComponent() {
           )}
           {errors.selectedCategories && <p className="text-red-500">{errors.selectedCategories.message}</p>}
         </div>
-
-
-        {/* Branches */}
         <div >
           <h2 className="font-bold">סניפים:</h2>
           <button
@@ -276,8 +253,6 @@ export default function SignSupplierComponent() {
             ))}
           </ul>
         </div>
-
-
         {emailExists && (
           <div className="text-red-500 mb-4">
             <p>

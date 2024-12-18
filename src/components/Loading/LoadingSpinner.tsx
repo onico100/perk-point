@@ -18,7 +18,6 @@ const LoadingSpinner = () => {
       }}
     >
       <div style={{ textAlign: "center" }}>
-        {/* <p>בטעינה</p> */}
         <DotLottieReact
           src="https://lottie.host/c083d9fe-7735-4f1e-87d3-739bd5fd4e9d/ahjoWwfi80.lottie"
           loop

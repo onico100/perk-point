@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { sendPasswordResetEmail } from "@/services/emailServices";
 import { beforeActionAlert } from "@/utils/sweet-alerts";
 import styles2 from "@/styles/SignPages/google.module.css";
-//import LoginGoogleButton from "./authLogin";
 
 export default function SupplierLoginComponent() {
   const [email, setEmail] = useState("");

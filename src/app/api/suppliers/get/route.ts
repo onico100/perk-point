@@ -2,7 +2,6 @@ import { connectDatabase, getAllDocuments } from "@/services/mongo";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  console.log("GET /api/suppliers");
   let client;
   try {
     client = await connectDatabase();
@@ -17,7 +16,6 @@ export async function GET() {
     const suppliers = await getAllDocuments(client, "suppliers_collection");
     return NextResponse.json(suppliers);
   } catch (error: unknown) {
-    // Ensure 'error' is safely handled
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
     return NextResponse.json({ error: errorMessage }, { status: 500 });

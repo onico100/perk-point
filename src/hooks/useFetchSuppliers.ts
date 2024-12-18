@@ -11,6 +11,7 @@ import {
 import useGeneralStore from "@/stores/generalStore";
 import { useRouter } from "next/navigation";
 import { errorAlert, inProccesAlert, successAlert } from "@/utils/sweet-alerts";
+
 export const useFetchSuppliers = () => {
   const { suppliers, setSuppliers } = useSupplierStore();
   const setClientMode = useGeneralStore.getState().setClientMode;
@@ -33,8 +34,6 @@ export const useFetchSuppliers = () => {
   const addSupplierMutation = useMutation({
     mutationFn: addSupplier,
     onMutate: async (nSupplier: Supplier) => {
-      console.log("addSupplierMutation newSupplier", nSupplier);
-
       const newSupplier = { ...nSupplier, _id: "temp-id" };
       const existingSupplier = suppliers.find(
         (s) => s.email === nSupplier.email
@@ -59,23 +58,15 @@ export const useFetchSuppliers = () => {
     onSuccess: (supplier) => {
       setCurrentSupplier(supplier);
       setClientMode(ClientMode.supplier);
-
-      console.log(5555,supplier._id)
-      console.log(5555,suppliers)
       const updateSuppliers = [...suppliers];
       updateSuppliers.forEach((s, index) => {
         if (s._id === "temp-id") {
           updateSuppliers[index] = { ...updateSuppliers[index], _id: supplier._id };
-          console.log(888, "Updated", updateSuppliers[index]);
         }
       });
-      
       setSuppliers(updateSuppliers);
       queryClient.setQueryData<Supplier[]>(["suppliers"], updateSuppliers);
-     
       setSuppliers(updateSuppliers);
-
-      console.log("Supplier added and stored successfully!", currentSupplier);
       successAlert("משתמש נוסף בהצלחה!");
       router.push("/");
     },
@@ -107,12 +98,9 @@ export const useFetchSuppliers = () => {
     onError: (_error, _variables, context: any) => {
       setSuppliers(context.previousSuppliers);
       setCurrentSupplier(context.oldSupplier);
-
-      console.error("Failed to update supplier.");
       errorAlert("עדכון ספק נכשל");
     },
     onSuccess: () => {
-      console.log("Supplier updated successfully!");
       successAlert("עדכון ספק בוצע בהצלחה!");
     },
   });

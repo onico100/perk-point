@@ -17,7 +17,6 @@ const currentUser = useGeneralStore.getState().currentUser;
 
 
 
-// Fetch user by ID
 export const useGetUserById = (id: string) => {
   return useQuery<User, Error>({
     queryKey: ["user", id],
@@ -31,7 +30,6 @@ export const useGetUserById = (id: string) => {
   });
 };
 
-// Login user by credentials
 export const useLoginUser = () => {
   const router = useRouter();
   return useMutation<User, Error, { email: string; password: string }>({
@@ -45,13 +43,11 @@ export const useLoginUser = () => {
   });
 };
 
-// Add new user
 export const useAddUser = () => {
   const router = useRouter();
   return useMutation<User, Error, User>({
     mutationFn: addUser,
     onSuccess: (user) => {
-      console.log("user added", user);
       const setClientMode = useGeneralStore.getState().setClientMode;
       setClientMode(ClientMode.user);
       setCurrentUser(user);
@@ -63,7 +59,6 @@ export const useAddUser = () => {
   });
 };
 
-// Update user by ID
 export const useUpdateUserById = () => {
   return useMutation<User, Error, { id: string; updatedData: Partial<User> }>({
     mutationFn: ({ id, updatedData }) => updateUserById(id, updatedData),
@@ -82,7 +77,6 @@ export const useUpdateUserById = () => {
       if (context) {
         setCurrentUser(context); 
       }
-      //errorAlert("נכשל");
     },
   });
 };

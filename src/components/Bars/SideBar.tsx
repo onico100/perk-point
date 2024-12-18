@@ -4,7 +4,6 @@ import useGeneralStore from "@/stores/generalStore";
 import styles from "@/styles/Bars/SideBar.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-//import linkStiles from "@/styles/Bars/Links.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faGift,
@@ -21,7 +20,6 @@ const SideBar = () => {
   let currentUserId = "0";
 
   if (clientMode === "SUPPLIER" && currentSupplier !== null) {
-    console.log("currentSupplier side bar", currentSupplier);
     currentSupplierId = currentSupplier._id || "0";
   }
 

@@ -26,8 +26,6 @@ const Footer: React.FC = () => {
           <p>&copy; {new Date().getFullYear()} Perk Point</p>
           <p>כל הזכויות שמורות.</p>
         </div>
-
-        {/* Navigation Links */}
         <div className={styles.links}>
           <div className={styles.linkColumn}>
             <h3>מפת האתר</h3>
@@ -55,8 +53,6 @@ const Footer: React.FC = () => {
             </ul>
           </div>
         </div>
-
-        {/* Social Media Section */}
         <div className={styles.socialMedia}>
           <h3>עקבו אחרינו</h3>
           <div className={styles.socialIcons}>

@@ -49,7 +49,6 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
           },
           {
             onError: (error: Error) => {
-              console.log("error", error);
               errorAlert("שגיאה בהוספת מועדון. נסה שוב מאוחר יותר.");
             },
           }
@@ -79,7 +78,6 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
           },
           {
             onError: (error: Error) => {
-              console.log("error", error);
               errorAlert("שגיאה בהסרת מועדון. נסה שוב מאוחר יותר.");
             },
           }

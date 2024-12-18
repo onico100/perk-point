@@ -1,4 +1,4 @@
-import { Product } from "./types"; // Define Product type in a separate file
+import { Product } from "./types"; 
 import { CiCircleMinus } from "react-icons/ci";
 import {ProductList as List} from "./Calculator.Styles"
 
@@ -6,7 +6,7 @@ import {ProductList as List} from "./Calculator.Styles"
 
 interface Props {
   products: Product[];
-  handleDelete: (productName: string) => void; // Function to handle product deletion
+  handleDelete: (productName: string) => void; 
 }
 
 export default function ProductList({ products, handleDelete }: Props) {
