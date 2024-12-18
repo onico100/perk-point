@@ -1,4 +1,8 @@
-import { connectDatabase, getAllDocuments } from "@/services/mongo";
+import {
+  connectDatabase,
+  getAllDocuments,
+  insertDocument,
+} from "@/services/mongo";
 import { NextResponse } from "next/server";
 
 export async function POST() {
@@ -19,15 +23,13 @@ export async function POST() {
     // Create the object to insert into `logins_collection`
     const timestamp = new Date().toISOString();
     const logEntry = {
-      timestamp,
+      time: timestamp,
       method: "GET",
     };
 
-    // Insert the object into `logins_collection`
-    const logCollection = client.db().collection("logins_collection");
-    const insertResult = await logCollection.insertOne(logEntry);
+    const result = await insertDocument(client, "logins_collection", logEntry);
 
-    if (!insertResult.acknowledged) {
+    if (!result.acknowledged) {
       return NextResponse.json(
         { error: "Failed to log the request" },
         { status: 500 }
