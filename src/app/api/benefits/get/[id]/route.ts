@@ -1,6 +1,7 @@
 import { connectDatabase, getDocumentById } from "@/services/mongo";
 import { NextResponse } from "next/server";
 
+export const fetchCache = "force-no-store";
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
@@ -20,10 +21,7 @@ export async function GET(
       params.id
     );
     if (!benefit) {
-      return NextResponse.json(
-        { error: "Benefit not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Benefit not found" }, { status: 404 });
     }
     return NextResponse.json(benefit);
   } catch (error: unknown) {

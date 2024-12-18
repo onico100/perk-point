@@ -1,6 +1,7 @@
 import { connectDatabase, getAllDocuments } from "@/services/mongo";
 import { NextResponse } from "next/server";
 
+export const fetchCache = "force-no-store";
 export async function GET() {
   let client;
   try {
