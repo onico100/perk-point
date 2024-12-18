@@ -18,7 +18,6 @@ export default function SignUserComponent() {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<UserFormValues>({
     resolver: zodResolver(userSchema),
