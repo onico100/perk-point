@@ -1,7 +1,8 @@
 import { connectDatabase, getAllDocuments } from "@/services/mongo";
 import { NextResponse } from "next/server";
 
-export const fetchCache = "force-no-store";
+export const fetchCache = "force-no-store"; // Ensures no caching
+
 export async function GET() {
   let client;
   try {
@@ -14,8 +15,14 @@ export async function GET() {
     } else {
       console.log("Connected to the database");
     }
+
     const benefits = await getAllDocuments(client, "benefits_collection");
-    return NextResponse.json(benefits);
+
+    // Setting Cache-Control header
+    const response = NextResponse.json(benefits);
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+
+    return response;
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
