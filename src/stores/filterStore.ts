@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 interface FilterState {
-    filters: {
+    filtersMain: {
         supplierFilter: string;
         selectedClubs: string[];
         selectedCategories: string[];
@@ -9,14 +9,24 @@ interface FilterState {
         expirationStart: Date | null;
         expirationEnd: Date | null;
     };
-    setFilters: (newFilters: Partial<FilterState["filters"]>) => void;
-    resetFilters: () => void;
+    filtersPersenal: {
+        supplierFilter: string;
+        selectedClubs: string[];
+        selectedCategories: string[];
+        branchFilter: string;
+        expirationStart: Date | null;
+        expirationEnd: Date | null;
+    };
+    setFiltersMain: (newFilters: Partial<FilterState["filtersMain"]>) => void;
+    resetFiltersMain: () => void;
+    setFiltersPersenal: (newFilters: Partial<FilterState["filtersPersenal"]>) => void;
+    resetFiltersPersenal: () => void;
     isBenefitDetailPage: boolean;
     setBenefitDetailPage: (value: boolean) => void;
 }
 
 const useFilterStore = create<FilterState>((set) => ({
-    filters: {
+    filtersMain: {
         supplierFilter: "",
         selectedClubs: [],
         selectedCategories: [],
@@ -24,13 +34,21 @@ const useFilterStore = create<FilterState>((set) => ({
         expirationStart: null,
         expirationEnd: null,
     },
-    setFilters: (newFilters) =>
+    filtersPersenal: {
+        supplierFilter: "",
+        selectedClubs: [],
+        selectedCategories: [],
+        branchFilter: "",
+        expirationStart: null,
+        expirationEnd: null,
+    },
+    setFiltersMain: (newFilters) =>
         set((state) => ({
-            filters: { ...state.filters, ...newFilters },
+            filtersMain: { ...state.filtersMain, ...newFilters },
         })),
-    resetFilters: () =>
+    resetFiltersMain: () =>
         set({
-            filters: {
+            filtersMain: {
                 supplierFilter: "",
                 selectedClubs: [],
                 selectedCategories: [],
@@ -39,9 +57,24 @@ const useFilterStore = create<FilterState>((set) => ({
                 expirationEnd: null,
             },
         }),
-        isBenefitDetailPage: false,
-        setBenefitDetailPage: (value) => set({ isBenefitDetailPage: value }),
-    
+    setFiltersPersenal: (newFilters) =>
+        set((state) => ({
+            filtersPersenal: { ...state.filtersPersenal, ...newFilters },
+        })),
+    resetFiltersPersenal: () =>
+        set({
+            filtersPersenal: {
+                supplierFilter: "",
+                selectedClubs: [],
+                selectedCategories: [],
+                branchFilter: "",
+                expirationStart: null,
+                expirationEnd: null,
+            },
+        }),
+    isBenefitDetailPage: false,
+    setBenefitDetailPage: (value) => set({ isBenefitDetailPage: value }),
+
 }));
 
 export default useFilterStore;

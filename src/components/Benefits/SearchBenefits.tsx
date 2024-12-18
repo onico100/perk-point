@@ -122,6 +122,8 @@ import {
     InputContainer,
 } from './SearchBenefits.Styles';
 import { DropdownFilter, TextInputFilter, DateFilterComponent } from '@/components';
+import { useParams } from "next/navigation";
+
 
 interface Club {
     _id: string;
@@ -146,7 +148,11 @@ interface SearchProps {
 }
 
 const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) => {
-    const { filters, setFilters } = useFilterStore();
+    const { filtersMain, filtersPersenal, setFiltersMain, setFiltersPersenal } = useFilterStore();
+    const params = useParams();
+    const id = params.clientId;
+    const typeFilter = id !== "0" ? "filtersPersenal" : "filtersMain";
+    const filters = typeFilter === "filtersMain" ? filtersMain : filtersPersenal;
 
     const debouncedSearch =
         debounce(() => {
@@ -162,13 +168,19 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
 
     useEffect(() => {
         debouncedSearch();
-    }, [filters]);
+    }, [filtersMain, filtersPersenal]);
+
+
 
     const updateSearchFilters = (
-        field: keyof typeof filters,
-        value: typeof filters[keyof typeof filters]
+        field: keyof typeof filtersMain,
+        value: typeof filtersMain[keyof typeof filtersMain]
     ) => {
-        setFilters({ [field]: value });
+        if (typeFilter === "filtersMain") {
+            setFiltersMain({ [field]: value });
+        } else {
+            setFiltersPersenal({ [field]: value });
+        }
     };
 
     return (
