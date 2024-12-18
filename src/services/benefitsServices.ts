@@ -3,7 +3,7 @@ import { Benefit } from "@/types/types";
 export async function getAllBenefits(): Promise<Benefit[]> {
   try {
     // Use the built-in Next.js caching mechanism
-    const res = await fetch(`${process.env.API_URL}/benefits`, {
+    const res = await fetch(`${process.env.API_URL}/api/benefits/get`, {
       next: { revalidate: 0 }, // Revalidate on every request
       cache: "no-store", // Prevent any caching
     });
