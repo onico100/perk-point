@@ -196,7 +196,7 @@ export default function SignSupplierComponent() {
           <CldUploadWidget uploadPreset="PerkPoint" onSuccess={handleLogoUpload} >
             {({ open }) => {
               return (
-                <button onClick={() => open()}>
+                <button className={styles.uploadButton} onClick={() => open()}>
                   Upload an Image
                 </button>
               );

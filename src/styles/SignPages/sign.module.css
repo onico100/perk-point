@@ -39,6 +39,22 @@
   mask-composite: exclude;
   pointer-events: none;
 }
+
+.uploadButton {
+  background-color: #ffff; 
+  border-radius: 4px; 
+  padding: 10px 15px; 
+  font-size: 16px; 
+  cursor: pointer;
+  transition: background-color 0.2s; 
+}
+
+.uploadButton:hover {
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .noAccountLink{
   text-align: center;
   align-items: center;
