@@ -124,3 +124,8 @@ export const userGoogleSchema = z.object({
 });
 
 export type UserGoogleFormValues = z.infer<typeof userGoogleSchema>;
+
+export interface DocumentWithActive {
+  isActive?: boolean;
+  [key: string]: any;
+}
