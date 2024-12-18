@@ -1,4 +1,3 @@
-"use server";
 import { UserGoogleFormValues, DocumentWithActive } from "@/types/types";
 
 export const databaseName = "benefits-site";
