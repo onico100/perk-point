@@ -16,7 +16,6 @@ export async function GET() {
     const suppliers = await getAllDocuments(client, "users_collection");
     return NextResponse.json(suppliers);
   } catch (error: unknown) {
-    // Ensure 'error' is safely handled
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
     return NextResponse.json({ error: errorMessage }, { status: 500 });

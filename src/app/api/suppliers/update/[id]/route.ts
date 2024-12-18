@@ -29,7 +29,6 @@ export async function PATCH(
     }
     return NextResponse.json({ modifiedCount: result.modifiedCount });
   } catch (error: unknown) {
-    // Ensure 'error' is safely handled
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
     return NextResponse.json({ error: errorMessage }, { status: 500 });

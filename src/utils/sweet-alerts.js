@@ -22,7 +22,7 @@ export const inProccesAlert = async (action) => {
     title: action,
     showConfirmButton: false,
     customClass: {
-      title: 'animate__animated animate__pulse animate__infinite', // Continuous pulsing animation
+      title: 'animate__animated animate__pulse animate__infinite', 
     },
   });
 }

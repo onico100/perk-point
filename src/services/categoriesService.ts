@@ -4,8 +4,7 @@ import { Category } from "@/types/types";
 export async function getAllCategories() {
     try {
         const response = await my_http.get("/categories/get");
-       
-        const sortedData = response.data.sort((a:Category, b:Category) => {
+        const sortedData = response.data.sort((a: Category, b: Category) => {
             return a.categoryName.localeCompare(b.categoryName, 'he');
         });
         return sortedData;
@@ -15,7 +14,7 @@ export async function getAllCategories() {
     }
 }
 
-export async function getCategoryById(id: string) { 
+export async function getCategoryById(id: string) {
     try {
         const response = await my_http.get(`/categories/get/${id}`);
         return response.data;

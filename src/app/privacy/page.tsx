@@ -1,4 +1,3 @@
-// app/privacy/page.tsx
 import React from "react";
 
 const PrivacyPolicyPage: React.FC = () => {

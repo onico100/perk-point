@@ -9,7 +9,7 @@ const cardData = [
     title: " המועדונים שלנו",
     buttonText: "לכל המועדונים",
     buttonLink: "/clubs/0",
-    marginTop: "0px", // No offset for the first card
+    marginTop: "0px", 
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const cardData = [
     title: " ההטבות שלנו",
     buttonText: "לכל הההטבות",
     buttonLink: "/benefits/0",
-    marginTop: "40px", // Offset by 50px for the second card
+    marginTop: "40px", 
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ const cardData = [
     title: " קצת עלינו",
     buttonText: "אודות",
     buttonLink: "/about",
-    marginTop: "80px", // Offset by 100px for the third card
+    marginTop: "80px", 
   },
 ];
 

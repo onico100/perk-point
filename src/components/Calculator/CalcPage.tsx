@@ -27,7 +27,6 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
     discount4: "",
   });
 
-  // States to control visibility of sections
   const [isProductSectionOpen, setProductSectionOpen] = useState(false);
   const [isDiscountSectionOpen, setDiscountSectionOpen] = useState(false);
   const [isProductListOpen, setProductListOpen] = useState(false);
@@ -76,7 +75,6 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
   };
 
   const applyDiscount1 = () => {
-    console.log("Applingg");
     applyPercentageOff(discountInputs.discount1);
   };
 
@@ -121,7 +119,7 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
   };
 
   const applyDiscounts = async (Inputs: DiscountInputs) => {
-    setDiscountInputs(Inputs); // Update the state
+    setDiscountInputs(Inputs);
   };
 
   const handleDelete = (productName: string) => {
@@ -130,7 +128,6 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
     );
   };
 
-  // Functions to toggle visibility of sections
   const toggleProductSection = () =>
     setProductSectionOpen(!isProductSectionOpen);
   const toggleDiscountSection = () =>
@@ -177,7 +174,6 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
           </ul>
         </div>
       )}
-      {/* Toggle AddProduct Section */}
       <StyledAddProduct>
         <Dropdown onClick={toggleProductSection}>
           <h2>הוספת מוצרים</h2>

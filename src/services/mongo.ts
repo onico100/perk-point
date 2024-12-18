@@ -5,7 +5,7 @@ export const databaseName = "benefits-site";
 const { MongoClient, ObjectId } = require("mongodb");
 
 interface DocumentWithActive {
-  isActive?: boolean; 
+  isActive?: boolean;
   [key: string]: any;
 }
 
@@ -24,7 +24,7 @@ export async function insertDocument(
     document.isActive = true;
   }
   const result = await db.collection(collection).insertOne(document);
-  
+
   return result;
 }
 
@@ -96,7 +96,7 @@ export async function findOrCreateUser({ email, name }: { email: string; name?: 
   const newUser: UserGoogleFormValues = {
     username: name || "Anonymous Google User",
     email,
-    password: null, // No password for Google users 
+    password: null,
     city: null,
     isActive: true,
     clubs: [],
@@ -106,7 +106,6 @@ export async function findOrCreateUser({ email, name }: { email: string; name?: 
 
 
   const result = await db.collection("users_collection").insertOne(newUser);
-  console.log("New user created:", result.insertedId);
 
 
   return { ...newUser, _id: result.insertedId.toString() };

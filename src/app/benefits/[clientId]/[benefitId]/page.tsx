@@ -34,8 +34,6 @@ export default function BenefitId() {
     }
 
 
-
-
     return (
         <div>
             <BenefitsDetails

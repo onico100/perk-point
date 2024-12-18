@@ -27,7 +27,6 @@ export async function DELETE(
     }
     return NextResponse.json({ deletedCount: result.deletedCount });
   } catch (error: unknown) {
-    // Ensure 'error' is safely handled
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
     return NextResponse.json({ error: errorMessage }, { status: 500 });
