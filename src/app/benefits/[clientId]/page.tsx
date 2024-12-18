@@ -5,7 +5,7 @@ import useGeneralStore from "@/stores/generalStore";
 import { Benefit, ClientMode } from "@/types/types";
 import { useParams } from "next/navigation";
 import { getVaildBenefits } from "@/utils/benefitsUtils";
-import React, { useEffect } from "react";
+import React from "react";
 
 
 

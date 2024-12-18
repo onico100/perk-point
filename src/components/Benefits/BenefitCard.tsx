@@ -11,9 +11,6 @@ import { TbCalendarOff } from "react-icons/tb";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import { beforeActionAlert, errorAlert } from "@/utils/sweet-alerts";
 import { getVaildBenefits } from "@/utils/benefitsUtils";
-
-import useFilterStore from "@/stores/filterStore";
-
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
 import YourBenefit from "./YourBenefit";
 
@@ -33,7 +30,6 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   const { currentUser, currentSupplier } = useGeneralStore();
   const { mutate: updateUser } = useUpdateUserById();
   const { deleteBenefit } = useFetchBenefits();
-  const { setFilters } = useFilterStore();
 
   const isExpired = getVaildBenefits([benefit]).length == 0;
 
