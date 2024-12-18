@@ -16,7 +16,7 @@ export async function GET() {
     const benefits = await getAllDocuments(client, "benefits_collection");
 
     const response = {
-      timestamp: new Date().toISOString(),
+      timestamp: new Date(),
       data: benefits,
     };
 
