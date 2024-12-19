@@ -15,6 +15,10 @@ export default function Clubs() {
   if (clientMode == ClientMode.connection) setClientMode(ClientMode.general);
   const id = params.clientId;
 
+  const getActiveClubs = (clubs: Club[]) => {
+    return clubs.filter((c: Club) => c.clubStatus == "ACTIVE") || [];
+  };
+
   let clubsToShow: Club[] = [];
   let currentTitle = titles[0];
 
@@ -23,8 +27,9 @@ export default function Clubs() {
       clubsToShow =
         clubs.filter((c: Club) => currentUser?.clubs?.includes(c._id)) || [];
       currentTitle = titles[1];
+      clubsToShow = getActiveClubs(clubsToShow);
     } else {
-      clubsToShow = clubs;
+      clubsToShow = getActiveClubs(clubs);
     }
   }
 
