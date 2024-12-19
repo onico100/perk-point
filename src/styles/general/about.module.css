@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Amatic+SC:wght@400;700&family=Assistant:wght@200..800&family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Amatic+SC:wght@400;700&family=Assistant:wght@200..800&family=M+PLUS+Rounded+1c&family=Varela+Round&display=swap');
 
 .assistant-title {
   font-family: "Assistant", serif;
@@ -49,9 +49,6 @@
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-  /* font-family: "Varela Round", serif;
-  font-weight: 400;
-  font-style: normal; */
 }
 
 .aboutPage h2 {
@@ -116,8 +113,7 @@
 }
 
 .line{
-  margin-bottom:150px;
-  margin-top: 100px;
+  margin-bottom:200px;
 }
 
 .subtitle {
@@ -131,6 +127,7 @@
   justify-content: flex-start; 
   margin-bottom: 15px;
   direction: rtl;
+  padding-right: 45px;
 }
 
 
@@ -148,10 +145,11 @@
   align-items: center;
 }
 
-.tellAbout{
-  font-family: "Amatic SC", serif;
+.tellAbout {
+  font-size: 1rem; 
+  font-family: "Varela Round", serif;
   font-weight: 400;
-  font-style: normal;
+  font-style: italic; 
   background: rgba(255, 255, 255, 0.2);
   padding: 15px;
   margin-bottom: 20px;
@@ -160,3 +158,38 @@
   margin: 10px auto;
 }
 
+.mainTitle{
+  font-family: "Assistant", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 8rem;
+}
+
+.image {
+  width: 150px; 
+  height: auto;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-top: 5rem;
+  font-size: large;
+  animation: slideUp 2s forwards; /* הוספת האנימציה */
+}
+
+.logoTitle{
+  font-family: "Alef", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 0.5rem;
+}
+
+  /* font-family: "M PLUS Rounded 1c", serif;
+  font-weight: 300;
+  font-style: normal; */
+  

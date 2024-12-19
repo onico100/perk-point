@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Amatic+SC:wght@400;700&family=Assistant:wght@200..800&family=M+PLUS+Rounded+1c&family=Varela+Round&display=swap');
+
 /* CardContainer styles */
 .cardContainer {
   display: flex;
@@ -19,6 +21,10 @@
   opacity: 0;
   transform: translateY(50px);
   animation: slideUp 1.8s forwards;
+  font-size: 1rem; 
+  font-family: "Varela Round", serif;
+  font-weight: 800;
+  font-size: 1.15rem;
 }
 
 .card img {
@@ -56,8 +62,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: auto;
   margin-top: 5%;
+  font-weight: 200;
+  font-size: 1rem;
 }
 
 .card button:hover {

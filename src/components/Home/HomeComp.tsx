@@ -12,7 +12,7 @@ const HomeComp: React.FC = () => {
           alt="Perk Point Logo"
           className={styles.image}
         />
-        <p>כל ההטבות והמבצעים השווים במקום אחד!</p>
+        <p className={styles.logoTitle}>כל ההטבות והמבצעים השווים במקום אחד!</p>
       </div>
       <CardContainer />
     </div>
