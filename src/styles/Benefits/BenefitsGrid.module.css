@@ -6,6 +6,8 @@
 
 .searchBar {
   padding: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
   background: linear-gradient(to right, #b346e8, #87cdfa);
   width: 100%;
 }

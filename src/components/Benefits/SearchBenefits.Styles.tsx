@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaSync } from 'react-icons/fa';
 
 
 export const SearchContainer = styled.div`
@@ -22,7 +22,8 @@ export const SearchIcon = styled(FaSearch)`
 export const InputContainer = styled.div`
     position: relative;
     flex: 1;
-    width: 100%; 
+    min-width: 100px; 
+    max-width: 200px; 
     
     &:focus-within ${SearchIcon} {
         color: black;
@@ -35,7 +36,8 @@ export const InputContainer = styled.div`
 
 export const SelectContainer = styled.div<{ $isOpen: boolean }>`
     flex: 1;  
-    width: 100%; 
+    min-width: 100px; 
+    max-width: 200px; 
     background-color: white;
     padding: 0;
     border: 1.5px solid ${({ $isOpen }) => ($isOpen ? `white` : `transparent`)};
@@ -61,7 +63,7 @@ export const SelectLabel = styled.label`
     border-radius: 7px;
     height: 40px; 
     line-height: 40px; 
-        font-size: 14px;
+    font-size: 14px;
     width: 100%;
 `;
 
@@ -106,17 +108,19 @@ export const DropdownOption = styled.div`
 `;
 
 export const DateLabel = styled.label`
-    margin-right: 8px;
+    margin-right: 2px;
     color: black; 
 `;
 
 export const DateInput = styled.input`
     padding: 10px;
-    margin: 10px;
+    margin: 0;
     border: 1px solid #ccc;
     border-radius: 7px;
     opacity: 0.4;
     height: 40px; 
+    min-width: 100px; 
+    max-width: 150px; 
 
     &:focus {
         opacity: 1;
@@ -128,21 +132,32 @@ export const DateInput = styled.input`
     }
 `;
 
-export const RefreshButton = styled.button`
-    padding: 10px 15px;
-    position: absolute;
-    left:0%;
-    background-color: transparent;
-    color: black;
-    cursor: pointer;
-    height: 40px; 
+export const RefreshContainer = styled.div`
+    position: relative; 
+    display: flex;
+    align-items: center;
+    margin: 0px; 
+`;
 
-    span {
-        visibility: hidden; 
-        transition: visibility 0s, opacity 0.3s ease; 
-    }
-    &:hover span {
-        visibility: visible; 
+export const RefreshIcon = styled(FaSync)`
+    cursor: pointer; 
+    color: lightgrey; 
+    font-size: 14px; 
+`;
+
+export const RefreshLabel = styled.span`
+    position: absolute; 
+    top: 20px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    visibility: hidden; 
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease; 
+    color: lightgrey; 
+    font-size: 12px; 
+
+    ${RefreshContainer}:hover & {
+        visibility: visible;
         opacity: 1; 
     }
 `;
