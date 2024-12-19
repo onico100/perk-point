@@ -1,7 +1,11 @@
 .aboutPage {
   background: linear-gradient(to bottom right, #b346e8, #87cdfa);
   color: white;
-  text-align: right;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
   width: 100%;
 }
@@ -9,23 +13,34 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 20px;
 }
 
 .aboutContent {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
 }
 
 .aboutUs,
-.contactUs {
-  flex: 1;
-  margin-right: 20px;
+.ourVision,
+.contactUs,
+.howItsWork {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-in-out;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px;
+  height: 300px;
 }
 
 .aboutPage h2 {
-  font-size: 2rem;
-  margin-bottom: 15px;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
 }
 
 .aboutPage p {
@@ -33,18 +48,93 @@
   margin-bottom: 10px;
 }
 
-.contactUs p {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.testimonials {
+  margin-top: 50px;
+  text-align: center;
 }
 
-.contactUs li {
-  display: flex;
-  align-items: center;
+.testimonial {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 10px auto;
+}
+
+.animation {
+  width: 600px;
+}
+
+.animation3 {
+  width: 40%;
+  min-width: 450px;
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+.animation {
+  width: 50%;
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+.context {
+  width: 50%;
+  max-width: 400px;
+  margin: 20px;
+}
+
+.title, .title2{
+  font-size: 1.7rem;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.title::after{
+  content: "";
+  position: absolute;
+  bottom: -5px;  
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 1) 20%, 
+    rgba(255, 255, 255, 0) 100%); 
+}
+
+.line{
+  margin-bottom:150px;
+  margin-top: 100px;
+}
+
+.subtitle {
   font-size: 16px;
+  margin-bottom: 20px;
 }
 
-.contactUs li svg {
-  margin: 8px;
+.contactItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; 
+  margin-bottom: 15px;
+  direction: rtl;
 }
+
+
+.icon {
+  font-size: 20px;
+  color: #ffffff; 
+  margin:0 10px;
+}
+
+
+.link {
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+

@@ -24,8 +24,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const { suppliers } = useFetchSuppliers();
   const { clubs, categories } = useFetchGeneral();
   const { clientMode } = useGeneralStore();
-  const { isBenefitDetailPage, setBenefitDetailPage, resetFilters, setFilters } = useFilterStore();
-
+  const { isBenefitDetailPage, setBenefitDetailPage, resetFiltersMain, setFiltersMain,resetFiltersPersenal, filtersMain, filtersPersenal } = useFilterStore();
 
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
   const [showValidBenefits, setShowValidBenefits] = useState(true);
@@ -33,20 +32,19 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const params = useParams();
   const id = params.clientId;
 
-
-
   useEffect(() => {
     setBenefitsToShow(shuffleBenefits(getVaildBenefits(benefits)));
   }, [benefits]);
 
   useEffect(() => {
     if (!isBenefitDetailPage) {
-        resetFilters(); 
+        resetFiltersMain();
+        resetFiltersPersenal(); 
     }
     else{
       setBenefitDetailPage(false);
     }
-}, [resetFilters]);
+}, [resetFiltersMain, resetFiltersPersenal]);
 
   const shuffleBenefits = (benefits: Benefit[]) => {
     return benefits.sort(() => Math.random() - 0.5);

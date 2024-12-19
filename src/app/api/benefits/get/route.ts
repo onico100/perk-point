@@ -1,7 +1,7 @@
 import { connectDatabase, getAllDocuments } from "@/services/mongo";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function POST() {
   let client;
   try {
     client = await connectDatabase();
@@ -13,8 +13,17 @@ export async function GET() {
     } else {
       console.log("Connected to the database");
     }
+
+    // Fetch only active benefits (handled within getAllDocuments)
     const benefits = await getAllDocuments(client, "benefits_collection");
-    return NextResponse.json(benefits);
+
+    const timestamp = new Date().toISOString();
+    const response = {
+      [timestamp]: "vdcd",
+      data: benefits,
+    };
+
+    return NextResponse.json(response);
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
