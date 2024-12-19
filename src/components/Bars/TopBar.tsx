@@ -6,13 +6,18 @@ import logoLight from "@/assets/logoLight.png";
 import linkStyle from "@/styles/Bars/Links.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import styles from "@/styles/Bars/TopBar.module.css";
+import useGeneralStore from "@/stores/generalStore";
+import { ClientMode } from "@/types/types";
 
 const TopBar: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const clientMode = useGeneralStore((state) => state.clientMode);
+
   const goToHome = () => {
     router.push("/");
   };
+
   return (
     <div className={styles.topBar}>
       <div className={styles.rightSide}>
@@ -48,6 +53,16 @@ const TopBar: React.FC = () => {
         >
           אודות
         </Link>
+        {clientMode === ClientMode.admin && (
+          <Link
+            className={`${linkStyle.barItem}  ${
+              pathname === "/dashboard" ? linkStyle.active : ""
+            }`}
+            href={"/dashboard"}
+          >
+            לוח ניהול
+          </Link>
+        )}
       </div>
       <TopBarButtons />
     </div>

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { FaChevronDown } from 'react-icons/fa';
-import { SelectContainer, SelectLabel, Dropdown, DropdownOption } from '../Benefits/SearchBenefits.Styles';
+import { SelectContainer, SelectLabel, Dropdown, DropdownOption, FaChevronDownIcon } from '../Benefits/SearchBenefits.Styles';
 
 interface DropdownFilterProps {
     label: string;
@@ -36,7 +35,7 @@ const DropdownFilter: React.FC<DropdownFilterProps> = ({ label, options, selecte
         >
             <SelectLabel onClick={() => setDropdownOpen(!dropdownOpen)}>
                 {selectedOptions.length > 0 ? `${selectedOptions.length} ${label}` : `בחר ${label}`}
-                <FaChevronDown />
+                <FaChevronDownIcon />
             </SelectLabel>
             {dropdownOpen && (
                 <Dropdown>

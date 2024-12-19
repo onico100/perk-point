@@ -104,6 +104,20 @@ const TopBarButtons: React.FC = () => {
               התנתקות
             </button>
           </>
+        )}        
+        
+        {clientMode === "ADMIN" && (
+          <>
+            <h1>{currentSupplier?.providerName}</h1>
+            <button
+              className={`${styles.signupButton} ${
+                isScrolled ? styles.signupButtonScrolled : ""
+              }`}
+              onClick={handleDisconnect}
+            >
+              התנתקות
+            </button>
+          </>
         )}
       </div>
     </>
