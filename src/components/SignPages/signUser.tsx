@@ -54,25 +54,25 @@ export default function SignUserComponent() {
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <div className={styles.formGroup}>
           <label htmlFor="username">שם משתמש:</label>
-          <input id="username" {...register("username")} />
+          <input className={styles.inputField} id="username" {...register("username")} />
           {errors.username && <p>{errors.username.message}</p>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="email">אימייל:</label>
-          <input id="email" type="email" {...register("email")} />
+          <input className={styles.inputField} id="email" type="email" {...register("email")} />
           {errors.email && <p>{errors.email.message}</p>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="password">סיסמה:</label>
-          <input id="password" type="password" {...register("password")} />
+          <input className={styles.inputField} id="password" type="password" {...register("password")} />
           {errors.password && <p>{errors.password.message}</p>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="city">עיר:</label>
-          <input id="city" {...register("city")} />
+          <input className={styles.inputField} id="city" {...register("city")} />
           {errors.city && <p>{errors.city.message}</p>}
         </div>
 
