@@ -290,3 +290,18 @@
 .selectedBranch button:hover {
   background-color: #c0392b;
 }
+
+.inputField {
+  width: 100%;
+  padding: 8px 18px;
+  border: 1px solid #c9c4c4;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: rgb(0, 76, 152)  !important;
+  white-space: nowrap;        
+  overflow: hidden;            
+  text-overflow: ellipsis;    
+  box-sizing: border-box;     
+  position: relative;         
+  z-index: 2;                  
+}

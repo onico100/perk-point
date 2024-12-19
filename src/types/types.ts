@@ -42,6 +42,17 @@ export interface User {
   password: String;
 }
 
+export interface ContactForm {
+  _id: string;
+  serialNumber: number;
+  name: string;
+  email: string;
+  messageContent: string;
+  createdAt: string;
+  isActive: boolean;
+  status: string;
+}
+
 export interface Benefit {
   _id?: string;
   supplierId: string;

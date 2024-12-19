@@ -141,34 +141,34 @@ export default function SignSupplierComponent() {
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <div >
           <label htmlFor="businessName">שם העסק:</label>
-          <input id="businessName" {...register("businessName")} className={styles.inputFieldField} />
+          <input className={styles.inputField} id="businessName" {...register("businessName")} />
           {errors.businessName && <p>{errors.businessName.message}</p>}
         </div>
         <div>
           <label htmlFor="providerName">
             שם ספק (יש להכניס שם פרטי ולא את שם העסק):
           </label>
-          <input id="providerName" {...register("providerName")} />
+          <input className={styles.inputField} id="providerName" {...register("providerName")} />
           {errors.providerName && <p>{errors.providerName.message}</p>}
         </div>
         <div >
           <label htmlFor="email">אימייל:</label>
-          <input id="email" type="email" {...register("email")} />
+          <input className={styles.inputField} id="email" type="email" {...register("email")} />
           {errors.email && <p>{errors.email.message}</p>}
         </div>
         <div >
           <label htmlFor="password">סיסמה:</label>
-          <input id="password" type="password" {...register("password")} />
+          <input className={styles.inputField} id="password" type="password" {...register("password")} />
           {errors.password && <p>{errors.password.message}</p>}
         </div>
         <div >
           <label htmlFor="phoneNumber">מספר טלפון:</label>
-          <input id="phoneNumber" {...register("phoneNumber")} />
+          <input className={styles.inputField} id="phoneNumber" {...register("phoneNumber")} />
           {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
         </div>
         <div >
           <label htmlFor="siteLink">קישור לאתר:</label>
-          <input id="siteLink" type="url" {...register("siteLink")} />
+          <input className={styles.inputField} id="siteLink" type="url" {...register("siteLink")} />
           {errors.siteLink && <p>{errors.siteLink.message}</p>}
         </div>
 

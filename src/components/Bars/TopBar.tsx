@@ -56,9 +56,9 @@ const TopBar: React.FC = () => {
         {clientMode === ClientMode.admin && (
           <Link
             className={`${linkStyle.barItem}  ${
-              pathname === "/dashboard" ? linkStyle.active : ""
+              pathname === "/admin/dashboard" ? linkStyle.active : ""
             }`}
-            href={"/dashboard"}
+            href={"/admin/dashboard"}
           >
             לוח ניהול
           </Link>

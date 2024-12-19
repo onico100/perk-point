@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
       messageContent,
       createdAt: new Date().toISOString(),
       isActive: true,
+      status: "received"
     };
 
     await collection.insertOne(contactData);
