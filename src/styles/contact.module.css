@@ -1,10 +1,10 @@
-/* עיצוב הפופאפ */
+
 .popupOverlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    margin-top: 10%;
+    margin-top: 5%;
     height: 70%;
     display: flex;
     justify-content: center;
@@ -116,5 +116,31 @@
   
   .popupClose:hover {
     color: red;
+  }
+  
+
+  .whatsappButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #25d366;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+  }
+  
+  .whatsappButton:hover {
+    background-color: #1da851;
+  }
+  
+  .whatsappIcon {
+    font-size: 1.5rem;
   }
   

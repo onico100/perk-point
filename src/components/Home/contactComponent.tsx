@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "@/styles/contact.module.css";
 import { useRouter } from "next/navigation";
 import SenddingAnimate from "@/components/Loading/SenddingAnimate";
+import WhatsAppContact from "./whatsAppComponent";
 
 interface ContactProps {
   isPopupOpen: boolean;
@@ -11,9 +12,9 @@ interface ContactProps {
 
 const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
   const [formData, setFormData] = useState({ name: "", email: "", messageContent: "" });
-  const [isLoading, setIsLoading] = useState(false); // מצב טעינה
-  const [sent, setSent] = useState(false); // מצב הצלחה
-  const [error, setError] = useState(""); // מצב שגיאה
+  const [isLoading, setIsLoading] = useState(false);  
+  const [sent, setSent] = useState(false); 
+  const [error, setError] = useState(""); 
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -24,7 +25,7 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setIsLoading(true); // התחלת טעינה
+    setIsLoading(true); 
 
     try {
       const response = await fetch("/api/contact", {
@@ -33,7 +34,7 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
         body: JSON.stringify(formData),
       });
 
-      setIsLoading(false); // סיום טעינה
+      setIsLoading(false); 
 
       if (response.ok) {
         setSent(true);
@@ -49,7 +50,7 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
         setError(data.message || "Error sending message.");
       }
     } catch (err) {
-      setIsLoading(false); // סיום טעינה גם במקרה של שגיאה
+      setIsLoading(false); 
       setError("Error sending message.");
     }
   };
@@ -66,7 +67,6 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
             <h2>ממש כמה רגעים..</h2>
             <SenddingAnimate /></>
           ) : !sent ? (
-            // טופס לפני השליחה
             <form onSubmit={handleSubmit}>
               <div className={styles.emailName}>
                 <div className={styles.emailNameIn}>
@@ -104,7 +104,6 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
               </button>
             </form>
           ) : (
-            // הודעת הצלחה לאחר השליחה
             <p>ההודעה נשלחה בהצלחה!.</p>
           )}
           {error && <p className="text-red-500">{error}</p>}
