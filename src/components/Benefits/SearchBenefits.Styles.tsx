@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { FaSearch, FaSync } from 'react-icons/fa';
+import { FaSearch, FaSync, FaChevronDown} from 'react-icons/fa';
+
 
 
 export const SearchContainer = styled.div`
@@ -58,7 +59,7 @@ export const SelectLabel = styled.label`
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    // cursor: pointer;
+    color: grey;
     padding: 5px;
     border-radius: 7px;
     height: 40px; 
@@ -77,8 +78,6 @@ export const SupplierInput = styled.input`
     height: 40px; 
     font-size: 14px;
     color: black;
-
-
 
     &:focus {
         opacity: 1;
@@ -99,6 +98,11 @@ export const Dropdown = styled.div`
     left: 0;
     opacity: 1;
     
+`;
+
+export const FaChevronDownIcon = styled(FaChevronDown)`
+    color: grey;
+
 `;
 
 export const DropdownOption = styled.div`
@@ -128,7 +132,8 @@ export const DateInput = styled.input`
 
     ::placeholder {
         font-size: 12px; 
-        color: black; 
+        color: grey;
+
     }
 `;
 
