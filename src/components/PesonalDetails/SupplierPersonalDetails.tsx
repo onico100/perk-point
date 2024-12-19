@@ -402,7 +402,7 @@ export default function SupplierPersonalDetails({
                     )
                   )
                   .map((category: Category) => (
-                    <div key={category._id}>° {category.categoryName}</div>
+                    <div key={category._id}>• {category.categoryName}</div>
                   ))
               : "אין קטגוריות"}
           </div>
