@@ -93,6 +93,8 @@ export interface Club {
   clubLink: string;
   clubLogo: string;
   isActive: Boolean;
+  APIData: Boolean;
+  clubRoute?: string;
 }
 
 export enum ClientMode {
