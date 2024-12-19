@@ -16,8 +16,10 @@ import {
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { getbranchesByBusinessName } from "@/services/branchesService";
-import { CldUploadWidget, CloudinaryUploadWidgetResults } from 'next-cloudinary';
-
+import {
+  CldUploadWidget,
+  CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
 
 interface SupplierPersonalDetailsProps {
   currentSupplier: Supplier;
@@ -78,41 +80,41 @@ export default function SupplierPersonalDetails({
 
   const isExample =
     currentSupplier.email == "supplier@example.com" ? true : false;
-  useEffect(() => {
-    if (editMode) {
-      let booleanResults2: boolean[] = allBranches.map(
-        (b: Branch) =>
-          currentSupplier?.branches?.some(
-            (branch: Branch) => branch.nameBranch === b.nameBranch
-          ) as boolean
-      );
-      setBooleanResults(booleanResults2);
 
-      const containsAllBranches = booleanResults2.every((b) => b === true);
-      setSelectAll(containsAllBranches);
+  let setValueOnDom = () => {
+    let booleanResults2: boolean[] = allBranches.map(
+      (b: Branch) =>
+        currentSupplier?.branches?.some(
+          (branch: Branch) => branch.nameBranch === b.nameBranch
+        ) as boolean
+    );
+    setBooleanResults(booleanResults2);
 
-      setValue("providerName", currentSupplier?.providerName);
-      setValue("email", currentSupplier?.email);
-      setValue("businessName", currentSupplier?.businessName);
-      setValue("phoneNumber", currentSupplier?.phoneNumber);
-      setValue("siteLink", currentSupplier?.siteLink);
-      setValue("supplierLogo", currentSupplier?.supplierLogo);
-      setValue("selectedCategories", currentSupplier?.selectedCategories);
-      setValue(
-        "branches",
-        selectAll
-          ? allBranches?.map((b) => b.nameBranch)
-          : currentSupplier?.branches?.map((b) => b.nameBranch)
-      );
-    }
-  }, [editMode, currentSupplier, setValue]);
+    const containsAllBranches = booleanResults2.every((b) => b === true);
+    setSelectAll(containsAllBranches);
+
+    setValue("providerName", currentSupplier?.providerName);
+    setValue("email", currentSupplier?.email);
+    setValue("businessName", currentSupplier?.businessName);
+    setValue("phoneNumber", currentSupplier?.phoneNumber);
+    setValue("siteLink", currentSupplier?.siteLink);
+    setValue("supplierLogo", currentSupplier?.supplierLogo);
+    setValue("selectedCategories", currentSupplier?.selectedCategories);
+    setValue(
+      "branches",
+      selectAll
+        ? allBranches?.map((b) => b.nameBranch)
+        : currentSupplier?.branches?.map((b) => b.nameBranch)
+    );
+  };
 
   useEffect(() => {
     fetchBranches();
+    setValueOnDom()
   }, []);
 
   const handleLogoUpload = async (result: CloudinaryUploadWidgetResults) => {
-    setUploading(true); 
+    setUploading(true);
     try {
       if (
         result &&
@@ -123,15 +125,15 @@ export default function SupplierPersonalDetails({
         const secureUrl = result.info.secure_url as string;
 
         setValue("supplierLogo", secureUrl);
-        await successAlert("העלאת תמונה הצליחה!"); 
+        await successAlert("העלאת תמונה הצליחה!");
       } else {
-        throw new Error("שגיאה בהעלאת התמונה"); 
+        throw new Error("שגיאה בהעלאת התמונה");
       }
     } catch (error) {
       console.error("Error during upload:", error);
       errorAlert("שגיאה בהעלאת התמונה");
     } finally {
-      setUploading(false); 
+      setUploading(false);
     }
   };
 
@@ -140,6 +142,8 @@ export default function SupplierPersonalDetails({
       const alertConfirm = await beforeActionAlert("");
       if (alertConfirm) {
         if (currentSupplier?._id) {
+         // setValueOnDom()
+
           let updatedBranches = selectAll
             ? allBranches
             : allBranches?.filter((b) => data.branches.includes(b.nameBranch));
@@ -164,6 +168,7 @@ export default function SupplierPersonalDetails({
             },
             {
               onSuccess: () => {
+
                 successAlert("ספק נערך ");
               },
               onError: () => {
@@ -216,10 +221,16 @@ export default function SupplierPersonalDetails({
         <p className={styles.item}>
           <span className={styles.label}>לוגו ספק:</span>
           {editMode ? (
-            <CldUploadWidget uploadPreset="PerkPoint" onSuccess={handleLogoUpload} >
+            <CldUploadWidget
+              uploadPreset="PerkPoint"
+              onSuccess={handleLogoUpload}
+            >
               {({ open }) => {
                 return (
-                  <button className={styles.uploadButton} onClick={() => open()}>
+                  <button
+                    className={styles.uploadButton}
+                    onClick={() => open()}
+                  >
                     החלפת לוגו
                   </button>
                 );
@@ -381,18 +392,18 @@ export default function SupplierPersonalDetails({
         ) : (
           <div>
             {currentSupplier &&
-              currentSupplier.selectedCategories &&
-              currentSupplier?.selectedCategories?.length > 0
+            currentSupplier.selectedCategories &&
+            currentSupplier?.selectedCategories?.length > 0
               ? categories
-                .filter((category: Category) =>
-                  currentSupplier?.selectedCategories?.some(
-                    (supplierCategoryId) =>
-                      supplierCategoryId.toString() === category._id
+                  .filter((category: Category) =>
+                    currentSupplier?.selectedCategories?.some(
+                      (supplierCategoryId) =>
+                        supplierCategoryId.toString() === category._id
+                    )
                   )
-                )
-                .map((category: Category) => (
-                  <div key={category._id}>° {category.categoryName}</div>
-                ))
+                  .map((category: Category) => (
+                    <div key={category._id}>• {category.categoryName}</div>
+                  ))
               : "אין קטגוריות"}
           </div>
         )}
@@ -402,7 +413,7 @@ export default function SupplierPersonalDetails({
         <span className={styles.label}>
           {" "}
           <a href="/supplier-branches/0">
-          לניהול סניפים יש <u>לעבור לעמוד עריכת סניפים</u>
+            לניהול סניפים יש <u>לעבור לעמוד עריכת סניפים</u>
           </a>
         </span>
       </p>
