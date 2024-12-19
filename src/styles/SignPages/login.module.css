@@ -5,6 +5,7 @@
   }
   
 .loginPage {
+  position: relative;
     background: linear-gradient(to right, #b346e8, #87cdfa);
     -webkit-background-clip: text;
     position: relative;
@@ -63,7 +64,7 @@
     align-self: center;
     margin-bottom: 2vh;
   }
-  
+
   .formContainer {
     padding-left: 5%;
     padding-right: 5%;
@@ -72,7 +73,9 @@
     gap: 16px;
     max-width: 400px;
     width: 100%;
+    box-sizing: border-box; 
   }
+  
   
   .inlineContainer {
     display: flex;
@@ -106,8 +109,17 @@
     border: 1px solid #c9c4c4;
     border-radius: 4px;
     font-size: 1rem;
-    color: rgb(166, 10, 10);
+    color: rgb(0, 76, 152);
+    white-space: nowrap;        
+    overflow: hidden;            
+    text-overflow: ellipsis;    
+    box-sizing: border-box;     
+    position: relative;         
+    z-index: 2;                  
   }
+  
+  
+  
   
   .inputField::placeholder {
     color: #878484; /* שחור בהיר */
