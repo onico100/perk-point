@@ -3,7 +3,7 @@ import { LoadingSpinner, ClubsContainer } from "@/components";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import useGeneralStore from "@/stores/generalStore";
 import { ClientMode, Club, ClubStatus } from "@/types/types";
-import { get } from "http";
+import { getActiveClubs } from "@/utils/clubs.utils";
 import { useParams } from "next/navigation";
 
 export default function Clubs() {
@@ -15,15 +15,6 @@ export default function Clubs() {
   const setClientMode = useGeneralStore((state) => state.setClientMode);
   if (clientMode == ClientMode.connection) setClientMode(ClientMode.general);
   const id = params.clientId;
-
-  const getActiveClubs = (clubs: Club[]) => {
-    console.log(22, clubs);
-    clubs.forEach((club) => {
-      console.log(22, typeof club.clubStatus);
-    });
-
-    return clubs.filter((c: Club) => c.clubStatus == "ACTIVE");
-  };
 
   let clubsToShow: Club[] = [];
   let currentTitle = titles[0];

@@ -12,8 +12,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { getVaildBenefits, getUnVAildBenefits } from "@/utils/benefitsUtils";
 import Link from "next/link";
 import useFilterStore from "@/stores/filterStore";
-
-
+import { getActiveClubs } from "@/utils/clubs.utils";
 
 interface BenefitsContainerProps {
   benefits: Benefit[];
@@ -23,8 +22,17 @@ interface BenefitsContainerProps {
 const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const { suppliers } = useFetchSuppliers();
   const { clubs, categories } = useFetchGeneral();
+  const clubsToShow = getActiveClubs(clubs);
   const { clientMode } = useGeneralStore();
-  const { isBenefitDetailPage, setBenefitDetailPage, resetFiltersMain, setFiltersMain,resetFiltersPersenal, filtersMain, filtersPersenal } = useFilterStore();
+  const {
+    isBenefitDetailPage,
+    setBenefitDetailPage,
+    resetFiltersMain,
+    setFiltersMain,
+    resetFiltersPersenal,
+    filtersMain,
+    filtersPersenal,
+  } = useFilterStore();
 
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
   const [showValidBenefits, setShowValidBenefits] = useState(true);
@@ -38,13 +46,12 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
 
   useEffect(() => {
     if (!isBenefitDetailPage) {
-        resetFiltersMain();
-        resetFiltersPersenal(); 
-    }
-    else{
+      resetFiltersMain();
+      resetFiltersPersenal();
+    } else {
       setBenefitDetailPage(false);
     }
-}, [resetFiltersMain, resetFiltersPersenal]);
+  }, [resetFiltersMain, resetFiltersPersenal]);
 
   const shuffleBenefits = (benefits: Benefit[]) => {
     return benefits.sort(() => Math.random() - 0.5);
@@ -91,8 +98,10 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       ) {
         return false;
       }
-      if ((start && new Date(benefit.expirationDate) < start) || (end && new Date(benefit.expirationDate) > end)) 
-      {
+      if (
+        (start && new Date(benefit.expirationDate) < start) ||
+        (end && new Date(benefit.expirationDate) > end)
+      ) {
         return false;
       }
       return true;
@@ -117,7 +126,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
     <div className={styles.container}>
       <div className={styles.searchBar}>
         <SearchBenefits
-          clubs={clubs}
+          clubs={clubsToShow}
           categories={categories}
           onSearch={handleSearch}
         />
