@@ -4,7 +4,7 @@ import React, { useState} from "react";
 import Head from "next/head";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Contact from "../components/Home/contactComponent";
+import Contact from "../components/Home/contactEmailComponent";
 
 import {
   SideBar,

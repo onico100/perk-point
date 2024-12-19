@@ -5,6 +5,8 @@ import logoLight from "@/assets/logoLight.png";
 
 const uri = process.env.PUBLIC_DB_CONNECTION!;
 const client = new MongoClient(uri);
+const logoUrl = "https://perk-point.vercel.app/_next/static/media/logoLight.aaba116a.png";
+
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,6 +31,7 @@ export async function POST(request: NextRequest) {
 
     const lastSerialNumber = lastContact.length > 0 ? lastContact[0].serialNumber : 999;
     const newSerialNumber = lastSerialNumber + 1;
+
 
     const contactData = {
       serialNumber: newSerialNumber,
@@ -56,7 +59,7 @@ export async function POST(request: NextRequest) {
       subject: "פנייה חדשה מהאתר",
       html: `
         <div dir="rtl" style="font-family: Arial, sans-serif; line-height: 1.5; color: #333; text-align: right;">
-          <img src="${logoLight.src}" alt="Logo" style="max-width: 200px; margin-bottom: 20px;" />
+          <img src="${logoUrl}" alt="Logo" style="max-width: 150px; margin-bottom: 20px;" />
           <h3 style="color:rgb(119, 13, 96); margin-bottom: 10px;">התקבלה הודעת צור קשר</h3>
           <p><strong>מספר פנייה:</strong> ${newSerialNumber}</p>
           <p><strong>שם:</strong> ${name}</p>
@@ -78,7 +81,7 @@ export async function POST(request: NextRequest) {
       subject: "פנייתך התקבלה בהצלחה",
       html: `
         <div dir="rtl" style="font-family: Arial, sans-serif; line-height: 1.5; color: #333; text-align: right;">
-          <img src="${logoLight.src}" alt="Logo" style="max-width: 200px; margin-bottom: 20px;" />
+          <img src="${logoUrl}" alt="Logo" style="max-width: 150px; margin-bottom: 20px;" />
           <h2 style="color:rgb(126, 38, 140);">פנייתך התקבלה בהצלחה!</h2>
           <p>שלום <strong>${name}</strong>,</p>
           <p>אנו מודים לך על פנייתך. מספר הפנייה שלך הוא: <strong>${newSerialNumber}</strong>.</p>

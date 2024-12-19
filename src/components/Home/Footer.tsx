@@ -3,7 +3,7 @@ import styles from "@/styles/Home/Footer.module.css";
 import { FaFacebook, FaTwitter } from "react-icons/fa";
 import { FaSquareInstagram } from "react-icons/fa6";
 import logoLight from "@/assets/logoLight.png";
-import Contact from "@/components/Home/contactComponent";
+import Contact from "@/components/Home/contactEmailComponent";
 
 const Footer: React.FC = () => {
     const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);

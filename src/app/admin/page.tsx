@@ -22,7 +22,7 @@ const AdminLogin = () => {
         localStorage.setItem("admin", JSON.stringify(admin));
         const setClientMode = useGeneralStore.getState().setClientMode;
         setClientMode(ClientMode.admin);
-        router.push("/admin/dashboard"); 
+        router.push("/dashboard"); 
       }
     } catch (err) {
       setError("Invalid email or password. Please try again.");

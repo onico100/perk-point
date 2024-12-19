@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import styles from "@/styles/contact.module.css";
 import { useRouter } from "next/navigation";
 import SenddingAnimate from "@/components/Loading/SenddingAnimate";
-import WhatsAppContact from "./whatsAppComponent";
 
 interface ContactProps {
   isPopupOpen: boolean;
