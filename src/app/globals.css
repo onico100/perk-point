@@ -99,3 +99,29 @@ body {
   font-size: 2rem;
   color: #ffffff;
 }
+
+.whatsappButton {
+  position: fixed;
+  bottom: 100px; /* מעל כפתור יצירת קשר */
+  right: 30px;
+  background-color: #25d366; /* צבע WhatsApp */
+  color: white;
+  border: none;
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  z-index: 1001;
+}
+
+.whatsappButton:hover {
+  background-color: #1da851; /* צבע כהה יותר עבור hover */
+  transform: scale(1.1);
+}
+

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
 import nodemailer from "nodemailer";
+import logoLight from "@/assets/logoLight.png";
 
 const uri = process.env.PUBLIC_DB_CONNECTION!;
 const client = new MongoClient(uri);
@@ -49,17 +50,17 @@ export async function POST(request: NextRequest) {
       },
     });
 
-
     const mailOptionsToSite = {
       from: email,
       to: process.env.EMAIL_USER,
       subject: "פנייה חדשה מהאתר",
       html: `
         <div dir="rtl" style="font-family: Arial, sans-serif; line-height: 1.5; color: #333; text-align: right;">
-          <h3 style="color: #4caf50; margin-bottom: 10px;">התקבלה הודעת צור קשר</h3>
+          <img src="${logoLight.src}" alt="Logo" style="max-width: 200px; margin-bottom: 20px;" />
+          <h3 style="color:rgb(119, 13, 96); margin-bottom: 10px;">התקבלה הודעת צור קשר</h3>
           <p><strong>מספר פנייה:</strong> ${newSerialNumber}</p>
           <p><strong>שם:</strong> ${name}</p>
-          <p><strong>אימייל:</strong> <a href="mailto:${email}" style="color: #4a90e2;">${email}</a></p>
+          <p><strong>אימייל:</strong> <a href="mailto:${email}" style="color:rgb(34, 97, 169);">${email}</a></p>
           <p><strong>הודעה:</strong></p>
           <div style="background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
             ${messageContent}
@@ -69,15 +70,16 @@ export async function POST(request: NextRequest) {
         </div>
       `,
     };
+    
 
-    // שליחת מייל למשתמש
     const mailOptionsToUser = {
       from: process.env.EMAIL_USER,
       to: email,
       subject: "פנייתך התקבלה בהצלחה",
       html: `
         <div dir="rtl" style="font-family: Arial, sans-serif; line-height: 1.5; color: #333; text-align: right;">
-          <h2 style="color: #4caf50;">פנייתך התקבלה בהצלחה!</h2>
+          <img src="${logoLight.src}" alt="Logo" style="max-width: 200px; margin-bottom: 20px;" />
+          <h2 style="color:rgb(126, 38, 140);">פנייתך התקבלה בהצלחה!</h2>
           <p>שלום <strong>${name}</strong>,</p>
           <p>אנו מודים לך על פנייתך. מספר הפנייה שלך הוא: <strong>${newSerialNumber}</strong>.</p>
           <p>צוות האתר שלנו יעבור על הפנייה ויחזור אליך בהקדם האפשרי.</p>
@@ -92,6 +94,7 @@ export async function POST(request: NextRequest) {
         </div>
       `,
     };
+    
 
 
     await transporter.sendMail(mailOptionsToSite);
