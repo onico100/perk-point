@@ -16,6 +16,7 @@
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1;
+direction: rtl;
 }
 
 .loginPage::before {
@@ -304,4 +305,38 @@
   box-sizing: border-box;     
   position: relative;         
   z-index: 2;                  
+}
+
+.selectButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.selectButton span {
+  font-size: 16px;
+}
+
+.selectButton svg {
+  font-size: 16px;
+}
+
+.branchLabel {
+  display: block;
+  margin: 4px 0 4px 0;
+  text-align: right;
+  direction: rtl;
+}
+
+.selectButton {
+  text-align: right;
+  direction: rtl;
+}
+
+.categoryList {
+  text-align: right;
+  direction: rtl;
 }
