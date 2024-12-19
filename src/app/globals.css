@@ -7,7 +7,7 @@
   --foreground: #171717;
   direction: rtl;
   box-sizing: border-box;
-  --font-hebrew: "Varela Round", "Heebo", "IBM Plex Sans Hebrew", Arial,
+  --font-hebrew: Arial, "Varela Round", "Heebo", "IBM Plex Sans Hebrew", 
     Helvetica, sans-serif;
 }
 

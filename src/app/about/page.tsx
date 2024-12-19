@@ -6,6 +6,7 @@ import { ClientMode } from "@/types/types";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import logotransperent from "@/assets/logotransperent.png";
 
 const About = () => {
   const setClientMode = useGeneralStore((state) => state.setClientMode);
@@ -46,7 +47,7 @@ const About = () => {
   return (
     <div className={styles.aboutPage}>
       <div className={styles.container}>
-        <h2>אודותינו</h2>
+        <h2 className={styles.mainTitle}>אודותינו</h2>
         <div className={styles.aboutContent}>
           <div
             className={styles.aboutUs}
@@ -57,10 +58,9 @@ const About = () => {
             <div className={styles.context}>
               <p>
                 <div className={styles.title}>מי אנחנו </div>
-                כאן תוכל לגלות, לנהל ולהנות <br></br>
-                מכל ההטבות שמגיעות לך
-                <br></br>מכל מועדוני הלקוחות שלך
-                <br></br>במקום אחד נוח ונגיש.
+                כאן תוכל לגלות, לנהל ולהנות מכל ההטבות שמגיעות לך מכל מועדוני הלקוחות שלך במקום אחד נוח ונגיש.
+                <br></br>
+                ב-PerkPoint אנחנו מקבצים את כל ההטבות, ההנחות, והמבצעים הבלעדיים שמגיעים לך, כך שתוכל להפיק את המרב מכל מועדון לקוחות אליו הצטרפת.
               </p>
             </div>
             <div className={styles.animation}>
@@ -87,8 +87,10 @@ const About = () => {
             </div>
             <p className={styles.context}>
               <div className={styles.title}>החזון שלנו</div>
-              אנחנו ב-PerkPoint שואפים להנגיש לך את כל ההטבות והמבצעים המיוחדים
-              בצורה קלה, מהירה ונוחה.
+              אנחנו ב-PerkPoint 
+          שואפים להנגיש לך את כל ההטבות והמבצעים המיוחדים בצורה קלה, מהירה ונוחה.<br/>
+              המטרה שלנו היא לרכז את כל ההטבות המגיעות לך מכל מועדוני הלקוחות שלך במקום אחד .
+              <br></br> ב-PerkPoint תוכל למצוא את כל ההטבות במקום אחד, לנהל את ההטבות האהובות עלייך ולהתעדכן במבצעים חדשים במהירות ובקלות.
             </p>
           </div>
 
@@ -147,13 +149,27 @@ const About = () => {
               </div>
             </div>
           </div>
+
+          <div
+            className={styles.logoContainer}
+            ref={(el) => {
+              if (el) sections.current.push(el);
+            }}
+          >
+            <img
+              src={logotransperent.src}
+              alt="Perk Point Logo"
+              className={styles.image}
+            />
+            <p className={styles.logoTitle}>כל ההטבות והמבצעים השווים במקום אחד!</p>
+          </div>
         </div>
         <div className={styles.line}>
           <div
             className={styles.testimonials}
             ref={(el) => {
               if (el) sections.current.push(el);
-            }}
+            }}   
           >
             <div className={styles.title}></div>
           </div>
@@ -166,18 +182,18 @@ const About = () => {
           }}
         >
           <div className={styles.title2}>מה אומרים עלינו?</div>
-          <div className={styles.testimonial}>
+          <div className={styles.tellAbout}>
             <p>"החיים שלי נהיו הרבה יותר קלים מאז שאני משתמשת ב-PerkPoint!"</p>
             <p>- יעל, לקוחה מרוצה</p>
           </div>
-          <div className={styles.testimonial}>
+          <div className={styles.tellAbout}>
             <p>
               "לא יודעת איך הסתדרתי בעבר בלי perk-point! אתר פשוט ונח, ממליצה
               לכולם!"
             </p>
             <p>- רחל, לקוחה מרוצה</p>
           </div>
-          <div className={styles.testimonial}>
+          <div className={styles.tellAbout}>
             <p>"מצאתי את כל ההטבות שאני אוהב במקום אחד. פשוט מדהים!"</p>
             <p>- משה, לקוח מרוצה</p>
           </div>
