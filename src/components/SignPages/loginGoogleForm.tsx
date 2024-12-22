@@ -24,19 +24,7 @@ const LoginGoogleForm = () => {
         null;
         console.log("exitedUser", exitedUser);
       if (exitedUser) {
-        const userS = {
-          _id: exitedUser?._id || "",
-          username: exitedUser?.username || "",
-          email: exitedUser?.email || "",
-          clubs:exitedUser?.clubs || [],
-          registrationDate:
-            exitedUser?.registrationDate || new Date().toISOString(),
-          savedBenefits:exitedUser?.savedBenefits || [],
-          city: exitedUser?.city || "",
-          isActive: true,
-          password: exitedUser?.password || "",
-        };
-        setCurrentUser(userS);
+        setCurrentUser(exitedUser);
         setClientMode(ClientMode.user);
         router.push("/");
       } else {
