@@ -10,6 +10,12 @@
   margin-bottom: 1vw;
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-right: 1vw;
+  box-sizing: border-box;
 }
 
 .clubCard:hover {
@@ -21,6 +27,8 @@
   height: 70px;
   width: auto;
   margin-bottom: 15px;
+  align-items: center;
+  justify-content: center;
 }
 
 .divider {

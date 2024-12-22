@@ -141,7 +141,16 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
         </div>
         <div className={styles.cardsContainer}>
           {benefitsToShow.length === 0 ? (
-            <div className={styles.noBenefitsMessage}>לא נמצאו הטבות</div>
+            <div className={styles.noBenefitsMessage}>
+              <div>לא נמצאו הטבות.</div>
+              {id !== "0" && clientMode === "USER" && showValidBenefits && (
+                <>
+                  <Link href="/clubs/0" className={styles.link}>
+                    להוספת מועדון
+                  </Link>
+                </>
+              )}
+            </div>
           ) : (
             benefitsToShow?.map((benefit) => (
               <BenefitsCard
