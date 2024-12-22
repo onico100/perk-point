@@ -5,6 +5,8 @@ import useGeneralStore from "@/stores/generalStore";
 import { ClientMode } from "@/types/types";
 import { usePathname, useRouter } from "next/navigation";
 import { PiUserCircleThin } from "react-icons/pi";
+import { signOut } from "@/services/auth";
+import { doLogout } from "../SignPages/actions";
 
 const TopBarButtons: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -36,10 +38,11 @@ const TopBarButtons: React.FC = () => {
     };
   }, []);
 
-  const handleDisconnect = () => {
+  const handleDisconnect = async () => {    
     setClientMode(ClientMode.general);
     setCurrentSupplier(null);
     setCurrentUser(null);
+    doLogout();
     router.push("/");
   };
 
