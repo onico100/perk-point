@@ -1,6 +1,14 @@
 import { ObjectId } from "mongodb";
 import { z } from "zod";
 
+
+export const passwordSchema = z
+  .string()
+  .min(6, "סיסמה חייבת להכיל לפחות 6 תווים.")
+  .regex(/[A-Za-z]/, "סיסמה חייבת להכיל לפחות אות אחת.")
+  .regex(/\d/, "סיסמה חייבת להכיל לפחות ספרה אחת.");
+
+
 export const branchSchema = z.object({
   nameBranch: z.string().min(1, "יש לבחור סניף."),
   city: z.string().min(3, "יש לבחור עיר."),

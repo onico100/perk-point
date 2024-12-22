@@ -1,5 +1,6 @@
 'use server'
-import { signIn} from '@/services/auth'
+import { signIn , signOut} from '@/services/auth'
+
 
 export async function doSocialLogin(formData) {
   const action = formData.get('action');
@@ -8,7 +9,6 @@ export async function doSocialLogin(formData) {
   return syUser;
 }
 
-
 export async function doLogout() {
-  await signOut({ redirectTo: "/" });
+  await signOut({ redirect: false });
 }

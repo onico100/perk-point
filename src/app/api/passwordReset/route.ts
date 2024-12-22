@@ -45,12 +45,12 @@ export async function POST(request: NextRequest) {
       subject: "איפוס סיסמה",
       html: `
         <div dir="rtl" style="font-family: Arial, sans-serif; line-height: 1.5; text-align: right; color: #333;">
-          <h2 style="color: #4caf50;">בקשת איפוס סיסמה</h2>
+          <h2 style="color:rgb(140, 76, 175);">בקשת איפוס סיסמה</h2>
           <p>שלום רב,</p>
           <p>קיבלנו בקשה לאיפוס סיסמה. לחץ על הקישור הבא כדי לאפס את הסיסמה שלך:</p>
           <p style=" margin: 20px 0;">
             <a href="${resetLink}" 
-               style="display: inline-block; background-color: #4caf50; color: white; padding: 10px 20px; 
+               style="display: inline-block; background-color:rgb(97, 76, 175); color: white; padding: 10px 20px; 
                       text-decoration: none; border-radius: 5px; font-weight: bold;">
               איפוס סיסמה
             </a>
