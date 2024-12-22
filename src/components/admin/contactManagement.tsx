@@ -51,7 +51,7 @@ const ContactManagement = () => {
       case "בוטל":
         return styles.cancelled;
       default:
-        return "";
+        return styles.received;
     }
   };
 
