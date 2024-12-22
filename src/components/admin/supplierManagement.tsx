@@ -9,6 +9,8 @@ const SupplierManagement = () => {
   const { suppliers, deleteSupplier } = useFetchSuppliers();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   const showDetailsModal = (supplier: Supplier) => {
     setSelectedSupplier(supplier);
@@ -24,12 +26,19 @@ const SupplierManagement = () => {
     deleteSupplier(supplierId);
   };
 
+  const totalPages = Math.ceil((suppliers?.length || 0) / itemsPerPage);
+  const currentSuppliers = suppliers?.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className={styles.container}>
       <h1>ניהול ספקים</h1>
       <table className={styles.table}>
         <thead>
           <tr>
+            <th>לוגו</th>
             <th>שם העסק</th>
             <th>אימייל</th>
             <th>טלפון</th>
@@ -37,8 +46,15 @@ const SupplierManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {suppliers?.map((supplier) => (
+          {currentSuppliers?.map((supplier) => (
             <tr key={supplier._id}>
+              <td>
+                <img
+                  src={supplier.supplierLogo || "/default-logo.png"}
+                  alt="Supplier Logo"
+                  className={styles.logo}
+                />
+              </td>
               <td>{supplier.businessName}</td>
               <td>{supplier.email}</td>
               <td>{supplier.phoneNumber}</td>
@@ -60,6 +76,18 @@ const SupplierManagement = () => {
           ))}
         </tbody>
       </table>
+
+      <div className={styles.pagination}>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentPage(index + 1)}
+            className={`${styles.pageButton} ${currentPage === index + 1 ? styles.activePage : ""}`}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
 
       <Modal
         title="Supplier Details"

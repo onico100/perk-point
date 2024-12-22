@@ -18,8 +18,6 @@ const DashboardComp = () => {
          return <SupplierManagement />;
     //   case "customer":
     //     return <CustomerManagement />;
-      default:
-        return <p>בחר פעולה מתוך לוח הניהול.</p>;
     }
   };
 
