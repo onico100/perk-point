@@ -7,8 +7,8 @@
   --foreground: #171717;
   direction: rtl;
   box-sizing: border-box;
-  --font-hebrew: Arial, "Varela Round", "Heebo", "IBM Plex Sans Hebrew", 
-    Helvetica, sans-serif;
+  /* --font-hebrew: Arial, "Varela Round", "Heebo", "IBM Plex Sans Hebrew", 
+    Helvetica, sans-serif; */
 }
 
 body {
@@ -124,4 +124,3 @@ body {
   background-color: #1da851; /* צבע כהה יותר עבור hover */
   transform: scale(1.1);
 }
-

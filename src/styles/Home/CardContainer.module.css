@@ -22,7 +22,7 @@
   transform: translateY(50px);
   animation: slideUp 1.8s forwards;
   font-size: 1rem;
-  font-family: "Varela Round", serif;
+  font-family: "Varela Round";
   font-weight: 800;
   font-size: 1.15rem;
 }
