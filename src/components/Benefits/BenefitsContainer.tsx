@@ -24,7 +24,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const { suppliers } = useFetchSuppliers();
   const { clubs, categories } = useFetchGeneral();
   const { clientMode } = useGeneralStore();
-  const { isBenefitDetailPage, setBenefitDetailPage, resetFiltersMain, setFiltersMain,resetFiltersPersenal, filtersMain, filtersPersenal } = useFilterStore();
+  const { isBenefitDetailPage, setBenefitDetailPage, resetFiltersMain, setFiltersMain, resetFiltersPersenal, filtersMain, filtersPersenal } = useFilterStore();
 
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
   const [showValidBenefits, setShowValidBenefits] = useState(true);
@@ -38,13 +38,13 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
 
   useEffect(() => {
     if (!isBenefitDetailPage) {
-        resetFiltersMain();
-        resetFiltersPersenal(); 
+      resetFiltersMain();
+      resetFiltersPersenal();
     }
-    else{
+    else {
       setBenefitDetailPage(false);
     }
-}, [resetFiltersMain, resetFiltersPersenal]);
+  }, [resetFiltersMain, resetFiltersPersenal]);
 
   const shuffleBenefits = (benefits: Benefit[]) => {
     return benefits.sort(() => Math.random() - 0.5);
@@ -91,8 +91,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
       ) {
         return false;
       }
-      if ((start && new Date(benefit.expirationDate) < start) || (end && new Date(benefit.expirationDate) > end)) 
-      {
+      if ((start && new Date(benefit.expirationDate) < start) || (end && new Date(benefit.expirationDate) > end)) {
         return false;
       }
       return true;
@@ -141,16 +140,20 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
           )}
         </div>
         <div className={styles.cardsContainer}>
-          {benefitsToShow?.map((benefit) => (
-            <BenefitsCard
-              key={benefit._id}
-              benefit={benefit}
-              supplier={suppliers?.find(
-                (s: Supplier) => s._id === benefit?.supplierId
-              )}
-              club={clubs?.find((c: Club) => c._id == benefit.clubId)}
-            />
-          ))}
+          {benefitsToShow.length === 0 ? (
+            <div className={styles.noBenefitsMessage}>לא נמצאו הטבות</div>
+          ) : (
+            benefitsToShow?.map((benefit) => (
+              <BenefitsCard
+                key={benefit._id}
+                benefit={benefit}
+                supplier={suppliers?.find(
+                  (s: Supplier) => s._id === benefit?.supplierId
+                )}
+                club={clubs?.find((c: Club) => c._id == benefit.clubId)}
+              />
+            )
+            ))}
           {id != "0" && clientMode == "SUPPLIER" && (
             <Link href="/addBenefit" className={styles.addButton}>
               <IoIosAddCircleOutline />
