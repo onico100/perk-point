@@ -111,7 +111,7 @@ const TopBarButtons: React.FC = () => {
         
         {clientMode === "ADMIN" && (
           <>
-            <h1>{currentSupplier?.providerName}</h1>
+            <h1>ניהול האתר</h1>
             <button
               className={`${styles.signupButton} ${
                 isScrolled ? styles.signupButtonScrolled : ""
