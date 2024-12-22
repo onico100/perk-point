@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Amatic+SC:wght@400;700&family=Assistant:wght@200..800&family=M+PLUS+Rounded+1c&family=Varela+Round&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Amatic+SC:wght@400;700&family=Assistant:wght@200..800&family=M+PLUS+Rounded+1c&family=Varela+Round&display=swap");
 
 /* CardContainer styles */
 .cardContainer {
@@ -21,7 +21,7 @@
   opacity: 0;
   transform: translateY(50px);
   animation: slideUp 1.8s forwards;
-  font-size: 1rem; 
+  font-size: 1rem;
   font-family: "Varela Round", serif;
   font-weight: 800;
   font-size: 1.15rem;
@@ -68,7 +68,7 @@
 }
 
 .card button:hover {
-  background-color: #0056b3;
+  transform: scale(1.02);
 }
 
 /* .card {
@@ -76,7 +76,6 @@
   transform: translateY(50px);
   animation: slideUp 0.5s forwards;
 } */
-
 
 .card:nth-child(2) {
   animation-delay: 0.2s;
