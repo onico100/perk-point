@@ -14,6 +14,7 @@ export const {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       authorization: {
         params: {
+          prompt: "select_account",
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
@@ -24,6 +25,10 @@ export const {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
+    async signOut({ session }) {
+      console.log("Session cleared for user:", session?.user?.email);
+      return true; 
+    },
     async signIn({ user }) {
       const { email, name } = user;
       if (!email) {
