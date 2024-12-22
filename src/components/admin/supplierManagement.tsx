@@ -1,7 +1,7 @@
 "use client";
 import styles from "@/styles/admin/supplierManagement.module.css";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { useFetchGeneral } from "@/hooks/useFetchGeneral"; // ייבוא הוק לקטגוריות
+import { useFetchGeneral } from "@/hooks/useFetchGeneral"; 
 import { useState } from "react";
 import { Modal, Button } from "antd";
 import { Category, Supplier } from "@/types/types";
