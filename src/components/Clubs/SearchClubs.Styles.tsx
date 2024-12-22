@@ -28,3 +28,9 @@ export const InputContainer = styled.div`
         color: black;
     }
 `;
+
+export const NoClubsMessage= styled.div`
+    text-align: center;
+    font-size: 1.5em;
+    color: #888; 
+`;
