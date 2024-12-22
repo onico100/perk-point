@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import styles from "@/styles/dashboardContact.module.css";
-import my_http from "@/services/http";
+import styles from "@/styles/admin/dashboardContact.module.css";
 import { ContactForm } from "@/types/types";
 import { getAllContactForms, updateContactFormStatus } from "@/services/contactServices";
 

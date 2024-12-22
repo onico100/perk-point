@@ -6,6 +6,7 @@ import {
   SearchContainer,
   InputContainer,
   SearchIcon,
+  NoClubsMessage,
 } from "./SearchClubs.Styles";
 import { ClubCard, TextInputFilter } from "@/components";
 
@@ -43,9 +44,13 @@ const ClubsContainer = ({ clubs, title }: ClubsContainerProps) => {
       <div className={styles.mainContainer}>
         <div className={styles.title}>{title}</div>
         <div className={styles.clubsContainer}>
-          {clubsToShow?.map((club: Club) => (
-            <ClubCard key={club._id} club={club}></ClubCard>
-          ))}
+          {clubsToShow.length === 0 ? (
+            <NoClubsMessage>לא נמצאו מועדונים</NoClubsMessage>
+          ) : (
+            clubsToShow?.map((club: Club) => (
+              <ClubCard key={club._id} club={club}></ClubCard>
+            )
+            ))}
         </div>
       </div>
     </div>
