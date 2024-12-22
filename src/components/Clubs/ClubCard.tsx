@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Club } from "@/types/types";
 import styles from "@/styles/Clubs/ClubCard.module.css";
 import { useParams } from "next/navigation";
@@ -21,6 +21,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
   const id = params.clientId;
   const { currentUser, clientMode, setCurrentUser } = useGeneralStore();
   const { mutate: updateUser, error } = useUpdateUserById();
+  const [isIn, setisIn] = useState(true);
 
   const addClub = async () => {
     let alertConfirm = await beforeActionAlert("");
@@ -83,6 +84,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
           }
         );
       }
+      setisIn(false);
     }
   };
 
@@ -94,7 +96,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
   };
 
   return (
-    <div className={styles.clubCard}>
+    <div className={`${styles.clubCard} ${isIn ? "" : styles.hide}`}>
       <img src={club.clubLogo} alt="Brand Logo" className={styles.logo} />
       <hr className={styles.divider} />
       <div className={styles.name}>{club.clubName}</div>
