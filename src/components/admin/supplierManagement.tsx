@@ -1,12 +1,14 @@
 "use client";
 import styles from "@/styles/admin/supplierManagement.module.css";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
+import { useFetchGeneral } from "@/hooks/useFetchGeneral"; // ייבוא הוק לקטגוריות
 import { useState } from "react";
 import { Modal, Button } from "antd";
-import { Supplier } from "@/types/types";
+import { Category, Supplier } from "@/types/types";
 
 const SupplierManagement = () => {
   const { suppliers, deleteSupplier } = useFetchSuppliers();
+  const { categories } = useFetchGeneral(); // שליפת קטגוריות
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,20 +92,37 @@ const SupplierManagement = () => {
       </div>
 
       <Modal
-        title="Supplier Details"
+        title="פרטי ספק"
         visible={isModalVisible}
         onCancel={handleCancel}
-        footer={<Button onClick={handleCancel}>Close</Button>}
+        footer={<Button onClick={handleCancel}>סגירה</Button>}
       >
         {selectedSupplier && (
           <div className={styles.modalContent}>
-            <p><strong>Business Name:</strong> {selectedSupplier.businessName}</p>
-            <p><strong>Provider Name:</strong> {selectedSupplier.providerName}</p>
-            <p><strong>Email:</strong> {selectedSupplier.email}</p>
-            <p><strong>Phone:</strong> {selectedSupplier.phoneNumber}</p>
-            <p><strong>Registration Date:</strong> {selectedSupplier.registrationDate ? new Date(selectedSupplier.registrationDate).toLocaleString("en-US")  : "Unknown"}</p>
-            <p><strong>Site Link:</strong> <a href={selectedSupplier.siteLink} target="_blank" rel="noopener noreferrer">{selectedSupplier.siteLink}</a></p>
-            <p><strong>Categories:</strong> {selectedSupplier.selectedCategories?.join(", ")}</p>
+            <p><strong>שם העסק:</strong> {selectedSupplier.businessName}</p>
+            <p><strong>שם איש קשר:</strong> {selectedSupplier.providerName}</p>
+            <p><strong>כתובת אימייל:</strong> {selectedSupplier.email}</p>
+            <p><strong>טלפון:</strong> {selectedSupplier.phoneNumber}</p>
+            <p>
+              <strong>תאריך הרשמה:</strong>{" "}
+              {selectedSupplier.registrationDate
+                ? new Date(selectedSupplier.registrationDate).toLocaleString("en-US")
+                : "Unknown"}
+            </p>
+            <p>
+              <strong>קישור לאתר:</strong>{" "}
+              <a href={selectedSupplier.siteLink} target="_blank" rel="noopener noreferrer">
+                {selectedSupplier.siteLink}
+              </a>
+            </p>
+            <p>
+              <strong>קטגוריות משויכות:</strong>{" "}
+              {selectedSupplier.selectedCategories
+                ?.map((categoryId) =>
+                  categories?.find((category: Category) => category._id === categoryId)?.categoryName
+                )
+                .join(", ")}
+            </p>
           </div>
         )}
       </Modal>
