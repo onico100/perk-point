@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import styles from "@/styles/general/resetPassword.module.css";
+import { passwordSchema } from "@/types/types";
 
 export default function PasswordReset() {
   const router = useRouter();
@@ -31,6 +33,12 @@ export default function PasswordReset() {
       return;
     }
 
+    const passwordValidation = passwordSchema.safeParse(newPassword);
+    if (!passwordValidation.success) {
+      setMessage(passwordValidation.error.errors[0].message);
+      return;
+    }
+
     if (!email || !role) {
       setMessage("קישור לא חוקי");
       return;
@@ -57,22 +65,26 @@ export default function PasswordReset() {
   };
 
   return (
-    <div>
-      <h1>איפוס סיסמה</h1>
-      {message && <p>{message}</p>}
+    <div className={styles.resetPasswordContainer}>
+      <h1 className={styles.resetPasswordTitle}>איפוס סיסמה</h1>
+      {message && <p className={styles.resetPasswordMessage}>{message}</p>}
       <input
         type="password"
         placeholder="סיסמה חדשה"
         value={newPassword}
         onChange={(e) => setNewPassword(e.target.value)}
+        className={styles.resetPasswordInput}
       />
       <input
         type="password"
         placeholder="אימות סיסמה"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
+        className={styles.resetPasswordInput}
       />
-      <button onClick={handleResetPassword}>איפוס סיסמה</button>
+      <button onClick={handleResetPassword} className={styles.resetPasswordButton}>
+        איפוס סיסמה
+      </button>
     </div>
   );
 }

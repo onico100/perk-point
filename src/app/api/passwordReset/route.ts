@@ -38,12 +38,6 @@ export async function POST(request: NextRequest) {
     });
 
     const resetLink = `http://localhost:3000/passwordReset?email=${encodeURIComponent(email)}&role=${role}`;
-    // const mailOptions = {
-    //   from: process.env.EMAIL_USER,
-    //   to: email,
-    //   subject: "איפוס סיסמה",
-    //   text: `לחץ על הקישור הבא לאיפוס הסיסמה: ${resetLink}`,
-    // };
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -51,12 +45,12 @@ export async function POST(request: NextRequest) {
       subject: "איפוס סיסמה",
       html: `
         <div dir="rtl" style="font-family: Arial, sans-serif; line-height: 1.5; text-align: right; color: #333;">
-          <h2 style="color: #4caf50;">בקשת איפוס סיסמה</h2>
+          <h2 style="color:rgb(140, 76, 175);">בקשת איפוס סיסמה</h2>
           <p>שלום רב,</p>
           <p>קיבלנו בקשה לאיפוס סיסמה. לחץ על הקישור הבא כדי לאפס את הסיסמה שלך:</p>
           <p style=" margin: 20px 0;">
             <a href="${resetLink}" 
-               style="display: inline-block; background-color: #4caf50; color: white; padding: 10px 20px; 
+               style="display: inline-block; background-color:rgb(97, 76, 175); color: white; padding: 10px 20px; 
                       text-decoration: none; border-radius: 5px; font-weight: bold;">
               איפוס סיסמה
             </a>
@@ -69,35 +63,6 @@ export async function POST(request: NextRequest) {
     };
     
 
-    // const mailOptions = {
-    //   from: process.env.EMAIL_USER,
-    //   to: email,
-    //   subject: "איפוס סיסמה",
-    //   html: `
-    //     <div dir="rtl" style="font-family: Arial, sans-serif; line-height: 1.5; color: #333; text-align: right;">
-    //       <h2 style="color: #4caf50; margin-bottom: 10px; text-align: center;">בקשת איפוס סיסמה</h2>
-    //       <p>שלום רב,</p>
-    //       <p>קיבלנו בקשה לאיפוס סיסמה. אם אכן שלחת בקשה זו, לחץ על הקישור הבא כדי לאפס את הסיסמה שלך:</p>
-    //       <div style="text-align: center; margin: 20px 0;">
-    //         <a href="${resetLink}" 
-    //           style="
-    //             display: inline-block; 
-    //             padding: 10px 20px; 
-    //             color: white; 
-    //             background-color: #4caf50; 
-    //             text-decoration: none; 
-    //             border-radius: 5px;
-    //             font-weight: bold;
-    //           ">
-    //           איפוס סיסמה
-    //         </a>
-    //       </div>
-    //       <p>אם לא שלחת בקשה זו, אין צורך לעשות דבר. אנו ממליצים לשמור על סיסמתך בטוחה.</p>
-    //       <br />
-    //       <p style="font-size: 0.9rem; color: #555;">תודה,<br />צוות האתר</p>
-    //     </div>
-    //   `,
-    // };
 
     await transporter.sendMail(mailOptions);
 

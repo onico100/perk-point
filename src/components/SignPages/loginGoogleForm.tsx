@@ -22,20 +22,9 @@ const LoginGoogleForm = () => {
       const exitedUser =
         (await returnUserCheckEmailService(session.user.email || "---")) ||
         null;
+        console.log("exitedUser", exitedUser);
       if (exitedUser) {
-        const userS = {
-          _id: exitedUser?._id || "",
-          username: exitedUser?.username || "",
-          email: exitedUser?.email || "",
-          clubs: [],
-          registrationDate:
-            exitedUser?.registrationDate || new Date().toISOString(),
-          savedBenefits: [],
-          city: exitedUser?.city || "",
-          isActive: true,
-          password: exitedUser?.password || "",
-        };
-        setCurrentUser(userS);
+        setCurrentUser(exitedUser);
         setClientMode(ClientMode.user);
         router.push("/");
       } else {
@@ -45,8 +34,11 @@ const LoginGoogleForm = () => {
   };
 
   useEffect(() => {
-    fetchUser();
-  }, [session]);
+    if (session?.user) {
+      fetchUser();
+    }
+  }, [session?.user]);
+  
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/utils/sweet-alerts.js"
-, "src/components/SignPages/actions.js", "src/app/dashboard"  ],
+, "src/components/SignPages/actions.js", "src/app/admin/dashboard"  ],
   "exclude": [
     "node_modules"
   ]

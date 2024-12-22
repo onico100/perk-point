@@ -1,0 +1,80 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-top: 30px;
+    font-family: "Varela Round", serif;
+  }
+  
+  .container h1 {
+    font-size: 2rem;
+    color: #4caf50;
+    margin-bottom: 10px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-size: 1rem;
+    font-family: "Varela Round", serif;
+  }
+  
+  .table th {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .detailsButton,
+  .deleteButton {
+    background: linear-gradient(to bottom, #b346e8, #87cdfa);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-right: 2px;
+    transition: background 0.3s ease;
+  }
+  
+  .detailsButton:hover,
+  .deleteButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .modalContent {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-family: "Varela Round", serif;
+  }
+  
+  .modalContent p {
+    margin: 10px 0;
+  }
+  
+  .modalContent a {
+    color: #b346e8;
+    text-decoration: none;
+  }
+  
+  .modalContent a:hover {
+    text-decoration: underline;
+  }
+  

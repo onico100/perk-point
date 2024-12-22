@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import DashboardComp from "@/components/admin/dashboardComponent";
 
 
 const dashPage = () => {
@@ -7,7 +8,9 @@ const dashPage = () => {
 
 
   return (
-      <h1>Admin dashboard page</h1>
+    <div > 
+      <DashboardComp/>                                          
+    </div>
   )
 }
 
