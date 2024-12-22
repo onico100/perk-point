@@ -37,6 +37,9 @@ const Footer: React.FC = () => {
                 <a href="/about">אודות</a>
               </li>
               <li>
+                <a href="/addClub">בקשה להוספת מועדון</a>
+              </li>
+              <li>
                 <a onClick={() => setIsContactPopupOpen(true)}>צור קשר</a>
               </li>
             </ul>
