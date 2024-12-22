@@ -4,7 +4,8 @@ import { useState } from "react";
 import ContactManagement from "./contactManagement";
 //import SupplierManagement from "@/components/SupplierManagement";
 //import CustomerManagement from "@/components/CustomerManagement"; 
-import styles from "@/styles/dashboard.module.css";
+import styles from "@/styles/admin/dashboard.module.css";
+import SupplierManagement from "./supplierManagement";
 
 const DashboardComp = () => {
   const [activeComponent, setActiveComponent] = useState<string>("");
@@ -13,8 +14,8 @@ const DashboardComp = () => {
     switch (activeComponent) {
       case "contact":
         return <ContactManagement />;
-    //   case "supplier":
-    //     return <SupplierManagement />;
+       case "supplier":
+         return <SupplierManagement />;
     //   case "customer":
     //     return <CustomerManagement />;
       default:
