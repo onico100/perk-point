@@ -61,6 +61,18 @@ export interface ContactForm {
   status: string;
 }
 
+export interface addClubForm {
+  _id: string;
+  clubName: string;
+  clubLink: string;
+  clubLogo?: string;
+  route?: string;  
+  comments?: string;
+  email: string;
+  isActive: boolean;
+  status: string;
+}
+
 export interface Benefit {
   _id?: string;
   supplierId: string;
