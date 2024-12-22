@@ -17,13 +17,15 @@ import {
   ActionButtons,
 } from "@/components";
 import { UpdateState } from "@/types/benefits/types"
+import { getVaildBenefits } from "@/utils/benefitsUtils";
+
 
 
 
 interface BenefitsDetailsProps {
-  specificBenefit?: Benefit;
-  specificSupplier?: Supplier;
-  specificClub?: Club;
+  specificBenefit: Benefit;
+  specificSupplier: Supplier;
+  specificClub: Club;
 }
 
 const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, specificSupplier, specificClub }) => {
@@ -48,6 +50,14 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, spec
     const userConfirmed = await confirmChangesAlert();
     if (userConfirmed && updateState.updatedBenefit) {
       try {
+        const expirationDate = new Date(updateState.updatedBenefit.expirationDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (expirationDate <= today) {
+            alert("תוקף חיב להיות בעתיד");
+            return; 
+        }
         if (updateState.updatedBenefit._id) {
           await updateBenefit({
             id: updateState.updatedBenefit._id,
@@ -104,8 +114,11 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, spec
     currentSupplier._id === specificSupplier._id;
 
 
-  const isExpired = updateState.updatedBenefit?.expirationDate &&
-    new Date(updateState.updatedBenefit.expirationDate) < new Date();
+  // const isExpired = updateState.updatedBenefit?.expirationDate &&
+  //   new Date(updateState.updatedBenefit.expirationDate) < new Date();
+
+  const isExpired = getVaildBenefits([specificBenefit]).length == 0;
+
 
 
   return (
