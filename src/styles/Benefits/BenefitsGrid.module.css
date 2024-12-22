@@ -99,3 +99,20 @@ input[type="checkbox"]:checked + .toggleSwitch::before {
   align-items: center;
   margin-bottom: 10px;
 }
+
+.noBenefitsMessage {
+  text-align: center;
+  font-size: 1.5em;
+  color: #888; 
+}
+
+.link {
+  margin-left: 5px; 
+  color: #0070f3; 
+  text-decoration: underline; 
+  cursor: pointer; 
+}
+
+.link:hover {
+  color: #0056b3; 
+}

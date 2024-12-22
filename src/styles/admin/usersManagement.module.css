@@ -1,0 +1,60 @@
+.container {
+    padding: 20px;
+    font-family: "Varela Round", sans-serif;
+    min-height: 100vh;
+    margin-top: 50px;
+  }
+  
+  .container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    color: #4caf50;
+    text-shadow: 1px 1px 2px #388e3c;
+  }
+  
+  .chartContainer {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .chart {
+    width: 45%;
+    min-width: 300px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .chart:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .chart h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .chart canvas {
+    max-height: 300px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .chart {
+      width: 90%;
+    }
+  }
+  
+  .container  p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  

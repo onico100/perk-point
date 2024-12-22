@@ -36,6 +36,7 @@ export async function POST(req: Request) {
         textQuery,
         languageCode: "iw", 
         maxResultCount: 200, 
+        regionCode: "IL", 
       }),
     });
 
