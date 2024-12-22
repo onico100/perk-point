@@ -9,7 +9,7 @@
 }
 
 .container {
-  margin: 0 auto;
+  margin-right: 15vw;
   display: flex;
   flex-wrap: wrap; /* Ensures responsiveness */
   justify-content: space-between;

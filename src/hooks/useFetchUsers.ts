@@ -8,6 +8,7 @@ import {
   deleteUserById,
   getUserById,
   getUserByCredentials,
+  getAllUsers
 } from "@/services/usersServices";
 import { useRouter } from "next/navigation";
 import { errorAlert, inProccesAlert, successAlert } from "@/utils/sweet-alerts";
@@ -16,6 +17,22 @@ const setCurrentUser = useGeneralStore.getState().setCurrentUser;
 const currentUser = useGeneralStore.getState().currentUser;
 
 
+export const useUsersStatistics = () => {
+  const { data: users, isLoading, isFetching } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const users = await getAllUsers();
+      return users;
+    },
+    staleTime: 600000, 
+  });
+
+  return {
+    users,
+    isLoading,
+    isFetching,
+  };
+};
 
 export const useGetUserById = (id: string) => {
   return useQuery<User, Error>({

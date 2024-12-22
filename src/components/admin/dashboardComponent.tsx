@@ -6,6 +6,7 @@ import ContactManagement from "./contactManagement";
 //import CustomerManagement from "@/components/CustomerManagement"; 
 import styles from "@/styles/admin/dashboard.module.css";
 import SupplierManagement from "./supplierManagement";
+import UsersManagement from "./usersManagement";
 
 const DashboardComp = () => {
   const [activeComponent, setActiveComponent] = useState<string>("");
@@ -14,19 +15,16 @@ const DashboardComp = () => {
     switch (activeComponent) {
       case "contact":
         return <ContactManagement />;
-       case "supplier":
-         return <SupplierManagement />;
-    //   case "customer":
-    //     return <CustomerManagement />;
-      default:
-        return <p>בחר פעולה מתוך לוח הניהול.</p>;
+      case "supplier":
+        return <SupplierManagement />;
+      case "users":
+        return <UsersManagement />;
     }
   };
 
   return (
     <div className={styles.dashboard}>
-      <h1>לוח ניהול</h1>
-      <div className={styles.buttonsContainer}>
+      <div className={styles.sidebar}>
         <button
           className={styles.dashboardButton}
           onClick={() => setActiveComponent("contact")}
@@ -41,14 +39,12 @@ const DashboardComp = () => {
         </button>
         <button
           className={styles.dashboardButton}
-          onClick={() => setActiveComponent("customer")}
+          onClick={() => setActiveComponent("users")}
         >
           ניהול לקוחות
         </button>
       </div>
-      <div className={styles.contentContainer}>
-        {renderComponent()}
-      </div>
+      <div className={styles.contentContainer}>{renderComponent()}</div>
     </div>
   );
 };
