@@ -38,7 +38,7 @@
 }
 
 .uploadButton:hover {
-    border: 1px solid #000;
+    border: 2px solid #000;
     background: linear-gradient(to right, #b346e8, #87cdfa);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -108,11 +108,7 @@ input[type="checkbox"]:checked+.toggleSwitch::before {
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-.input:focus,
-.textarea:focus {
-    border-color: #b346e8;
+    transition: border-color 0.3s ease;
 }
 
 .textarea {
@@ -131,18 +127,23 @@ input[type="checkbox"]:checked+.toggleSwitch::before {
     transition: background 0.3s;
 }
 
+.submitButton:disabled {
+    background: #ccc; 
+    cursor: not-allowed;
+}
+
 .submitButton:hover {
     background: linear-gradient(to right, #a344d3, #7ec0ea);
 }
 
 .error {
     color: red;
-    text-align: center;
+    text-align: left;
 }
 
 .success {
     color: green;
-    text-align: center;
+    text-align: left;
 }
 
 .noApi {

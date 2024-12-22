@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
             email,
         } = await request.json();
 
-        if (!clubName || !clubLink || !clubLogo || !email) {
+        if (!clubName || !clubLink || !email) {
             return NextResponse.json(
                 { message: "חסר שדה." },
                 { status: 400 }
@@ -34,7 +34,8 @@ export async function POST(request: NextRequest) {
         }
 
         const db = client.db("benefits-site");
-        const collection = db.collection("contact_forms_collection");
+        const collection = db.collection("contact_addClub_collection");
+
 
         const contactData = {
             clubName,
@@ -45,6 +46,7 @@ export async function POST(request: NextRequest) {
             email,
             createdAt: new Date().toISOString(),
             isActive: true,
+            status: "received"
         };
 
         await collection.insertOne(contactData);
@@ -67,7 +69,7 @@ export async function POST(request: NextRequest) {
                 <h3 style="color:rgb(119, 13, 96); margin-bottom: 10px;">בקשה לרישום מועדון חדש</h3>
                 <p><strong>שם המועדון:</strong> ${clubName}</p>
                 <p><strong>קישור:</strong> ${clubLink}</p>
-                <p><strong>קישור ללוגו:</strong> ${clubLogo}</p>
+                <p><strong>קישור ללוגו:</strong> ${clubLogo || "לא צורף לוגו."}</p>
                 ${isApi ? `<p><strong>ניתוב:</strong> ${route}</p>` : ""}
                 <p><strong>הערות:</strong> ${comments || "אין הערות."}</p>
                 <p><strong>אימייל:</strong> <a href="mailto:${email}">${email}</a></p>
@@ -89,7 +91,7 @@ export async function POST(request: NextRequest) {
             <p><strong>פרטים:</strong></p>
             <p>קישור: ${clubLink}</p>
             <p><strong> ללוגו:</strong></p>
-            <img src="${clubLogo}" alt="לוגו" style="max-width: 150px; margin-bottom: 20px;" />
+            <img src="${clubLogo}" alt="לא צורף לוגו." style="max-width: 150px; margin-bottom: 20px;" />
             ${isApi ? `<p>ניתוב: ${route}</p>` : ""}
             <p><strong>הערות:</strong> ${comments || "אין הערות."}</p>  
             <br />
