@@ -99,3 +99,7 @@
   background-color: #f5c2c7;
   transform: scale(1.03);
 }
+
+.hide {
+  display: none;
+}

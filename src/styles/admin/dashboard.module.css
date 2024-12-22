@@ -5,37 +5,13 @@
     justify-content: center;
     padding: 20px;
     font-family: Arial, sans-serif;
+    padding-bottom: 40px;
   }
   
   .dashboard h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
     color: #333;
-  }
-  
-  .buttonsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  .dashboardButton {
-    background: linear-gradient(to right, #4caf50, #81c784);
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
-    padding: 20px 40px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-  }
-  
-  .dashboardButton:hover {
-    transform: scale(1.1);
-    background: linear-gradient(to right, #388e3c, #66bb6a);
   }
   
   .dashboardButton:active {
@@ -46,4 +22,44 @@
     outline: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
+
+  .sidebar {
+    position: fixed;
+    top: 70px;
+    right: 0;
+    height: 100%;
+    width: 200px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 10px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .dashboardButton {
+    width: 150px;
+    margin-bottom: 20px;
+    background: linear-gradient(to bottom, #932ccb, #5826cc);
+    color: white;
+    border: none;
+    border-radius:3px;
+    padding: 25px 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .dashboardButton:hover {
+    background: linear-gradient(to bottom, #6f2199, #411b9b);
+    transform: scale(1.05);
+  }
+  
+  .contentContainer {
+    margin-right: 220px;
+    padding: 20px;
+  }
+  
   

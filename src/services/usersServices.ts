@@ -6,6 +6,12 @@ export async function getUserById(id: string): Promise<User> {
   const response = await my_http.get(`/users/get/${id}`);
   return response.data;
 }
+export async function getAllUsers(): Promise<User> {
+  const response = await my_http.get("/users/get");
+  return response.data;
+}
+
+
 
 export async function getUserByCredentials(
   email: string,
