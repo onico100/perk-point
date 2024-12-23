@@ -128,7 +128,7 @@ const ClubsContactsManagement = () => {
                         {clubC.status === "received" && (
                           <>
                             <button
-                              className={styles.rejectButton}
+                              className={styles.detailsButton}
                               onClick={() =>
                                 openClubDetails(clubC)
                               }
