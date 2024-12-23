@@ -1,45 +1,30 @@
-import { useFetchGeneral } from "@/hooks/useFetchGeneral";
-import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import my_http from "@/services/http";
-import useGeneralStore from "@/stores/generalStore";
-import useSupplierStore from "@/stores/suppliersStore";
 import { Benefit, Club, Supplier } from "@/types/types";
 import {
   getApiClubs,
   getBenefitsClubsWithSupplierId,
 } from "@/utils/clubsUtils";
 import { getAllClubs } from "./clubsService";
-import { getAllSuppliers } from "./suppliersServices";
-
 export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
   const dataBaseBenefits = await getAllBenefits();
-  console.log(222, dataBaseBenefits);
   const clubs = await getAllClubs();
   let clubsWithApi: Club[] = [];
   if (clubs && clubs.length > 0) {
-    console.log(333, "clubssssssssssssss");
     clubsWithApi = getApiClubs(clubs);
   } else {
     console.log("Error fetching clubs");
     return dataBaseBenefits;
   }
-  console.log(222, "clubs", clubsWithApi);
-
-  // Fetch benefits for each club with API data and map them to the desired format
   const allApiBenefits: Benefit[] = [];
 
   for (const club of clubsWithApi) {
-    const clubBenefits = await fetchBenefits(club._id, club.clubRoute || ""); // Fetch benefits for the club
-    const mappedBenefits = await getBenefitsClubsWithSupplierId(clubBenefits); // Map the fetched benefits to the desired format
-
-    // Assign the current club ID to all benefits and collect them
+    const clubBenefits = await fetchBenefits(club._id, club.clubRoute || "");
+    const mappedBenefits = await getBenefitsClubsWithSupplierId(clubBenefits);
     mappedBenefits.forEach((benefit) => {
       benefit.clubId = club._id;
       allApiBenefits.push(benefit);
     });
   }
-
-  console.log(2222, "result", [...dataBaseBenefits, ...allApiBenefits]);
   return [...dataBaseBenefits, ...allApiBenefits];
 }
 
