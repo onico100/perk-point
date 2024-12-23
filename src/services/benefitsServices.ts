@@ -1,6 +1,45 @@
 import my_http from "@/services/http";
-import { Benefit } from "@/types/types";
+import { Benefit, Club, Supplier } from "@/types/types";
+import {
+  getApiClubs,
+  getBenefitsClubsWithSupplierId,
+} from "@/utils/clubsUtils";
+import { getAllClubs } from "./clubsService";
+export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
+  const dataBaseBenefits = await getAllBenefits();
+  const clubs = await getAllClubs();
+  let clubsWithApi: Club[] = [];
+  if (clubs && clubs.length > 0) {
+    clubsWithApi = getApiClubs(clubs);
+  } else {
+    console.log("Error fetching clubs");
+    return dataBaseBenefits;
+  }
+  const allApiBenefits: Benefit[] = [];
 
+  for (const club of clubsWithApi) {
+    const clubBenefits = await fetchBenefits(club._id, club.clubRoute || "");
+    const mappedBenefits = await getBenefitsClubsWithSupplierId(clubBenefits);
+    mappedBenefits.forEach((benefit) => {
+      benefit.clubId = club._id;
+      allApiBenefits.push(benefit);
+    });
+  }
+  return [...dataBaseBenefits, ...allApiBenefits];
+}
+
+const fetchBenefits = async (clubId: string, route: string) => {
+  try {
+    const response = await fetch(`${route}/api/benefits?clubId=${clubId}`);
+    if (!response.ok) {
+      throw new Error(`Error fetching benefits: ${response.statusText}`);
+    }
+    const data: Benefit[] = await response.json();
+    return data;
+  } catch (err: any) {
+    return err.message;
+  }
+};
 export async function getAllBenefits(): Promise<Benefit[]> {
   try {
     const response = await my_http.post("/benefits/get");

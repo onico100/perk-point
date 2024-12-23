@@ -42,7 +42,6 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
     }
   };
   
-  
 
   const toggleGoogleSuggestion = (branch: Branch) => {
     const isSelected = selectedBranches.some(

@@ -2,7 +2,9 @@
 import { LoadingSpinner, ClubsContainer } from "@/components";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode, Club } from "@/types/types";
+import { ClientMode, Club, ClubStatus } from "@/types/types";
+import { getActiveClubs } from "@/utils/clubsUtils";
+import { get } from "http";
 import { useParams } from "next/navigation";
 
 export default function Clubs() {
@@ -19,12 +21,12 @@ export default function Clubs() {
   let currentTitle = titles[0];
 
   if (clubs) {
+    clubsToShow = getActiveClubs(clubs);
     if (id !== "0" && clientMode == "USER") {
       clubsToShow =
-        clubs.filter((c: Club) => currentUser?.clubs?.includes(c._id)) || [];
+        clubsToShow.filter((c: Club) => currentUser?.clubs?.includes(c._id)) ||
+        [];
       currentTitle = titles[1];
-    } else {
-      clubsToShow = clubs;
     }
   }
 

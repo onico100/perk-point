@@ -28,7 +28,7 @@ export const supplierSchema = z.object({
     .regex(/^\d{9,10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
   siteLink: z.string().url("כתובת האתר אינה חוקית."),
   supplierLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית."),
-  branches: z.array(branchSchema).nonempty("חייב להוסיף לפחות סניף אחד."),
+  branches: z.array(z.string()).nonempty("חייב לבחור לפחות סניף אחד."),
   selectedCategories: z
     .array(z.string())
     .nonempty("חייב לבחור לפחות קטגוריה אחת."),
@@ -57,6 +57,18 @@ export interface ContactForm {
   email: string;
   messageContent: string;
   createdAt: string;
+  isActive: boolean;
+  status: string;
+}
+
+export interface addClubForm {
+  _id: string;
+  clubName: string;
+  clubLink: string;
+  clubLogo?: string;
+  route?: string;  
+  comments?: string;
+  email: string;
   isActive: boolean;
   status: string;
 }
@@ -112,6 +124,9 @@ export interface Club {
   clubLink: string;
   clubLogo: string;
   isActive: Boolean;
+  APIData: Boolean;
+  clubRoute?: string;
+  clubStatus: ClubStatus;
 }
 
 export enum ClientMode {
@@ -143,3 +158,9 @@ export const userGoogleSchema = z.object({
 });
 
 export type UserGoogleFormValues = z.infer<typeof userGoogleSchema>;
+
+export enum ClubStatus {
+  active = "ACTIVE",
+  inactive = "INACTIVE",
+  pending = "PENDING",
+}
