@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useBenefitStore } from "@/stores/benefitsStore";
 import { Benefit } from "@/types/types";
 import {
-  getAllBenefits,
+  //getAllBenefits,
   addBenefit,
   deleteBenefitById,
   updateBenefitById,

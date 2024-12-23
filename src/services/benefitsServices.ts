@@ -7,9 +7,16 @@ import {
 } from "@/utils/clubsUtils";
 
 export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
-  const dataBaseBenefits = await getAllBenefits(); // Fetch existing benefits from the database
-  const clubsWithApi: Club[] = getApiClubs(); // Get club details
+  const dataBaseBenefits = await getAllBenefits();
+  console.log(222, dataBaseBenefits);
+  const clubsWithApi: Club[] = getApiClubs();
+  console.log(222, "clubs", clubsWithApi);
   const { suppliers } = useFetchSuppliers();
+  if (!suppliers) {
+    console.error("Error fetching suppliers");
+    return dataBaseBenefits;
+  }
+  // Fetch benefits for each club with API data and map them to the desired format
   const allApiBenefits: Benefit[] = [];
   if (suppliers)
     for (const club of clubsWithApi) {
@@ -26,7 +33,7 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
       });
     }
 
-  // Combine database benefits with API benefits
+  console.log(2222, [...dataBaseBenefits, ...allApiBenefits]);
   return [...dataBaseBenefits, ...allApiBenefits];
 }
 
