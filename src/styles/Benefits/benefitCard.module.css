@@ -76,12 +76,15 @@
   bottom: 20px;
   left: 30px;
 }
+
 .deleteButton svg {
   font-size: 35px;
   color: #474747;
   position: absolute;
   bottom: 20px;
+  right: 20px;
 }
+
 .button:hover {
   background: linear-gradient(to bottom, #a344d3, #7ec0ea);
   transform: scale(1.05);
