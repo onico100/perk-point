@@ -24,27 +24,20 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
     return dataBaseBenefits;
   }
   console.log(222, "clubs", clubsWithApi);
-  const suppliers = getAllSuppliers();
-  if (!suppliers) {
-    console.error("Error fetching suppliers");
-    return dataBaseBenefits;
-  }
+
   // Fetch benefits for each club with API data and map them to the desired format
   const allApiBenefits: Benefit[] = [];
-  if (suppliers)
-    for (const club of clubsWithApi) {
-      const clubBenefits = await fetchBenefits(club._id, club.clubRoute || ""); // Fetch benefits for the club
-      const mappedBenefits = getBenefitsClubsWithSupplierId(
-        clubBenefits,
-        suppliers || []
-      ); // Map the fetched benefits to the desired format
 
-      // Assign the current club ID to all benefits and collect them
-      mappedBenefits.forEach((benefit) => {
-        benefit.clubId = club._id;
-        allApiBenefits.push(benefit);
-      });
-    }
+  for (const club of clubsWithApi) {
+    const clubBenefits = await fetchBenefits(club._id, club.clubRoute || ""); // Fetch benefits for the club
+    const mappedBenefits = await getBenefitsClubsWithSupplierId(clubBenefits); // Map the fetched benefits to the desired format
+
+    // Assign the current club ID to all benefits and collect them
+    mappedBenefits.forEach((benefit) => {
+      benefit.clubId = club._id;
+      allApiBenefits.push(benefit);
+    });
+  }
 
   console.log(2222, "result", [...dataBaseBenefits, ...allApiBenefits]);
   return [...dataBaseBenefits, ...allApiBenefits];
