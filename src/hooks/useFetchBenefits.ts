@@ -8,6 +8,7 @@ import {
   addBenefit,
   deleteBenefitById,
   updateBenefitById,
+  getAllBenefitsFormAll,
 } from "@/services/benefitsServices";
 import { successAlert, inProccesAlert, errorAlert } from "@/utils/sweet-alerts";
 
@@ -19,7 +20,7 @@ export const useFetchBenefits = () => {
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["benefits"],
     queryFn: async () => {
-      const benefits = await getAllBenefits();
+      const benefits = await getAllBenefitsFormAll();
       setBenefits(benefits);
       return benefits;
     },
