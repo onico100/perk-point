@@ -1,6 +1,8 @@
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import my_http from "@/services/http";
+import useGeneralStore from "@/stores/generalStore";
+import useSupplierStore from "@/stores/suppliersStore";
 import { Benefit, Club, Supplier } from "@/types/types";
 import {
   getApiClubs,
@@ -10,17 +12,18 @@ import {
 export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
   const dataBaseBenefits = await getAllBenefits();
   console.log(222, dataBaseBenefits);
-  const { clubs } = useFetchGeneral();
+  const { clubs } = useGeneralStore();
   let clubsWithApi: Club[] = [];
+  console.log(5555, "dxfd");
   if (clubs) {
     console.log(333, "clubssssssssssssss");
     clubsWithApi = getApiClubs(clubs);
   } else {
-    console.error("Error fetching clubs");
+    console.log("Error fetching clubs");
     return dataBaseBenefits;
   }
   console.log(222, "clubs", clubsWithApi);
-  const { suppliers } = useFetchSuppliers();
+  const { suppliers } = useSupplierStore();
   if (!suppliers) {
     console.error("Error fetching suppliers");
     return dataBaseBenefits;
