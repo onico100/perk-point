@@ -15,7 +15,10 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
   if (clubs) {
     console.log(333, "clubssssssssssssss");
     clubsWithApi = getApiClubs(clubs);
-  } else return dataBaseBenefits;
+  } else {
+    console.error("Error fetching clubs");
+    return dataBaseBenefits;
+  }
   console.log(222, "clubs", clubsWithApi);
   const { suppliers } = useFetchSuppliers();
   if (!suppliers) {
