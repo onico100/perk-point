@@ -8,14 +8,15 @@ import {
   getApiClubs,
   getBenefitsClubsWithSupplierId,
 } from "@/utils/clubsUtils";
+import { getAllClubs } from "./clubsService";
+import { getAllSuppliers } from "./suppliersServices";
 
 export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
   const dataBaseBenefits = await getAllBenefits();
   console.log(222, dataBaseBenefits);
-  const { clubs } = useGeneralStore();
+  const clubs = await getAllClubs();
   let clubsWithApi: Club[] = [];
-  console.log(5555, "dxfd");
-  if (clubs) {
+  if (clubs && clubs.length > 0) {
     console.log(333, "clubssssssssssssss");
     clubsWithApi = getApiClubs(clubs);
   } else {
@@ -23,7 +24,7 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
     return dataBaseBenefits;
   }
   console.log(222, "clubs", clubsWithApi);
-  const { suppliers } = useSupplierStore();
+  const suppliers = getAllSuppliers();
   if (!suppliers) {
     console.error("Error fetching suppliers");
     return dataBaseBenefits;
@@ -45,7 +46,7 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
       });
     }
 
-  console.log(2222, [...dataBaseBenefits, ...allApiBenefits]);
+  console.log(2222, "result", [...dataBaseBenefits, ...allApiBenefits]);
   return [...dataBaseBenefits, ...allApiBenefits];
 }
 
