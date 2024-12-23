@@ -114,8 +114,6 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, spec
     currentSupplier._id === specificSupplier._id;
 
 
-  // const isExpired = updateState.updatedBenefit?.expirationDate &&
-  //   new Date(updateState.updatedBenefit.expirationDate) < new Date();
   let isExpired = false;
 
   if(specificBenefit)

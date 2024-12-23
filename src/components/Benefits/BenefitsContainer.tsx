@@ -33,7 +33,9 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const id = params.clientId;
 
   useEffect(() => {
-    setBenefitsToShow(shuffleBenefits(getVaildBenefits(benefits)));
+    if (benefits.length > 0) {
+      setBenefitsToShow(getVaildBenefits(benefits));
+    }
   }, [benefits]);
 
   useEffect(() => {
@@ -44,11 +46,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
     else {
       setBenefitDetailPage(false);
     }
-  }, [resetFiltersMain, resetFiltersPersenal]);
-
-  const shuffleBenefits = (benefits: Benefit[]) => {
-    return benefits.sort(() => Math.random() - 0.5);
-  };
+  }, [isBenefitDetailPage]);
 
   const handleSearch = (
     supplierFilter: string,
@@ -98,7 +96,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
     });
 
     const dateFilteredBenefits = filteredBenefits?.filter((benefit) => {
-      const isExpired = new Date(benefit.expirationDate) < new Date();
+      const isExpired = getVaildBenefits([benefit]).length == 0;     
       return showValidBenefits ? !isExpired : isExpired;
     });
     setBenefitsToShow(dateFilteredBenefits || []);
