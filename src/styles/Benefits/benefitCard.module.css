@@ -126,3 +126,8 @@
   width: 53px;
   cursor: pointer;
 }
+
+.deleteButton.disabled {
+  cursor: not-allowed;
+  opacity: 0.6; /* Optional: Dim the button */
+}

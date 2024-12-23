@@ -175,8 +175,7 @@
   cursor: pointer;
 }
 
-
-.plusIcon{
+.plusIcon {
   cursor: pointer;
   z-index: 1;
   margin-bottom: 2px;
@@ -310,4 +309,9 @@
 .cancelButton:hover,
 .button:hover {
   transform: scale(1.05);
+}
+
+.updateButton.disabled {
+  cursor: not-allowed;
+  opacity: 0.6; /* Optional: Dim the button */
 }

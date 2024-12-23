@@ -3,6 +3,7 @@ import React from "react";
 import styles from "@/styles/Benefits/BenefitDetais.module.css";
 
 interface ActionButtonsProps {
+  isClubApi: boolean;
   isUpdateMode: boolean;
   setIsUpdateMode: () => void;
   handleSave: () => Promise<void>;
@@ -10,6 +11,7 @@ interface ActionButtonsProps {
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
+  isClubApi,
   isUpdateMode,
   setIsUpdateMode,
   handleSave,
@@ -17,7 +19,11 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 }) => (
   <div className={styles.updateContainer}>
     {!isUpdateMode && (
-      <button className={styles.updateButton} onClick={setIsUpdateMode}>
+      <button
+        className={`${styles.updateButton} ${isClubApi ? styles.disabled : ""}`}
+        title={isClubApi ? "רק המועדון יכול לערוך" : ""}
+        onClick={setIsUpdateMode}
+      >
         עידכון
       </button>
     )}
