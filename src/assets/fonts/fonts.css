@@ -1,4 +1,31 @@
 @font-face {
+    font-family: 'OhAmitMan';
+    src: url('OhAmitMan-Regular.woff2') format('woff2'),
+        url('OhAmitMan-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Shiranink';
+    src: url('Shiranink-Regular.woff2') format('woff2'),
+        url('Shiranink-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sn_wet_michol';
+    src: url('Sn_wet_michol.woff2') format('woff2'),
+        url('Sn_wet_michol.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
     font-family: 'Varela Round';
     src: url('VarelaRound-Regular.woff2') format('woff2'),
         url('VarelaRound-Regular.woff') format('woff');
@@ -115,3 +142,20 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Rubik';
+    src: url('Rubik-Light.woff2') format('woff2'),
+        url('Rubik-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url('Rubik-LightItalic.woff2') format('woff2'),
+        url('Rubik-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
