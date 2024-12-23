@@ -61,6 +61,18 @@ export interface ContactForm {
   status: string;
 }
 
+export interface addClubForm {
+  _id: string;
+  clubName: string;
+  clubLink: string;
+  clubLogo?: string;
+  route?: string;  
+  comments?: string;
+  email: string;
+  isActive: boolean;
+  status: string;
+}
+
 export interface Benefit {
   _id?: string;
   supplierId: string;
@@ -107,11 +119,16 @@ export interface Category {
 }
 
 export interface Club {
-  _id: string;
+  _id?: string;
   clubName: string;
   clubLink: string;
   clubLogo: string;
   isActive: Boolean;
+  APIData: Boolean;
+  clubRoute?: string;
+  clubStatus: ClubStatus;
+  createdAt?: Date,
+  email: string;
 }
 
 export enum ClientMode {
@@ -143,3 +160,9 @@ export const userGoogleSchema = z.object({
 });
 
 export type UserGoogleFormValues = z.infer<typeof userGoogleSchema>;
+
+export enum ClubStatus {
+  active = "ACTIVE",
+  inactive = "INACTIVE",
+  pending = "PENDING",
+}
