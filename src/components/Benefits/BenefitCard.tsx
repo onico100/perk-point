@@ -33,6 +33,8 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
 
   const isExpired = getVaildBenefits([benefit]).length == 0;
 
+  const isClubApi = club ? club.APIData : false;
+
   const id = params.clientId;
   const { clientMode } = useGeneralStore();
 
@@ -145,7 +147,13 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
         ))}
 
       {(clientMode == "ADMIN" || (id != "0" && clientMode == "SUPPLIER")) && (
-        <div className={styles.deleteButton} onClick={deleteBenefitFunc}>
+        <div
+          className={`${styles.deleteButton} ${
+            isClubApi ? styles.disabled : ""
+          }`}
+          onClick={!isClubApi ? deleteBenefitFunc : undefined}
+          title={isClubApi ? "רק המועדון יכול למחוק" : ""}
+        >
           <MdDelete />
         </div>
       )}

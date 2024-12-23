@@ -11,16 +11,9 @@ import {
   confirmChangesAlert,
 } from "@/utils/sweet-alerts";
 import { FaArrowRight } from "react-icons/fa";
-import {
-  BenefitInfoRight,
-  BenefitInfoLeft,
-  ActionButtons,
-} from "@/components";
-import { UpdateState } from "@/types/benefits/types"
+import { BenefitInfoRight, BenefitInfoLeft, ActionButtons } from "@/components";
+import { UpdateState } from "@/types/benefits/types";
 import { getVaildBenefits } from "@/utils/benefitsUtils";
-
-
-
 
 interface BenefitsDetailsProps {
   specificBenefit?: Benefit;
@@ -28,15 +21,17 @@ interface BenefitsDetailsProps {
   specificClub?: Club;
 }
 
-const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, specificSupplier, specificClub }) => {
-
+const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({
+  specificBenefit,
+  specificSupplier,
+  specificClub,
+}) => {
   const router = useRouter();
-
+  const isClubApi = specificClub ? specificClub.APIData : false;
   const { updateBenefit } = useFetchBenefits();
 
   const clientMode = useGeneralStore((state) => state.clientMode);
   const currentSupplier = useGeneralStore((state) => state.currentSupplier);
-
 
   const [updateState, setUpdateState] = useState<UpdateState>({
     isUpdateMode: false,
@@ -50,13 +45,15 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, spec
     const userConfirmed = await confirmChangesAlert();
     if (userConfirmed && updateState.updatedBenefit) {
       try {
-        const expirationDate = new Date(updateState.updatedBenefit.expirationDate);
+        const expirationDate = new Date(
+          updateState.updatedBenefit.expirationDate
+        );
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
         if (expirationDate <= today) {
-            alert("תוקף חיב להיות בעתיד");
-            return; 
+          alert("תוקף חיב להיות בעתיד");
+          return;
         }
         if (updateState.updatedBenefit._id) {
           await updateBenefit({
@@ -75,8 +72,11 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, spec
         console.error("Error updating benefit:", error);
       }
     }
-    setUpdateState((prev) => ({ ...prev, isUpdateMode: false, selectedBranch: null, }));
-
+    setUpdateState((prev) => ({
+      ...prev,
+      isUpdateMode: false,
+      selectedBranch: null,
+    }));
   };
 
   const handleCancel = async () => {
@@ -86,12 +86,12 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, spec
 
     if (userConfirmed) {
       setUpdateState((prev) => ({
-        ...prev, 
-        isUpdateMode: false, 
+        ...prev,
+        isUpdateMode: false,
         updatedBenefit: {
           ...prev.updatedBenefit,
           branches: specificBenefit ? specificBenefit.branches : [],
-        }as Benefit, 
+        } as Benefit,
         selectedBranch: null,
       }));
     }
@@ -113,13 +113,10 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, spec
     specificSupplier &&
     currentSupplier._id === specificSupplier._id;
 
-
   let isExpired = false;
 
-  if(specificBenefit)
+  if (specificBenefit)
     isExpired = getVaildBenefits([specificBenefit]).length == 0;
-
-
 
   return (
     <div className={styles.container}>
@@ -152,15 +149,16 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, spec
         </div>
         {(clientMode == "ADMIN" ||
           (isCurrentSupplierBenefit && clientMode === ClientMode.supplier)) && (
-            <ActionButtons
-              isUpdateMode={updateState.isUpdateMode}
-              setIsUpdateMode={() =>
-                setUpdateState((prev) => ({ ...prev, isUpdateMode: true }))
-              }
-              handleSave={handleSave}
-              handleCancel={handleCancel}
-            />
-          )}
+          <ActionButtons
+            isClubApi={isClubApi}
+            isUpdateMode={updateState.isUpdateMode}
+            setIsUpdateMode={() =>
+              setUpdateState((prev) => ({ ...prev, isUpdateMode: true }))
+            }
+            handleSave={handleSave}
+            handleCancel={handleCancel}
+          />
+        )}
       </div>
     </div>
   );
