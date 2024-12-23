@@ -1,3 +1,4 @@
+import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import my_http from "@/services/http";
 import { Benefit, Club, Supplier } from "@/types/types";
@@ -9,7 +10,9 @@ import {
 export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
   const dataBaseBenefits = await getAllBenefits();
   console.log(222, dataBaseBenefits);
-  const clubsWithApi: Club[] = getApiClubs();
+  const { clubs } = useFetchGeneral();
+  let clubsWithApi: Club[] = [];
+  if (clubs) clubsWithApi = getApiClubs(clubs);
   console.log(222, "clubs", clubsWithApi);
   const { suppliers } = useFetchSuppliers();
   if (!suppliers) {

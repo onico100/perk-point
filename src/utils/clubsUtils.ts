@@ -6,10 +6,9 @@ export const getActiveClubs = (clubs: Club[]) => {
   return clubs.filter((c: Club) => c.clubStatus == "ACTIVE");
 };
 
-export const getApiClubs = () => {
-  const { clubs } = useFetchGeneral();
-  if (clubs) return clubs.filter((c: Club) => c.APIData);
-  return [];
+export const getApiClubs = (clubs: Club[]) => {
+  console.log(333, "in clubs");
+  return clubs.filter((c: Club) => c.APIData);
 };
 
 export const getInactiveClubs = (clubs: Club[]) => {
