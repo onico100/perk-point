@@ -1,0 +1,117 @@
+@font-face {
+    font-family: 'Varela Round';
+    src: url('VarelaRound-Regular.woff2') format('woff2'),
+        url('VarelaRound-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Alef';
+    src: url('Alef-Bold.woff2') format('woff2'),
+        url('Alef-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Alef';
+    src: url('Alef-Regular.woff2') format('woff2'),
+        url('Alef-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Amatic SC';
+    src: url('AmaticSC-Regular.woff2') format('woff2'),
+        url('AmaticSC-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Amatic SC';
+    src: url('AmaticSC-Bold.woff2') format('woff2'),
+        url('AmaticSC-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Assistant';
+    src: url('Assistant-ExtraLight.woff2') format('woff2'),
+        url('Assistant-ExtraLight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Assistant';
+    src: url('Assistant-ExtraBold.woff2') format('woff2'),
+        url('Assistant-ExtraBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Assistant';
+    src: url('Assistant-ExtraLight.woff2') format('woff2'),
+        url('Assistant-ExtraLight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Assistant';
+    src: url('Assistant-Bold.woff2') format('woff2'),
+        url('Assistant-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Assistant';
+    src: url('Assistant-SemiBold.woff2') format('woff2'),
+        url('Assistant-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Assistant';
+    src: url('Assistant-Light.woff2') format('woff2'),
+        url('Assistant-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Assistant';
+    src: url('Assistant-Regular.woff2') format('woff2'),
+        url('Assistant-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Assistant';
+    src: url('Assistant-Medium.woff2') format('woff2'),
+        url('Assistant-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
