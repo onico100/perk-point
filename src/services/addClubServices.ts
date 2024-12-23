@@ -3,7 +3,7 @@ import { addClubForm } from "@/types/types";
 
 export async function getAllAddClubForms(): Promise<addClubForm[]> {
     try {
-        const response = await my_http.post("/addClub/get");
+        const response = await my_http.post("/api/addClub", { action: "fetch" });
         const allForms: addClubForm[] = response.data.data;
         console.log("allForms: ", allForms);
         return allForms
@@ -13,22 +13,11 @@ export async function getAllAddClubForms(): Promise<addClubForm[]> {
     }
 }
 
-
-export async function getAddClubFormById(id: string): Promise<addClubForm> {
-    try {
-        const response = await my_http.get(`/addClub/get/${id}`);
-        return response.data;
-    } catch (error) {
-        console.error(`Error fetching add club form with ID ${id}:`, error);
-        throw error;
-    }
-}
-
 export async function deleteAddClubFormById(
     id: string
 ): Promise<{ message: string }> {
     try {
-        const response = await my_http.patch(`/addClub/delete/${id}`, {
+        const response = await my_http.patch(`/api/addClub/${id}`, {
             isActive: false,
         });
         return response.data;
@@ -43,7 +32,7 @@ export async function updateAddClubFormStatus(
     status: string
 ): Promise<{ message: string }> {
     try {
-        const response = await my_http.patch(`/addClub/update/${id}`, { status });
+        const response = await my_http.patch(`/api/addClub/${id}`, { status });
         return response.data;
     } catch (error) {
         console.error(`Error updating add club form status with ID ${id}:`, error);

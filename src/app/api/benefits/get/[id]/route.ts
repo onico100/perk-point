@@ -25,6 +25,8 @@ export async function GET(
         { status: 404 }
       );
     }
+    console.log("geting one beneefits")
+
     return NextResponse.json(benefit);
   } catch (error: unknown) {
     const errorMessage =

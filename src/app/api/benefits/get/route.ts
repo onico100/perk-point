@@ -23,6 +23,8 @@ export async function POST() {
       data: benefits,
     };
 
+    console.log("get benefits!!!!!")
+
     return NextResponse.json(response);
   } catch (error: unknown) {
     const errorMessage =

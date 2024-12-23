@@ -69,7 +69,10 @@ const AddClub: React.FC = () => {
             const response = await fetch("/api/addClub", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(simplifiedFormData),
+                body: JSON.stringify({
+                    action: "submit",
+                    ...simplifiedFormData,
+                }),
             });
 
             setIsLoading(false);
