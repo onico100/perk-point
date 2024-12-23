@@ -18,10 +18,10 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
   const allApiBenefits: Benefit[] = [];
 
   for (const club of clubsWithApi) {
-    const clubBenefits = await fetchBenefits(club._id, club.clubRoute || "");
+    const clubBenefits = await fetchBenefits(club._id || " ", club.clubRoute || "");
     const mappedBenefits = await getBenefitsClubsWithSupplierId(clubBenefits);
     mappedBenefits.forEach((benefit) => {
-      benefit.clubId = club._id;
+      benefit.clubId = club._id|| " ";
       allApiBenefits.push(benefit);
     });
   }

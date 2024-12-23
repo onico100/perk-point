@@ -14,15 +14,6 @@ export async function getAllAddClubForms(): Promise<addClubForm[]> {
 }
 
 
-export async function getAddClubFormById(id: string): Promise<addClubForm> {
-    try {
-        const response = await my_http.get(`/addClub/get/${id}`);
-        return response.data;
-    } catch (error) {
-        console.error(`Error fetching add club form with ID ${id}:`, error);
-        throw error;
-    }
-}
 
 export async function deleteAddClubFormById(
     id: string
@@ -42,7 +33,7 @@ export async function updateAddClubFormStatus(
     id: string,
     status: string
 ): Promise<{ message: string }> {
-    console.log("status id: ", status , " ", id);
+    console.log("------------", status , "--", id);
     try {
         const response = await my_http.patch(`/addClub/update/${id}`, { status });
         return response.data;

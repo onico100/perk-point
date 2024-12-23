@@ -14,7 +14,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
         const result= status == "rejected" ?  
             await collection.updateOne( { _id: new ObjectId(id) },  { $set: { status , isActive:false} },
-        ) : await collection.updateOne( { _id: new ObjectId(id) },  { $set: { status} }, )
+        ) : await collection.updateOne( { _id: new ObjectId(id) },  { $set: { status: status },} )
 
 
         if (result.matchedCount === 0) {

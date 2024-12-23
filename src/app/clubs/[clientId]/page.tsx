@@ -24,7 +24,7 @@ export default function Clubs() {
     clubsToShow = getActiveClubs(clubs);
     if (id !== "0" && clientMode == "USER") {
       clubsToShow =
-        clubsToShow.filter((c: Club) => currentUser?.clubs?.includes(c._id)) ||
+        clubsToShow.filter((c: Club) => currentUser?.clubs?.includes(c._id || " ")) ||
         [];
       currentTitle = titles[1];
     }

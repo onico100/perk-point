@@ -40,7 +40,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
             updatedData: {
               username: currentUser?.username,
               email: currentUser?.email,
-              clubs: [...(currentUser?.clubs || []), club._id],
+              clubs: [...(currentUser?.clubs || []), club._id || " "],
               registrationDate: currentUser?.registrationDate,
               savedBenefits: currentUser?.savedBenefits,
               city: currentUser?.city,
