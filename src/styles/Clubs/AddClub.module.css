@@ -1,151 +1,72 @@
+/* clubManagement.module.css */
 .container {
     padding: 20px;
-    max-width: 600px;
-    margin: auto;
-    font-family: Arial, sans-serif;
-}
-
-.title {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.downloadButton {
-    background: linear-gradient(to right, #b346e8, #87cdfa);
-    justify-content: right;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
-
-.downloadButton:hover {
-    background: linear-gradient(to right, #a344d3, #7ec0ea);
-}
-
-.uploadButton {
-    background-color: #ffff;
-    border-radius: 4px;
-    padding: 10px 15px;
-    font-size: 16px;
-    cursor: pointer;
+  }
+  
+  .clubList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .clubItem {
     border: 1px solid #ccc;
-    transition: background-color 0.2s;
-    width: 30%;
-    display: inline-block; 
-}
-
-.uploadButton:hover {
-    border: 2px solid #000;
-    background: linear-gradient(to right, #b346e8, #87cdfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.toggleContainer {
-    display: flex;
-    align-items: center;
-    margin-left: 1rem;
-    margin-bottom: 10px;
-}
-
-.toggleLabel {
-    display: flex;
-    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    flex: 1 1 calc(50% - 20px); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .clubItem.approved {
+    border-color: green;
+    background-color: #e8f5e9;
+  }
+  
+  .clubItem.rejected {
+    border-color: red;
+    background-color: #ffebee;
+  }
+  
+  .clubItem.deleted {
+    border-color: gray;
+    background-color: #f5f5f5;
+  }
+  
+  .actionButtons button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 4px;
     cursor: pointer;
-}
-
-.toggleSwitch {
-    width: 40px;
-    height: 20px;
-    background-color: #ccc;
-    border-radius: 15px;
-    position: relative;
-    margin-left: 10px;
     transition: background-color 0.3s;
-}
-
-.toggleSwitch::before {
-    content: "";
-    width: 16px;
-    height: 16px;
+  }
+  
+  .actionButtons button:hover {
+    background-color: #45a049;
+  }
+  
+  .detailsPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: white;
-    border-radius: 50%;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    transition: transform 0.3s;
-}
-
-input[type="checkbox"]:checked+.toggleSwitch {
-    background: linear-gradient(to right, #b247e8, #ac5ceb);
-}
-
-input[type="checkbox"]:checked+.toggleSwitch::before {
-    transform: translateX(20px);
-}
-
-.hiddenCheckbox {
-    display: none;
-}
-
-
-.form {
-    display: flex;
-    flex-direction: column;
-}
-
-.label {
-    margin-top: 15px;
-}
-
-.input,
-.textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    transition: border-color 0.3s ease;
-}
-
-.textarea {
-    resize: vertical;
-    height: 100px;
-}
-
-.submitButton {
-    background: linear-gradient(to right, #b346e8, #87cdfa);
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: background 0.3s;
-}
-
-.submitButton:disabled {
-    background: #ccc; 
-    cursor: not-allowed;
-}
-
-.submitButton:hover {
-    background: linear-gradient(to right, #a344d3, #7ec0ea);
-}
-
-.error {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .detailsPopup img {
+    max-width: 100px;
+    height: auto;
+    margin-top: 10px;
+  }
+  
+  .error {
     color: red;
-    text-align: left;
-}
-
-.success {
-    color: green;
-    text-align: left;
-}
-
-.noApi {
-    margin-top: 20px;
-}
+    font-weight: bold;
+  }
+  

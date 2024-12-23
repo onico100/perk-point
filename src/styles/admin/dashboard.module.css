@@ -62,4 +62,26 @@
     padding: 20px;
   }
   
+
+.welcomeScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+
+.welcomeScreen h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #4caf50;
+  margin-bottom: 10px;}
+
+.welcomeScreen p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
   

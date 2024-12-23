@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "@/styles/admin/dashboardContact.module.css";
 import { ContactForm } from "@/types/types";
 import { getAllContactForms, updateContactFormStatus } from "@/services/contactServices";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 const ContactManagement = () => {
   const [contactForms, setContactForms] = useState<ContactForm[]>([]);
@@ -37,7 +38,7 @@ const ContactManagement = () => {
   };
 
   if (loading) {
-    return <p>טוען נתונים...</p>;
+    return <LoadingSpinner/>;
   }
 
   const getStatusClass = (status: string) => {
