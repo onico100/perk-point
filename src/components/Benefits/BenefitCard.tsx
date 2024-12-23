@@ -32,7 +32,8 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   const { deleteBenefit } = useFetchBenefits();
 
   const isExpired = getVaildBenefits([benefit]).length == 0;
-  const isClubApi = club.APIData;
+
+  const isClubApi = club ? club.APIData : false;
 
   const id = params.clientId;
   const { clientMode } = useGeneralStore();

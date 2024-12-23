@@ -27,9 +27,7 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({
   specificClub,
 }) => {
   const router = useRouter();
-  let isClubApi: boolean = false;
-  if (specificClub) isClubApi = specificClub.APIData ? true : false;
-
+  const isClubApi = specificClub ? specificClub.APIData : false;
   const { updateBenefit } = useFetchBenefits();
 
   const clientMode = useGeneralStore((state) => state.clientMode);

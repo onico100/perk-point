@@ -3,7 +3,7 @@ import React from "react";
 import styles from "@/styles/Benefits/BenefitDetais.module.css";
 
 interface ActionButtonsProps {
-  isClubApi: boolean;
+  isClubApi: Boolean;
   isUpdateMode: boolean;
   setIsUpdateMode: () => void;
   handleSave: () => Promise<void>;
