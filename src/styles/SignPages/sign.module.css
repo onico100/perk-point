@@ -1,9 +1,8 @@
-
  .centerContainer {
   display: flex;
   justify-content: center;
   margin-top: 20px;
-}
+} 
 
 .loginPage {
   background: linear-gradient(to right, #b346e8, #87cdfa);
@@ -16,11 +15,12 @@
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1;
-direction: rtl;
+  direction: rtl;
+
 }
 
 .loginPage::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -30,44 +30,26 @@ direction: rtl;
   border-radius: 12px;
   padding: 2px;
   background: linear-gradient(to right, #b346e8, #87cdfa);
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
 }
 
 .uploadButton {
-  background-color: #ffff; 
-  border-radius: 4px; 
-  padding: 10px 15px; 
-  font-size: 16px; 
+  background-color: #ffff;
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.2s; 
+  transition: background-color 0.2s;
 }
 
 .uploadButton:hover {
   background: linear-gradient(to right, #b346e8, #87cdfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-.noAccountLink{
-  text-align: center;
-  align-items: center;
-  align-self: center;
-  color: white;
-  text-decoration: underline;
-}
-.signOption{
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  gap: 40px;
 }
 
 .loginPage h1 {
@@ -97,150 +79,6 @@ direction: rtl;
   width: 100%;
 }
 
-
-
-.loginPage input { 
-  width: 100%;
-  padding: 8px 28px;
-  border: 1px solid #000000;
-  border-radius: 4px;
-  font-size: 1rem;
-  color: black;
-}
-
-.inlineContainer {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.link {
-  background: linear-gradient(to right, #b346e8, #87cdfa);
-  -webkit-text-fill-color: transparent;
-}
-
-.dropdownContainer {
-  position: relative; 
-  margin-top: 1rem; 
-}
-
-.dropdownButton {
-  background-color: #ffffff;
-  color: #333;
-  padding: 10px 80px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.8rem;
-}
-
-.dropdownButton:hover {
-  background-color: #f5f5f5;
-}
-
-.dropdownContent {
-  text-align: left;
-  align-items: center;
-
-  direction: rtl;
-  color: #9c27b0;
-  margin-top: 0.5rem; 
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  padding: 10px;
-  animation: slideDown 0.3s ease-out;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.checkboxItem {
-  align-items: center;
-  direction: rtl;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 5px;
-}
-
-.checkboxItem input {
-  margin: 0;
-  cursor: pointer;
-  padding: 0;
-  width: auto;
-  height: auto;
-}
-
-.checkboxItem label {
-  font-size: 1rem;
-  cursor: pointer;
-  margin: 0;
-  white-space: nowrap;
-}
-
-.dropdownBranches {
-  position: absolute;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  width: 50%;
-  margin-top: 4px;
-  color: black;
-}
-
-.dropdownBranches ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.dropdownBranches li {
-  padding: 8px 12px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  justify-content: flex-start;
-}
-
-.dropdownBranches li:hover {
-  background-color: #f5f5f5;
-}
-
-.dropdownBranches li:last-child {
-  border-bottom: none;
-}
-
-.selectAll {
-  padding: 8px 12px;
-  border-bottom: 1px solid #ddd;
-  background-color: #f9f9f9;
-  cursor: pointer;
-}
-
-.selectAll label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .loginPageButton {
   border: none;
   border-radius: 30px;
@@ -262,81 +100,84 @@ direction: rtl;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-.branchInput {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  margin-bottom: 10px;
-}
-
-.selectedBranch {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 8px;
-}
-
-.selectedBranch button {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-size: 0.8rem;
-}
-
-.selectedBranch button:hover {
-  background-color: #c0392b;
-}
-
 .inputField {
   width: 100%;
   padding: 8px 18px;
   border: 1px solid #c9c4c4;
   border-radius: 4px;
   font-size: 1rem;
-  color: rgb(0, 76, 152)  !important;
-  white-space: nowrap;        
-  overflow: hidden;            
-  text-overflow: ellipsis;    
-  box-sizing: border-box;     
-  position: relative;         
-  z-index: 2;                  
+  color: rgb(0, 76, 152) !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+} 
+
+.error {
+  color: #d9534f;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
+.item {
+  display: flex;
+  justify-content: flex-end; 
+  flex-direction: column;
+}
+
+.categoryList {
+  display: flex;
+  /* justify-content: flex-end;  */
+  flex-direction: column;
+  margin-top:0.5px; 
+  padding: 8px 16px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: right;
+  direction: rtl;
+  max-height: 250px; 
+  overflow-y: auto;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.branchLabel input{
+    margin-left: 5px;
 }
 
 .selectButton {
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: transparent;
-  border: none;
+  background-color: #f0f0f0; 
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 16px;
   cursor: pointer;
+  text-align: right;
+  direction: rtl;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.selectButton:hover {
+  background-color: #e0e0e0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .selectButton span {
   font-size: 16px;
+  color: #333;
 }
 
 .selectButton svg {
   font-size: 16px;
+  color: #666;
+  transition: transform 0.3s;
 }
 
-.branchLabel {
-  display: block;
-  margin: 4px 0 4px 0;
-  text-align: right;
-  direction: rtl;
-}
 
-.selectButton {
-  text-align: right;
-  direction: rtl;
-}
 
-.categoryList {
-  text-align: right;
-  direction: rtl;
-}

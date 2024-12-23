@@ -1,9 +1,13 @@
 "use client";
-import { useForm, useFieldArray } from "react-hook-form";
-import { useEffect, useState } from "react";
-import debounce from "lodash.debounce";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { SupplierFormValues, Category, Branch } from "@/types/types";
+import {
+  SupplierFormValues,
+  Category,
+  Branch,
+  supplierSchema,
+} from "@/types/types";
 import styles from "@/styles/SignPages/sign.module.css";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useRouter } from "next/navigation";
@@ -15,103 +19,44 @@ import {
   CloudinaryUploadWidgetResults,
 } from "next-cloudinary";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function SignSupplierComponent() {
-  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const { addSupplier } = useFetchSuppliers();
   const { categories, isLoadingCategories } = useFetchGeneral();
   const [emailExists, setEmailExists] = useState(false);
-  const [isCategoryDropdownVisible, setIsCategoryDropdownVisible] =
-    useState(false);
-  const [branchDropdownVisible, setBranchDropdownVisible] = useState<
-    number | null
-  >(null);
   const [uploading, setUploading] = useState(false);
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(1);
   const [ischooseCategories, setIschooseCategories] = useState(true);
   const [ischooseBranches, setIschooseBranches] = useState(false);
-
   const [googleSuggestions, setGoogleSuggestions] = useState<Branch[]>([]);
   const [selectedBranches, setSelectedBranches] = useState<Branch[]>([]);
-
+  const [selectAllBranches, setSelectAllBranches] = useState(false);
+  
   const {
     register,
     handleSubmit,
-    control,
-    watch,
+    //watch,
     setValue,
     formState: { errors },
   } = useForm<SupplierFormValues>({
+    resolver: zodResolver(supplierSchema),
     defaultValues: {
-      selectedCategories: [],
       branches: [],
-    },
+      selectedCategories: [],
+      supplierLogo:"",
+    }
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "branches",
-  });
+  //const businessName = watch("businessName");
 
-  const businessName = watch("businessName");
-
-  useEffect(() => {
-    if (businessName) {
-      // fetchBranches(businessName, 0);
-      fetchGoogleSuggestions(businessName || "");
-    }
-  }, [businessName]);
-
-  const fetchBranches = debounce(
-    async (textQuery: string, branchIndex: number) => {
-      if (textQuery.trim().length >= 2) {
-        try {
-          setLoading(true);
-          let allBranchesFromService = await getbranchesByBusinessName(
-            textQuery
-          );
-          let citySuggestions = allBranchesFromService.map(
-            (place: Branch) => place.nameBranch
-          );
-          setSuggestions(citySuggestions);
-          setBranchDropdownVisible(branchIndex);
-        } catch (error) {
-          console.error("Error fetching suggestions:", error);
-          setSuggestions([]);
-          setBranchDropdownVisible(null);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setSuggestions([]);
-        setBranchDropdownVisible(null);
-      }
-    },
-    300
-  );
-
-  const toggleBranchDropdown = (index: number) => {
-    if (branchDropdownVisible === index) {
-      setBranchDropdownVisible(null);
-    } else {
-      fetchBranches(businessName, 0);
-      setBranchDropdownVisible(index);
-    }
-  };
-
-  const onBranchSelect = (branch: string) => {
-    const extractCity = (branch: string): string => {
-      const parts = branch.split(",");
-      return parts.length >= 2 ? parts[1].trim() : "לא ידועה";
-    };
-    const city = extractCity(branch);
-    const existingBranches = watch("branches");
-    if (!existingBranches.some((b) => b.nameBranch === branch)) {
-      append({ nameBranch: branch, city });
-    }
-  };
+  // useEffect(() => {
+  //   if (businessName) {
+  //     // fetchBranches(businessName, 0);
+  //     fetchGoogleSuggestions(businessName || "");
+  //   }
+  // }, [businessName]);
 
   const handleLogoUpload = async (result: CloudinaryUploadWidgetResults) => {
     setUploading(true);
@@ -136,14 +81,34 @@ export default function SignSupplierComponent() {
     }
   };
 
+
   const onSubmit = async (data: SupplierFormValues) => {
+    console.log("data", data);
     const emailExists = await checkEmailService(data.email);
     if (emailExists) {
       setEmailExists(true);
       return;
     }
 
-    addSupplier(data, {
+    let fullBranches = selectAllBranches
+      ? googleSuggestions
+      : googleSuggestions?.filter((b: Branch) =>
+          data?.branches?.includes(b.nameBranch)
+        );
+
+    let dataToSend = {
+      providerName: data.providerName,
+      email: data.email,
+      password: data.password,
+      businessName: data.businessName,
+      phoneNumber: data.phoneNumber,
+      siteLink: data.siteLink,
+      supplierLogo: data.supplierLogo,
+      branches: fullBranches,
+      selectedCategories: data.selectedCategories,
+    };
+
+    addSupplier(dataToSend, {
       onSuccess: () => {
         successAlert("הספק נוסף בהצלחה!").then(() => {
           router.push("/");
@@ -170,8 +135,10 @@ export default function SignSupplierComponent() {
   };
 
   const toggleGoogleSuggestion = (branch: Branch) => {
+    console.log("selected branches before: ", selectedBranches);
+
     const isSelected = selectedBranches.some(
-      (b) => b.nameBranch === branch.nameBranch
+      (b) => b.nameBranch == branch.nameBranch
     );
     if (isSelected) {
       setSelectedBranches((prev) =>
@@ -180,7 +147,9 @@ export default function SignSupplierComponent() {
     } else {
       setSelectedBranches((prev) => [...prev, branch]);
     }
+    console.log("selected branches after: ", selectedBranches);
   };
+
   return (
     <div className={styles.loginPage}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
@@ -190,8 +159,11 @@ export default function SignSupplierComponent() {
             className={styles.inputField}
             id="businessName"
             {...register("businessName")}
+            onChange={(e)=>fetchGoogleSuggestions(e.target.value)}
           />
-          {errors.businessName && <p>{errors.businessName.message}</p>}
+          {errors.businessName && (
+            <p className={styles.error}>{errors.businessName.message}</p>
+          )}
         </div>
         <div>
           <label htmlFor="providerName">
@@ -202,7 +174,9 @@ export default function SignSupplierComponent() {
             id="providerName"
             {...register("providerName")}
           />
-          {errors.providerName && <p>{errors.providerName.message}</p>}
+          {errors.providerName && (
+            <p className={styles.error}>{errors.providerName.message}</p>
+          )}
         </div>
         <div>
           <label htmlFor="email">אימייל:</label>
@@ -212,7 +186,9 @@ export default function SignSupplierComponent() {
             type="email"
             {...register("email")}
           />
-          {errors.email && <p>{errors.email.message}</p>}
+          {errors.email && (
+            <p className={styles.error}>{errors.email.message}</p>
+          )}
         </div>
         <div>
           <label htmlFor="password">סיסמה:</label>
@@ -222,7 +198,9 @@ export default function SignSupplierComponent() {
             type="password"
             {...register("password")}
           />
-          {errors.password && <p>{errors.password.message}</p>}
+          {errors.password && (
+            <p className={styles.error}>{errors.password.message}</p>
+          )}
         </div>
         <div>
           <label htmlFor="phoneNumber">מספר טלפון:</label>
@@ -231,7 +209,9 @@ export default function SignSupplierComponent() {
             id="phoneNumber"
             {...register("phoneNumber")}
           />
-          {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
+          {errors.phoneNumber && (
+            <p className={styles.error}>{errors.phoneNumber.message}</p>
+          )}
         </div>
         <div>
           <label htmlFor="siteLink">קישור לאתר:</label>
@@ -241,7 +221,9 @@ export default function SignSupplierComponent() {
             type="url"
             {...register("siteLink")}
           />
-          {errors.siteLink && <p>{errors.siteLink.message}</p>}
+          {errors.siteLink && (
+            <p className={styles.error}>{errors.siteLink.message}</p>
+          )}
         </div>
 
         <div>
@@ -253,7 +235,7 @@ export default function SignSupplierComponent() {
             {({ open }) => {
               return (
                 <button className={styles.uploadButton} onClick={() => open()}>
-                  החלפת לוגו
+                  בחר לוגו
                 </button>
               );
             }}
@@ -264,137 +246,94 @@ export default function SignSupplierComponent() {
             </p>
           )}
         </div>
-        <div>
-          {isLoadingCategories ? (
-            <p>טוען קטגוריות...</p>
-          ) : (
-            // <div className={styles.dropdownContainer}>
-            //   <button
-            //     type="button"
-            //     className={styles.dropdownButton}
-            //     onClick={() => setIsCategoryDropdownVisible((prev) => !prev)} >
-            //     בחר קטגוריות
-            //   </button>
-            //   {isCategoryDropdownVisible && (
-            //     <div className={styles.dropdownContent}>
-            //       {categories?.map((category: Category) => (
-            //         <div key={category._id} className={styles.checkboxItem}>
-            //           <input type="checkbox" value={category._id} id={`category-${category._id}`} {...register("selectedCategories")} />
-            //           <label htmlFor={`category-${category._id}`}>{category.categoryName}</label>
-            //         </div>
-            //       ))}
-            //     </div>
-            //   )}
-            // </div>
-            <div className={styles.inputContainer}>
-              <div>
-                <button
-                  onClick={() => setIschooseCategories(!ischooseCategories)}
-                  className={styles.selectButton}
-                >
-                  <span>בחר קטגוריות: </span>
-                  {!ischooseCategories ? <SlArrowUp /> : <SlArrowDown />}
-                </button>
-              </div>
 
-              {!ischooseCategories && (
+        <div>
+          <div className={styles.item}>
+            <div>
+              <button
+                onClick={() => setIschooseCategories(!ischooseCategories)}
+                className={styles.selectButton}
+                type="button"
+              >
+                <span>בחר קטגוריות: </span>
+                {ischooseCategories ? <SlArrowDown /> : <SlArrowUp />}
+              </button>
+            </div>
+
+            {!ischooseCategories &&
+              (isLoadingCategories ? (
+                <p>טוען קטגוריות...</p>
+              ) : (
                 <div className={styles.categoryList}>
-                  {categories.map((c: Category) => (
+                   {categories.map((c: Category) => (
                     <label key={c.categoryName} className={styles.branchLabel}>
                       <input
                         type="checkbox"
                         value={c._id}
                         {...register("selectedCategories")}
                       />
-                      {c.categoryName}
+                        {c.categoryName}
+                     
                     </label>
                   ))}
                 </div>
-              )}
+              ))}
+          </div>
 
-              {errors.selectedCategories && !ischooseCategories && (
-                <span className={styles.error}>
-                  {errors.selectedCategories.message as string}
-                </span>
-              )}
-            </div>
-          )}
           {errors.selectedCategories && (
-            <p className="text-red-500">{errors.selectedCategories.message}</p>
+            <p className={styles.error}>{errors.selectedCategories.message}</p>
           )}
         </div>
-        {/* <div >
-          <div className="font-bold">סניפים:</div>
-          <button
-            type="button"
-            onClick={() => toggleBranchDropdown(0)}
-            className={styles.dropdownButton}
-          >
-            בחר סניפים
-            <span>{branchDropdownVisible === 0 ? "▲" : "▼"}</span>
-          </button>
-          {branchDropdownVisible === 0 && (
-            <div className={styles.dropdownBranches}>
-              {loading ? (
-                <p>טוען...</p>
-              ) : (
-                suggestions.map((branch, idx) => (
-                  <label key={idx} className={styles.checkboxItem}>
+
+        <div className={styles.item}>
+          <div>
+            <button
+              onClick={() => setIschooseBranches(!ischooseBranches)}
+              className={styles.selectButton}
+              type="button"
+            >
+              <span>בחר סניפים:</span>
+              {!ischooseBranches ? <SlArrowDown /> : <SlArrowUp />}
+            </button>
+          </div>
+          {ischooseBranches &&
+            (googleSuggestions && googleSuggestions.length > 0 ? (
+              <>
+                <div className={styles.categoryList}>
+                  <div className={styles.branchLabel}>
                     <input
                       type="checkbox"
-                      value={branch}
-                      onChange={() => onBranchSelect(branch)}
+                      className={styles.checkbox}
+                      value={"all"}
+                      {...register("branches")}
+                      onChange={() => setSelectAllBranches(!selectAllBranches)}
                     />
-                    {branch}
-                  </label>
-                ))
-              )}
-            </div>
-          )}
-          <ul>
-            {fields.map((branch, index) => (
-              <li key={branch.id} className={styles.selectedBranch}>
-                {branch.nameBranch} - {branch.city}
-                <button type="button" onClick={() => remove(index)}>
-                  הסר
-                </button>
-              </li>
+                    <span className={styles.branchName}>כל הסניפים</span>
+                  </div>
+                  {googleSuggestions.map((suggestion) => (
+                    <label
+                      key={suggestion.nameBranch}
+                      className={styles.branchLabel}
+                    >
+                      <input
+                        type="checkbox"
+                        value={suggestion.nameBranch}
+                        {...register("branches")}
+                      />
+                      <span className={styles.branchName}>
+                        {suggestion.nameBranch}, {suggestion.city}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>בחר שם עסק לטעינת סניפים</>
             ))}
-          </ul>
-        </div> */}
-        <div>
-          <button
-            onClick={() => setIschooseBranches(!ischooseBranches)}
-            className={styles.selectButton}
-          >
-            <span>בחר סניפים:</span>
-            {!ischooseCategories ? <SlArrowUp /> : <SlArrowDown />}
-          </button>
+          {errors.branches && (
+            <p className={styles.error}>{errors.branches.message}</p>
+          )}
         </div>
-        {ischooseBranches &&
-          (googleSuggestions && googleSuggestions.length > 0 ? (
-            <>
-              <div className={styles.categoryList}>
-                {googleSuggestions.map((suggestion) => (
-                  <label
-                    key={suggestion.nameBranch}
-                    className={styles.branchLabel}
-                  >
-                    <input
-                      type="checkbox"
-                      onChange={() => toggleGoogleSuggestion(suggestion)}
-                      className={styles.customCheckbox}
-                    />
-                    <span className={styles.branchName}>
-                      {suggestion.nameBranch}, {suggestion.city}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </>
-          ) : (
-            <>בחר שם עסק לטעינת סניפים</>
-          ))}
 
         {emailExists && (
           <div className="text-red-500 mb-4">
