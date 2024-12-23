@@ -12,8 +12,10 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
   console.log(222, dataBaseBenefits);
   const { clubs } = useFetchGeneral();
   let clubsWithApi: Club[] = [];
-  if (clubs) clubsWithApi = getApiClubs(clubs);
-  else return dataBaseBenefits;
+  if (clubs) {
+    console.log(333, "clubssssssssssssss");
+    clubsWithApi = getApiClubs(clubs);
+  } else return dataBaseBenefits;
   console.log(222, "clubs", clubsWithApi);
   const { suppliers } = useFetchSuppliers();
   if (!suppliers) {
