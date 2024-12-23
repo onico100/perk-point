@@ -23,9 +23,9 @@ import { getVaildBenefits } from "@/utils/benefitsUtils";
 
 
 interface BenefitsDetailsProps {
-  specificBenefit: Benefit;
-  specificSupplier: Supplier;
-  specificClub: Club;
+  specificBenefit?: Benefit;
+  specificSupplier?: Supplier;
+  specificClub?: Club;
 }
 
 const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, specificSupplier, specificClub }) => {
@@ -116,8 +116,10 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({ specificBenefit, spec
 
   // const isExpired = updateState.updatedBenefit?.expirationDate &&
   //   new Date(updateState.updatedBenefit.expirationDate) < new Date();
+  let isExpired = false;
 
-  const isExpired = getVaildBenefits([specificBenefit]).length == 0;
+  if(specificBenefit)
+    isExpired = getVaildBenefits([specificBenefit]).length == 0;
 
 
 
