@@ -6,6 +6,7 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   let client;
+  console.log("--------request: ", request);
   try {
     client = await connectDatabase();
     if (!client) {
@@ -16,6 +17,7 @@ export async function PATCH(
     }
 
     const data = await request.json();
+    console.log("----------------data: ", data);
     const result = await updateDocumentById(
       client,
       "clubs_collection",

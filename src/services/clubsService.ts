@@ -30,6 +30,17 @@ export async function updateClubById(
     console.error(`Error updating club with ID ${id}:`, error);
     throw error;
   }
+}export async function updateStatusClubById(
+  id: string,
+  updatedData: any
+): Promise<Club> {
+  try {
+    const response = await my_http.patch(`/clubs/update/${id}`, updatedData);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating club with ID ${id}:`, error);
+    throw error;
+  }
 }
 
 export async function addClub(newClub: Club): Promise<Club> {

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   let client;
+  console.log("request: ", request);
   try {
     client = await connectDatabase();
     if (!client) {
