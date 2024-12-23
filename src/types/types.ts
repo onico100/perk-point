@@ -167,8 +167,3 @@ export enum ClubStatus {
   pending = "PENDING",
 }
 
-export enum ClubStatus {
-  active = "ACTIVE",
-  inactive = "INACTIVE",
-  pending = "PENDING",
-}
