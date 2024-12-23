@@ -77,16 +77,16 @@ const UsersManagement = () => {
   
   const clubsChartData = {
     labels: clubs
-      ?.filter((club: Club) => clubCounts[club._id])
+      ?.filter((club: Club) => clubCounts[club._id || " "])
       .map((club: Club) => club.clubName) || [],
     datasets: [
       {
         label: "מועדונים פופולאריים",
         data: clubs
-          ?.filter((club: Club) => clubCounts[club._id])
-          .map((club: Club) => clubCounts[club._id]) || [],
+          ?.filter((club: Club) => clubCounts[club._id || " "])
+          .map((club: Club) => clubCounts[club._id || " "]) || [],
         backgroundColor: generateColors(
-          clubs?.filter((club: Club) => clubCounts[club._id]).length || 0
+          clubs?.filter((club: Club) => clubCounts[club._id || " "]).length || 0
         ),
       },
     ],
