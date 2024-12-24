@@ -1,16 +1,15 @@
 .container {
-
+  font-family: "Assistant";
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     margin-top: 30px;
-    font-family: "Varela Round", serif;
   }
   
   .container h1 {
     font-size: 2rem;
-    color: #4caf50;
+    color: #360866;
     margin-bottom: 10px;
   }
   
@@ -26,11 +25,10 @@
     padding: 12px;
     text-align: center;
     font-size: 1rem;
-    font-family: "Varela Round", serif;
   }
   
   .table th {
-    background-color: #4caf50;
+    background-color: #5a0db1;
     color: white;
   }
   
@@ -63,7 +61,6 @@
   .modalContent {
     font-size: 1rem;
     line-height: 1.5;
-    font-family: "Varela Round", serif;
   }
   
   .modalContent p {
@@ -111,12 +108,12 @@
   }
   
   .pageButton:hover {
-    background-color: #8e2de2;
+    background-color: #7733b3;
     transform: scale(1.1);
   }
   
   .activePage {
-    background-color: #4caf50;
+    background-color:  #7321bc;
     color: white;
     font-weight: bold;
   }

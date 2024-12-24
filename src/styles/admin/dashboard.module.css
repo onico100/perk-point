@@ -1,4 +1,5 @@
 .dashboard {
+  font-family: "Assistant";
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,6 +25,7 @@
   }
 
   .sidebar {
+    font-family: "Assistant";
     position: fixed;
     top: 70px;
     right: 0;
@@ -62,4 +64,22 @@
     padding: 20px;
   }
   
+  .welcomeMessage {
+    text-align: center;
+    margin-top: 20%;
+    color: #2c3e50;
+  }
   
+  .welcomeMessage h1 {
+    font-family: "Assistant";
+    font-weight: bold;
+    font-size: 2.5rem;
+    color: #5c18a6;
+    margin-bottom: 20px;
+  }
+  
+  .welcomeMessage p {
+    font-family: "Assistant";
+    font-size: 1.2rem;
+    color: #7f8c8d;
+  }

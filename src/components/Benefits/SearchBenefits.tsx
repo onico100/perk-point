@@ -1,41 +1,43 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import useFilterStore from "@/stores/filterStore";
-import debounce from 'lodash.debounce';
+import debounce from "lodash.debounce";
 import {
-    SearchContainer,
-    SearchIcon,
-    InputContainer,
-    RefreshContainer,
-    RefreshLabel,
-    RefreshIcon,
-
-} from './SearchBenefits.Styles';
-import { DropdownFilter, TextInputFilter, DateFilterComponent } from '@/components';
+  SearchContainer,
+  SearchIcon,
+  InputContainer,
+  RefreshContainer,
+  RefreshLabel,
+  RefreshIcon,
+} from "./SearchBenefits.Styles";
+import {
+  DropdownFilter,
+  TextInputFilter,
+  DateFilterComponent,
+} from "@/components";
 import { useParams } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
 
-
 interface Club {
-    _id: string;
-    clubName: string;
+  _id: string;
+  clubName: string;
 }
 
 interface Category {
-    _id: string;
-    categoryName: string;
+  _id: string;
+  categoryName: string;
 }
 
 interface SearchProps {
-    clubs: Club[];
-    categories: Category[];
-    onSearch: (
-        supplierFilter: string,
-        clubFilter: string[],
-        categoryFilter: string[],
-        branchFilter: string,
-        expirationRange: [Date | null, Date | null],
-    ) => void;
+  clubs: Club[];
+  categories: Category[];
+  onSearch: (
+    supplierFilter: string,
+    clubFilter: string[],
+    categoryFilter: string[],
+    branchFilter: string,
+    expirationRange: [Date | null, Date | null]
+  ) => void;
 }
 
 const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) => {
@@ -133,7 +135,7 @@ const SearchBenefits: React.FC<SearchProps> = ({ clubs, categories, onSearch }) 
                 }
             }}>
                 <RefreshIcon />
-                <RefreshLabel>ריענון</RefreshLabel>
+                <RefreshLabel>רענן</RefreshLabel>
             </RefreshContainer>
         </SearchContainer>
     );
