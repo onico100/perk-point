@@ -20,7 +20,6 @@ export default function Login() {
   const loginUserMutation = useLoginUser();
   const router = useRouter();
 
-
   const loginAsExampleUser = async () => {
     const ift = await beforeActionAlert(
       "בכניסה למצב לקוח לדוגמא אתה נכנס למצב בו כולם יכולים לערוך ולכן יתכן שהשינויים שעשית לא יישמרו למשך זמן"
@@ -85,7 +84,7 @@ export default function Login() {
                 id="email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.toLowerCase())}
                 placeholder="כתובת אימייל"
                 required
                 className={styles.inputField}

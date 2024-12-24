@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddUser } from "@/hooks/useFetchUsers";
-import { userSchema, UserFormValues, User } from "@/types/types";
+import { userSchema, UserFormValues, User } from "@/types/Generaltypes";
 import styles from "@/styles/SignPages/sign.module.css";
 import { checkEmailService } from "@/services/emailServices";
 import { useState } from "react";
@@ -13,7 +13,6 @@ export default function SignUserComponent() {
   const { mutate: addUser, isPending } = useAddUser();
   const [emailExists, setEmailExists] = useState(false);
   const router = useRouter();
-
 
   const {
     register,
@@ -27,7 +26,7 @@ export default function SignUserComponent() {
     const emailExists = await checkEmailService(data.email);
     if (emailExists) {
       setEmailExists(true);
-      errorAlert("Email already exists")
+      errorAlert("Email already exists");
       return;
     }
 
@@ -54,33 +53,50 @@ export default function SignUserComponent() {
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <div className={styles.formGroup}>
           <label htmlFor="username">שם משתמש:</label>
-          <input className={styles.inputField} id="username" {...register("username")} />
+          <input
+            className={styles.inputField}
+            id="username"
+            {...register("username")}
+          />
           {errors.username && <p>{errors.username.message}</p>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="email">אימייל:</label>
-          <input className={styles.inputField} id="email" type="email" {...register("email")} />
+          <input
+            className={styles.inputField}
+            id="email"
+            type="email"
+            {...register("email")}
+          />
           {errors.email && <p>{errors.email.message}</p>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="password">סיסמה:</label>
-          <input className={styles.inputField} id="password" type="password" {...register("password")} />
+          <input
+            className={styles.inputField}
+            id="password"
+            type="password"
+            {...register("password")}
+          />
           {errors.password && <p>{errors.password.message}</p>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="city">עיר:</label>
-          <input className={styles.inputField} id="city" {...register("city")} />
+          <input
+            className={styles.inputField}
+            id="city"
+            {...register("city")}
+          />
           {errors.city && <p>{errors.city.message}</p>}
         </div>
 
         {emailExists && (
           <div className="text-red-500 mb-4">
             <p>
-              אימייל זה כבר קיים במערכת{" "}
-              <br />
+              אימייל זה כבר קיים במערכת <br />
               <span
                 className="text-red-500 underline cursor-pointer"
                 onClick={() => router.push("/login-user")}

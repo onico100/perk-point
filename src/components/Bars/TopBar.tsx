@@ -7,7 +7,7 @@ import linkStyle from "@/styles/Bars/Links.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import styles from "@/styles/Bars/TopBar.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode } from "@/types/types";
+import { ClientMode } from "@/types/Generaltypes";
 
 const TopBar: React.FC = () => {
   const router = useRouter();

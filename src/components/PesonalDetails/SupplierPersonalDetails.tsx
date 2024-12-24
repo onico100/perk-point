@@ -1,6 +1,6 @@
 "use client";
 
-import { Branch, Category, Supplier } from "@/types/types";
+import { Category } from "@/types/Generaltypes";
 import styles from "@/styles/PersonalDetails/PersonalDetails.module.css";
 import { useState, useEffect } from "react";
 import { MdOutlineModeEditOutline, MdOutlineEditOff } from "react-icons/md";
@@ -20,6 +20,8 @@ import {
   CldUploadWidget,
   CloudinaryUploadWidgetResults,
 } from "next-cloudinary";
+import { Supplier } from "@/types/SupplierTypes";
+import { Branch } from "@/types/BenefitsTypes";
 
 interface SupplierPersonalDetailsProps {
   currentSupplier: Supplier;
@@ -110,7 +112,7 @@ export default function SupplierPersonalDetails({
 
   useEffect(() => {
     fetchBranches();
-    setValueOnDom()
+    setValueOnDom();
   }, []);
 
   const handleLogoUpload = async (result: CloudinaryUploadWidgetResults) => {
@@ -142,7 +144,7 @@ export default function SupplierPersonalDetails({
       const alertConfirm = await beforeActionAlert("");
       if (alertConfirm) {
         if (currentSupplier?._id) {
-         // setValueOnDom()
+          // setValueOnDom()
 
           let updatedBranches = selectAll
             ? allBranches
@@ -168,7 +170,6 @@ export default function SupplierPersonalDetails({
             },
             {
               onSuccess: () => {
-
                 successAlert("ספק נערך ");
               },
               onError: () => {

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Supplier } from "@/types/types";
+import { Supplier } from "@/types/SupplierTypes";
 
 interface SupplierStore {
   suppliers: Supplier[];
@@ -14,7 +14,7 @@ const useSupplierStore = create<SupplierStore>()(
       setSuppliers: (suppliers: Supplier[]) => set({ suppliers }),
     }),
     {
-      name: "supplier-store", 
+      name: "supplier-store",
     }
   )
 );

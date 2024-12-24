@@ -2,12 +2,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import {
-  SupplierFormValues,
-  Category,
-  Branch,
-  supplierSchema,
-} from "@/types/types";
+import { Category } from "@/types/Generaltypes";
 import styles from "@/styles/SignPages/sign.module.css";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useRouter } from "next/navigation";
@@ -20,6 +15,8 @@ import {
 } from "next-cloudinary";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { SupplierFormValues, supplierSchema } from "@/types/SupplierTypes";
+import { Branch } from "@/types/BenefitsTypes";
 
 export default function SignSupplierComponent() {
   const [loading, setLoading] = useState(false);
@@ -33,7 +30,7 @@ export default function SignSupplierComponent() {
   const [googleSuggestions, setGoogleSuggestions] = useState<Branch[]>([]);
   const [selectedBranches, setSelectedBranches] = useState<Branch[]>([]);
   const [selectAllBranches, setSelectAllBranches] = useState(false);
-  
+
   const {
     register,
     handleSubmit,
@@ -45,8 +42,8 @@ export default function SignSupplierComponent() {
     defaultValues: {
       branches: [],
       selectedCategories: [],
-      supplierLogo:"",
-    }
+      supplierLogo: "",
+    },
   });
 
   //const businessName = watch("businessName");
@@ -80,7 +77,6 @@ export default function SignSupplierComponent() {
       setUploading(false);
     }
   };
-
 
   const onSubmit = async (data: SupplierFormValues) => {
     console.log("data", data);
@@ -159,7 +155,7 @@ export default function SignSupplierComponent() {
             className={styles.inputField}
             id="businessName"
             {...register("businessName")}
-            onChange={(e)=>fetchGoogleSuggestions(e.target.value)}
+            onChange={(e) => fetchGoogleSuggestions(e.target.value)}
           />
           {errors.businessName && (
             <p className={styles.error}>{errors.businessName.message}</p>
@@ -265,15 +261,14 @@ export default function SignSupplierComponent() {
                 <p>טוען קטגוריות...</p>
               ) : (
                 <div className={styles.categoryList}>
-                   {categories.map((c: Category) => (
+                  {categories.map((c: Category) => (
                     <label key={c.categoryName} className={styles.branchLabel}>
                       <input
                         type="checkbox"
                         value={c._id}
                         {...register("selectedCategories")}
                       />
-                        {c.categoryName}
-                     
+                      {c.categoryName}
                     </label>
                   ))}
                 </div>

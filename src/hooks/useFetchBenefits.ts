@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useBenefitStore } from "@/stores/benefitsStore";
-import { Benefit } from "@/types/types";
+import { Benefit } from "@/types/BenefitsTypes";
 import {
   //getAllBenefits,
   addBenefit,

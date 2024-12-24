@@ -1,12 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import {
-  Category,
-  Club,
-  ClientMode,
-  User,
-  Supplier,
-} from "@/types/types";
+import { Category, ClientMode, User } from "@/types/Generaltypes";
+import { Club } from "@/types/ClubTypes";
+import { Supplier } from "@/types/SupplierTypes";
 
 interface GeneralStore {
   categories: Category[];
@@ -38,13 +34,11 @@ const useGeneralStore = create<GeneralStore>()(
       setClientMode: (clientMode: ClientMode) => set({ clientMode }),
 
       currentUser: null,
-      setCurrentUser: (user: User | null) => 
-        set({ currentUser: user }),
+      setCurrentUser: (user: User | null) => set({ currentUser: user }),
 
       currentSupplier: null,
       setCurrentSupplier: (supplier: Supplier | null) =>
         set({ currentSupplier: supplier }),
-      
     }),
     {
       name: "general-store",

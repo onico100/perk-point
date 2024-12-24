@@ -1,10 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "@/styles/admin/clubsManagement.module.css";
-import { addClub, getAllClubs , updateClubById, updateStatusClubById} from "@/services/clubsService";
-import { getAllAddClubForms, updateAddClubFormStatus  } from "@/services/addClubServices";
-import { addClubForm, Club, ClubStatus } from "@/types/types";
+import {
+  addClub,
+  getAllClubs,
+  updateClubById,
+  updateStatusClubById,
+} from "@/services/clubsService";
+import {
+  getAllAddClubForms,
+  updateAddClubFormStatus,
+} from "@/services/addClubServices";
+
 import LoadingSpinner from "../Loading/LoadingSpinner";
+import { addClubForm, Club, ClubStatus } from "@/types/ClubTypes";
 
 const AddClubForm: addClubForm = {
   clubName: "",
@@ -22,16 +31,20 @@ const ClubsContactsManagement = () => {
   const [clubContacts, setClubContacts] = useState([AddClubForm]);
   const [pendingClubs, setPendingClubs] = useState<Club[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClub, setSelectedClub] = useState<addClubForm | Club | null>(null);
+  const [selectedClub, setSelectedClub] = useState<addClubForm | Club | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchClubs = async () => {
       try {
         const addClubData: addClubForm[] = await getAllAddClubForms();
         setClubContacts(addClubData);
-        setPendingClubs([])
+        setPendingClubs([]);
         const pendingData: Club[] = await getAllClubs();
-        setPendingClubs(pendingData.filter((club) => club.clubStatus === ClubStatus.pending));
+        setPendingClubs(
+          pendingData.filter((club) => club.clubStatus === ClubStatus.pending)
+        );
       } catch (error) {
         console.error("Error fetching clubs:", error);
       } finally {
@@ -59,7 +72,9 @@ const ClubsContactsManagement = () => {
           clubRoute: clubForSaving.route || " ",
           APIData: !!clubForSaving.route,
           isActive: true,
-          clubStatus: clubForSaving.route ? ClubStatus.pending : ClubStatus.active,
+          clubStatus: clubForSaving.route
+            ? ClubStatus.pending
+            : ClubStatus.active,
           email: clubForSaving.email || " ",
           createdAt: new Date(),
         };
@@ -71,16 +86,14 @@ const ClubsContactsManagement = () => {
       await updateAddClubFormStatus(id, status);
 
       setClubContacts((prevClubs) =>
-        prevClubs.map((club) =>
-          club._id === id ? { ...club, status } : club
-        )
+        prevClubs.map((club) => (club._id === id ? { ...club, status } : club))
       );
     } catch (error) {
       console.error("Error updating club:", error);
     }
   };
 
-  const handleFinalApproval = async (id: string , status: string) => {
+  const handleFinalApproval = async (id: string, status: string) => {
     try {
       await updateStatusClubById(id, { clubStatus: status });
       setPendingClubs((prev) => prev.filter((club) => club._id !== id));
@@ -89,12 +102,10 @@ const ClubsContactsManagement = () => {
     }
   };
 
-
-
   const openClubDetails = (club: addClubForm | Club) => {
     setSelectedClub(club);
   };
-  
+
   const closeClubDetails = () => {
     setSelectedClub(null);
   };
@@ -129,9 +140,7 @@ const ClubsContactsManagement = () => {
                           <>
                             <button
                               className={styles.detailsButton}
-                              onClick={() =>
-                                openClubDetails(clubC)
-                              }
+                              onClick={() => openClubDetails(clubC)}
                             >
                               פרטים
                             </button>
@@ -160,7 +169,7 @@ const ClubsContactsManagement = () => {
               </table>
             )}
           </div>
-  
+
           <div className={styles.section}>
             <h2 className={styles.subTitle}>מועדונים ממתינים</h2>
             {pendingClubs.length === 0 ? (
@@ -178,18 +187,25 @@ const ClubsContactsManagement = () => {
                     <tr key={club._id} className={styles.tableRow}>
                       <td className={styles.tableCell}>{club.clubName}</td>
                       <td className={styles.tableCellActions}>
-                        <button className={styles.detailsButton} onClick={() => openClubDetails(club)}>
+                        <button
+                          className={styles.detailsButton}
+                          onClick={() => openClubDetails(club)}
+                        >
                           פרטים
                         </button>
                         <button
                           className={styles.approveButton}
-                          onClick={() => handleFinalApproval(club._id || " ", "ACTIVE")}
+                          onClick={() =>
+                            handleFinalApproval(club._id || " ", "ACTIVE")
+                          }
                         >
                           אישור וקליטת מועדון
                         </button>
                         <button
                           className={styles.rejectButton}
-                          onClick={() => handleFinalApproval(club._id || " ", "REJECTED")}
+                          onClick={() =>
+                            handleFinalApproval(club._id || " ", "REJECTED")
+                          }
                         >
                           מחיקת מועדון
                         </button>
@@ -202,28 +218,32 @@ const ClubsContactsManagement = () => {
           </div>
         </>
       )}
-  
-        {selectedClub && (
+      {selectedClub && (
         <div className={styles.popup}>
           <div className={styles.popupContent}>
             <h3 className={styles.popupTitle}>פרטי מועדון</h3>
             <p className={styles.popupText}>שם: {selectedClub.clubName}</p>
             <p className={styles.popupText}>לינק: {selectedClub.clubLink}</p>
-            <p className={styles.popupText}>לוגו: 
-              <img 
-                src={selectedClub.clubLogo} 
-                alt="לוגו" 
-                className={styles.popupImage} 
+            <p className={styles.popupText}>
+              לוגו:
+              <img
+                src={selectedClub.clubLogo}
+                alt="לוגו"
+                className={styles.popupImage}
               />
             </p>
-            <button className={styles.closePopupButton} onClick={closeClubDetails}>סגור</button>
+            <button
+              className={styles.closePopupButton}
+              onClick={closeClubDetails}
+            >
+              סגור
+            </button>
           </div>
         </div>
       )}
-c
+      c
     </div>
   );
-  
 };
 
 export default ClubsContactsManagement;

@@ -1,6 +1,6 @@
 "use client";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode} from "@/types/types";
+import { ClientMode } from "@/types/Generaltypes";
 import { HomeComp } from "@/components/index";
 
 export default function Home() {

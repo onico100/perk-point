@@ -5,7 +5,7 @@ import styles from "@/styles/SignPages/google.module.css";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode } from "@/types/types";
+import { ClientMode } from "@/types/Generaltypes";
 import { useRouter } from "next/navigation";
 import { returnUserCheckEmailService } from "@/services/emailServices";
 
@@ -22,7 +22,7 @@ const LoginGoogleForm = () => {
       const exitedUser =
         (await returnUserCheckEmailService(session.user.email || "---")) ||
         null;
-        console.log("exitedUser", exitedUser);
+      console.log("exitedUser", exitedUser);
       if (exitedUser) {
         setCurrentUser(exitedUser);
         setClientMode(ClientMode.user);
@@ -38,7 +38,6 @@ const LoginGoogleForm = () => {
       fetchUser();
     }
   }, [session?.user]);
-  
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Club } from "@/types/types";
+import { Club } from "@/types/ClubTypes";
 import styles from "@/styles/Clubs/ClubCard.module.css";
 import { useParams } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
