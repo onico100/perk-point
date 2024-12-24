@@ -45,7 +45,7 @@
   margin-left: 10px;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 1140px) {
   .labelShow {
     display: none; /* Hide the buttons */
   }
