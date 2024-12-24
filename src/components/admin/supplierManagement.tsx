@@ -1,16 +1,19 @@
 "use client";
 import styles from "@/styles/admin/supplierManagement.module.css";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
-import { useFetchGeneral } from "@/hooks/useFetchGeneral"; 
+import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useState } from "react";
 import { Modal, Button } from "antd";
-import { Category, Supplier } from "@/types/types";
+import { Category } from "@/types/Generaltypes";
+import { Supplier } from "@/types/SupplierTypes";
 
 const SupplierManagement = () => {
   const { suppliers, deleteSupplier } = useFetchSuppliers();
   const { categories } = useFetchGeneral(); // שליפת קטגוריות
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
+  const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
+    null
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
@@ -84,7 +87,9 @@ const SupplierManagement = () => {
           <button
             key={index}
             onClick={() => setCurrentPage(index + 1)}
-            className={`${styles.pageButton} ${currentPage === index + 1 ? styles.activePage : ""}`}
+            className={`${styles.pageButton} ${
+              currentPage === index + 1 ? styles.activePage : ""
+            }`}
           >
             {index + 1}
           </button>
@@ -99,27 +104,44 @@ const SupplierManagement = () => {
       >
         {selectedSupplier && (
           <div className={styles.modalContent}>
-            <p><strong>שם העסק:</strong> {selectedSupplier.businessName}</p>
-            <p><strong>שם איש קשר:</strong> {selectedSupplier.providerName}</p>
-            <p><strong>כתובת אימייל:</strong> {selectedSupplier.email}</p>
-            <p><strong>טלפון:</strong> {selectedSupplier.phoneNumber}</p>
+            <p>
+              <strong>שם העסק:</strong> {selectedSupplier.businessName}
+            </p>
+            <p>
+              <strong>שם איש קשר:</strong> {selectedSupplier.providerName}
+            </p>
+            <p>
+              <strong>כתובת אימייל:</strong> {selectedSupplier.email}
+            </p>
+            <p>
+              <strong>טלפון:</strong> {selectedSupplier.phoneNumber}
+            </p>
             <p>
               <strong>תאריך הרשמה:</strong>{" "}
               {selectedSupplier.registrationDate
-                ? new Date(selectedSupplier.registrationDate).toLocaleString("en-US")
+                ? new Date(selectedSupplier.registrationDate).toLocaleString(
+                    "en-US"
+                  )
                 : "Unknown"}
             </p>
             <p>
               <strong>קישור לאתר:</strong>{" "}
-              <a href={selectedSupplier.siteLink} target="_blank" rel="noopener noreferrer">
+              <a
+                href={selectedSupplier.siteLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {selectedSupplier.siteLink}
               </a>
             </p>
             <p>
               <strong>קטגוריות משויכות:</strong>{" "}
               {selectedSupplier.selectedCategories
-                ?.map((categoryId) =>
-                  categories?.find((category: Category) => category._id === categoryId)?.categoryName
+                ?.map(
+                  (categoryId) =>
+                    categories?.find(
+                      (category: Category) => category._id === categoryId
+                    )?.categoryName
                 )
                 .join(", ")}
             </p>

@@ -1,5 +1,5 @@
 import my_http from "./http";
-import { Admin } from "@/types/types";
+import { Admin } from "@/types/Generaltypes";
 
 export async function getSupplierByCredentials(
   email: string,

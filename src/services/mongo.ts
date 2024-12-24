@@ -1,4 +1,4 @@
-import { UserGoogleFormValues } from "@/types/types";
+import { UserGoogleFormValues } from "@/types/Generaltypes";
 
 export const databaseName = "benefits-site";
 
@@ -78,7 +78,7 @@ export async function getClientModeByEmailAndPassword(
   client: any,
   collection: string,
   email: string,
-  password: string,
+  password: string
 ) {
   const db = client.db(databaseName);
   const clientMode = await db
@@ -87,11 +87,21 @@ export async function getClientModeByEmailAndPassword(
   return clientMode;
 }
 
-export async function findOrCreateUser({ email, name }: { email: string; name?: string }) {
+export async function findOrCreateUser({
+  email,
+  name,
+}: {
+  email: string;
+  name?: string;
+}) {
   let client = await connectDatabase();
   const db = client.db("benefits-site");
-  const existingUser = await db.collection("users_collection").findOne({ email });
-  if (existingUser) { return existingUser; }
+  const existingUser = await db
+    .collection("users_collection")
+    .findOne({ email });
+  if (existingUser) {
+    return existingUser;
+  }
 
   const newUser: UserGoogleFormValues = {
     username: name || "Anonymous Google User",
@@ -104,9 +114,7 @@ export async function findOrCreateUser({ email, name }: { email: string; name?: 
     registrationDate: new Date().toISOString(),
   };
 
-
   const result = await db.collection("users_collection").insertOne(newUser);
-
 
   return { ...newUser, _id: result.insertedId.toString() };
 }

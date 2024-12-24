@@ -1,5 +1,5 @@
 "use client";
-import { Club } from "@/types/types";
+import { Club } from "@/types/ClubTypes";
 import styles from "@/styles/Clubs/ClubsContainer.module.css";
 import { useState } from "react";
 import {
@@ -49,8 +49,8 @@ const ClubsContainer = ({ clubs, title }: ClubsContainerProps) => {
           ) : (
             clubsToShow?.map((club: Club) => (
               <ClubCard key={club._id} club={club}></ClubCard>
-            )
-            ))}
+            ))
+          )}
         </div>
       </div>
     </div>

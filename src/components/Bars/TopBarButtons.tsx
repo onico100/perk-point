@@ -2,10 +2,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/Bars/TopBar.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode } from "@/types/types";
+import { ClientMode } from "@/types/Generaltypes";
 import { usePathname, useRouter } from "next/navigation";
 import { PiUserCircleThin } from "react-icons/pi";
-import { signOut } from "@/services/auth";
 import { doLogout } from "../SignPages/actions";
 
 const TopBarButtons: React.FC = () => {
@@ -38,7 +37,7 @@ const TopBarButtons: React.FC = () => {
     };
   }, []);
 
-  const handleDisconnect = async () => {    
+  const handleDisconnect = async () => {
     setClientMode(ClientMode.general);
     setCurrentSupplier(null);
     setCurrentUser(null);
@@ -107,8 +106,8 @@ const TopBarButtons: React.FC = () => {
               התנתקות
             </button>
           </>
-        )}        
-        
+        )}
+
         {clientMode === "ADMIN" && (
           <>
             <h1>ניהול האתר</h1>
