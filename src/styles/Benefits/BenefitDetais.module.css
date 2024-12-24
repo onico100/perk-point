@@ -73,31 +73,14 @@
   border-radius: 12px;
 }
 
-/* .logo {
-  height: 120px;
-  width: 120px; 
-  border-radius: 12px;
-  object-fit: contain;
-} */
 .logo {
-  width: 100%;
-  height: auto;
-  max-height: 100%;
+  width: 225px; 
+  height: auto; 
+  max-height: 100%; 
   border-radius: 12px;
   object-fit: contain;
 }
 
-/* .logoContainer {
-  position: relative;
-  background-color: #f9f9f9;
-  height: 60%;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-} */
 
 .logoContainer {
   position: relative;
