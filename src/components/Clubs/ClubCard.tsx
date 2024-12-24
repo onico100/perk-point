@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Club } from "@/types/types";
+import { Club } from "@/types/ClubTypes";
 import styles from "@/styles/Clubs/ClubCard.module.css";
 import { useParams } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
@@ -40,7 +40,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
             updatedData: {
               username: currentUser?.username,
               email: currentUser?.email,
-              clubs: [...(currentUser?.clubs || []), club._id],
+              clubs: [...(currentUser?.clubs || []), club._id || " "],
               registrationDate: currentUser?.registrationDate,
               savedBenefits: currentUser?.savedBenefits,
               city: currentUser?.city,

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "@/styles/general/resetPassword.module.css";
-import { passwordSchema } from "@/types/types";
+import { passwordSchema } from "@/types/SupplierTypes";
 
 export default function PasswordReset() {
   const router = useRouter();
@@ -82,7 +82,10 @@ export default function PasswordReset() {
         onChange={(e) => setConfirmPassword(e.target.value)}
         className={styles.resetPasswordInput}
       />
-      <button onClick={handleResetPassword} className={styles.resetPasswordButton}>
+      <button
+        onClick={handleResetPassword}
+        className={styles.resetPasswordButton}
+      >
         איפוס סיסמה
       </button>
     </div>

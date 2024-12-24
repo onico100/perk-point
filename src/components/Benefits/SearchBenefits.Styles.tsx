@@ -61,8 +61,17 @@ export const SelectLabel = styled.label`
   border-radius: 7px;
   height: 40px;
   line-height: 40px;
+  font-size: 14px
   font-size: 14px;
   width: 100%;
+
+  @media (max-width: 958px) {
+    font-size: 12px;  
+  }
+
+  @media (max-width: 480px) {
+    font-size: 10px;  
+  }
 `;
 
 export const SupplierInput = styled.input`
@@ -78,6 +87,22 @@ export const SupplierInput = styled.input`
 
   &:focus {
     opacity: 1;
+  }
+
+  &::placeholder {
+    color: grey;  
+  }
+
+  @media (max-width: 958px) {
+    &::placeholder {
+      font-size: 12px;  
+    }
+  }
+
+  @media (max-width: 480px) {
+    &::placeholder {
+      font-size: 10px; 
+    }
   }
 `;
 
@@ -103,6 +128,13 @@ export const DropdownOption = styled.div`
   display: flex;
   align-items: center;
   padding: 5px 0;
+
+  @media (max-width: 958px) {
+    font-size: 12px;  
+  }
+  @media (max-width: 480px) {
+      font-size: 10px; 
+  }
 `;
 
 export const DateLabel = styled.label`

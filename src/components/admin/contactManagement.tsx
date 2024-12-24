@@ -1,8 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "@/styles/admin/dashboardContact.module.css";
-import { ContactForm } from "@/types/types";
-import { getAllContactForms, updateContactFormStatus } from "@/services/contactServices";
+import { ContactForm } from "@/types/Generaltypes";
+import {
+  getAllContactForms,
+  updateContactFormStatus,
+} from "@/services/contactServices";
 
 const ContactManagement = () => {
   const [contactForms, setContactForms] = useState<ContactForm[]>([]);
@@ -85,7 +88,9 @@ const ContactManagement = () => {
                 <select
                   value={form.status}
                   onChange={(e) => handleStatusChange(form._id, e.target.value)}
-                  className={`${styles.statusDropdown} ${getStatusClass(form.status)}`}
+                  className={`${styles.statusDropdown} ${getStatusClass(
+                    form.status
+                  )}`}
                 >
                   <option value="התקבלה">התקבלה</option>
                   <option value="בטיפול">בטיפול</option>

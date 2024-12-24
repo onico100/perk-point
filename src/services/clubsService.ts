@@ -1,5 +1,5 @@
 import my_http from "@/services/http";
-import { Club } from "@/types/types";
+import { Club } from "@/types/ClubTypes";
 
 export async function getAllClubs() {
   try {
@@ -20,6 +20,18 @@ export async function getClubById(id: string) {
 }
 
 export async function updateClubById(
+  id: string,
+  updatedData: any
+): Promise<Club> {
+  try {
+    const response = await my_http.patch(`/clubs/update/${id}`, updatedData);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating club with ID ${id}:`, error);
+    throw error;
+  }
+}
+export async function updateStatusClubById(
   id: string,
   updatedData: any
 ): Promise<Club> {

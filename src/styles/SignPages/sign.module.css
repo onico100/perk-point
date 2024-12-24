@@ -93,6 +93,7 @@
   z-index: 1;
   color: #94a6f5;
   border-color: #4a4a4a;
+  font-size: 16px;
 }
 
 .loginPageButton:hover {

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { getSupplierByCredentials } from "@/services/adminServices";
 import styles from "@/styles/SignPages/AdminLogin.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode } from "@/types/types";
+import { ClientMode } from "@/types/Generaltypes";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -22,7 +22,7 @@ const AdminLogin = () => {
         localStorage.setItem("admin", JSON.stringify(admin));
         const setClientMode = useGeneralStore.getState().setClientMode;
         setClientMode(ClientMode.admin);
-        router.push("/admin/dashboard"); 
+        router.push("/admin/dashboard");
       }
     } catch (err) {
       setError("Invalid email or password. Please try again.");
@@ -31,10 +31,10 @@ const AdminLogin = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Admin Login</h1>
+      <h1>כניסת מנהל</h1>
       <form onSubmit={handleLogin} className={styles.form}>
         <label>
-          Email:
+          אמייל:
           <input
             type="email"
             value={email}
@@ -43,7 +43,7 @@ const AdminLogin = () => {
           />
         </label>
         <label>
-          Password:
+          סיסמא:
           <input
             type="password"
             value={password}
@@ -51,7 +51,7 @@ const AdminLogin = () => {
             required
           />
         </label>
-        <button type="submit">Login</button>
+        <button type="submit">התחבר</button>
       </form>
       {error && <p className={styles.error}>{error}</p>}
     </div>

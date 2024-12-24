@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import ContactManagement from "./contactManagement";
-//import SupplierManagement from "@/components/SupplierManagement";
-//import CustomerManagement from "@/components/CustomerManagement"; 
 import styles from "@/styles/admin/dashboard.module.css";
 import SupplierManagement from "./supplierManagement";
 import UsersManagement from "./usersManagement";
+import ClubsContactsManagement from "./clubsManagament";
 
 const DashboardComp = () => {
   const [activeComponent, setActiveComponent] = useState<string>("");
@@ -18,7 +17,9 @@ const DashboardComp = () => {
       case "supplier":
         return <SupplierManagement />;
       case "users":
-        return <UsersManagement />;
+        return <UsersManagement />;      
+      case "clubs_contacts":
+        return <ClubsContactsManagement />;
     }
   };
 
@@ -42,7 +43,15 @@ const DashboardComp = () => {
           onClick={() => setActiveComponent("users")}
         >
           ניהול לקוחות
+        </button>        
+        
+        <button
+          className={styles.dashboardButton}
+          onClick={() => setActiveComponent("clubs_contacts")}
+        >
+          רישומי מועדון
         </button>
+
       </div>
       <div className={styles.contentContainer}>{renderComponent()}</div>
     </div>

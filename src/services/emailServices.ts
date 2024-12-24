@@ -1,10 +1,9 @@
-
-import { User } from "@/types/types";
+import { User } from "@/types/Generaltypes";
 import my_http from "./http";
 
 export const checkEmailService = async (email: string): Promise<boolean> => {
   try {
-    const response =   await my_http.post("/checkEmail", { email });
+    const response = await my_http.post("/checkEmail", { email });
     return response.data.exists;
   } catch (error) {
     console.error("Error checking email:", error);
@@ -12,7 +11,9 @@ export const checkEmailService = async (email: string): Promise<boolean> => {
   }
 };
 
-export const returnUserCheckEmailService = async (email: string): Promise<User | null> => {
+export const returnUserCheckEmailService = async (
+  email: string
+): Promise<User | null> => {
   try {
     const response = await my_http.post("/checkEmail", { email });
     if (response.status !== 200) {
@@ -21,17 +22,22 @@ export const returnUserCheckEmailService = async (email: string): Promise<User |
     }
 
     if (response.data.exists && response.data.user) {
-      return response.data.user as User; 
+      return response.data.user as User;
     }
 
-    return null; 
+    return null;
   } catch (error: any) {
-    console.error("Error checking email:", error?.response?.data || error.message);
-    return null; 
+    console.error(
+      "Error checking email:",
+      error?.response?.data || error.message
+    );
+    return null;
   }
 };
 
-export const sendPasswordResetEmail = async (email: string): Promise<boolean> => {
+export const sendPasswordResetEmail = async (
+  email: string
+): Promise<boolean> => {
   try {
     const response = await my_http.post("/passwordReset", { email });
     return response.data.success;

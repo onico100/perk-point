@@ -1,4 +1,4 @@
-import { Benefit } from "@/types/types";
+import { Benefit } from "@/types/BenefitsTypes";
 
 export const getVaildBenefits = (benefits: Benefit[]) => {
   return benefits.filter((benefit) => {

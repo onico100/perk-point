@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Benefit, Club, Supplier } from "@/types/types";
+
 import styles from "@/styles/Benefits/benefitCard.module.css";
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
@@ -13,6 +13,9 @@ import { beforeActionAlert, errorAlert } from "@/utils/sweet-alerts";
 import { getVaildBenefits } from "@/utils/benefitsUtils";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
 import YourBenefit from "./YourBenefit";
+import { Benefit } from "@/types/BenefitsTypes";
+import { Supplier } from "@/types/SupplierTypes";
+import { Club } from "@/types/ClubTypes";
 
 interface BenefitsCardProps {
   benefit: Benefit;
@@ -32,6 +35,8 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   const { deleteBenefit } = useFetchBenefits();
 
   const isExpired = getVaildBenefits([benefit]).length == 0;
+
+  const isClubApi = club ? club.APIData : false;
 
   const id = params.clientId;
   const { clientMode } = useGeneralStore();
@@ -145,7 +150,13 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
         ))}
 
       {(clientMode == "ADMIN" || (id != "0" && clientMode == "SUPPLIER")) && (
-        <div className={styles.deleteButton} onClick={deleteBenefitFunc}>
+        <div
+          className={`${styles.deleteButton} ${
+            isClubApi ? styles.disabled : ""
+          }`}
+          onClick={!isClubApi ? deleteBenefitFunc : undefined}
+          title={isClubApi ? "רק המועדון יכול למחוק" : ""}
+        >
           <MdDelete />
         </div>
       )}
