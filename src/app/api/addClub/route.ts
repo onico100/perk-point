@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
             email,
             createdAt: new Date().toISOString(),
             isActive: true,
-            status: "received"
+            status: "התקבל"
         };
 
         await collection.insertOne(contactData);

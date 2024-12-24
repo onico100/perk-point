@@ -4,7 +4,6 @@ import styles from "@/styles/admin/clubsManagement.module.css";
 import {
   addClub,
   getAllClubs,
-  updateClubById,
   updateStatusClubById,
 } from "@/services/clubsService";
 import {
@@ -39,12 +38,14 @@ const ClubsContactsManagement = () => {
     const fetchClubs = async () => {
       try {
         const addClubData: addClubForm[] = await getAllAddClubForms();
+        console.log("addClubData", addClubData);
         setClubContacts(addClubData);
         setPendingClubs([]);
         const pendingData: Club[] = await getAllClubs();
         setPendingClubs(
-          pendingData.filter((club) => club.clubStatus === ClubStatus.pending)
+          pendingData.filter((club) => club.clubStatus === "ממתין")
         );
+        console.log("pendingData", pendingData);
       } catch (error) {
         console.error("Error fetching clubs:", error);
       } finally {
@@ -57,7 +58,7 @@ const ClubsContactsManagement = () => {
 
   const handleUpdateStatus = async (id: string, status: string) => {
     try {
-      if (status === "approved") {
+      if (status === "אושר") {
         const clubForSaving = clubContacts.find((clubC) => clubC._id === id);
 
         if (!clubForSaving) {
@@ -80,7 +81,10 @@ const ClubsContactsManagement = () => {
         };
 
         await addClub(newClub);
-        setPendingClubs((prev) => [...prev, newClub]);
+        if(newClub.clubStatus === ClubStatus.pending) {
+          setPendingClubs((prev) => [...prev, newClub]);
+        }
+        
       }
 
       await updateAddClubFormStatus(id, status);
@@ -93,10 +97,11 @@ const ClubsContactsManagement = () => {
     }
   };
 
-  const handleFinalApproval = async (id: string, status: string) => {
+  const handleFinalApproval = async (club: Club, status: string) => {
+    console.log("id", club);
     try {
-      await updateStatusClubById(id, { clubStatus: status });
-      setPendingClubs((prev) => prev.filter((club) => club._id !== id));
+      await updateStatusClubById(club._id || " ", { clubStatus: status });
+      setPendingClubs((prev) => prev.filter((club) => club._id !== club._id));
     } catch (error) {
       console.error("Error approving club:", error);
     }
@@ -112,7 +117,7 @@ const ClubsContactsManagement = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.mainTitle}>ניהול פניות למועדונים</h1>
+      <p className={styles.mainTitle}>ניהול פניות למועדונים</p>
       {loading ? (
         <LoadingSpinner />
       ) : (
@@ -136,7 +141,7 @@ const ClubsContactsManagement = () => {
                       <td className={styles.tableCell}>{clubC.clubName}</td>
                       <td className={styles.tableCell}>{clubC.status}</td>
                       <td className={styles.tableCellActions}>
-                        {clubC.status === "received" && (
+                        {clubC.status === "התקבל" && (
                           <>
                             <button
                               className={styles.detailsButton}
@@ -147,7 +152,7 @@ const ClubsContactsManagement = () => {
                             <button
                               className={styles.approveButton}
                               onClick={() =>
-                                handleUpdateStatus(clubC._id, "approved")
+                                handleUpdateStatus(clubC._id, "אושר")
                               }
                             >
                               אשר
@@ -155,7 +160,7 @@ const ClubsContactsManagement = () => {
                             <button
                               className={styles.rejectButton}
                               onClick={() =>
-                                handleUpdateStatus(clubC._id, "rejected")
+                                handleUpdateStatus(clubC._id, "נדחה")
                               }
                             >
                               דחה
@@ -186,7 +191,7 @@ const ClubsContactsManagement = () => {
                   {pendingClubs.map((club: Club) => (
                     <tr key={club._id} className={styles.tableRow}>
                       <td className={styles.tableCell}>{club.clubName}</td>
-                      <td className={styles.tableCellActions}>
+                      <td className={styles.tableCell}>
                         <button
                           className={styles.detailsButton}
                           onClick={() => openClubDetails(club)}
@@ -195,19 +200,15 @@ const ClubsContactsManagement = () => {
                         </button>
                         <button
                           className={styles.approveButton}
-                          onClick={() =>
-                            handleFinalApproval(club._id || " ", "ACTIVE")
-                          }
+                          onClick={() => handleFinalApproval(club || " ", "פעיל")}
                         >
                           אישור וקליטת מועדון
                         </button>
                         <button
                           className={styles.rejectButton}
-                          onClick={() =>
-                            handleFinalApproval(club._id || " ", "REJECTED")
-                          }
+                          onClick={() => handleFinalApproval(club || " ", "בוטל")}
                         >
-                          מחיקת מועדון
+                          מחיקה
                         </button>
                       </td>
                     </tr>
@@ -241,7 +242,6 @@ const ClubsContactsManagement = () => {
           </div>
         </div>
       )}
-      c
     </div>
   );
 };

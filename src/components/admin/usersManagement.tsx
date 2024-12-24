@@ -67,8 +67,8 @@ const UsersManagement = () => {
       {
         label: "משתמשים שהצטרפו",
         data: usersByMonth,
-        backgroundColor: "#4caf50",
-        borderColor: "#388e3c",
+        backgroundColor: "rgb(112, 31, 205)",
+        borderColor: " #5a0db1",
         borderWidth: 1,
       },
     ],

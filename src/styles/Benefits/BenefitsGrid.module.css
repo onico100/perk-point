@@ -32,23 +32,10 @@
   color: #474747;
   margin-bottom: 10px;
   margin-right: 2vw;
-  font-family: 'Assistant';
+  font-family: "Assistant";
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
-}
-
-.addButton {
-  width: 280px;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.addButton svg {
-  font-size: 100px;
-  color: #474747;
 }
 
 .toggleContainer {
@@ -66,7 +53,7 @@
 .toggleSwitch {
   width: 40px;
   height: 20px;
-  background-color: #571717;
+  background-color: #979595;
   border-radius: 15px;
   position: relative;
   margin-left: 10px;
@@ -106,16 +93,88 @@ input[type="checkbox"]:checked + .toggleSwitch::before {
 .noBenefitsMessage {
   text-align: center;
   font-size: 1.5em;
-  color: #888; 
+  color: #888;
 }
 
 .link {
-  margin-left: 5px; 
-  color: #0070f3; 
-  text-decoration: underline; 
-  cursor: pointer; 
+  margin-left: 5px;
+  color: #0070f3;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .link:hover {
-  color: #0056b3; 
+  color: #0056b3;
+}
+
+.buttonsAddingContainer {
+  width: 240px;
+  height: 270px;
+  background-color: #e7e5e5;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 1px dashed #474747;
+  padding: 30px;
+  font-family: Arial, sans-serif;
+  position: relative;
+  margin-right: 1vw;
+  margin-bottom: 1vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  font-family: "Rubik";
+  font-weight: 800;
+}
+
+.excelButton {
+  display: flex;
+  align-items: center;
+  background-color: #a17ff0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 0 7px 7px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-left: 20px;
+}
+
+.excelButton:hover {
+  transform: scale(1.05);
+}
+
+.excelIcon {
+  margin-right: 8px;
+  margin-left: 5px;
+  font-size: 1rem;
+}
+
+.addButton {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #b247e8;
+  border: none;
+  border-radius: 5px;
+  padding: 2px;
+  padding-left: 9px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.addButton svg {
+  font-size: 100px;
+  color: #0a080e;
+}
+
+.addButton:hover {
+  transform: scale(1.05);
 }

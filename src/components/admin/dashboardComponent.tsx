@@ -53,7 +53,16 @@ const DashboardComp = () => {
         </button>
 
       </div>
-      <div className={styles.contentContainer}>{renderComponent()}</div>
+      <div className={styles.contentContainer}>
+        {activeComponent ? (
+          renderComponent()
+        ) : (
+          <div className={styles.welcomeMessage}>
+            <h1>ברוך הבא, מנהל</h1>
+            <p>בחר אחת מהאפשרויות מימין כדי להתחיל לנהל את המערכת.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

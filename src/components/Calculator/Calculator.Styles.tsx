@@ -192,7 +192,7 @@ export const CloseButton = styled.button`
 
 export const CalcButtonContainer = styled.div`
   position: fixed;
-  bottom: 20px;
+  bottom: 50px;
   left: 20px;
   z-index: 10000;
 `;
