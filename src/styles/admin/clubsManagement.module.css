@@ -43,7 +43,7 @@
   .tableHeader {
     background-color: #007bff;
     color: #fff;
-    text-align: left;
+    text-align: right;
     padding: 10px;
     font-weight: bold;
   }
@@ -54,7 +54,7 @@
   
   .tableCell {
     padding: 10px;
-    text-align: left;
+    text-align: right;
   }
   
   .tableCellActions {
