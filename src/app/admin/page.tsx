@@ -38,7 +38,7 @@ const AdminLogin = () => {
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value.toLocaleLowerCase())}
             required
           />
         </label>
