@@ -24,7 +24,8 @@ export interface Club {
 }
 
 export enum ClubStatus {
-  active = "ACTIVE",
-  inactive = "INACTIVE",
-  pending = "PENDING",
+  active = "פעיל",
+  inactive = "בוטל",
+  pending = "ממתין",
 }
+

@@ -57,7 +57,7 @@ const ClubsContactsManagement = () => {
 
   const handleUpdateStatus = async (id: string, status: string) => {
     try {
-      if (status === "approved") {
+      if (status === "מאושר") {
         const clubForSaving = clubContacts.find((clubC) => clubC._id === id);
 
         if (!clubForSaving) {
@@ -136,7 +136,7 @@ const ClubsContactsManagement = () => {
                       <td className={styles.tableCell}>{clubC.clubName}</td>
                       <td className={styles.tableCell}>{clubC.status}</td>
                       <td className={styles.tableCellActions}>
-                        {clubC.status === "received" && (
+                        {clubC.status === "התקבל" && (
                           <>
                             <button
                               className={styles.detailsButton}
@@ -147,7 +147,7 @@ const ClubsContactsManagement = () => {
                             <button
                               className={styles.approveButton}
                               onClick={() =>
-                                handleUpdateStatus(clubC._id, "approved")
+                                handleUpdateStatus(clubC._id, "אושר")
                               }
                             >
                               אשר
@@ -155,7 +155,7 @@ const ClubsContactsManagement = () => {
                             <button
                               className={styles.rejectButton}
                               onClick={() =>
-                                handleUpdateStatus(clubC._id, "rejected")
+                                handleUpdateStatus(clubC._id, "נדחה")
                               }
                             >
                               דחה
@@ -195,17 +195,13 @@ const ClubsContactsManagement = () => {
                         </button>
                         <button
                           className={styles.approveButton}
-                          onClick={() =>
-                            handleFinalApproval(club._id || " ", "ACTIVE")
-                          }
+                          onClick={() => handleFinalApproval(club._id || " ", "פעיל")}
                         >
                           אישור וקליטת מועדון
                         </button>
                         <button
                           className={styles.rejectButton}
-                          onClick={() =>
-                            handleFinalApproval(club._id || " ", "REJECTED")
-                          }
+                          onClick={() => handleFinalApproval(club._id || " ", "בוטל")}
                         >
                           מחיקת מועדון
                         </button>

@@ -12,7 +12,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
         const collection = db.collection("contact_addClub_collection");
         console.log("status: " + status);
 
-        const result= status == "rejected" ?  
+        const result= status == "נדחה" ?  
             await collection.updateOne( { _id: new ObjectId(id) },  { $set: { status , isActive:false} },
         ) : await collection.updateOne( { _id: new ObjectId(id) },  { $set: { status: status },} )
 
