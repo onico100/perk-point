@@ -90,18 +90,18 @@ export const SupplierInput = styled.input`
   }
 
   &::placeholder {
-    color: grey;  
+    color: grey;
   }
 
   @media (max-width: 958px) {
     &::placeholder {
-      font-size: 12px;  
+      font-size: 12px;
     }
   }
 
   @media (max-width: 480px) {
     &::placeholder {
-      font-size: 10px; 
+      font-size: 10px;
     }
   }
 `;
@@ -130,10 +130,10 @@ export const DropdownOption = styled.div`
   padding: 5px 0;
 
   @media (max-width: 958px) {
-    font-size: 12px;  
+    font-size: 12px;
   }
   @media (max-width: 480px) {
-      font-size: 10px; 
+    font-size: 10px;
   }
 `;
 
@@ -183,7 +183,7 @@ export const RefreshLabel = styled.span`
   opacity: 0;
   transition: visibility 0s, opacity 0.3s ease;
   color: lightgrey;
-  font-size: 12px;
+  font-size: 10px;
 
   ${RefreshContainer}:hover & {
     visibility: visible;

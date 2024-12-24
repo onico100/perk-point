@@ -23,6 +23,7 @@ export default function ClientId() {
   let currentTitle = titles[0];
 
   if (benefits) {
+    benefitsToShow = benefits;
     if (id !== "0") {
       if (clientMode === "USER") {
         benefitsToShow =
@@ -32,7 +33,8 @@ export default function ClientId() {
         benefitsToShow = benefits.filter((b) => b.supplierId === id) || [];
         currentTitle = titles[2];
       }
-    } else benefitsToShow = getVaildBenefits(benefits);
+    } else if (clientMode != "ADMIN")
+      benefitsToShow = getVaildBenefits(benefits);
   }
 
   if (isLoadingB || isFetchingB) return <LoadingSpinner />;
