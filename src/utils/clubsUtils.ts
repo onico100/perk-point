@@ -3,19 +3,19 @@ import { BenefitInput } from "@/types/benefits/types";
 import { Benefit, Branch, Club, Supplier } from "@/types/types";
 
 export const getActiveClubs = (clubs: Club[]) => {
-  return clubs.filter((c: Club) => c.clubStatus == "ACTIVE");
+  return clubs.filter((c: Club) => c.clubStatus == "פעיל");
 };
 
 export const getApiClubs = (clubs: Club[]) => {
-  return clubs.filter((c: Club) => c.APIData && c.clubStatus == "ACTIVE");
+  return clubs.filter((c: Club) => c.APIData && c.clubStatus == "פעיל");
 };
 
 export const getInactiveClubs = (clubs: Club[]) => {
-  return clubs.filter((c: Club) => c.clubStatus == "INACTIVE");
+  return clubs.filter((c: Club) => c.clubStatus == "בוטל");
 };
 
 export const getPendingClubs = (clubs: Club[]) => {
-  return clubs.filter((c: Club) => c.clubStatus == "PENDING");
+  return clubs.filter((c: Club) => c.clubStatus == "ממתין");
 };
 
 export const getActiveNotApiClubs = (clubs: Club[]) => {
