@@ -5,7 +5,7 @@ import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Benefits/BenefitsGrid.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { getVaildBenefits, getUnVAildBenefits } from "@/utils/benefitsUtils";
@@ -14,6 +14,7 @@ import useFilterStore from "@/stores/filterStore";
 import { Benefit } from "@/types/BenefitsTypes";
 import { Supplier } from "@/types/SupplierTypes";
 import { Club } from "@/types/ClubTypes";
+import { FaFileExcel } from "react-icons/fa";
 
 interface BenefitsContainerProps {
   benefits: Benefit[];
@@ -28,10 +29,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
     isBenefitDetailPage,
     setBenefitDetailPage,
     resetFiltersMain,
-    setFiltersMain,
     resetFiltersPersenal,
-    filtersMain,
-    filtersPersenal,
   } = useFilterStore();
 
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
@@ -39,6 +37,8 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
 
   const params = useParams();
   const id = params.clientId;
+
+  const router = useRouter()
 
   useEffect(() => {
     if (benefits.length > 0) {
@@ -149,6 +149,20 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
             </div>
           )}
         </div>
+        {id != "0" && clientMode == "SUPPLIER" && (
+            <div className={styles.buttonsAddingContainer}>
+            <button
+            className={styles.excelButton}
+            onClick={() => router.push(`/xlsx/`)}
+          >
+            <FaFileExcel className={styles.excelIcon} /> להוספת רשימות הטבות באמצעות קובץ אקסל
+          </button>
+          {id != "0" && clientMode == "SUPPLIER" && (
+            <Link href="/addBenefit" className={styles.addButton}>
+              <IoIosAddCircleOutline /> הוספת הטבה חדשה
+            </Link>
+          )}</div>
+            ) }
         <div className={styles.cardsContainer}>
           {benefitsToShow.length === 0 ? (
             <div className={styles.noBenefitsMessage}>
@@ -162,6 +176,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
               )}
             </div>
           ) : (
+
             benefitsToShow?.map((benefit) => (
               <BenefitsCard
                 key={benefit._id}
@@ -172,11 +187,6 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
                 club={clubs?.find((c: Club) => c._id == benefit.clubId)}
               />
             ))
-          )}
-          {id != "0" && clientMode == "SUPPLIER" && (
-            <Link href="/addBenefit" className={styles.addButton}>
-              <IoIosAddCircleOutline />
-            </Link>
           )}
         </div>
       </div>
