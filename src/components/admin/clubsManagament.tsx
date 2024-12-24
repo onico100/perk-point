@@ -38,12 +38,14 @@ const ClubsContactsManagement = () => {
     const fetchClubs = async () => {
       try {
         const addClubData: addClubForm[] = await getAllAddClubForms();
+        console.log("addClubData", addClubData);
         setClubContacts(addClubData);
         setPendingClubs([]);
         const pendingData: Club[] = await getAllClubs();
         setPendingClubs(
-          pendingData.filter((club) => club.clubStatus === ClubStatus.pending)
+          pendingData.filter((club) => club.clubStatus === "ממתין")
         );
+        console.log("pendingData", pendingData);
       } catch (error) {
         console.error("Error fetching clubs:", error);
       } finally {
@@ -57,9 +59,6 @@ const ClubsContactsManagement = () => {
   const handleUpdateStatus = async (id: string, status: string) => {
     try {
       if (status === "אושר") {
-
-        
-
         const clubForSaving = clubContacts.find((clubC) => clubC._id === id);
 
         if (!clubForSaving) {
@@ -82,7 +81,10 @@ const ClubsContactsManagement = () => {
         };
 
         await addClub(newClub);
-        setPendingClubs((prev) => [...prev, newClub]);
+        if(newClub.clubStatus === ClubStatus.pending) {
+          setPendingClubs((prev) => [...prev, newClub]);
+        }
+        
       }
 
       await updateAddClubFormStatus(id, status);
@@ -95,10 +97,11 @@ const ClubsContactsManagement = () => {
     }
   };
 
-  const handleFinalApproval = async (id: string, status: string) => {
+  const handleFinalApproval = async (club: Club, status: string) => {
+    console.log("id", club);
     try {
-      await updateStatusClubById(id, { clubStatus: status });
-      setPendingClubs((prev) => prev.filter((club) => club._id !== id));
+      await updateStatusClubById(club._id || " ", { clubStatus: status });
+      setPendingClubs((prev) => prev.filter((club) => club._id !== club._id));
     } catch (error) {
       console.error("Error approving club:", error);
     }
@@ -197,13 +200,13 @@ const ClubsContactsManagement = () => {
                         </button>
                         <button
                           className={styles.approveButton}
-                          onClick={() => handleFinalApproval(club._id || " ", "פעיל")}
+                          onClick={() => handleFinalApproval(club || " ", "פעיל")}
                         >
                           אישור וקליטת מועדון
                         </button>
                         <button
                           className={styles.rejectButton}
-                          onClick={() => handleFinalApproval(club._id || " ", "בוטל")}
+                          onClick={() => handleFinalApproval(club || " ", "בוטל")}
                         >
                           מחיקה
                         </button>
