@@ -128,6 +128,13 @@ export const DropdownOption = styled.div`
   display: flex;
   align-items: center;
   padding: 5px 0;
+
+  @media (max-width: 958px) {
+    font-size: 12px;  
+  }
+  @media (max-width: 480px) {
+      font-size: 10px; 
+  }
 `;
 
 export const DateLabel = styled.label`
