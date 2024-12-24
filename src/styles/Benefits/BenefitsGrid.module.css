@@ -17,6 +17,7 @@
   flex-direction: column;
   width: 100%;
   box-sizing: border-box;
+  margin: 15px;
 }
 
 .cardsContainer {
@@ -38,18 +39,6 @@
   font-style: normal;
 }
 
-.addButton {
-  width: 280px;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.addButton svg {
-  font-size: 100px;
-  color: #474747;
-}
 
 .toggleContainer {
   display: flex;
@@ -118,4 +107,62 @@ input[type="checkbox"]:checked + .toggleSwitch::before {
 
 .link:hover {
   color: #0056b3; 
+}
+
+
+.buttonsAddingContainer {
+  display: flex;
+  margin-bottom: 25px;
+  margin-right: 15px;
+
+}
+
+.excelButton {
+  display: flex;
+  align-items: center;
+  background-color: #076a1e; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding-left: 7px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-left: 15px;
+}
+
+.excelButton:hover {
+  background-color: #218838; 
+}
+
+.excelIcon {
+  margin-right: 8px;
+  margin-left: 5px;
+  font-size: 1rem;
+}
+
+.addButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #160885; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 2px;
+  padding-left: 9px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.addButton svg {
+  font-size: 40px;
+  color: #ffffff;
+}
+
+.addButton:hover {
+  background-color: #2a17ba; 
 }
