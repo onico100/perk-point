@@ -77,7 +77,7 @@ export default function SupplierLoginComponent() {
                 id="email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.toLowerCase())}
                 placeholder="כתובת אימייל"
                 required
                 className={styles.inputField}
