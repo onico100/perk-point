@@ -10,11 +10,17 @@ import {
 const ContactManagement = () => {
   const [contactForms, setContactForms] = useState<ContactForm[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedStatus, setSelectedStatus] = useState('');
 
   const fetchContactForms = async () => {
     try {
       const forms = await getAllContactForms();
-      setContactForms(forms);
+      const sortedForms = forms.sort((a, b) => {
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
+        return dateB - dateA;
+      }); 
+      setContactForms(sortedForms);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching contact forms:", error);
@@ -39,6 +45,10 @@ const ContactManagement = () => {
     }
   };
 
+  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStatus(event.target.value);
+  };
+
   if (loading) {
     return <p>טוען נתונים...</p>;
   }
@@ -58,9 +68,28 @@ const ContactManagement = () => {
     }
   };
 
+
+  const filteredForms = selectedStatus
+    ? contactForms.filter(form => form.status === selectedStatus)
+    : contactForms;
+
   return (
     <div className={styles.container}>
       <h1> ניהול פניות</h1>
+
+
+      <select
+        value={selectedStatus}
+        onChange={handleFilterChange}
+        className={styles.statusDropdown}
+      >
+        <option value="">כל הסטטוסים</option>
+        <option value="התקבלה">התקבלה</option>
+        <option value="בטיפול">בטיפול</option>
+        <option value="טופלה">טופלה</option>
+        <option value="בוטל">בוטל</option>
+      </select>
+
       <table className={styles.table}>
         <thead>
           <tr>
@@ -73,7 +102,7 @@ const ContactManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {contactForms.map((form) => (
+          {filteredForms.map((form) => (
             <tr key={form._id}>
               <td>{form.serialNumber}</td>
               <td>{form.name}</td>
