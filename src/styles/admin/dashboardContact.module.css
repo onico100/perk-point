@@ -1,5 +1,5 @@
 .container {
-    font-family: Arial, sans-serif;
+  font-family: "Assistant";
     margin-top: 20px;
   }
   
@@ -28,7 +28,7 @@
   }
   
   .table th {
-    background-color: #4caf50;
+    background-color: #4c54af;
     color: white;
   }
   
@@ -76,24 +76,24 @@
     border-color: #aaa;
   }
   
-  /* צבעים מותאמים לכל סטטוס */
+
   .received {
-    background-color: #efcaf8; /* ורוד בהיר */
+    background-color: #efcaf8; 
     color: #ba29e2;
   }
   
   .inProgress {
-    background-color: #fff5e6; /* כתום בהיר */
+    background-color: #fff5e6; 
     color: #ff8800;
   }
   
   .completed {
-    background-color: #e6ffe6; /* ירוק בהיר */
+    background-color: #e6ffe6; 
     color: #28a745;
   }
   
   .cancelled {
-    background-color: #ffe6e6; /* אדום בהיר */
+    background-color: #ffe6e6; 
     color: #dc3545;
   }
   
