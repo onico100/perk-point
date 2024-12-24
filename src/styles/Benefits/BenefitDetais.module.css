@@ -1,6 +1,8 @@
 .container {
   padding: 30px;
   font-family: Arial, sans-serif;
+  font-family: 'Assistant';
+  font-weight: 600;
 }
 
 .topContainer {
@@ -73,31 +75,13 @@
   border-radius: 12px;
 }
 
-/* .logo {
-  height: 120px;
-  width: 120px; 
-  border-radius: 12px;
-  object-fit: contain;
-} */
 .logo {
-  width: 100%;
-  height: auto;
-  max-height: 100%;
+  width: 225px; 
+  height: auto; 
+  max-height: 100%; 
   border-radius: 12px;
   object-fit: contain;
 }
-
-/* .logoContainer {
-  position: relative;
-  background-color: #f9f9f9;
-  height: 60%;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-} */
 
 .logoContainer {
   position: relative;
@@ -136,7 +120,7 @@
 }
 
 .infoLabel {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
   margin-bottom: 10px;
   display: block;

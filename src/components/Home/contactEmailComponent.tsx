@@ -10,13 +10,19 @@ interface ContactProps {
 }
 
 const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
-  const [formData, setFormData] = useState({ name: "", email: "", messageContent: "" });
-  const [isLoading, setIsLoading] = useState(false);  
-  const [sent, setSent] = useState(false); 
-  const [error, setError] = useState(""); 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    messageContent: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -24,7 +30,7 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setIsLoading(true); 
+    setIsLoading(true);
 
     try {
       const response = await fetch("/api/contact", {
@@ -33,7 +39,7 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
         body: JSON.stringify(formData),
       });
 
-      setIsLoading(false); 
+      setIsLoading(false);
 
       if (response.ok) {
         setSent(true);
@@ -49,7 +55,7 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
         setError(data.message || "Error sending message.");
       }
     } catch (err) {
-      setIsLoading(false); 
+      setIsLoading(false);
       setError("Error sending message.");
     }
   };
@@ -58,13 +64,18 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
     isPopupOpen && (
       <div className={styles.popupOverlay}>
         <div className={styles.popupContent}>
-          <span className={styles.popupClose} onClick={() => setIsPopupOpen(false)}>
+          <span
+            className={styles.popupClose}
+            onClick={() => setIsPopupOpen(false)}
+          >
             &times;
           </span>
           <h2 className={styles.popupTitle}>צור קשר</h2>
-          {isLoading ? (<>
-            <h2>ממש כמה רגעים..</h2>
-            <SenddingAnimate /></>
+          {isLoading ? (
+            <>
+              <h2>ממש כמה רגעים..</h2>
+              <SenddingAnimate />
+            </>
           ) : !sent ? (
             <form onSubmit={handleSubmit}>
               <div className={styles.emailName}>
@@ -103,7 +114,7 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
               </button>
             </form>
           ) : (
-            <p>ההודעה נשלחה בהצלחה!.</p>
+            <p>ההודעה נשלחה בהצלחה!</p>
           )}
           {error && <p className="text-red-500">{error}</p>}
         </div>

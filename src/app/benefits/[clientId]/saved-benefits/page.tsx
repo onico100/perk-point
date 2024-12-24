@@ -2,7 +2,8 @@
 import { BenefitsContainer, LoadingSpinner } from "@/components";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
-import { Benefit, ClientMode } from "@/types/types";
+import { Benefit } from "@/types/BenefitsTypes";
+import { ClientMode } from "@/types/Generaltypes";
 
 export default function savedBenefits() {
   const setClientMode = useGeneralStore((state) => state.setClientMode);

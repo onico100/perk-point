@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Benefit } from "@/types/types";
+import { Benefit } from "@/types/BenefitsTypes";
 import { persist } from "zustand/middleware";
 
 interface BenefitStore {
@@ -18,4 +18,3 @@ export const useBenefitStore = create<BenefitStore>()(
     }
   )
 );
-

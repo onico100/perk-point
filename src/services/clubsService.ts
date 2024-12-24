@@ -1,5 +1,5 @@
 import my_http from "@/services/http";
-import { Club } from "@/types/types";
+import { Club } from "@/types/ClubTypes";
 
 export async function getAllClubs() {
   try {
@@ -30,7 +30,8 @@ export async function updateClubById(
     console.error(`Error updating club with ID ${id}:`, error);
     throw error;
   }
-}export async function updateStatusClubById(
+}
+export async function updateStatusClubById(
   id: string,
   updatedData: any
 ): Promise<Club> {

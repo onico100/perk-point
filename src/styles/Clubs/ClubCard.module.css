@@ -6,7 +6,6 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   text-align: center;
   padding: 20px;
-  font-family: "Arial", sans-serif;
   margin-bottom: 1vw;
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -16,6 +15,8 @@
   flex-direction: column;
   margin-right: 1vw;
   box-sizing: border-box;
+  font-family: 'Rubik';
+  font-weight: 800;
 }
 
 .clubCard:hover {
@@ -53,6 +54,8 @@
   cursor: pointer;
   margin-top: 10px;
   font-size: 14px;
+  font-family: 'Assistant';
+  font-weight: 600;
 }
 
 .link:hover {

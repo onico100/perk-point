@@ -159,3 +159,22 @@
     font-style: italic;
     font-display: swap;
 }
+
+@font-face {
+    font-family: 'Sn_arnav';
+    src: url('Sn_arnav.woff2') format('woff2'),
+        url('Sn_arnav.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sn_tushtush';
+    src: url('Sn_tushtush.woff2') format('woff2'),
+        url('Sn_tushtush.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

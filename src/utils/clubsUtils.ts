@@ -1,6 +1,6 @@
 import { getAllSuppliers } from "@/services/suppliersServices";
-import { BenefitInput } from "@/types/benefits/types";
-import { Benefit, Branch, Club, Supplier } from "@/types/types";
+import { Benefit, BenefitInput } from "@/types/BenefitsTypes";
+import { Club } from "@/types/ClubTypes";
 
 export const getActiveClubs = (clubs: Club[]) => {
   return clubs.filter((c: Club) => c.clubStatus == "פעיל");

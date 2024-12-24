@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/PersonalDetails/supplierBranches.module.css";
-import { Branch, Supplier } from "@/types/types";
 import { getbranchesByBusinessName } from "@/services/branchesService";
 import {
   successAlert,
@@ -10,14 +9,18 @@ import {
   beforeActionAlert,
 } from "@/utils/sweet-alerts";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
+import { Supplier } from "@/types/SupplierTypes";
+import { Branch } from "@/types/BenefitsTypes";
 
 interface SupplierBranchesProps {
   currentSupplier: Supplier;
 }
 
-const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) => {
-  const [googleSuggestions, setGoogleSuggestions] = useState<Branch[]>([]); 
-  const [selectedBranches, setSelectedBranches] = useState<Branch[]>([]); 
+const SupplierBranches: React.FC<SupplierBranchesProps> = ({
+  currentSupplier,
+}) => {
+  const [googleSuggestions, setGoogleSuggestions] = useState<Branch[]>([]);
+  const [selectedBranches, setSelectedBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(false);
 
   const { updateSupplier } = useFetchSuppliers();
@@ -41,7 +44,6 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
       setLoading(false);
     }
   };
-  
 
   const toggleGoogleSuggestion = (branch: Branch) => {
     const isSelected = selectedBranches.some(
@@ -60,12 +62,12 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
     try {
       const confirm = await beforeActionAlert("האם לשמור את השינויים?");
       if (!confirm) return;
-  
+
       const updatedSupplier = {
         ...currentSupplier,
         branches: selectedBranches,
       };
-  
+
       await updateSupplier({
         id: currentSupplier._id || " ",
         updatedData: {
@@ -91,22 +93,19 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
           )
       );
       setGoogleSuggestions(updatedSuggestions);
-  
+
       successAlert("השינויים נשמרו בהצלחה!");
     } catch (error) {
       errorAlert("שגיאה בשמירת השינויים.");
     }
   };
-  
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>
         ניהול סניפים עבור {currentSupplier?.businessName}
       </h2>
-      <h4>
-        יש לבחור סניפים להוספה או להסרה
-      </h4>
+      <h4>יש לבחור סניפים להוספה או להסרה</h4>
 
       {loading ? (
         <p>טוען...</p>
@@ -122,7 +121,7 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({ currentSupplier }) 
                       (b) => b.nameBranch === suggestion.nameBranch
                     )}
                     onChange={() => toggleGoogleSuggestion(suggestion)}
-                    className={styles.customCheckbox} 
+                    className={styles.customCheckbox}
                   />
                   <span className={styles.branchName}>
                     {suggestion.nameBranch}, {suggestion.city}
