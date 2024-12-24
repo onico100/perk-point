@@ -4,7 +4,6 @@ import styles from "@/styles/admin/clubsManagement.module.css";
 import {
   addClub,
   getAllClubs,
-  updateClubById,
   updateStatusClubById,
 } from "@/services/clubsService";
 import {
@@ -57,7 +56,10 @@ const ClubsContactsManagement = () => {
 
   const handleUpdateStatus = async (id: string, status: string) => {
     try {
-      if (status === "מאושר") {
+      if (status === "אושר") {
+
+        
+
         const clubForSaving = clubContacts.find((clubC) => clubC._id === id);
 
         if (!clubForSaving) {
@@ -112,7 +114,7 @@ const ClubsContactsManagement = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.mainTitle}>ניהול פניות למועדונים</h1>
+      <p className={styles.mainTitle}>ניהול פניות למועדונים</p>
       {loading ? (
         <LoadingSpinner />
       ) : (
@@ -186,7 +188,7 @@ const ClubsContactsManagement = () => {
                   {pendingClubs.map((club: Club) => (
                     <tr key={club._id} className={styles.tableRow}>
                       <td className={styles.tableCell}>{club.clubName}</td>
-                      <td className={styles.tableCellActions}>
+                      <td className={styles.tableCell}>
                         <button
                           className={styles.detailsButton}
                           onClick={() => openClubDetails(club)}
@@ -203,7 +205,7 @@ const ClubsContactsManagement = () => {
                           className={styles.rejectButton}
                           onClick={() => handleFinalApproval(club._id || " ", "בוטל")}
                         >
-                          מחיקת מועדון
+                          מחיקה
                         </button>
                       </td>
                     </tr>
@@ -237,7 +239,6 @@ const ClubsContactsManagement = () => {
           </div>
         </div>
       )}
-      c
     </div>
   );
 };
