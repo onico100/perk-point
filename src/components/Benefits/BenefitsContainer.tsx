@@ -38,7 +38,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const params = useParams();
   const id = params.clientId;
 
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     if (benefits.length > 0) {
@@ -149,20 +149,6 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
             </div>
           )}
         </div>
-        {id != "0" && clientMode == "SUPPLIER" && (
-            <div className={styles.buttonsAddingContainer}>
-            <button
-            className={styles.excelButton}
-            onClick={() => router.push(`/xlsx/`)}
-          >
-            <FaFileExcel className={styles.excelIcon} /> להוספת רשימות הטבות באמצעות קובץ אקסל
-          </button>
-          {id != "0" && clientMode == "SUPPLIER" && (
-            <Link href="/addBenefit" className={styles.addButton}>
-              <IoIosAddCircleOutline /> הוספת הטבה חדשה
-            </Link>
-          )}</div>
-            ) }
         <div className={styles.cardsContainer}>
           {benefitsToShow.length === 0 ? (
             <div className={styles.noBenefitsMessage}>
@@ -176,7 +162,6 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
               )}
             </div>
           ) : (
-
             benefitsToShow?.map((benefit) => (
               <BenefitsCard
                 key={benefit._id}
@@ -187,6 +172,19 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
                 club={clubs?.find((c: Club) => c._id == benefit.clubId)}
               />
             ))
+          )}
+          {id != "0" && clientMode == "SUPPLIER" && (
+            <div className={styles.buttonsAddingContainer}>
+              <Link href="/addBenefit" className={styles.addButton}>
+                <IoIosAddCircleOutline />
+              </Link>
+              <button
+                className={styles.excelButton}
+                onClick={() => router.push(`/xlsx/`)}
+              >
+                <FaFileExcel className={styles.excelIcon} /> להעלת קובץ אקסל
+              </button>
+            </div>
           )}
         </div>
       </div>
