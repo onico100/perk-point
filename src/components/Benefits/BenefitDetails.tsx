@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Benefit, Supplier, Club, ClientMode } from "@/types/types";
+import { ClientMode } from "@/types/Generaltypes";
 import styles from "@/styles/Benefits/BenefitDetais.module.css";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
@@ -12,8 +12,10 @@ import {
 } from "@/utils/sweet-alerts";
 import { FaArrowRight } from "react-icons/fa";
 import { BenefitInfoRight, BenefitInfoLeft, ActionButtons } from "@/components";
-import { UpdateState } from "@/types/benefits/types";
+import { Benefit, UpdateState } from "@/types/BenefitsTypes";
 import { getVaildBenefits } from "@/utils/benefitsUtils";
+import { Supplier } from "@/types/SupplierTypes";
+import { Club } from "@/types/ClubTypes";
 
 interface BenefitsDetailsProps {
   specificBenefit?: Benefit;

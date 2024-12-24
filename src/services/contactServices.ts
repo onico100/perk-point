@@ -1,18 +1,17 @@
 import my_http from "@/services/http";
-import { ContactForm } from "@/types/types";
+import { ContactForm } from "@/types/Generaltypes";
 
 export async function getAllContactForms(): Promise<ContactForm[]> {
   try {
     const response = await my_http.post("/contact/get");
     const allForms: ContactForm[] = response.data.data;
     console.log("allForms: ", allForms);
-    return allForms
+    return allForms;
   } catch (error) {
     console.error("Error fetching contact forms:", error);
     throw error;
   }
 }
-
 
 export async function getContactFormById(id: string): Promise<ContactForm> {
   try {
@@ -39,14 +38,14 @@ export async function deleteContactFormById(
 }
 
 export async function updateContactFormStatus(
-    id: string,
-    status: string
-  ): Promise<{ message: string }> {
-    try {
-      const response = await my_http.patch(`/contact/update/${id}`, { status });
-      return response.data;
-    } catch (error) {
-      console.error(`Error updating contact form status with ID ${id}:`, error);
-      throw error;
-    }
+  id: string,
+  status: string
+): Promise<{ message: string }> {
+  try {
+    const response = await my_http.patch(`/contact/update/${id}`, { status });
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating contact form status with ID ${id}:`, error);
+    throw error;
   }
+}

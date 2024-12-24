@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Benefit, Club, Supplier } from "@/types/types";
+
 import styles from "@/styles/Benefits/benefitCard.module.css";
 import { useParams, useRouter } from "next/navigation";
 import useGeneralStore from "@/stores/generalStore";
@@ -13,6 +13,9 @@ import { beforeActionAlert, errorAlert } from "@/utils/sweet-alerts";
 import { getVaildBenefits } from "@/utils/benefitsUtils";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
 import YourBenefit from "./YourBenefit";
+import { Benefit } from "@/types/BenefitsTypes";
+import { Supplier } from "@/types/SupplierTypes";
+import { Club } from "@/types/ClubTypes";
 
 interface BenefitsCardProps {
   benefit: Benefit;

@@ -3,13 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import styles from "@/styles/Benefits/AddBenefit.module.css";
-import { Benefit, Branch, Club } from "@/types/types";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getActiveNotApiClubs } from "@/utils/clubsUtils";
+import { Club } from "@/types/ClubTypes";
+import { Benefit, Branch } from "@/types/BenefitsTypes";
 
 const formSchema = z.object({
   redemptionConditions: z
@@ -59,13 +60,16 @@ export default function AddBenefit() {
   });
 
   useEffect(() => {
-    setValue("branches", selectAll ? branches.map((b) => b.nameBranch) : []);
+    setValue(
+      "branches",
+      selectAll ? branches.map((b: any) => b.nameBranch) : []
+    );
   }, [selectAll, branches, setValue]);
 
   const onSubmit = (data: any) => {
     const selectedBranches = selectAll
       ? branches
-      : branches.filter((b) => data.branches.includes(b.nameBranch));
+      : branches.filter((b: any) => data.branches.includes(b.nameBranch));
 
     const newBenefit = {
       supplierId: id,

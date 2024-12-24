@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "@/styles/PersonalDetails/PersonalDetails.module.css";
-import { User } from "@/types/types";
+import { User } from "@/types/Generaltypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

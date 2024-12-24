@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { getSupplierByCredentials } from "@/services/adminServices";
 import styles from "@/styles/SignPages/AdminLogin.module.css";
 import useGeneralStore from "@/stores/generalStore";
-import { ClientMode } from "@/types/types";
+import { ClientMode } from "@/types/Generaltypes";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");

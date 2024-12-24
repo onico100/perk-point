@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useSupplierStore from "@/stores/suppliersStore";
-import { ClientMode, Supplier } from "@/types/types";
+import { ClientMode } from "@/types/Generaltypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getAllSuppliers,
@@ -13,6 +13,7 @@ import useGeneralStore from "@/stores/generalStore";
 import { useRouter } from "next/navigation";
 import { errorAlert, inProccesAlert, successAlert } from "@/utils/sweet-alerts";
 import { getAllBenefits, updateBenefitById } from "@/services/benefitsServices";
+import { Supplier } from "@/types/SupplierTypes";
 
 export const useFetchSuppliers = () => {
   const { suppliers, setSuppliers } = useSupplierStore();
@@ -63,7 +64,10 @@ export const useFetchSuppliers = () => {
       const updateSuppliers = [...suppliers];
       updateSuppliers.forEach((s, index) => {
         if (s._id === "temp-id") {
-          updateSuppliers[index] = { ...updateSuppliers[index], _id: supplier._id };
+          updateSuppliers[index] = {
+            ...updateSuppliers[index],
+            _id: supplier._id,
+          };
         }
       });
       setSuppliers(updateSuppliers);
@@ -127,38 +131,35 @@ export const useFetchSuppliers = () => {
   });
 
   const deleteSupplierMutation = useMutation<
-  { message: string },
-  Error,
-  string
->({
-  mutationFn: async (supplierId: string) => {
-    inProccesAlert("מוחק ספק...");
-    const response = await deleteSupplierById(supplierId);
+    { message: string },
+    Error,
+    string
+  >({
+    mutationFn: async (supplierId: string) => {
+      inProccesAlert("מוחק ספק...");
+      const response = await deleteSupplierById(supplierId);
 
+      const benefits = await getAllBenefits();
+      const supplierBenefits = benefits.filter(
+        (benefit) => benefit.supplierId === supplierId
+      );
 
-    const benefits = await getAllBenefits();
-    const supplierBenefits = benefits.filter(
-      (benefit) => benefit.supplierId === supplierId
-    );
+      for (const benefit of supplierBenefits) {
+        await updateBenefitById(benefit?._id || "", { isActive: false });
+      }
 
-    for (const benefit of supplierBenefits) {
-      await updateBenefitById(benefit?._id || "", { isActive: false });
-    }
-
-    return response;
-  },
-  onSuccess: () => {
-    successAlert("ספק נמחק בהצלחה, הטבות המשויכות הושבתו!");
-    queryClient.invalidateQueries({ queryKey: ["suppliers"] });
-    queryClient.invalidateQueries({ queryKey: ["benefits"] });
-  },
-  onError: (error: Error) => {
-    console.error("Error deleting supplier:", error);
-    errorAlert("מחיקת ספק נכשלה.");
-  },
-});
-
- 
+      return response;
+    },
+    onSuccess: () => {
+      successAlert("ספק נמחק בהצלחה, הטבות המשויכות הושבתו!");
+      queryClient.invalidateQueries({ queryKey: ["suppliers"] });
+      queryClient.invalidateQueries({ queryKey: ["benefits"] });
+    },
+    onError: (error: Error) => {
+      console.error("Error deleting supplier:", error);
+      errorAlert("מחיקת ספק נכשלה.");
+    },
+  });
 
   return {
     suppliers: data,
