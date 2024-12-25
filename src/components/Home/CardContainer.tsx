@@ -6,7 +6,7 @@ const cardData = [
   {
     id: 1,
     image:
-      "https://lottie.host/eb8e0667-9262-4800-9065-2577240f378d/QpL5SdCN6D.lottie",
+      "https://lottie.host/3a25f5ca-af73-4099-94fd-9fd594369fb9/xxg99LPeOT.lottie",
     title: " המועדונים שלנו",
     buttonText: "לכל המועדונים",
     buttonLink: "/clubs/0",
@@ -15,7 +15,7 @@ const cardData = [
   {
     id: 2,
     image:
-      "https://lottie.host/8bff526d-c6a3-4208-b193-8f287f2be9bc/azxkTdXG42.lottie",
+      "https://lottie.host/80654365-46bd-4fa6-85b7-ecf7f08353d7/WJ1VYdrPsZ.lottie",
     title: " ההטבות שלנו",
     buttonText: "לכל הההטבות",
     buttonLink: "/benefits/0",
@@ -24,7 +24,7 @@ const cardData = [
   {
     id: 3,
     image:
-      "https://lottie.host/ebf49ecb-6a76-4cfc-8d1d-a5bbd3d199c6/eqjFiyYtz1.lottie",
+      "https://lottie.host/e3242acc-8290-47ee-b56a-1930c87df3d8/ldIU8uwf3K.lottie",
     title: " קצת עלינו",
     buttonText: "אודות",
     buttonLink: "/about",
