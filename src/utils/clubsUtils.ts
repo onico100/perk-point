@@ -27,20 +27,22 @@ export const getBenefitsClubsWithSupplierId = async (
 ): Promise<Benefit[]> => {
   try {
     const suppliers = await getAllSuppliers();
-    if (!suppliers || suppliers.length === 0) {
-      throw new Error("No suppliers found or error fetching suppliers");
+    if (!suppliers) {
+      throw new Error("Error fetching suppliers");
+    }
+    if(suppliers.length === 0){
+      return [];
     }
 
     const supplierMap = new Map(
       suppliers.map((supplier) => [supplier.businessName, supplier._id])
     );
 
-    return benefits.map((benefit) => {
+    
+    const mappedBenefits: (Benefit | null)[] = benefits.map((benefit) => {
       const supplierId = supplierMap.get(benefit.supplierName);
       if (!supplierId) {
-        throw new Error(
-          `Supplier with name "${benefit.supplierName}" not found`
-        );
+        return null;
       }
 
       return {
@@ -54,6 +56,9 @@ export const getBenefitsClubsWithSupplierId = async (
         isActive: benefit.isActive,
       };
     });
+
+    return mappedBenefits.filter((benefit) => benefit!== null);
+    
   } catch (error) {
     console.error(error);
     throw error;
