@@ -28,12 +28,19 @@ export async function insertDocument(
   return result;
 }
 
-export async function getAllDocuments(client: any, collection: string) {
+export async function getAllDocuments(
+  client: any,
+  collection: string,
+  query: Record<string, any> = { isActive: true },
+  options: Record<string, any> = {}
+) {
   const db = client.db(databaseName);
+
   const documents = await db
     .collection(collection)
-    .find({ isActive: true })
+    .find(query, options)
     .toArray();
+
   return documents;
 }
 
