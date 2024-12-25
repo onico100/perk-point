@@ -42,7 +42,9 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
 
   useEffect(() => {
     if (benefits.length > 0) {
-      setBenefitsToShow(getVaildBenefits(benefits));
+      showValidBenefits
+        ? setBenefitsToShow(getVaildBenefits(benefits))
+        : setBenefitsToShow(getUnVAildBenefits(benefits));
     }
   }, [benefits]);
 
