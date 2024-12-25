@@ -15,7 +15,7 @@ import {
 } from "next-cloudinary";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SupplierFormValues, supplierSchema } from "@/types/SupplierTypes";
+import { Supplier, SupplierFormValues, supplierSchema } from "@/types/SupplierTypes";
 import { Branch } from "@/types/BenefitsTypes";
 
 export default function SignSupplierComponent() {
@@ -30,6 +30,7 @@ export default function SignSupplierComponent() {
   const [googleSuggestions, setGoogleSuggestions] = useState<Branch[]>([]);
   const [selectedBranches, setSelectedBranches] = useState<Branch[]>([]);
   const [selectAllBranches, setSelectAllBranches] = useState(false);
+  const {suppliers}=useFetchSuppliers()
 
   const {
     register,
@@ -79,11 +80,17 @@ export default function SignSupplierComponent() {
   };
 
   const onSubmit = async (data: SupplierFormValues) => {
-    console.log("data", data);
+
     const emailExists = await checkEmailService(data.email);
     if (emailExists) {
       setEmailExists(true);
       return;
+    }
+
+    let supplierNameExist=suppliers?.find((s:Supplier)=>s.businessName==data.businessName)
+    if(supplierNameExist){
+      errorAlert("שם הספק כבר קיים")
+      return
     }
 
     let fullBranches = selectAllBranches
@@ -94,7 +101,7 @@ export default function SignSupplierComponent() {
 
     let dataToSend = {
       providerName: data.providerName,
-      email: data.email,
+      email: data.email.toLowerCase(),
       password: data.password,
       businessName: data.businessName,
       phoneNumber: data.phoneNumber,

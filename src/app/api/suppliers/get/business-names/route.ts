@@ -1,9 +1,10 @@
 import { connectDatabase, getAllDocuments } from "@/services/mongo";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-let client = await connectDatabase();
 export async function GET() {
-  try { 
+  let client;
+  try {
+    client = await connectDatabase();
     if (!client) {
       return NextResponse.json(
         { error: "Failed to connect to the database" },
@@ -12,8 +13,15 @@ export async function GET() {
     } else {
       console.log("Connected to the database");
     }
-    const suppliers = await getAllDocuments(client, "suppliers_collection");
-    return NextResponse.json(suppliers);
+    const db = client.db("benefits-site");
+
+    // Fetch the business names and convert the cursor to an array
+    const businessNames = await db
+      .collection("suppliers_collection")
+      .find({}, { projection: { businessName: 1, _id: 0 } })
+      .toArray(); // Convert cursor to array
+
+    return NextResponse.json(businessNames);
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
@@ -22,7 +30,3 @@ export async function GET() {
     client?.close();
   }
 }
-
-
-
-

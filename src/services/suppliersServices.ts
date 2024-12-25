@@ -46,3 +46,4 @@ export async function deleteSupplierById(
   const response = await my_http.delete(`/suppliers/delete/${id}`);
   return response.data;
 }
+

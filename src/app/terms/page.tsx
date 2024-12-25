@@ -56,7 +56,7 @@ const TermsPage: React.FC = () => {
         <h2>5. יצירת קשר</h2>
         <p>
           5.1. לכל שאלה או בקשה ניתן ליצור קשר עם בעל האתר באמצעות דף "צור קשר"
-          או באמצעות כתובת דוא"ל: example@example.com.
+          או באמצעות כתובת דוא"ל: perkpointsite@gmail.com.
         </p>
       </section>
     </div>
