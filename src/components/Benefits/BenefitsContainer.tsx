@@ -152,6 +152,19 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
           )}
         </div>
         <div className={styles.cardsContainer}>
+          {id != "0" && clientMode == "SUPPLIER" && (
+            <div className={styles.buttonsAddingContainer}>
+              <Link href="/addBenefit" className={styles.addButton}>
+                <IoIosAddCircleOutline />
+              </Link>
+              <button
+                className={styles.excelButton}
+                onClick={() => router.push(`/xlsx/`)}
+              >
+                <FaFileExcel className={styles.excelIcon} /> להעלת קובץ אקסל
+              </button>
+            </div>
+          )}
           {benefitsToShow.length === 0 ? (
             <div className={styles.noBenefitsMessage}>
               <div>לא נמצאו הטבות.</div>
@@ -174,19 +187,6 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
                 club={clubs?.find((c: Club) => c._id == benefit.clubId)}
               />
             ))
-          )}
-          {id != "0" && clientMode == "SUPPLIER" && (
-            <div className={styles.buttonsAddingContainer}>
-              <Link href="/addBenefit" className={styles.addButton}>
-                <IoIosAddCircleOutline />
-              </Link>
-              <button
-                className={styles.excelButton}
-                onClick={() => router.push(`/xlsx/`)}
-              >
-                <FaFileExcel className={styles.excelIcon} /> להעלת קובץ אקסל
-              </button>
-            </div>
           )}
         </div>
       </div>
