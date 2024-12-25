@@ -1,10 +1,9 @@
 import { connectDatabase, getAllDocuments } from "@/services/mongo";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
+let client = await connectDatabase();
 export async function GET() {
-  let client;
-  try {
-    client = await connectDatabase();
+  try { 
     if (!client) {
       return NextResponse.json(
         { error: "Failed to connect to the database" },
@@ -23,3 +22,7 @@ export async function GET() {
     client?.close();
   }
 }
+
+
+
+
