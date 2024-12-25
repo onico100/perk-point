@@ -6,7 +6,7 @@ const cardData = [
   {
     id: 1,
     image:
-      "https://lottie.host/80654365-46bd-4fa6-85b7-ecf7f08353d7/WJ1VYdrPsZ.lottie",
+      "https://lottie.host/7e70f720-8456-4970-9b9f-ed1b27e21890/onF0AY0b7e.lottie",
     title: " המועדונים שלנו",
     buttonText: "לכל המועדונים",
     buttonLink: "/clubs/0",
