@@ -6,7 +6,6 @@ import { getAllCategories } from "@/services/categoriesService";
 import { getAllClubs } from "@/services/clubsService";
 
 export const useFetchGeneral = () => {
-  console.log("useFetchGeneral");
   const setCategories = useGeneralStore((state: any) => state.setCategories);
   const setClubs = useGeneralStore((state: any) => state.setClubs);
 
