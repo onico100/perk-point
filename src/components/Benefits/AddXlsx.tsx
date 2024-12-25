@@ -28,7 +28,6 @@ export default function AddXlsxComponent() {
   const [isTemplateDownloaded, setIsTemplateDownloaded] = useState(false);
 
   const excelDateToJSDate = (excelDate: number): Date => {
-    // Excel stores dates as days since 1900-01-01
     const date = new Date((excelDate - 25569) * 86400 * 1000);
     return date;
   };

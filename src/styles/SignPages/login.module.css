@@ -1,128 +1,118 @@
 .centerContainer {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-  }
-  
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
 .loginPage {
   position: relative;
-    background: linear-gradient(to right, #b346e8, #87cdfa);
-    -webkit-background-clip: text;
-    position: relative;
-    padding: 25px;
-    padding-left: 35px;
-    padding-right: 35px;
-    margin-bottom: 10px;
-    border-radius: 12px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-  }
-  
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+  -webkit-background-clip: text;
+  position: relative;
+  padding: 25px;
+  padding-left: 35px;
+  padding-right: 35px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
 .loginPage::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    border-radius: 12px;
-    padding: 2px;
-    background: linear-gradient(to right, #b346e8, #87cdfa);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-  .noAccountLink{
-    margin-top: 20px;
-    text-align: center;
-    align-items: center;
-    align-self: center;
-    color: rgb(26, 11, 72);
-    text-decoration: underline;
-  }
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  border-radius: 12px;
+  padding: 2px;
+  background: linear-gradient(to right, #b346e8, #87cdfa);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.noAccountLink {
+  margin-top: 20px;
+  text-align: center;
+  align-items: center;
+  align-self: center;
+  color: rgb(26, 11, 72);
+  text-decoration: underline;
+}
 
-  .loginPage h1 {
-    font-size: 1.3rem;
-    font-weight: 500;
-    margin-bottom: 6vh;
-    text-align: center;
-    align-items: center;
-    align-self: center;
-  }
-  .loginPage h2 {
-    font-size: 1.2rem;
-    font-weight: 500;
-    text-align: center;
-    align-items: center;
-    align-self: center;
-    margin-bottom: 2vh;
-  }
+.loginPage h1 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 6vh;
+  text-align: center;
+  align-items: center;
+  align-self: center;
+}
+.loginPage h2 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: center;
+  align-items: center;
+  align-self: center;
+  margin-bottom: 2vh;
+}
 
-  .formContainer {
-    padding-left: 5%;
-    padding-right: 5%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    max-width: 400px;
-    width: 100%;
-    box-sizing: border-box; 
-  }
-  
-  
-  .inlineContainer {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+.formContainer {
+  padding-left: 5%;
+  padding-right: 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-  .loginPageButton {
-    border-style: solid;    
-    border-width: 0.3px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: bold;
-    background-color: white;
-    cursor: pointer;
-    padding: 7px;
-    position: relative;
-    z-index: 1;
-    color: #38393b;
-    font-size: 15px;
-  }
-  
-  .loginPageButton:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
+.inlineContainer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  .inputField {
-    width: 100%;
-    padding: 8px 18px;
-    border: 1px solid #c9c4c4;
-    border-radius: 4px;
-    font-size: 1rem;
-    color: rgb(0, 76, 152);
-    white-space: nowrap;        
-    overflow: hidden;            
-    text-overflow: ellipsis;    
-    box-sizing: border-box;     
-    position: relative;         
-    z-index: 2;                  
-  }
-  
-  
-  
-  
-  .inputField::placeholder {
-    color: #878484; /* שחור בהיר */
-  }
-  
+.loginPageButton {
+  border-style: solid;
+  border-width: 0.3px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: bold;
+  background-color: white;
+  cursor: pointer;
+  padding: 7px;
+  position: relative;
+  z-index: 1;
+  color: #38393b;
+  font-size: 15px;
+}
+
+.loginPageButton:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.inputField {
+  width: 100%;
+  padding: 8px 18px;
+  border: 1px solid #c9c4c4;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: rgb(0, 76, 152);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+.inputField::placeholder {
+  color: #878484;
+}

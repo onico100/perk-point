@@ -14,7 +14,6 @@ export async function POST() {
       console.log("Connected to the database");
     }
 
-    // Fetch only active benefits (handled within getAllDocuments)
     const benefits = await getAllDocuments(client, "benefits_collection");
 
     const timestamp = new Date().toISOString();

@@ -11,20 +11,18 @@
 .container {
   margin-right: 15vw;
   display: flex;
-  flex-wrap: wrap; /* Ensures responsiveness */
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
-/* Brand Section */
 .brand {
-  flex: 1 1 200px; /* Adjust width dynamically */
+  flex: 1 1 200px;
   text-align: right;
   margin-bottom: 20px;
 }
 
-/* Links Section */
 .links {
-  flex: 2 1 400px; /* Adjust width dynamically */
+  flex: 2 1 400px;
   display: flex;
   justify-content: space-around;
   gap: 20px;
@@ -75,9 +73,8 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Social Media Section */
 .socialMedia {
-  flex: 1 1 200px; /* Adjust width dynamically */
+  flex: 1 1 200px;
   text-align: center;
 }
 
@@ -99,7 +96,6 @@
   transition: color 0.3s ease;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;

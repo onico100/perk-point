@@ -9,7 +9,7 @@ import { Supplier } from "@/types/SupplierTypes";
 
 const SupplierManagement = () => {
   const { suppliers, deleteSupplier } = useFetchSuppliers();
-  const { categories } = useFetchGeneral(); // שליפת קטגוריות
+  const { categories } = useFetchGeneral();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
     null

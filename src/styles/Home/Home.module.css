@@ -19,42 +19,19 @@
   margin-top: 1rem;
   margin-bottom: 2rem;
   font-size: large;
-  animation: slideUp 2s forwards; /* הוספת האנימציה */
+  animation: slideUp 2s forwards;
 }
 
 @keyframes slideUp {
   from {
-    transform: translateY(70px); /* התחלה מתחת למסך */
-    opacity: 0; /* שקיפות מלאה */
+    transform: translateY(70px);
+    opacity: 0;
   }
   to {
-    transform: translateY(0); /* במיקום הרגיל */
-    opacity: 1; /* שקיפות רגילה */
+    transform: translateY(0);
+    opacity: 1;
   }
 }
-
-/* .logoContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  font-size: large;
-  animation: slideUp 1.5s ease-out; /* הוספת האנימציה */
-/* }
-
-@keyframes slideUp {
-  from {
-    transform: translateY(-50px); /* התחלה מעל המסך */
-/* opacity: 0; /* שקיפות מלאה */
-/* }
-  to {
-    transform: translateY(0); /* במיקום הרגיל */
-/* opacity: 1; שקיפות רגילה */
-/* }
-} */
 
 .image {
   width: 150px;

@@ -102,9 +102,9 @@ body {
 
 .whatsappButton {
   position: fixed;
-  bottom: 100px; /* מעל כפתור יצירת קשר */
+  bottom: 100px;
   right: 30px;
-  background-color: #25d366; /* צבע WhatsApp */
+  background-color: #25d366;
   color: white;
   border: none;
   width: 60px;
@@ -121,6 +121,6 @@ body {
 }
 
 .whatsappButton:hover {
-  background-color: #1da851; /* צבע כהה יותר עבור hover */
+  background-color: #1da851;
   transform: scale(1.1);
 }

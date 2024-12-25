@@ -39,7 +39,6 @@
   background-color: #eaeaea;
 }
 
-/* Label and Checkbox Styling */
 .checkboxLabel {
   display: flex;
   align-items: center;
@@ -76,13 +75,11 @@
   line-height: 20px;
 }
 
-/* Branch Name Styling */
 .branchName {
   font-size: 16px;
   color: #333;
 }
 
-/* Assigned Icon Styling */
 .assignedIcon {
   font-size: 16px;
   color: #4caf50;

@@ -1,6 +1,5 @@
-
 .assistant-title {
-  font-family: 'Assistant';
+  font-family: "Assistant";
   font-optical-sizing: auto;
   font-weight: 200;
   font-style: normal;
@@ -44,7 +43,7 @@
   width: 100%;
   max-width: 800px;
   height: 300px;
-  font-family: 'Assistant';
+  font-family: "Assistant";
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
@@ -93,7 +92,7 @@
   font-size: 1.7rem;
   margin-bottom: 20px;
   position: relative;
-  font-family: 'Assistant';
+  font-family: "Assistant";
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
@@ -147,7 +146,7 @@
 
 .tellAbout {
   font-size: 1rem;
-  font-family:'Varela Round';
+  font-family: "Varela Round";
   font-weight: 400;
   font-style: italic;
   background: rgba(255, 255, 255, 0.2);
@@ -159,7 +158,7 @@
 }
 
 .mainTitle {
-  font-family:'Assistant';
+  font-family: "Assistant";
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
@@ -179,7 +178,7 @@
   color: white;
   margin-top: 5rem;
   font-size: large;
-  animation: slideUp 2s forwards; /* הוספת האנימציה */
+  animation: slideUp 2s forwards;
 }
 
 .logoTitle {

@@ -144,8 +144,6 @@ export default function SupplierPersonalDetails({
       const alertConfirm = await beforeActionAlert("");
       if (alertConfirm) {
         if (currentSupplier?._id) {
-          // setValueOnDom()
-
           let updatedBranches = selectAll
             ? allBranches
             : allBranches?.filter((b) => data.branches.includes(b.nameBranch));

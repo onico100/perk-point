@@ -1,7 +1,7 @@
 .container {
   padding: 30px;
   font-family: Arial, sans-serif;
-  font-family: 'Assistant';
+  font-family: "Assistant";
   font-weight: 600;
 }
 
@@ -76,9 +76,9 @@
 }
 
 .logo {
-  width: 225px; 
-  height: auto; 
-  max-height: 100%; 
+  width: 225px;
+  height: auto;
+  max-height: 100%;
   border-radius: 12px;
   object-fit: contain;
 }
@@ -297,5 +297,5 @@
 
 .updateButton.disabled {
   cursor: not-allowed;
-  opacity: 0.6; /* Optional: Dim the button */
+  opacity: 0.6;
 }
