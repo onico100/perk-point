@@ -47,6 +47,8 @@ const ClubsContactsManagement = () => {
         const clubsData: Club[] = await getAllClubs();
         setAllClubs(clubsData);
         setPendingClubs(clubsData.filter((club) => club.clubStatus === "ממתין"));
+        console.log("clubsData", clubsData);
+        console.log("penddingClubData", pendingClubs);
       } catch (error) {
         console.error("Error fetching clubs:", error);
       } finally {
@@ -68,19 +70,20 @@ const ClubsContactsManagement = () => {
   const handlePageChange = (setPage: React.Dispatch<React.SetStateAction<number>>, page: number) => setPage(page);
 
   const handleFinalApproval = async (club: Club, status: string) => {
-    console.log("id", club);
     try {
-      await updateStatusClubById(club._id || " ", { clubStatus: status });
-      setPendingClubs((prev) => prev.filter((club) => club._id !== club._id));
-    } catch (error) {
+       await updateStatusClubById(club._id || " ", { clubStatus: status });
+        setPendingClubs((prev) => prev.filter((c) => c._id !== club._id));
+        } catch (error) {
       console.error("Error approving club:", error);
     }
   };
+  
+
+
 
 
 
   const openClubDetails = (club: addClubForm | Club) => {
-    console.log("Open Club Details", club);
     setSelectedClub({
       ...club,
       route: "route" in club ? club.route : undefined,
@@ -321,7 +324,7 @@ const ClubsContactsManagement = () => {
                           </button>
                           <button
                             className={styles.approveButton}
-                            onClick={() => handleUpdateStatus(club._id || " ", "ממתין")}
+                            onClick={() => handleFinalApproval(club, "ממתין")}
                           >
                             השהה
                           </button>
