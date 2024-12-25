@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { Category } from "@/types/Generaltypes";
 import styles from "@/styles/SignPages/sign.module.css";
@@ -15,7 +15,11 @@ import {
 } from "next-cloudinary";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Supplier, SupplierFormValues, supplierSchema } from "@/types/SupplierTypes";
+import {
+  Supplier,
+  SupplierFormValues,
+  supplierSchema,
+} from "@/types/SupplierTypes";
 import { Branch } from "@/types/BenefitsTypes";
 
 export default function SignSupplierComponent() {
@@ -30,13 +34,15 @@ export default function SignSupplierComponent() {
   const [googleSuggestions, setGoogleSuggestions] = useState<Branch[]>([]);
   const [selectedBranches, setSelectedBranches] = useState<Branch[]>([]);
   const [selectAllBranches, setSelectAllBranches] = useState(false);
-  const {suppliers}=useFetchSuppliers()
+  const { suppliers } = useFetchSuppliers();
 
   const {
     register,
     handleSubmit,
     //watch,
     setValue,
+    clearErrors,
+    trigger,
     formState: { errors },
   } = useForm<SupplierFormValues>({
     resolver: zodResolver(supplierSchema),
@@ -46,6 +52,31 @@ export default function SignSupplierComponent() {
       supplierLogo: "",
     },
   });
+
+  const containerBranchesRef = useRef(null);
+  const containerCategoriesRef = useRef(null);
+
+  const handleBlurCategories = (event: React.FocusEvent<HTMLDivElement>) => {
+    const targetElement = containerCategoriesRef.current as HTMLElement | null;
+
+    if (
+      targetElement &&
+      !targetElement.contains(event.relatedTarget as Node | null)
+    ) {
+      setIschooseCategories(true);
+    }
+  };
+
+  const handleBlurBranches = (event: React.FocusEvent<HTMLDivElement>) => {
+    const targetElement = containerBranchesRef.current as HTMLElement | null;
+
+    if (
+      targetElement &&
+      !targetElement.contains(event.relatedTarget as Node | null)
+    ) {
+      setIschooseBranches(false);
+    }
+  };
 
   //const businessName = watch("businessName");
 
@@ -67,6 +98,8 @@ export default function SignSupplierComponent() {
       ) {
         const secureUrl = result.info.secure_url as string;
         setValue("supplierLogo", secureUrl);
+        if (secureUrl && typeof secureUrl === "string")
+          clearErrors("supplierLogo");
         await successAlert("העלאת תמונה הצליחה!");
       } else {
         throw new Error("שגיאה בהעלאת התמונה");
@@ -87,10 +120,12 @@ export default function SignSupplierComponent() {
       return;
     }
 
-    let supplierNameExist=suppliers?.find((s:Supplier)=>s.businessName==data.businessName)
-    if(supplierNameExist){
-      errorAlert("שם הספק כבר קיים")
-      return
+    let supplierNameExist = suppliers?.find(
+      (s: Supplier) => s.businessName == data.businessName
+    );
+    if (supplierNameExist) {
+      errorAlert("שם הספק כבר קיים");
+      return;
     }
 
     let fullBranches = selectAllBranches
@@ -250,8 +285,11 @@ export default function SignSupplierComponent() {
           )}
         </div>
 
-        <div>
-          <div className={styles.item}>
+        <div             className={styles.item}
+            ref={containerCategoriesRef}
+            tabIndex={-1}
+            onBlur={handleBlurCategories}>
+          <div>
             <div>
               <button
                 onClick={() => setIschooseCategories(!ischooseCategories)}
@@ -287,7 +325,12 @@ export default function SignSupplierComponent() {
           )}
         </div>
 
-        <div className={styles.item}>
+        <div
+          ref={containerBranchesRef}
+          className={styles.item}
+          tabIndex={-1}
+          onBlur={handleBlurBranches}
+        >
           <div>
             <button
               onClick={() => setIschooseBranches(!ischooseBranches)}
@@ -308,7 +351,11 @@ export default function SignSupplierComponent() {
                       className={styles.checkbox}
                       value={"all"}
                       {...register("branches")}
-                      onChange={() => setSelectAllBranches(!selectAllBranches)}
+                      onChange={() => {
+                        if (!selectAllBranches) clearErrors("branches");
+                        else trigger("branches");
+                        setSelectAllBranches(!selectAllBranches);
+                      }}
                     />
                     <span className={styles.branchName}>כל הסניפים</span>
                   </div>
