@@ -1,6 +1,6 @@
 # Perk Point App
 
-The Perk Point App is designed to streamline the management of benefit inventories for user clubs. It provides users with a seamless and efficient way to access their eligible benefits while giving suppliers and administrators the tools they need to manage benefits effectively.s.
+The Perk Point App is designed to streamline the management of benefit inventories for user clubs. It provides users a seamless and efficient way to access eligible benefits while giving suppliers and administrators the tools to manage benefits effectively.
 
 ### **User Side**
 
@@ -14,14 +14,14 @@ The Perk Point App is designed to streamline the management of benefit inventori
 - **Manage Benefits**:
   - **Add**: Easily add new benefits to the company's inventory.
   - **Update**: Modify existing benefits.
-  - **Delete**: Remove benefits no longer offered.
+  - **Delete**: Remove benefits that are no longer offered.
   - **Upload Benefits via Excel**:
   - Suppliers can bulk upload benefits using an Excel file, making it easier to manage large inventories.
 
 ### **Club Integration**
 
 - **Request to Join**: Clubs can request to join the platform via an intuitive interface.
-- **API Integration**: Clubs can provide an API (following documentation) to allow automatic fetching of all their benefits. This ensures that club benefits stay updated on the platform in real time.
+- **API Integration**: Clubs can provide an API (following documentation) to allow automatic fetching of all their benefits. This ensures that club benefits stay updated on the platform in real-time.
 
 ### **Admin Panel**
 
@@ -32,7 +32,7 @@ The Perk Point App is designed to streamline the management of benefit inventori
 
 - A fake club site has been created to demonstrate how the API integration works. This showcases how benefits can be fetched dynamically from a club.
   you can see the code here: https://github.com/onico100/perkpoint-club.git
-  and tha club site running here:https://perkpoint-club.vercel.app/
+  and the club site running here:https://perkpoint-club.vercel.app/
 
 ## Installation
 
@@ -42,7 +42,7 @@ The Perk Point App is designed to streamline the management of benefit inventori
    git clone https://github.com/onico100/perk-point.git
 ```
 
-2. **Install dependencys:**
+2. **Install dependencies:**
 
 ```bash
    cd perk-point
@@ -101,7 +101,7 @@ For more detailed documentation, refer to the API documentation file.
 **Excel Upload Guide**
 Suppliers can streamline benefit management with the Excel upload feature:
 
-- Download the sample Excel template .
+- Download the sample Excel template.
 - Fill in the required fields such as benefit name, category, start date, end date, etc.
 - Upload the file through the supplier dashboard.
 - The system validates the data and adds the benefits automatically.
