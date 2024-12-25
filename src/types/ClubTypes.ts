@@ -23,6 +23,7 @@ export interface Club {
   email: string;
 }
 
+
 export enum ClubStatus {
   active = "פעיל",
   inactive = "בוטל",

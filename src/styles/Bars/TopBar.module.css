@@ -55,6 +55,16 @@
   text-align: center;
 }
 
+.buttonContainerScrolled {
+  color: #ac5ceb;
+  background:#f5f5f5;
+}
+
+.buttonContainer,
+.buttonContainerScrolled {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
 .signupButton {
   border: none;
   border-radius: 10px;
@@ -74,6 +84,11 @@
   color: white;
 }
 
+.signupButton,
+.signupButtonScrolled {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
 .signupButton::before {
   content: "";
   position: absolute;
@@ -83,6 +98,9 @@
   bottom: 0;
   border-radius: 10px;
 }
+
+
+
 
 .signupButton:hover {
   transform: scale(1.05);
@@ -101,7 +119,3 @@
   background: linear-gradient(to right, #b247e8, #a967ed);
 }
 
-.buttonContainerScrolled {
-  color: #ac5ceb;
-  background: transparent;
-}
