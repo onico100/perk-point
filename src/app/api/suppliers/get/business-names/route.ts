@@ -13,15 +13,13 @@ export async function GET() {
     } else {
       console.log("Connected to the database");
     }
+    const db = client.db("benefits-site");
 
-    // Fetch only business names
-    const businessNames = await getAllDocuments(
-      client,
-      "suppliers_collection",
-      {
-        projection: { businessName: 1, _id: 0 },
-      }
-    );
+    // Fetch the business names and convert the cursor to an array
+    const businessNames = await db
+      .collection("suppliers_collection")
+      .find({}, { projection: { businessName: 1, _id: 0 } })
+      .toArray(); // Convert cursor to array
 
     return NextResponse.json(businessNames);
   } catch (error: unknown) {
