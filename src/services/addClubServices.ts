@@ -31,7 +31,6 @@ export async function updateAddClubFormStatus(
   id: string,
   status: string
 ): Promise<{ message: string }> {
-  console.log("------------", status, "--", id);
   try {
     const response = await my_http.patch(`/addClub/update/${id}`, { status });
     return response.data;

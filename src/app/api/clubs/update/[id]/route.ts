@@ -27,7 +27,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Benefit not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ modifiedCount: result.modifiedCount });
+    return NextResponse.json({ modifiedCount: result.modifiedCount , result: result} );
   } catch (error: unknown) {
     console.error("Error in PATCH request:", error);
     const errorMessage =

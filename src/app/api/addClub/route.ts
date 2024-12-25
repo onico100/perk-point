@@ -81,13 +81,13 @@ export async function POST(request: NextRequest) {
         const mailOptionsToUser = {
             from: process.env.EMAIL_USER,
             to: email,
-            subject: "בבקשתך להוספת מועדון התקבלה",
+            subject: "בקשתך להוספת מועדון התקבלה",
             html: `
         <div dir="rtl" style="font-family: Arial, sans-serif; line-height: 1.5; text-align: right;">
             <img src="${logoUrl}" alt="Logo" style="max-width: 150px; margin-bottom: 20px;" />
             <h2 style="color:rgb(119, 13, 96);">בקשתך התקבלה!</h2>
             <p>תודה רבה על הרצון לחבר את המועדון שלך. <strong>${clubName}</strong>.</p>
-            <p>הצוות שלנו יעבור על הבקשה שלך ויהיה בקשר איתך תוך שבוע..</p>
+            <p>הצוות שלנו יעבור על הבקשה שלך ויצור קשר תוך שבוע.</p>
             <p><strong>פרטים:</strong></p>
             <p>קישור: ${clubLink}</p>
             <p><strong> ללוגו:</strong></p>
