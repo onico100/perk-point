@@ -87,12 +87,6 @@ export default function AddBenefit() {
 
   return (
     <div>
-      <button
-        className={styles.xlsxButton}
-        onClick={() => router.push(`/xlsx/`)}
-      >
-        העלאת קובץ הטבות בפורמט xlsx
-      </button>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h2 className={styles.title}>הוספת הטבה חדשה</h2>
 
