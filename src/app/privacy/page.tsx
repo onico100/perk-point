@@ -57,7 +57,7 @@ const PrivacyPolicyPage: React.FC = () => {
         </p>
         <p>
           5.2. לבירור או בקשה בנושא פרטיות, ניתן ליצור קשר בכתובת
-          example@example.com.
+          perkpointsite@gmail.com.
         </p>
       </section>
     </div>
