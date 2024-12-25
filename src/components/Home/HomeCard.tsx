@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "@/styles/Home/CardContainer.module.css";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 interface CardProps {
   image: string;
@@ -22,7 +23,7 @@ const Card: React.FC<CardProps> = ({
   return (
     <div className={styles.card} style={style}>
       <h2>{title}</h2>
-      <img src={image} alt={title} />
+      <DotLottieReact src={image} loop autoplay />
 
       <button onClick={gotoLink}>{buttonText}</button>
     </div>
