@@ -6,18 +6,18 @@ export async function POST(request: NextRequest) {
   try {
     client = await connectDatabase(); 
     const db = client.db("benefits-site"); 
+    const { emailToSend } = await request.json();
 
-    const { email } = await request.json();
-
-    if (!email) {
+    if (!emailToSend) {
+      console.log("!email")
       return NextResponse.json(
         { message: "Email is required" },
         { status: 400 }
       );
     }
 
-    const userExists = await db.collection("users_collection").findOne({ email });
-    const supplierExists = await db.collection("suppliers_collection").findOne({ email });
+    const userExists = await db.collection("users_collection").findOne({ email: emailToSend });
+    const supplierExists = await db.collection("suppliers_collection").findOne({ email: emailToSend });
 
     return NextResponse.json({ exists: !!userExists || !!supplierExists , user: userExists || supplierExists });
   } catch (error) {
