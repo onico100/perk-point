@@ -33,3 +33,9 @@ export interface Benefit {
   isActive: boolean;
   counter: number;
 }
+
+export interface Benefit_api {
+  _id?: string;
+  benefitId: string;
+  counter: number;
+}
