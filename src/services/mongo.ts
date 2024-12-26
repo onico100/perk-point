@@ -69,6 +69,24 @@ export async function updateDocumentById(
   return result;
 }
 
+export async function increasedocumentCounterById(
+  client: any,
+  collectionName: string,
+  id: string,
+  update: Record<string, unknown>
+) {
+  const db = client.db(databaseName); 
+
+  const objectId = new ObjectId(id);
+
+  const result = await db.collection(collectionName).updateOne(
+    { _id: objectId } ,
+    update           
+  );
+
+  return result;
+}
+
 export async function deleteDocumentById(
   client: any,
   collection: string,

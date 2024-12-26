@@ -99,3 +99,15 @@ export async function addBenefit(newBenefit: Benefit): Promise<Benefit> {
     throw error;
   }
 }
+
+export async function increaseBenefit(
+  id: string,
+): Promise<Benefit> {
+  try {
+    const response = await my_http.patch(`/benefits/increaseCounter/${id}`,);
+    return response.data;
+  } catch (error) {
+    console.error(`Error increase benefit counter with ID ${id}:`, error);
+    throw error;
+  }
+}
