@@ -6,7 +6,10 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   let client;
-  try {
+  try { 
+    const data = await request.json();
+    let collection= data.isAPI?"benefits_api":"benefits_collection"
+    console.log(collection, data)
     client = await connectDatabase();
     if (!client) {
       return NextResponse.json(
@@ -17,7 +20,7 @@ export async function PATCH(
     console.log(params.id)
     const result = await increasedocumentCounterById(
       client,
-      "benefits_collection",
+      collection,
       params.id,
       { $inc: { counter: 1 } } 
     );

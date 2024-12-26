@@ -102,9 +102,10 @@ export async function addBenefit(newBenefit: Benefit): Promise<Benefit> {
 
 export async function increaseBenefit(
   id: string,
+  isAPI:boolean,
 ): Promise<Benefit> {
   try {
-    const response = await my_http.patch(`/benefits/increaseCounter/${id}`,);
+    const response = await my_http.patch(`/benefits/increaseCounter/${id}`,{isAPI: isAPI});
     return response.data;
   } catch (error) {
     console.error(`Error increase benefit counter with ID ${id}:`, error);
