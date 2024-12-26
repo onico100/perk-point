@@ -16,6 +16,7 @@ import YourBenefit from "./YourBenefit";
 import { Benefit } from "@/types/BenefitsTypes";
 import { Supplier } from "@/types/SupplierTypes";
 import { Club } from "@/types/ClubTypes";
+import { increaseBenefit } from "@/services/benefitsServices";
 
 interface BenefitsCardProps {
   benefit: Benefit;
@@ -42,6 +43,9 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   const { clientMode } = useGeneralStore();
 
   const goToBenefitDetails = () => {
+    clientMode != "SUPPLIER" &&
+      clientMode != "ADMIN" &&
+      increaseBenefit(benefit._id || "", Boolean(isClubApi));
     router.push(`/benefits/0/${benefit._id}`);
   };
 

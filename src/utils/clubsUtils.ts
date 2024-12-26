@@ -1,6 +1,8 @@
 import { getAllSuppliers } from "@/services/suppliersServices";
-import { Benefit, BenefitInput } from "@/types/BenefitsTypes";
+import { getAllBenefitsApi, addBenefitApi } from "@/services/BenefitApiServices";
+import { Benefit, BenefitInput, BenefitApi } from "@/types/BenefitsTypes";
 import { Club } from "@/types/ClubTypes";
+import { counter } from "@fortawesome/fontawesome-svg-core";
 
 export const getActiveClubs = (clubs: Club[]) => {
   return clubs.filter((c: Club) => c.clubStatus == "פעיל");
@@ -21,7 +23,6 @@ export const getPendingClubs = (clubs: Club[]) => {
 export const getActiveNotApiClubs = (clubs: Club[]) => {
   return getActiveClubs(clubs).filter((c: Club) => !c.APIData);
 };
-
 export const getBenefitsClubsWithSupplierId = async (
   benefits: BenefitInput[]
 ): Promise<Benefit[]> => {
@@ -30,7 +31,7 @@ export const getBenefitsClubsWithSupplierId = async (
     if (!suppliers) {
       throw new Error("Error fetching suppliers");
     }
-    if(suppliers.length === 0){
+    if (suppliers.length === 0) {
       return [];
     }
 
@@ -38,11 +39,26 @@ export const getBenefitsClubsWithSupplierId = async (
       suppliers.map((supplier) => [supplier.businessName, supplier._id])
     );
 
-    
-    const mappedBenefits: (Benefit | null)[] = benefits.map((benefit) => {
+    const allBenefitsAPI = await getAllBenefitsApi();
+    const benefitCounterMap = new Map(
+      allBenefitsAPI.map((benefitApi) => [benefitApi.benefitId, benefitApi.counter])
+    );
+
+    const mappedBenefits: (Benefit | null)[] = await Promise.all(benefits.map(async (benefit) => {
       const supplierId = supplierMap.get(benefit.supplierName);
       if (!supplierId) {
         return null;
+      }
+
+      let counter = benefitCounterMap.get(benefit._id);
+      if (counter === undefined) {
+        const newBenefitApi: BenefitApi = {
+          benefitId: benefit._id,
+          counter: 0,
+          isActive: true,
+        };
+        const createdBenefitApi = await addBenefitApi(newBenefitApi);
+        counter = createdBenefitApi.counter;
       }
 
       return {
@@ -54,11 +70,11 @@ export const getBenefitsClubsWithSupplierId = async (
         expirationDate: new Date(benefit.expirationDate),
         branches: benefit.branches,
         isActive: benefit.isActive,
+        counter,
       };
-    });
+    }));
 
-    return mappedBenefits.filter((benefit) => benefit!== null);
-    
+    return mappedBenefits.filter((benefit) => benefit !== null);
   } catch (error) {
     console.error(error);
     throw error;

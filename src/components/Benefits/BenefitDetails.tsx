@@ -42,6 +42,8 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({
     dropdownVisible: false,
     selectedBranch: null,
   });
+  let counter: number = 2;
+  if (specificBenefit) counter = specificBenefit.counter;
 
   const handleSave = async () => {
     const userConfirmed = await confirmChangesAlert();
@@ -67,6 +69,7 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({
               expirationDate: updateState.updatedBenefit.expirationDate,
               branches: updateState.updatedBenefit.branches,
               isActive: updateState.updatedBenefit.isActive,
+              counter: updateState.updatedBenefit.counter,
             },
           });
         }
@@ -128,6 +131,14 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({
           onClick={() => router.back()}
         />
         {isExpired && <span className={styles.expiredTitle}>פג תוקף</span>}
+        {clientMode == "ADMIN" ||
+          (isCurrentSupplierBenefit && (
+            <div>
+              <div className={styles.counterLabel}>
+                מספר האנשים שצפו בהטבה: {counter}
+              </div>
+            </div>
+          ))}
       </div>
       <div className={styles.contentContainer}>
         <div className={styles.content}>

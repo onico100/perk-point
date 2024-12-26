@@ -31,4 +31,12 @@ export interface Benefit {
   expirationDate: Date;
   branches: Branch[];
   isActive: boolean;
+  counter: number;
+}
+
+export interface BenefitApi {
+  _id?: string;
+  benefitId: string;
+  counter: number;
+  isActive: boolean;
 }

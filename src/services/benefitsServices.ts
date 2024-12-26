@@ -4,11 +4,13 @@ import {
   getBenefitsClubsWithSupplierId,
 } from "@/utils/clubsUtils";
 import { getAllClubs } from "./clubsService";
-import { Benefit } from "@/types/BenefitsTypes";
+import { Benefit, BenefitInput } from "@/types/BenefitsTypes";
 import { Club } from "@/types/ClubTypes";
+import { sortBenefitsByCounter } from "@/utils/benefitsUtils";
 export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
   const dataBaseBenefits = await getAllBenefits();
   const clubs = await getAllClubs();
+
   let clubsWithApi: Club[] = [];
   if (clubs && clubs.length > 0) {
     clubsWithApi = getApiClubs(clubs);
@@ -16,34 +18,61 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
     console.log("Error fetching clubs");
     return dataBaseBenefits;
   }
+
   const allApiBenefits: Benefit[] = [];
 
-  for (const club of clubsWithApi) {
-    const clubBenefits = await fetchBenefits(
-      club._id || " ",
-      club.clubRoute || ""
-    );
-    const mappedBenefits = await getBenefitsClubsWithSupplierId(clubBenefits);
-    mappedBenefits.forEach((benefit) => {
-      benefit.clubId = club._id || " ";
-      allApiBenefits.push(benefit);
-    });
+  // Fetch benefits for all clubs concurrently
+  const benefitsPromises = clubsWithApi.map(async (club) => {
+    try {
+      const clubBenefits = await fetchBenefits(
+        club._id || " ",
+        club.clubRoute || ""
+      );
+      const mappedBenefits = await getBenefitsClubsWithSupplierId(clubBenefits);
+
+      // Map clubId to each benefit
+      return mappedBenefits.map((benefit) => ({
+        ...benefit,
+        clubId: club._id || " ",
+      }));
+    } catch (error) {
+      console.error(
+        `Failed to fetch benefits for club: ${club._id}. Error: ${error}`
+      );
+      return []; // Return an empty array on failure
+    }
+  });
+
+  // Wait for all promises to resolve (success or failure)
+  const benefitsResults = await Promise.allSettled(benefitsPromises);
+
+  // Extract successful results
+  for (const result of benefitsResults) {
+    if (result.status === "fulfilled") {
+      allApiBenefits.push(...result.value);
+    }
   }
-  return [...dataBaseBenefits, ...allApiBenefits];
+
+  // Merge and sort the benefits
+  return sortBenefitsByCounter([...dataBaseBenefits, ...allApiBenefits]);
 }
 
-const fetchBenefits = async (clubId: string, route: string) => {
+const fetchBenefits = async (
+  clubId: string,
+  route: string
+): Promise<BenefitInput[]> => {
   try {
     const response = await fetch(`${route}/api/benefits?clubId=${clubId}`);
     if (!response.ok) {
       throw new Error(`Error fetching benefits: ${response.statusText}`);
     }
-    const data: Benefit[] = await response.json();
-    return data;
-  } catch (err: any) {
-    return err.message;
+    return await response.json();
+  } catch (error: any) {
+    console.error(`Fetch error: ${error.message}`);
+    throw error; // Rethrow error to be handled in the caller
   }
 };
+
 export async function getAllBenefits(): Promise<Benefit[]> {
   try {
     const response = await my_http.post("/benefits/get");
@@ -96,6 +125,19 @@ export async function addBenefit(newBenefit: Benefit): Promise<Benefit> {
     return response.data;
   } catch (error) {
     console.error("Error creating new benefit:", error);
+    throw error;
+  }
+}
+
+export async function increaseBenefit(
+  id: string,
+  isAPI:boolean,
+): Promise<Benefit> {
+  try {
+    const response = await my_http.patch(`/benefits/increaseCounter/${id}`,{isAPI: isAPI});
+    return response.data;
+  } catch (error) {
+    console.error(`Error increase benefit counter with ID ${id}:`, error);
     throw error;
   }
 }

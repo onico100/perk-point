@@ -56,6 +56,21 @@ export async function getDocumentById(
   return document;
 }
 
+export async function getDocumentByApiId(
+  client: any,
+  collection: string,
+  id: string
+) {
+  console.log(databaseName)
+  const db = client.db(databaseName);
+  console.log(db)
+
+  const document = await db
+    .collection(collection)
+    .findOne({ benefitId: id, isActive: true });
+  return document;
+}
+
 export async function updateDocumentById(
   client: any,
   collection: string,
@@ -66,6 +81,24 @@ export async function updateDocumentById(
   const result = await db
     .collection(collection)
     .updateOne({ _id: new ObjectId(id) }, { $set: updatedDocument });
+  return result;
+}
+
+export async function increasedocumentCounterById(
+  client: any,
+  collectionName: string,
+  id: string,
+  update: Record<string, unknown>
+) {
+  const db = client.db(databaseName); 
+
+  const objectId = new ObjectId(id);
+
+  const result = await db.collection(collectionName).updateOne(
+    { _id: objectId } ,
+    update           
+  );
+
   return result;
 }
 

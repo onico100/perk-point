@@ -5,27 +5,30 @@ import styles from "@/styles/Home/CardContainer.module.css";
 const cardData = [
   {
     id: 1,
-    image: "/clubs.png",
+    image:
+      "https://lottie.host/7e70f720-8456-4970-9b9f-ed1b27e21890/onF0AY0b7e.lottie",
     title: " המועדונים שלנו",
     buttonText: "לכל המועדונים",
     buttonLink: "/clubs/0",
-    marginTop: "0px", 
+    marginTop: "0px",
   },
   {
     id: 2,
-    image: "https://cdn-icons-png.freepik.com/512/10074/10074811.png",
+    image:
+      "https://lottie.host/80654365-46bd-4fa6-85b7-ecf7f08353d7/WJ1VYdrPsZ.lottie",
     title: " ההטבות שלנו",
     buttonText: "לכל הההטבות",
     buttonLink: "/benefits/0",
-    marginTop: "40px", 
+    marginTop: "40px",
   },
   {
     id: 3,
-    image: "https://cdn-icons-png.flaticon.com/512/4002/4002366.png",
+    image:
+      "https://lottie.host/e3242acc-8290-47ee-b56a-1930c87df3d8/ldIU8uwf3K.lottie",
     title: " קצת עלינו",
     buttonText: "אודות",
     buttonLink: "/about",
-    marginTop: "80px", 
+    marginTop: "80px",
   },
 ];
 

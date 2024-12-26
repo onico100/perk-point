@@ -1,17 +1,33 @@
-"use server";
+import { connectDatabase, getAllDocuments } from "@/services/mongo";
 import { NextResponse } from "next/server";
-import { getAllDocuments, connectDatabase } from "@/services/mongo";
 
-export async function GET(req: Request) {
-    const client = await connectDatabase();
-
-    try {
-        const clubs = await getAllDocuments(client, "clubs_collection");
-        return NextResponse.json(clubs);
-    } catch (error) {
-        console.error("Error fetching documents:", error);
-        return NextResponse.json({ message: "Failed to fetch documents" }, { status: 500 });
-    } finally {
-        await client.close();
+export async function POST() {
+  let client;
+  try {
+    client = await connectDatabase();
+    if (!client) {
+      return NextResponse.json(
+        { error: "Failed to connect to the database" },
+        { status: 500 }
+      );
+    } else {
+      console.log("Connected to the database");
     }
+
+    const clubs = await getAllDocuments(client, "clubs_collection");
+
+    const timestamp = new Date().toISOString();
+    const response = {
+      [timestamp]: "vdcd",
+      data: clubs,
+    };
+
+    return NextResponse.json(response);
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
+  } finally {
+    client?.close();
+  }
 }
