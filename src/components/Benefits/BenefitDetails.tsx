@@ -131,13 +131,14 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({
           onClick={() => router.back()}
         />
         {isExpired && <span className={styles.expiredTitle}>פג תוקף</span>}
-        {isCurrentSupplierBenefit && (
-          <div>
-            <div className={styles.counterLabel}>
-              מספר האנשים שצפו בהטבה: {counter}
+        {clientMode == "ADMIN" ||
+          (isCurrentSupplierBenefit && (
+            <div>
+              <div className={styles.counterLabel}>
+                מספר האנשים שצפו בהטבה: {counter}
+              </div>
             </div>
-          </div>
-        )}
+          ))}
       </div>
       <div className={styles.contentContainer}>
         <div className={styles.content}>

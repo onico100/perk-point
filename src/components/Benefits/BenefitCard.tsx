@@ -43,7 +43,9 @@ const BenefitsCard: React.FC<BenefitsCardProps> = ({
   const { clientMode } = useGeneralStore();
 
   const goToBenefitDetails = () => {
-    increaseBenefit(benefit._id || "", Boolean(isClubApi));
+    clientMode != "SUPPLIER" &&
+      clientMode != "ADMIN" &&
+      increaseBenefit(benefit._id || "", Boolean(isClubApi));
     router.push(`/benefits/0/${benefit._id}`);
   };
 
