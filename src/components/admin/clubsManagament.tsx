@@ -246,7 +246,8 @@ const ClubsContactsManagement = () => {
                   <thead>
                     <tr>
                       <th className={styles.tableHeader}>שם המועדון</th>
-                      <th className={styles.tableHeader}>פעולות</th>
+                      <th className={styles.tableHeader}>סטטוס</th>
+                      <th className={styles.tableHeader}>ניהול</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -254,6 +255,7 @@ const ClubsContactsManagement = () => {
                       (club) => (
                         <tr key={club._id} className={styles.tableRow}>
                           <td className={styles.tableCell}>{club.clubName}</td>
+                          <td className={styles.tableCell}>{club.clubStatus}</td>
                           <td className={styles.tableCellActions}>
                             <button
                               className={styles.detailsButton}
@@ -307,8 +309,10 @@ const ClubsContactsManagement = () => {
                 <table className={styles.table}>
                   <thead>
                     <tr>
+
                       <th className={styles.tableHeader}>שם המועדון</th>
-                      <th className={styles.tableHeader}>פעולות</th>
+                      <th className={styles.tableHeader}>סטטוס</th>
+                      <th className={styles.tableHeader}>ניהול</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -318,6 +322,7 @@ const ClubsContactsManagement = () => {
                     ).map((club) => (
                       <tr key={club._id} className={styles.tableRow}>
                         <td className={styles.tableCell}>{club.clubName}</td>
+                        <td className={styles.tableCell}>{club.clubStatus}</td>
                         <td className={styles.tableCellActions}>
                           <button
                             className={styles.detailsButton}
