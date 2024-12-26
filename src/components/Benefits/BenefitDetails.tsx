@@ -67,6 +67,7 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({
               expirationDate: updateState.updatedBenefit.expirationDate,
               branches: updateState.updatedBenefit.branches,
               isActive: updateState.updatedBenefit.isActive,
+              counter: updateState.updatedBenefit.counter,
             },
           });
         }

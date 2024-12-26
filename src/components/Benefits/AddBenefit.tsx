@@ -79,6 +79,7 @@ export default function AddBenefit() {
       expirationDate: new Date(data.expirationDate),
       branches: selectedBranches,
       isActive: true,
+      counter: 0,
     } as Benefit;
 
     addBenefit(newBenefit);
