@@ -1,4 +1,8 @@
-import { connectDatabase, increasedocumentCounterById } from "@/services/mongo";
+import {
+  connectDatabase,
+  getDocumentByApiId,
+  increasedocumentCounterById,
+} from "@/services/mongo";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
@@ -6,10 +10,17 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   let client;
-  try { 
+  try {
     const data = await request.json();
-    let collection= data.isAPI?"benefits_api":"benefits_collection"
-    console.log(collection, data)
+    let collection = data.isAPI ? "benefits_api" : "benefits_collection";
+    let id = params.id;
+
+    if (data.isAPI) {
+      let document = await getDocumentByApiId(client, "benefits_api", id);
+      id = document._id;
+    }
+
+    console.log(collection, data);
     client = await connectDatabase();
     if (!client) {
       return NextResponse.json(
@@ -17,23 +28,19 @@ export async function PATCH(
         { status: 500 }
       );
     }
-    console.log(params.id)
-    const result = await increasedocumentCounterById(
-      client,
-      collection,
-      params.id,
-      { $inc: { counter: 1 } } 
-    );
-  
-      if (result.matchedCount === 0) {
-        return NextResponse.json({ error: "Benefit not found" }, { status: 404 });
-      }
-  
-      return NextResponse.json({
-        message: "Counter incremented successfully",
-        modifiedCount: result.modifiedCount,
-      });
 
+    const result = await increasedocumentCounterById(client, collection, id, {
+      $inc: { counter: 1 },
+    });
+
+    if (result.matchedCount === 0) {
+      return NextResponse.json({ error: "Benefit not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      message: "Counter incremented successfully",
+      modifiedCount: result.modifiedCount,
+    });
   } catch (error: unknown) {
     console.error("Error in PATCH request:", error);
     const errorMessage =

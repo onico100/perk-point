@@ -56,6 +56,18 @@ export async function getDocumentById(
   return document;
 }
 
+export async function getDocumentByApiId(
+  client: any,
+  collection: string,
+  id: string
+) {
+  const db = client.db(databaseName);
+  const document = await db
+    .collection(collection)
+    .findOne({ benefitId: id, isActive: true });
+  return document;
+}
+
 export async function updateDocumentById(
   client: any,
   collection: string,
