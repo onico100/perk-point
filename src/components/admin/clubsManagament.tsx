@@ -69,6 +69,7 @@ const ClubsContactsManagement = () => {
 
   const handlePageChange = (setPage: React.Dispatch<React.SetStateAction<number>>, page: number) => setPage(page);
 
+  
   const handleFinalApproval = async (club: Club, status: string) => {
     try {
        await updateStatusClubById(club._id || " ", { clubStatus: status });
@@ -299,7 +300,7 @@ const ClubsContactsManagement = () => {
           {/* ACTIVE CLUBS TABLE*/}
           <div className={styles.section}>
             <h2 className={styles.subTitle}>מועדונים פעילים</h2>
-            {allClubs.filter((club) => club.isActive && club.clubStatus === "פעיל").length === 0 ? (
+            {allClubs.length===0 || allClubs.filter((club) => club.isActive && club.clubStatus === "פעיל").length === 0 ? (
               <p className={styles.noDataText}>אין מועדונים פעילים.</p>
             ) : (
               <>
