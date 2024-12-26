@@ -31,4 +31,5 @@ export interface Benefit {
   expirationDate: Date;
   branches: Branch[];
   isActive: boolean;
+  counter: number;
 }
