@@ -38,4 +38,5 @@ export interface Benefit_api {
   _id?: string;
   benefitId: string;
   counter: number;
+  isActive: boolean;
 }

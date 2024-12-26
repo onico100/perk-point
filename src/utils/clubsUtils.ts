@@ -56,11 +56,11 @@ export const getBenefitsClubsWithSupplierId = async (
         const newBenefitApi: Benefit_api = {
           benefitId: benefit._id, 
           counter: 0,
+          isActive: true,
         };
         const createdBenefitApi = await addBenefitAPI(newBenefitApi);
         counter = createdBenefitApi.counter; 
       }
-
       return {
         _id: benefit._id,
         supplierId,

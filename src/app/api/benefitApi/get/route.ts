@@ -16,13 +16,7 @@ export async function POST() {
 
     const benefits = await getAllDocuments(client, "benefits_api");
 
-    const timestamp = new Date().toISOString();
-    const response = {
-      [timestamp]: "vdcd",
-      data: benefits,
-    };
-
-    return NextResponse.json(response);
+    return NextResponse.json(benefits);
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
