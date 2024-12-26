@@ -1,6 +1,7 @@
 import { getAllSuppliers } from "@/services/suppliersServices";
 import { Benefit, BenefitInput } from "@/types/BenefitsTypes";
 import { Club } from "@/types/ClubTypes";
+import { counter } from "@fortawesome/fontawesome-svg-core";
 
 export const getActiveClubs = (clubs: Club[]) => {
   return clubs.filter((c: Club) => c.clubStatus == "פעיל");
@@ -30,7 +31,7 @@ export const getBenefitsClubsWithSupplierId = async (
     if (!suppliers) {
       throw new Error("Error fetching suppliers");
     }
-    if(suppliers.length === 0){
+    if (suppliers.length === 0) {
       return [];
     }
 
@@ -38,7 +39,6 @@ export const getBenefitsClubsWithSupplierId = async (
       suppliers.map((supplier) => [supplier.businessName, supplier._id])
     );
 
-    
     const mappedBenefits: (Benefit | null)[] = benefits.map((benefit) => {
       const supplierId = supplierMap.get(benefit.supplierName);
       if (!supplierId) {
@@ -54,11 +54,11 @@ export const getBenefitsClubsWithSupplierId = async (
         expirationDate: new Date(benefit.expirationDate),
         branches: benefit.branches,
         isActive: benefit.isActive,
+        counter: 0,
       };
     });
 
-    return mappedBenefits.filter((benefit) => benefit!== null);
-    
+    return mappedBenefits.filter((benefit) => benefit !== null);
   } catch (error) {
     console.error(error);
     throw error;

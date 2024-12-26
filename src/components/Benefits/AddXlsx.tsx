@@ -5,18 +5,8 @@ import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import { successAlert } from "@/utils/sweet-alerts";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import styles from "@/styles/Benefits/addXlsx.module.css";
-import { Branch } from "@/types/BenefitsTypes";
+import { Benefit, Branch } from "@/types/BenefitsTypes";
 import { Club } from "@/types/ClubTypes";
-
-interface Benefit {
-  supplierId: string;
-  clubId: string;
-  redemptionConditions: string;
-  description: string;
-  expirationDate: Date;
-  branches: Branch[];
-  isActive: boolean;
-}
 
 export default function AddXlsxComponent() {
   const { currentSupplier } = useGeneralStore();
@@ -65,6 +55,7 @@ export default function AddXlsxComponent() {
                 : new Date(row["תוקף"]),
             branches: currentSupplier?.branches || [],
             isActive: true,
+            counter: 0,
           }));
         })
         .flat();
