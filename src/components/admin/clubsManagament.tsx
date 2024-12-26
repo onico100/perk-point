@@ -72,7 +72,9 @@ const ClubsContactsManagement = () => {
   const handleFinalApproval = async (club: Club, status: string) => {
     try {
        await updateStatusClubById(club._id || " ", { clubStatus: status });
-        setPendingClubs((prev) => prev.filter((c) => c._id !== club._id));
+       const clubsData: Club[] = await getAllClubs();
+       setAllClubs(clubsData);
+       setPendingClubs(clubsData.filter((club) => club.clubStatus === "ממתין"));
         } catch (error) {
       console.error("Error approving club:", error);
     }
