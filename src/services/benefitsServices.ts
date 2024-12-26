@@ -6,6 +6,7 @@ import {
 import { getAllClubs } from "./clubsService";
 import { Benefit } from "@/types/BenefitsTypes";
 import { Club } from "@/types/ClubTypes";
+import { sortBenefitsByCounter } from "@/utils/benefitsUtils";
 export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
   const dataBaseBenefits = await getAllBenefits();
   const clubs = await getAllClubs();
@@ -29,7 +30,7 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
       allApiBenefits.push(benefit);
     });
   }
-  return [...dataBaseBenefits, ...allApiBenefits];
+  return sortBenefitsByCounter([...dataBaseBenefits, ...allApiBenefits]);
 }
 
 const fetchBenefits = async (clubId: string, route: string) => {
