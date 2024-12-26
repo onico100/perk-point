@@ -44,8 +44,6 @@ export const getBenefitsClubsWithSupplierId = async (
       allBenefitsAPI.map((benefitApi) => [benefitApi.benefitId, benefitApi.counter])
     );
 
-    console.log(benefitCounterMap)
-
     const mappedBenefits: (Benefit | null)[] = await Promise.all(benefits.map(async (benefit) => {
       const supplierId = supplierMap.get(benefit.supplierName);
       if (!supplierId) {
