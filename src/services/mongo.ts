@@ -19,13 +19,11 @@ export async function insertDocument(
   collection: string,
   document: DocumentWithActive
 ) {
-  console.log("Inserting document");
   const db = client.db(databaseName);
   if (document.isActive === undefined) {
     document.isActive = true;
   }
   const result = await db.collection(collection).insertOne(document);
-  console.log(result)
 
   return result;
 }
