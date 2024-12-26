@@ -8,7 +8,11 @@ import useGeneralStore from "@/stores/generalStore";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { getVaildBenefits, getUnVAildBenefits } from "@/utils/benefitsUtils";
+import {
+  getVaildBenefits,
+  getUnVAildBenefits,
+  sortBenefitsByCounter,
+} from "@/utils/benefitsUtils";
 import Link from "next/link";
 import useFilterStore from "@/stores/filterStore";
 import { Benefit } from "@/types/BenefitsTypes";
@@ -43,8 +47,10 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   useEffect(() => {
     if (benefits.length > 0) {
       showValidBenefits
-        ? setBenefitsToShow(getVaildBenefits(benefits))
-        : setBenefitsToShow(getUnVAildBenefits(benefits));
+        ? setBenefitsToShow(sortBenefitsByCounter(getVaildBenefits(benefits)))
+        : setBenefitsToShow(
+            sortBenefitsByCounter(getUnVAildBenefits(benefits))
+          );
     }
   }, [benefits]);
 
@@ -119,8 +125,8 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const handleToggle = () => {
     setShowValidBenefits((prev) => !prev);
     const dateFilteredBenefits = showValidBenefits
-      ? getUnVAildBenefits(benefits)
-      : getVaildBenefits(benefits);
+      ? sortBenefitsByCounter(getUnVAildBenefits(benefits))
+      : sortBenefitsByCounter(getVaildBenefits(benefits));
     setBenefitsToShow(dateFilteredBenefits || []);
   };
 
