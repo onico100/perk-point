@@ -19,3 +19,7 @@ export const getUnVAildBenefits = (benefits: Benefit[]) => {
     return expirationDate < today;
   });
 };
+
+export const sortBenefitsByCounter = (benefits: Benefit[]) => {
+  return benefits.sort((a, b) => b.counter - a.counter);
+};
