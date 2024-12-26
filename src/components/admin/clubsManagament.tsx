@@ -69,6 +69,7 @@ const ClubsContactsManagement = () => {
 
   const handlePageChange = (setPage: React.Dispatch<React.SetStateAction<number>>, page: number) => setPage(page);
 
+  
   const handleFinalApproval = async (club: Club, status: string) => {
     try {
        await updateStatusClubById(club._id || " ", { clubStatus: status });
@@ -245,7 +246,8 @@ const ClubsContactsManagement = () => {
                   <thead>
                     <tr>
                       <th className={styles.tableHeader}>שם המועדון</th>
-                      <th className={styles.tableHeader}>פעולות</th>
+                      <th className={styles.tableHeader}>סטטוס</th>
+                      <th className={styles.tableHeader}>ניהול</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -253,6 +255,7 @@ const ClubsContactsManagement = () => {
                       (club) => (
                         <tr key={club._id} className={styles.tableRow}>
                           <td className={styles.tableCell}>{club.clubName}</td>
+                          <td className={styles.tableCell}>{club.clubStatus}</td>
                           <td className={styles.tableCellActions}>
                             <button
                               className={styles.detailsButton}
@@ -299,15 +302,17 @@ const ClubsContactsManagement = () => {
           {/* ACTIVE CLUBS TABLE*/}
           <div className={styles.section}>
             <h2 className={styles.subTitle}>מועדונים פעילים</h2>
-            {allClubs.filter((club) => club.isActive && club.clubStatus === "פעיל").length === 0 ? (
+            {allClubs.length===0 || allClubs.filter((club) => club.isActive && club.clubStatus === "פעיל").length === 0 ? (
               <p className={styles.noDataText}>אין מועדונים פעילים.</p>
             ) : (
               <>
                 <table className={styles.table}>
                   <thead>
                     <tr>
+
                       <th className={styles.tableHeader}>שם המועדון</th>
-                      <th className={styles.tableHeader}>פעולות</th>
+                      <th className={styles.tableHeader}>סטטוס</th>
+                      <th className={styles.tableHeader}>ניהול</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -317,6 +322,7 @@ const ClubsContactsManagement = () => {
                     ).map((club) => (
                       <tr key={club._id} className={styles.tableRow}>
                         <td className={styles.tableCell}>{club.clubName}</td>
+                        <td className={styles.tableCell}>{club.clubStatus}</td>
                         <td className={styles.tableCellActions}>
                           <button
                             className={styles.detailsButton}
