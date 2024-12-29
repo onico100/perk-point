@@ -1,4 +1,5 @@
 import { connectDatabase, insertDocument } from "@/services/mongo";
+import { benefitApiSchema } from "@/types/BenefitsTypes";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -12,6 +13,17 @@ export async function POST(request: Request) {
             );
         }
         const data = await request.json();
+
+        const validationResult = benefitApiSchema.safeParse(data);
+
+        if (!validationResult.success) {
+            const errors = validationResult.error.errors.map(err => ({
+                field: err.path.join("."),
+                message: err.message,
+            }));
+            return NextResponse.json({ errors }, { status: 400 });
+        }
+        
         const result = await insertDocument(client, "benefits_api", data);
         return NextResponse.json({ insertedId: result.insertedId });
     } catch (error: unknown) {

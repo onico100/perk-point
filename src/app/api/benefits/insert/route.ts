@@ -1,4 +1,5 @@
 import { connectDatabase, insertDocument } from "@/services/mongo";
+import { benefitSchema } from "@/types/BenefitsTypes";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -12,6 +13,21 @@ export async function POST(request: Request) {
       );
     }
     const data = await request.json();
+  
+    let dataToCheck = { ...data }; 
+    dataToCheck.branches = data?.branches?.length > 0 ? [data.branches[0].city] : [];
+    
+    console.log(dataToCheck)
+    const validationResult = benefitSchema.safeParse(dataToCheck);
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.errors.map((err) => ({
+        field: err.path.join("."),
+        message: err.message,
+      }));
+      return NextResponse.json({ errors }, { status: 400 });
+    }
+
     const result = await insertDocument(client, "benefits_collection", data);
     return NextResponse.json({ insertedId: result.insertedId });
   } catch (error: unknown) {

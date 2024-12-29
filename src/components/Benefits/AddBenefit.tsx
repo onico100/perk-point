@@ -47,7 +47,7 @@ export default function AddBenefit() {
 
     const newBenefit = {
       supplierId: id,
-      clubId: data.club,
+      clubId: data.clubId,
       redemptionConditions: data.redemptionConditions,
       description: data.description,
       expirationDate: new Date(data.expirationDate),
@@ -122,7 +122,7 @@ export default function AddBenefit() {
           <label htmlFor="clubId" className={styles.label}>
             מועדון
           </label>
-          <select id="club" className={styles.select} {...register("club")}>
+          <select id="clubId" className={styles.select} {...register("clubId")}>
             <option value="">בחר מועדון</option>
             {clubsToShow?.map((club: Club) => (
               <option key={club._id} value={club._id}>
@@ -130,9 +130,9 @@ export default function AddBenefit() {
               </option>
             ))}
           </select>
-          {errors.club && (
+          {errors.clubId && (
             <span className={styles.error}>
-              {errors.club.message as string}
+              {errors.clubId.message as string}
             </span>
           )}
         </div>
