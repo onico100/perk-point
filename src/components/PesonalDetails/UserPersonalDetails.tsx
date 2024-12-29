@@ -1,11 +1,10 @@
 "use client";
 
 import styles from "@/styles/PersonalDetails/PersonalDetails.module.css";
-import { User } from "@/types/Generaltypes";
+import { User, userSchema } from "@/types/Generaltypes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { MdOutlineModeEditOutline, MdOutlineEditOff } from "react-icons/md";
 import {
   beforeActionAlert,
@@ -13,16 +12,11 @@ import {
   successAlert,
 } from "@/utils/sweet-alerts";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
+import Password from "antd/es/input/Password";
 
 interface UserPersonalDetailsProps {
   currentUser: User;
 }
-
-const formSchema = z.object({
-  username: z.string().min(3, "שם המשתמש חייב להיות לפחות 3 תווים."),
-  email: z.string().email("כתובת אימייל אינה חוקית."),
-  city: z.string().min(2, "יש להזין עיר."),
-});
 
 export default function UserPersonalDetails({
   currentUser,
@@ -35,19 +29,16 @@ export default function UserPersonalDetails({
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(formSchema),
-  });
-
-  useEffect(() => {
-    if (editMode) {
-      setValue("username", currentUser.username);
-      setValue("email", currentUser.email);
-      setValue("city", currentUser.city);
+    resolver: zodResolver(userSchema),
+    defaultValues:{
+      password:"00000000",
+      username: currentUser?.username,
+      email: currentUser?.email,
+      city: currentUser?.city,
     }
-  }, [editMode, currentUser, setValue]);
+  });
 
   const editUser = async (data: any) => {
     try {
@@ -86,7 +77,7 @@ export default function UserPersonalDetails({
       setEditMode(false);
     }
   };
-
+console.log(errors)
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>פרטי משתמש</h2>
