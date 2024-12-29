@@ -29,12 +29,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
   const { suppliers } = useFetchSuppliers();
   const { clubs, categories } = useFetchGeneral();
   const { clientMode } = useGeneralStore();
-  const {
-    isBenefitDetailPage,
-    setBenefitDetailPage,
-    resetFiltersMain,
-    resetFiltersPersenal,
-  } = useFilterStore();
+  const { isBenefitDetailPage, setBenefitDetailPage, resetFiltersMain, setFiltersMain,resetFiltersPersenal, filtersMain, filtersPersenal } = useFilterStore();
 
   const [benefitsToShow, setBenefitsToShow] = useState<Benefit[]>([]);
   const [showValidBenefits, setShowValidBenefits] = useState(true);
@@ -59,7 +54,7 @@ const BenefitsContainer = ({ benefits, title }: BenefitsContainerProps) => {
     } else {
       setBenefitDetailPage(false);
     }
-  }, [isBenefitDetailPage]);
+  },  [resetFiltersMain, resetFiltersPersenal]);
 
   const handleSearch = (
     supplierFilter: string,
