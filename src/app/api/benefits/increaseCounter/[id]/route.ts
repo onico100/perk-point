@@ -27,10 +27,8 @@ export async function PATCH(
 
     if (data.isAPI) {
       let document = await getDocumentByApiId(client, "benefits_api", id);
-      console.log("4")
       id = document._id;
     }
-    console.log("5")
     console.log(collection, data);
     client = await connectDatabase();
     if (!client) {
