@@ -58,7 +58,7 @@ export const useFetchBenefits = () => {
     },
     onError: (error, _, context: any) => {
       if (context?.previousBenefits) {
-        setBenefits(context.previousBenefits);
+        setBenefits(context.previousBenefits.filter((b: Benefit) => b._id !== "temp-id"));
       }
       errorAlert("הוספת הטבה נכשלה.");
     },
