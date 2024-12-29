@@ -60,11 +60,17 @@ export const benefitSchema = z.object({
       },
       { message: "תאריך חייב להיות בהווה או בעתיד" }
     ),
-  club: z.string().min(1, "נא לבחור מועדון"),
+  clubId: z.string().min(1, "נא לבחור מועדון"),
   branches: z.array(z.string()).refine(
     (branches) => {
       return branches.length > 0;
     },
     { message: "נא לבחור לפחות סניף אחד" }
   ),
+});
+
+export const benefitApiSchema = z.object({
+  benefitId: z.string().min(1, "חובה להזין מזהה הטבה"),
+  counter: z.number().int().min(0, "חובה להזין מספר חיובי"),
+  isActive: z.boolean(),
 });
