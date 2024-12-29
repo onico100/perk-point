@@ -4,7 +4,6 @@ import { Category } from "@/types/Generaltypes";
 import styles from "@/styles/PersonalDetails/PersonalDetails.module.css";
 import { useState, useEffect } from "react";
 import { MdOutlineModeEditOutline, MdOutlineEditOff } from "react-icons/md";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useGeneralStore from "@/stores/generalStore";
@@ -20,45 +19,12 @@ import {
   CldUploadWidget,
   CloudinaryUploadWidgetResults,
 } from "next-cloudinary";
-import { Supplier } from "@/types/SupplierTypes";
+import { Supplier, supplierSchema } from "@/types/SupplierTypes";
 import { Branch } from "@/types/BenefitsTypes";
 
 interface SupplierPersonalDetailsProps {
   currentSupplier: Supplier;
 }
-
-const formSchema = z.object({
-  providerName: z.string().min(3, "שם הספק חייב להיות לפחות 3 תווים."),
-
-  email: z.string().email("כתובת אימייל אינה חוקית."),
-
-  businessName: z.string().min(3, "יש להזין שם עסק בעל לפחות 3 תווים."),
-
-  phoneNumber: z
-    .string()
-    .regex(/^\d{9,10}$/, "מספר הטלפון חייב להיות באורך 10 ספרות."),
-  siteLink: z.string().url("כתובת האתר אינה חוקית."),
-
-  supplierLogo: z
-    .string()
-    .url("כתובת ה- URL של הלוגו אינה חוקית.")
-    .optional()
-    .or(z.literal("")),
-
-  selectedCategories: z.array(z.string()).refine(
-    (selectedCategories) => {
-      return selectedCategories.length > 0;
-    },
-    { message: "נא לבחור לפחות קטגוריה אחד" }
-  ),
-
-  branches: z.array(z.string()).refine(
-    (branches) => {
-      return branches.length > 0;
-    },
-    { message: "נא לבחור לפחות סניף אחד" }
-  ),
-});
 
 export default function SupplierPersonalDetails({
   currentSupplier,
@@ -67,53 +33,31 @@ export default function SupplierPersonalDetails({
   const { categories } = useGeneralStore();
   const { updateSupplier } = useFetchSuppliers();
   const [ischooseCategories, setIschooseCategories] = useState(true);
-  const [selectAll, setSelectAll] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [allBranches, setAllBranches] = useState<any[]>([]);
-  const [booleanResults, setBooleanResults] = useState<boolean[]>([]);
+  
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(supplierSchema),
+    defaultValues: {
+      password:"00000000",
+      branches: ["branches"],
+      selectedCategories: currentSupplier.selectedCategories,
+      providerName: currentSupplier.providerName,
+      email: currentSupplier.email,
+      businessName: currentSupplier.businessName,
+      phoneNumber: currentSupplier.phoneNumber,
+      siteLink: currentSupplier.siteLink,
+      supplierLogo: currentSupplier.supplierLogo,
+    },
   });
 
   const isExample =
     currentSupplier.email == "supplier@example.com" ? true : false;
-
-  let setValueOnDom = () => {
-    let booleanResults2: boolean[] = allBranches.map(
-      (b: Branch) =>
-        currentSupplier?.branches?.some(
-          (branch: Branch) => branch.nameBranch === b.nameBranch
-        ) as boolean
-    );
-    setBooleanResults(booleanResults2);
-
-    const containsAllBranches = booleanResults2.every((b) => b === true);
-    setSelectAll(containsAllBranches);
-
-    setValue("providerName", currentSupplier?.providerName);
-    setValue("email", currentSupplier?.email);
-    setValue("businessName", currentSupplier?.businessName);
-    setValue("phoneNumber", currentSupplier?.phoneNumber);
-    setValue("siteLink", currentSupplier?.siteLink);
-    setValue("supplierLogo", currentSupplier?.supplierLogo);
-    setValue("selectedCategories", currentSupplier?.selectedCategories);
-    setValue(
-      "branches",
-      selectAll
-        ? allBranches?.map((b) => b.nameBranch)
-        : currentSupplier?.branches?.map((b) => b.nameBranch)
-    );
-  };
-
-  useEffect(() => {
-    fetchBranches();
-    setValueOnDom();
-  }, []);
 
   const handleLogoUpload = async (result: CloudinaryUploadWidgetResults) => {
     setUploading(true);
@@ -144,11 +88,6 @@ export default function SupplierPersonalDetails({
       const alertConfirm = await beforeActionAlert("");
       if (alertConfirm) {
         if (currentSupplier?._id) {
-          // setValueOnDom()
-
-          let updatedBranches = selectAll
-            ? allBranches
-            : allBranches?.filter((b) => data.branches.includes(b.nameBranch));
 
           await updateSupplier(
             {
@@ -161,7 +100,7 @@ export default function SupplierPersonalDetails({
                 categories: currentSupplier?.categories,
                 phoneNumber: data?.phoneNumber,
                 registrationDate: currentSupplier?.registrationDate,
-                branches: updatedBranches,
+                branches: currentSupplier?.branches,
                 siteLink: data?.siteLink,
                 supplierLogo: data?.supplierLogo,
                 isActive: currentSupplier?.isActive,
@@ -184,23 +123,6 @@ export default function SupplierPersonalDetails({
       errorAlert("שגיאה בעריכת ספק");
     } finally {
       setEditMode(false);
-    }
-  };
-
-  const fetchBranches = async () => {
-    let textQuery = currentSupplier?.businessName;
-
-    if (textQuery.trim().length >= 2) {
-      try {
-        let allBranchesFromService = await getbranchesByBusinessName(textQuery);
-
-        setAllBranches(allBranchesFromService);
-      } catch (error) {
-        console.error("Error fetching suggestions:", error);
-        setAllBranches([]);
-      }
-    } else {
-      setAllBranches([]);
     }
   };
 

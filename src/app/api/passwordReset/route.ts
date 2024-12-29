@@ -18,7 +18,9 @@ export async function POST(request: NextRequest) {
     }
 
     const user = await db.collection("users_collection").findOne({ email });
-    const supplier = await db.collection("suppliers_collection").findOne({ email });
+    const supplier = await db
+      .collection("suppliers_collection")
+      .findOne({ email });
 
     if (!user && !supplier) {
       return NextResponse.json(
@@ -37,7 +39,9 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const resetLink = `http://localhost:3000/passwordReset?email=${encodeURIComponent(email)}&role=${role}`;
+    const resetLink = `https://perk-point.vercel.app/passwordReset?email=${encodeURIComponent(
+      email
+    )}&role=${role}`;
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -61,12 +65,13 @@ export async function POST(request: NextRequest) {
         </div>
       `,
     };
-    
-
 
     await transporter.sendMail(mailOptions);
 
-    return NextResponse.json({ success: true, message: "Password reset email sent" });
+    return NextResponse.json({
+      success: true,
+      message: "Password reset email sent",
+    });
   } catch (error) {
     console.error("Error sending password reset email:", error);
     return NextResponse.json(

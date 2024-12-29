@@ -51,6 +51,7 @@ export const userSchema = z.object({
   city: z.string().min(2, "יש להזין עיר."),
 });
 
+
 export type UserFormValues = z.infer<typeof userSchema>;
 
 export const userGoogleSchema = z.object({

@@ -10,33 +10,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getActiveNotApiClubs } from "@/utils/clubsUtils";
 import { Club } from "@/types/ClubTypes";
-import { Benefit, Branch } from "@/types/BenefitsTypes";
-
-const formSchema = z.object({
-  redemptionConditions: z
-    .string()
-    .min(2, "הגבלות ההטבה חייבות לכלול לפחות 2 תווים"),
-  description: z.string().min(2, "תיאור ההטבה חייב לכלול לפחות 2 תווים"),
-  expirationDate: z
-    .string()
-    .min(1, "תאריך הוא שדה חובה")
-    .refine(
-      (date) => {
-        const selectedDate = new Date(date);
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        return selectedDate > today;
-      },
-      { message: "תאריך חייב להיות בהווה או בעתיד" }
-    ),
-  club: z.string().min(1, "נא לבחור מועדון"),
-  branches: z.array(z.string()).refine(
-    (branches) => {
-      return branches.length > 0;
-    },
-    { message: "נא לבחור לפחות סניף אחד" }
-  ),
-});
+import { Benefit, benefitSchema, Branch } from "@/types/BenefitsTypes";
 
 export default function AddBenefit() {
   const router = useRouter();
@@ -56,7 +30,7 @@ export default function AddBenefit() {
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(benefitSchema),
   });
 
   useEffect(() => {

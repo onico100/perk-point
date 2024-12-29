@@ -7,16 +7,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CldUploadWidget, CloudinaryUploadWidgetResults } from "next-cloudinary";
-
-const formSchema = z.object({
-    clubName: z.string().min(1, "שם המועדון חייב להיות מלא."),
-    clubLink: z.string().url("לינק לא חוקי."),
-    clubLogo: z.string().url("כתובת ה- URL של הלוגו אינה חוקית.").optional(),
-    route: z.string().optional(),
-    comments: z.string().optional(),
-    email: z.string().email("כתובת אימייל לא חוקית."),
-});
-
+import { clubSchema } from "@/types/ClubTypes";
 
 const AddClub: React.FC = () => {
     const [isApi, setIsApi] = useState(true);
@@ -26,7 +17,7 @@ const AddClub: React.FC = () => {
     const router = useRouter();
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm({
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(clubSchema),
         mode: "onBlur",
     });
 
