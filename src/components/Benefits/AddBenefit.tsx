@@ -1,12 +1,11 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import styles from "@/styles/Benefits/AddBenefit.module.css";
 import { useFetchGeneral } from "@/hooks/useFetchGeneral";
 import { useFetchBenefits } from "@/hooks/useFetchBenefits";
 import useGeneralStore from "@/stores/generalStore";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getActiveNotApiClubs } from "@/utils/clubsUtils";
 import { Club } from "@/types/ClubTypes";
@@ -31,16 +30,21 @@ export default function AddBenefit() {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(benefitSchema),
+    defaultValues: {
+      supplierId: "000",
+      branches: ["all"],
+      counter: 0,
+      description: "",
+      redemptionConditions: "",
+      expirationDate: "",
+      clubId: "",
+    },
   });
 
-  useEffect(() => {
-    setValue(
-      "branches",
-      selectAll ? branches.map((b: any) => b.nameBranch) : []
-    );
-  }, [selectAll, branches, setValue]);
+  console.log(errors)
 
   const onSubmit = (data: any) => {
+    console.log(errors)
     const selectedBranches = selectAll
       ? branches
       : branches.filter((b: any) => data.branches.includes(b.nameBranch));
@@ -56,9 +60,20 @@ export default function AddBenefit() {
       counter: 0,
     } as Benefit;
 
+    console.log(newBenefit);
+
     addBenefit(newBenefit);
     router.push(`/benefits/${id}`);
   };
+
+  const selectedBranches = () => {
+    setSelectAll((prevSelectAll) => {
+      const newSelectAll = !prevSelectAll;
+      setValue("branches", newSelectAll ? branches.map((b: any) => b.nameBranch) : []);
+      return newSelectAll;
+    });
+  };
+  
 
   return (
     <div>
@@ -144,7 +159,7 @@ export default function AddBenefit() {
               <input
                 type="checkbox"
                 checked={selectAll}
-                onChange={() => setSelectAll(!selectAll)}
+                onChange={selectedBranches}
               />
               כל הסניפים
             </label>
