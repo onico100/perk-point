@@ -65,7 +65,7 @@ export const SelectLabel = styled.label`
   font-size: 14px;
   width: 100%;
 
-  @media (max-width: 958px) {
+  @media (max-width: 1150px) {
     font-size: 12px;  
   }
 
