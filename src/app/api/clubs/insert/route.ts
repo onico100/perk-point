@@ -1,12 +1,10 @@
 import { connectDatabase, insertDocument } from "@/services/mongo";
 import { clubSchema } from "@/types/ClubTypes";
+import { ValidationError } from "@/types/Generaltypes";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-interface ValidationError {
-  field: string;
-  message: string;
-}
+
 export async function POST(request: Request) {
   let client;
   console.log("request: ", request);

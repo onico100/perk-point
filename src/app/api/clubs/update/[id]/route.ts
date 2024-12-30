@@ -1,11 +1,7 @@
 import { connectDatabase, updateDocumentById } from "@/services/mongo";
 import { clubSchema } from "@/types/ClubTypes";
+import { ValidationError } from "@/types/Generaltypes";
 import { NextResponse } from "next/server";
-
-interface ValidationError {
-  field: string;
-  message: string;
-}
 
 export async function PATCH(
   request: Request,

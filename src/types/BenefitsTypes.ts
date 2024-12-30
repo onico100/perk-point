@@ -44,6 +44,9 @@ export interface BenefitApi {
 }
 
 export const benefitSchema = z.object({
+  supplierId:z
+  .string()
+  .min(2, "מזהה ספק חייב לכלול לפחות 2 תווים"),
   redemptionConditions: z
     .string()
     .min(2, "הגבלות ההטבה חייבות לכלול לפחות 2 תווים"),
@@ -67,10 +70,11 @@ export const benefitSchema = z.object({
     },
     { message: "נא לבחור לפחות סניף אחד" }
   ),
+  counter: z.number().int().min(0, "חובה להזין מספר חיובי"),
 });
 
 export const benefitApiSchema = z.object({
-  benefitId: z.string().min(1, "חובה להזין מזהה הטבה"),
+  benefitId: z.string().min(2, "מזהה הטבה חייב לכלול לפחות 2 תווים" ),
   counter: z.number().int().min(0, "חובה להזין מספר חיובי"),
   isActive: z.boolean(),
 });
