@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { connectDatabase, insertDocument } from "@/services/mongo";
 import { NextResponse } from "next/server";
+import { userGoogleSchema } from "@/types/Generaltypes";
 
 export async function POST(request: Request) {
   let client;
@@ -14,6 +15,16 @@ export async function POST(request: Request) {
     }
 
     const data = await request.json();
+    
+    const validationResult = userGoogleSchema.safeParse(data);
+
+    if (!validationResult.success) {
+      const errors=validationResult.error.errors.map((err) => ({
+        field: err.path.join("."),
+        message: err.message,
+      }));
+      return NextResponse.json({ errors }, { status: 400 });
+    }
 
     if (!data.password) {
       return NextResponse.json(

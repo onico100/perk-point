@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+export interface ValidationError {
+  field: string;
+  message: string;
+}
+
 export interface User {
   _id?: string;
   username: string;
