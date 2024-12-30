@@ -1,4 +1,5 @@
 import { connectDatabase, updateDocumentById } from "@/services/mongo";
+import { userGoogleSchema } from "@/types/Generaltypes";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
@@ -15,6 +16,17 @@ export async function PATCH(
       );
     }
     const data = await request.json();
+
+        const validationResult = userGoogleSchema.safeParse(data);
+    
+        if (!validationResult.success) {
+          const errors=validationResult.error.errors.map((err) => ({
+            field: err.path.join("."),
+            message: err.message,
+          }));
+          return NextResponse.json({ errors }, { status: 400 });
+        }
+    
     const result = await updateDocumentById(
       client,
       "users_collection",
