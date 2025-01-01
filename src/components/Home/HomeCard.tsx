@@ -22,10 +22,11 @@ const Card: React.FC<CardProps> = ({
   };
   return (
     <div className={styles.card} style={style}>
-      <h2>{title}</h2>
-      <DotLottieReact src={image} loop autoplay />
-
-      <button onClick={gotoLink}>{buttonText}</button>
+      <a href={buttonLink}>
+        <h2>{title}</h2>
+        <DotLottieReact src={image} loop autoplay />
+        <button onClick={gotoLink}>{buttonText}</button>
+      </a>
     </div>
   );
 };
