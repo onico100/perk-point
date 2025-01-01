@@ -68,7 +68,6 @@ const ClubsContactsManagement = () => {
   const totalPages = (data: any[]) => Math.ceil(data.length / rowsPerPage);
 
   const handlePageChange = (setPage: React.Dispatch<React.SetStateAction<number>>, page: number) => setPage(page);
-
   
   const handleFinalApproval = async (club: Club, status: string) => {
     try {
@@ -80,10 +79,6 @@ const ClubsContactsManagement = () => {
       console.error("Error approving club:", error);
     }
   };
-  
-
-
-
 
 
   const openClubDetails = (club: addClubForm | Club) => {
