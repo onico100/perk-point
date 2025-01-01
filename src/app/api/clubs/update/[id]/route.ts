@@ -1,6 +1,6 @@
 import { connectDatabase, updateDocumentById } from "@/services/mongo";
 import { clubSchema } from "@/types/ClubTypes";
-import { ValidationError } from "@/types/Generaltypes";
+import { isActiveSchema, ValidationError } from "@/types/Generaltypes";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
@@ -18,7 +18,6 @@ export async function PATCH(
     }
 
     const data = await request.json();
-console.log(data)
         let dataToCheck = {
           clubName: data?.clubName,
           clubLink: data?.clubLink,
@@ -38,11 +37,16 @@ console.log(data)
           })));
         }
     
-        if (data.isActive== null)
-          errors.push({
-            field: "isActive",
-            message: "is active is required",
-          });
+      const isActiveValidationResult = isActiveSchema.safeParse({
+        isActive: data.isActive,
+      });
+      
+      if (!isActiveValidationResult.success) {
+        errors.push({
+          field: "isActive",
+          message: isActiveValidationResult.error.errors[0].message,
+        });
+      }
     
         if (data.APIData == null)
           errors.push({

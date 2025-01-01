@@ -1,6 +1,6 @@
 import { connectDatabase, updateDocumentById } from "@/services/mongo";
 import { benefitSchema } from "@/types/BenefitsTypes";
-import { ValidationError } from "@/types/Generaltypes";
+import { isActiveSchema, ValidationError } from "@/types/Generaltypes";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
@@ -28,20 +28,29 @@ export async function PATCH(
     const errors: ValidationError[] = [];
 
     if (!validationResult.success) {
-      validationResult.error.errors.map((err) => (errors.push({
-        field: err.path.join("."),
-        message: err.message,
-      })));
+      validationResult.error.errors.map((err) =>
+        errors.push({
+          field: err.path.join("."),
+          message: err.message,
+        })
+      );
     }
 
-    if (data.isActive== null)
-      errors.push({
-        field: "isActive",
-        message: "is active is required",
+    if (data.hasOwnProperty("isActive")) {
+      const isActiveValidationResult = isActiveSchema.safeParse({
+        isActive: data.isActive,
       });
 
-      if (errors.length > 0)
-        return NextResponse.json({ errors }, { status: 400 });
+      if (!isActiveValidationResult.success) {
+        errors.push({
+          field: "isActive",
+          message: isActiveValidationResult.error.errors[0].message,
+        });
+      }
+    }
+
+    if (errors.length > 0)
+      return NextResponse.json({ errors }, { status: 400 });
 
     const result = await updateDocumentById(
       client,
