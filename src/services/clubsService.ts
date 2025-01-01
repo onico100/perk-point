@@ -3,8 +3,8 @@ import { Club } from "@/types/ClubTypes";
 
 export async function getAllClubs() {
   try {
-    const response = await my_http.get("/clubs/get");
-    return response.data;
+    const response = await my_http.post("/clubs/get");
+    return response.data.data;
   } catch (error) {
     console.error(error);
   }

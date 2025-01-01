@@ -1,6 +1,5 @@
 import { connectDatabase, updateDocumentById } from "@/services/mongo";
-import { benefitSchema } from "@/types/BenefitsTypes";
-import { ValidationError } from "@/types/Generaltypes";
+import { benefitApiSchema } from "@/types/BenefitsTypes";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
@@ -19,32 +18,19 @@ export async function PATCH(
 
     const data = await request.json();
 
-    let dataToCheck = { ...data };
-    dataToCheck.branches =
-      data?.branches?.length > 0 ? [data.branches[0].city] : [];
-
-    const validationResult = benefitSchema.safeParse(dataToCheck);
-    const errors: ValidationError[] = [];
+    const validationResult = benefitApiSchema.safeParse(data);
 
     if (!validationResult.success) {
-      validationResult.error.errors.map((err) => (errors.push({
+      const errors = validationResult.error.errors.map((err) => ({
         field: err.path.join("."),
         message: err.message,
-      })));
+      }));
+      return NextResponse.json({ errors }, { status: 400 });
     }
-
-    if (data.isActive== null)
-      errors.push({
-        field: "isActive",
-        message: "is active is required",
-      });
-
-      if (errors.length > 0)
-        return NextResponse.json({ errors }, { status: 400 });
 
     const result = await updateDocumentById(
       client,
-      "benefits_collection",
+      "benefits_api",
       params.id,
       data
     );

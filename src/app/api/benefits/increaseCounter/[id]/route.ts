@@ -11,6 +11,16 @@ export async function PATCH(
 ) {
   let client;
   try {
+    client = await connectDatabase();
+    if (!client) {
+      return NextResponse.json(
+        { error: "Failed to connect to the database" },
+        { status: 500 }
+      );
+    } else {
+      console.log("Connected to the database");
+    }
+    
     const data = await request.json();
     let collection = data.isAPI ? "benefits_api" : "benefits_collection";
     let id = params.id;
@@ -19,7 +29,6 @@ export async function PATCH(
       let document = await getDocumentByApiId(client, "benefits_api", id);
       id = document._id;
     }
-
     console.log(collection, data);
     client = await connectDatabase();
     if (!client) {

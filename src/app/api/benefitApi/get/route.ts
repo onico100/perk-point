@@ -14,15 +14,9 @@ export async function POST() {
       console.log("Connected to the database");
     }
 
-    const clubs = await getAllDocuments(client, "clubs_collection");
+    const benefits = await getAllDocuments(client, "benefits_api");
 
-    const timestamp = new Date().toISOString();
-    const response = {
-      [timestamp]: "vdcd",
-      data: clubs,
-    };
-
-    return NextResponse.json(response);
+    return NextResponse.json(benefits);
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";

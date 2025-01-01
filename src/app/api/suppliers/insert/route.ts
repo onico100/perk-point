@@ -1,6 +1,8 @@
 import { connectDatabase, insertDocument } from "@/services/mongo";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { supplierSchema } from "@/types/SupplierTypes";
+import { ValidationError } from "@/types/Generaltypes";
 
 export async function POST(request: Request) {
   let client;
@@ -14,6 +16,36 @@ export async function POST(request: Request) {
     }
 
     const data = await request.json();
+   
+    let dataToCheck = { ...data };
+    dataToCheck.branches =
+      data?.branches?.length > 0 ? [data.branches[0].city] : [];
+
+    const validationResult = supplierSchema.safeParse(dataToCheck);
+    const errors: ValidationError[] = [];
+
+    if (!validationResult.success) {
+      validationResult.error.errors.map((err) => (errors.push({
+        field: err.path.join("."),
+        message: err.message,
+      })));
+    }
+
+    if (data.registrationDate== null || typeof(data.registrationDate)!="string")
+      errors.push({
+        field: "registrationDate",
+        message: "registration date is required and must be a string",
+      });
+
+    if (data.isActive== null || typeof(data.isActive)!="boolean")
+      errors.push({
+        field: "isActive",
+        message: "isActive is required and must be a boolean",
+      });
+
+      if (errors.length > 0)
+        return NextResponse.json({ errors }, { status: 400 });
+
 
     const { email, password, providerName, businessName, phoneNumber } = data;
     if (!email || !password || !providerName || !businessName || !phoneNumber) {

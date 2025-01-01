@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+export interface ValidationError {
+  field: string;
+  message: string;
+}
+
 export interface User {
   _id?: string;
   username: string;
@@ -50,6 +55,7 @@ export const userSchema = z.object({
   password: z.string().min(6, "סיסמה חייבת להכיל לפחות 6 תווים."),
   city: z.string().min(2, "יש להזין עיר."),
 });
+
 
 export type UserFormValues = z.infer<typeof userSchema>;
 

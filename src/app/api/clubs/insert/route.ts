@@ -1,6 +1,9 @@
 import { connectDatabase, insertDocument } from "@/services/mongo";
+import { clubSchema } from "@/types/ClubTypes";
+import { ValidationError } from "@/types/Generaltypes";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+
 
 export async function POST(request: Request) {
   let client;
@@ -15,6 +18,44 @@ export async function POST(request: Request) {
     }
 
     const data = await request.json();
+
+    let dataToCheck = {
+      clubName: data?.clubName,
+      clubLink: data?.clubLink,
+      clubLogo: data?.clubLogo,
+      email: "aaa@gmail.com",
+    };
+
+    const validationResult = clubSchema.safeParse(dataToCheck);
+    const errors: ValidationError[] = [];
+
+    if (!validationResult.success) {
+      validationResult.error.errors.map((err) => (errors.push({
+        field: err.path.join("."),
+        message: err.message,
+      })));
+    }
+
+    if (data.isActive==null)
+      errors.push({
+        field: "isActive",
+        message: "is active is required",
+      });
+
+    if (data.APIData == null)
+      errors.push({
+        field: "APIData",
+        message: "API data is required",
+      });
+
+    if (data.clubStatus==null)
+      errors.push({
+        field: "clubStatus",
+        message: "club status is required",
+      });
+
+    if (errors.length > 0)
+      return NextResponse.json({ errors }, { status: 400 });
 
     const result = await insertDocument(client, "clubs_collection", data);
 
