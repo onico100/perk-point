@@ -16,17 +16,18 @@ export async function PATCH(
       );
     }
     const data = await request.json();
+    
+    const UpdateSchema = userGoogleSchema.partial();
+    const validationResult = UpdateSchema.safeParse(data);
 
-        const validationResult = userGoogleSchema.safeParse(data);
-    
-        if (!validationResult.success) {
-          const errors=validationResult.error.errors.map((err) => ({
-            field: err.path.join("."),
-            message: err.message,
-          }));
-          return NextResponse.json({ errors }, { status: 400 });
-        }
-    
+    if (!validationResult.success) {
+      const errors = validationResult.error.errors.map((err) => ({
+        field: err.path.join("."),
+        message: err.message,
+      }));
+      return NextResponse.json({ errors }, { status: 400 });
+    }
+
     const result = await updateDocumentById(
       client,
       "users_collection",

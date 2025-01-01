@@ -25,8 +25,10 @@ console.log(data)
           clubLogo: data?.clubLogo,
           email: "aaa@gmail.com",
         };
-    
-        const validationResult = clubSchema.safeParse(dataToCheck);
+
+        const UpdateSchema = clubSchema.partial();
+        
+        const validationResult = UpdateSchema.safeParse(dataToCheck);
         const errors: ValidationError[] = [];
     
         if (!validationResult.success) {

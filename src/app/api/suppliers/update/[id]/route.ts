@@ -17,35 +17,41 @@ export async function PATCH(
       );
     }
     const data = await request.json();
-      let dataToCheck = { ...data };
-        dataToCheck.branches =
-          data?.branches?.length > 0 ? [data.branches[0].city] : [];
-    
-        const validationResult = supplierSchema.safeParse(dataToCheck);
-        const errors: ValidationError[] = [];
-    
-        if (!validationResult.success) {
-          validationResult.error.errors.map((err) => (errors.push({
-            field: err.path.join("."),
-            message: err.message,
-          })));
-        }
-    
-        if (data.registrationDate== null || typeof(data.registrationDate)!="string")
-          errors.push({
-            field: "registrationDate",
-            message: "registration date is required and must be a string",
-          });
-    
-        if (data.isActive== null || typeof(data.isActive)!="boolean")
-          errors.push({
-            field: "isActive",
-            message: "isActive is required and must be a boolean",
-          });
-    
-          if (errors.length > 0)
-            return NextResponse.json({ errors }, { status: 400 });
-    
+    let dataToCheck = { ...data };
+    dataToCheck.branches =
+      data?.branches?.length > 0 ? [data.branches[0].city] : [];
+
+    const UpdateSchema = supplierSchema.partial();
+    const validationResult = UpdateSchema.safeParse(dataToCheck);
+    const errors: ValidationError[] = [];
+
+    if (!validationResult.success) {
+      validationResult.error.errors.map((err) =>
+        errors.push({
+          field: err.path.join("."),
+          message: err.message,
+        })
+      );
+    }
+
+    if (
+      data.registrationDate == null ||
+      typeof data.registrationDate != "string"
+    )
+      errors.push({
+        field: "registrationDate",
+        message: "registration date is required and must be a string",
+      });
+
+    if (data.isActive == null || typeof data.isActive != "boolean")
+      errors.push({
+        field: "isActive",
+        message: "isActive is required and must be a boolean",
+      });
+
+    if (errors.length > 0)
+      return NextResponse.json({ errors }, { status: 400 });
+
     const result = await updateDocumentById(
       client,
       "suppliers_collection",

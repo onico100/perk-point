@@ -18,12 +18,13 @@ export async function PATCH(
     }
 
     const data = await request.json();
+    const UpdateSchema = benefitSchema.partial();
 
     let dataToCheck = { ...data };
     dataToCheck.branches =
       data?.branches?.length > 0 ? [data.branches[0].city] : [];
 
-    const validationResult = benefitSchema.safeParse(dataToCheck);
+    const validationResult = UpdateSchema.safeParse(dataToCheck);
     const errors: ValidationError[] = [];
 
     if (!validationResult.success) {
