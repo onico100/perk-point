@@ -77,8 +77,7 @@ export async function getAllBenefits(): Promise<Benefit[]> {
   try {
     const response = await my_http.post("/benefits/get");
     const allBenefits: Benefit[] = response.data.data;
-    const activeBenefits = allBenefits.filter((benefit) => benefit.isActive);
-    return activeBenefits;
+    return allBenefits;
   } catch (error) {
     console.error("Error fetching benefits:", error);
     throw error;
