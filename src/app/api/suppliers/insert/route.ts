@@ -31,23 +31,6 @@ export async function POST(request: Request) {
       })));
     }
 
-    if (data.registrationDate== null || typeof(data.registrationDate)!="string")
-      errors.push({
-        field: "registrationDate",
-        message: "registration date is required and must be a string",
-      });
-
-      const isActiveValidationResult = isActiveSchema.safeParse({
-        isActive: data.isActive,
-      });
-      
-      if (!isActiveValidationResult.success) {
-        errors.push({
-          field: "isActive",
-          message: isActiveValidationResult.error.errors[0].message,
-        });
-      }
-
       if (errors.length > 0)
         return NextResponse.json({ errors }, { status: 400 });
 
