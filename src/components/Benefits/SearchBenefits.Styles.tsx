@@ -21,8 +21,8 @@ export const SearchIcon = styled(FaSearch)`
 export const InputContainer = styled.div`
   position: relative;
   flex: 1;
-  min-width: 100px;
-  max-width: 200px;
+  min-width: 10vw;
+  max-width: 20vw;
 
   &:focus-within ${SearchIcon} {
     color: black;
@@ -34,12 +34,12 @@ export const InputContainer = styled.div`
 
 export const SelectContainer = styled.div<{ $isOpen: boolean }>`
   flex: 1;
-  min-width: 100px;
-  max-width: 200px;
+  min-width: 10vw;
+  max-width: 20vw;
   background-color: white;
   padding: 0;
   border: 1.5px solid ${({ $isOpen }) => ($isOpen ? `white` : `transparent`)};
-  border-radius: 7px;
+  border-radius: 6px;
   box-shadow: inset 0 0 0 2px
     ${({ $isOpen }) => ($isOpen ? `black` : `transparent`)};
   position: relative;
@@ -58,7 +58,7 @@ export const SelectLabel = styled.label`
   align-items: center;
   color: grey;
   padding: 5px;
-  border-radius: 7px;
+  border-radius: 6px;
   height: 40px;
   line-height: 40px;
   font-size: 14px
@@ -78,7 +78,7 @@ export const SupplierInput = styled.input`
   padding: 10px;
   margin: 0;
   border: 1px solid #ccc;
-  border-radius: 7px;
+  border-radius: 6px;
   opacity: 0.4;
   width: 100%;
   height: 40px;
@@ -145,11 +145,11 @@ export const DateInput = styled.input`
   padding: 10px;
   margin: 0;
   border: 1px solid #ccc;
-  border-radius: 7px;
+  border-radius: 6px;
   opacity: 0.4;
   height: 40px;
-  min-width: 100px;
-  max-width: 150px;
+  min-width: 10vw;
+  max-width: 15vw;
 
   &:focus {
     opacity: 1;
