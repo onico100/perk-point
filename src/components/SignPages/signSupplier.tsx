@@ -112,8 +112,9 @@ export default function SignSupplierComponent() {
     }
 
     let supplierNameExist = suppliers?.find(
-      (s: Supplier) => s.businessName == data.businessName
+      (s: Supplier) => {s.businessName == data.businessName}
     );
+    console.log(suppliers)
     if (supplierNameExist) {
       errorAlert("שם הספק כבר קיים");
       return;
