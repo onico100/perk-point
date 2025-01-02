@@ -1,6 +1,6 @@
 # Perk Point App
 
-The Perk Point App is designed to streamline the management of benefit inventories for user clubs. It provides users a seamless and efficient way to access eligible benefits while giving suppliers and administrators the tools to manage benefits effectively.
+An online platform designed for managing users' benefit inventory, centralizing all their perks in one place, and providing quick and convenient access to benefits based on the clubs and cards they are members of.
 
 ### **User Side**
 
@@ -12,11 +12,16 @@ The Perk Point App is designed to streamline the management of benefit inventori
 ### **Supplier Side**
 
 - **Manage Benefits**:
+
   - **Add**: Easily add new benefits to the company's inventory.
   - **Update**: Modify existing benefits.
   - **Delete**: Remove benefits that are no longer offered.
   - **Upload Benefits via Excel**:
   - Suppliers can bulk upload benefits using an Excel file, making it easier to manage large inventories.
+
+- **Track Benefit Views:**
+  Suppliers can monitor how many users have viewed each benefit. This allows suppliers to analyze user interest and adjust their offerings accordingly.
+  The supplier dashboard provides a real-time count of views for each benefit.
 
 ### **Club Integration**
 
@@ -94,7 +99,7 @@ Clubs can enable integration by providing API endpoints for fetching benefits. T
 
 Authentication: Provide a token-based or other secure mechanism.
 Endpoints:
-GET api/benefits/clubid?******\*\*\*\*******: Fetch all benefits from the club.
+GET api/benefits/clubid?**\*\***\*\*\*\***\*\***: Fetch all benefits from the club.
 For more detailed documentation, refer to the API documentation file.
 [Download Documentation](./public/assets/Documentation.pdf)
 
