@@ -1,6 +1,6 @@
 import { connectDatabase, insertDocument } from "@/services/mongo";
-import { clubSchema } from "@/types/ClubTypes";
-import { ValidationError } from "@/types/Generaltypes";
+import { ClubAnotherFieldsSchema, clubSchema } from "@/types/ClubTypes";
+import { isActiveSchema, ValidationError } from "@/types/Generaltypes";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
@@ -35,23 +35,30 @@ export async function POST(request: Request) {
       })));
     }
 
-    if (data.isActive==null)
-      errors.push({
-        field: "isActive",
-        message: "is active is required",
+      const isActiveValidationResult = isActiveSchema.safeParse({
+        isActive: data.isActive,
+      });
+      
+      if (!isActiveValidationResult.success) {
+        errors.push({
+          field: "isActive",
+          message: isActiveValidationResult.error.errors[0].message,
+        });
+      }
+
+      const ClubAnotherFieldsSchemaValidationResult = ClubAnotherFieldsSchema.safeParse({
+        APIData: data.APIData,
+        clubStatus: data.clubStatus
       });
 
-    if (data.APIData == null)
-      errors.push({
-        field: "APIData",
-        message: "API data is required",
-      });
-
-    if (data.clubStatus==null)
-      errors.push({
-        field: "clubStatus",
-        message: "club status is required",
-      });
+      if (!ClubAnotherFieldsSchemaValidationResult.success) {
+        ClubAnotherFieldsSchemaValidationResult.error.errors.map((err) =>
+          errors.push({
+            field: err.path.join("."),
+            message: err.message,
+          })
+        );
+      }
 
     if (errors.length > 0)
       return NextResponse.json({ errors }, { status: 400 });

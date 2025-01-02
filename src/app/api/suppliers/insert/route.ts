@@ -2,7 +2,7 @@ import { connectDatabase, insertDocument } from "@/services/mongo";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { supplierSchema } from "@/types/SupplierTypes";
-import { ValidationError } from "@/types/Generaltypes";
+import { isActiveSchema, ValidationError } from "@/types/Generaltypes";
 
 export async function POST(request: Request) {
   let client;
@@ -37,11 +37,16 @@ export async function POST(request: Request) {
         message: "registration date is required and must be a string",
       });
 
-    if (data.isActive== null || typeof(data.isActive)!="boolean")
-      errors.push({
-        field: "isActive",
-        message: "isActive is required and must be a boolean",
+      const isActiveValidationResult = isActiveSchema.safeParse({
+        isActive: data.isActive,
       });
+      
+      if (!isActiveValidationResult.success) {
+        errors.push({
+          field: "isActive",
+          message: isActiveValidationResult.error.errors[0].message,
+        });
+      }
 
       if (errors.length > 0)
         return NextResponse.json({ errors }, { status: 400 });
