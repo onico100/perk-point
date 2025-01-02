@@ -31,6 +31,10 @@ export async function POST(request: Request) {
       })));
     }
 
+      if (errors.length > 0)
+        return NextResponse.json({ errors }, { status: 400 });
+
+
     const { email, password, providerName, businessName, phoneNumber } = data;
     if (!email || !password || !providerName || !businessName || !phoneNumber) {
       return NextResponse.json(
