@@ -70,4 +70,8 @@ export const userGoogleSchema = z.object({
   registrationDate: z.string().nullable(),
 });
 
+export const isActiveSchema = z.object({
+  isActive: z.boolean(),
+});
+
 export type UserGoogleFormValues = z.infer<typeof userGoogleSchema>;

@@ -1,5 +1,5 @@
 import { connectDatabase, updateDocumentById } from "@/services/mongo";
-import { ValidationError } from "@/types/Generaltypes";
+import { isActiveSchema, ValidationError } from "@/types/Generaltypes";
 import { supplierSchema } from "@/types/SupplierTypes";
 import { NextResponse } from "next/server";
 
@@ -17,9 +17,13 @@ export async function PATCH(
       );
     }
     const data = await request.json();
+
     let dataToCheck = { ...data };
+    
+    if (data.hasOwnProperty("branches")) {
     dataToCheck.branches =
       data?.branches?.length > 0 ? [data.branches[0].city] : [];
+    }
 
     const UpdateSchema = supplierSchema.partial();
     const validationResult = UpdateSchema.safeParse(dataToCheck);
@@ -34,20 +38,26 @@ export async function PATCH(
       );
     }
 
-    if (
-      data.registrationDate == null ||
-      typeof data.registrationDate != "string"
-    )
-      errors.push({
-        field: "registrationDate",
-        message: "registration date is required and must be a string",
-      });
+    if (data.hasOwnProperty("registrationDate")) {
+      if (typeof data.registrationDate != "string")
+        errors.push({
+          field: "registrationDate",
+          message: "registration date is required and must be a string",
+        });
+    }
 
-    if (data.isActive == null || typeof data.isActive != "boolean")
-      errors.push({
-        field: "isActive",
-        message: "isActive is required and must be a boolean",
+    if (data.hasOwnProperty("isActive")) {
+      const isActiveValidationResult = isActiveSchema.safeParse({
+        isActive: data.isActive,
       });
+      
+      if (!isActiveValidationResult.success) {
+        errors.push({
+          field: "isActive",
+          message: isActiveValidationResult.error.errors[0].message,
+        });
+      }
+    }
 
     if (errors.length > 0)
       return NextResponse.json({ errors }, { status: 400 });
