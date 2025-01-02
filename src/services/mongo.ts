@@ -61,9 +61,7 @@ export async function getDocumentByApiId(
   collection: string,
   id: string
 ) {
-  console.log(databaseName)
   const db = client.db(databaseName);
-  console.log(db)
 
   const document = await db
     .collection(collection)

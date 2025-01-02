@@ -33,7 +33,6 @@ const ClubsContactsManagement = () => {
   const [loading, setLoading] = useState(true);
   const [selectedClub, setSelectedClub] = useState<any>(null);
 
-  // Pagination states
   const [currentPageNewContacts, setCurrentPageNewContacts] = useState(1);
   const [currentPagePendingClubs, setCurrentPagePendingClubs] = useState(1);
   const [currentPageActiveClubs, setCurrentPageActiveClubs] = useState(1);
@@ -47,8 +46,6 @@ const ClubsContactsManagement = () => {
         const clubsData: Club[] = await getAllClubs();
         setAllClubs(clubsData);
         setPendingClubs(clubsData.filter((club) => club.clubStatus === "ממתין"));
-        console.log("clubsData", clubsData);
-        console.log("penddingClubData", pendingClubs);
       } catch (error) {
         console.error("Error fetching clubs:", error);
       } finally {
@@ -69,18 +66,18 @@ const ClubsContactsManagement = () => {
 
   const handlePageChange = (setPage: React.Dispatch<React.SetStateAction<number>>, page: number) => setPage(page);
 
-  
+
   const handleFinalApproval = async (club: Club, status: string) => {
     try {
-       await updateStatusClubById(club._id || " ", { clubStatus: status });
-       const clubsData: Club[] = await getAllClubs();
-       setAllClubs(clubsData);
-       setPendingClubs(clubsData.filter((club) => club.clubStatus === "ממתין"));
-        } catch (error) {
+      await updateStatusClubById(club._id || " ", { clubStatus: status });
+      const clubsData: Club[] = await getAllClubs();
+      setAllClubs(clubsData);
+      setPendingClubs(clubsData.filter((club) => club.clubStatus === "ממתין"));
+    } catch (error) {
       console.error("Error approving club:", error);
     }
   };
-  
+
 
 
 
@@ -160,7 +157,6 @@ const ClubsContactsManagement = () => {
         <LoadingSpinner />
       ) : (
         <>
-          {/* NEW CLUB CONTACTS TABLE*/}
           <div className={styles.section}>
             <h2 className={styles.subTitle}>פניות חדשות</h2>
             {clubContacts.length === 0 ? (
@@ -223,9 +219,8 @@ const ClubsContactsManagement = () => {
                     <button
                       key={index}
                       onClick={() => handlePageChange(setCurrentPageNewContacts, index + 1)}
-                      className={`${styles.pageButton} ${
-                        currentPageNewContacts === index + 1 ? styles.activePage : ""
-                      }`}
+                      className={`${styles.pageButton} ${currentPageNewContacts === index + 1 ? styles.activePage : ""
+                        }`}
                     >
                       {index + 1}
                     </button>
@@ -234,8 +229,6 @@ const ClubsContactsManagement = () => {
               </>
             )}
           </div>
-
-          {/* PENDING CLUBS TABLE */}
           <div className={styles.section}>
             <h2 className={styles.subTitle}>מועדונים ממתינים</h2>
             {pendingClubs.length === 0 ? (
@@ -270,11 +263,11 @@ const ClubsContactsManagement = () => {
                               אישור
                             </button>
                             <button
-                          className={styles.rejectButton}
-                          onClick={() => handleFinalApproval(club, "בוטל")}
-                        >
-                          מחיקה
-                        </button>
+                              className={styles.rejectButton}
+                              onClick={() => handleFinalApproval(club, "בוטל")}
+                            >
+                              מחיקה
+                            </button>
 
                           </td>
                         </tr>
@@ -287,9 +280,8 @@ const ClubsContactsManagement = () => {
                     <button
                       key={index}
                       onClick={() => handlePageChange(setCurrentPagePendingClubs, index + 1)}
-                      className={`${styles.pageButton} ${
-                        currentPagePendingClubs === index + 1 ? styles.activePage : ""
-                      }`}
+                      className={`${styles.pageButton} ${currentPagePendingClubs === index + 1 ? styles.activePage : ""
+                        }`}
                     >
                       {index + 1}
                     </button>
@@ -298,11 +290,9 @@ const ClubsContactsManagement = () => {
               </>
             )}
           </div>
-
-          {/* ACTIVE CLUBS TABLE*/}
           <div className={styles.section}>
             <h2 className={styles.subTitle}>מועדונים פעילים</h2>
-            {allClubs.length===0 || allClubs.filter((club) => club.isActive && club.clubStatus === "פעיל").length === 0 ? (
+            {allClubs.length === 0 || allClubs.filter((club) => club.isActive && club.clubStatus === "פעיל").length === 0 ? (
               <p className={styles.noDataText}>אין מועדונים פעילים.</p>
             ) : (
               <>
@@ -338,7 +328,7 @@ const ClubsContactsManagement = () => {
                           </button>
                           <button
                             className={styles.rejectButton}
-                            onClick={() => handleDeactivateClub(club._id|| " ")}
+                            onClick={() => handleDeactivateClub(club._id || " ")}
                           >
                             בטל
                           </button>
@@ -358,9 +348,8 @@ const ClubsContactsManagement = () => {
                       <button
                         key={index}
                         onClick={() => handlePageChange(setCurrentPageActiveClubs, index + 1)}
-                        className={`${styles.pageButton} ${
-                          currentPageActiveClubs === index + 1 ? styles.activePage : ""
-                        }`}
+                        className={`${styles.pageButton} ${currentPageActiveClubs === index + 1 ? styles.activePage : ""
+                          }`}
                       >
                         {index + 1}
                       </button>
@@ -372,8 +361,6 @@ const ClubsContactsManagement = () => {
           </div>
         </>
       )}
-
-      {/* CLUB DETAILS POPUP*/}
       {selectedClub && (
         <div className={styles.popup}>
           <div className={styles.popupContent}>

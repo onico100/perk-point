@@ -5,7 +5,6 @@ export async function getAllAddClubForms(): Promise<addClubForm[]> {
   try {
     const response = await my_http.post("/addClub/get");
     const allForms: addClubForm[] = response.data.data;
-    console.log("allForms: ", allForms);
     return allForms;
   } catch (error) {
     console.error("Error fetching add club forms:", error);

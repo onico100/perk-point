@@ -29,7 +29,6 @@ export async function PATCH(
       let document = await getDocumentByApiId(client, "benefits_api", id);
       id = document._id;
     }
-    console.log(collection, data);
     client = await connectDatabase();
     if (!client) {
       return NextResponse.json(

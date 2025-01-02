@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
 import nodemailer from "nodemailer";
-import logoLight from "@/assets/logoLight.png";
 
 const uri = process.env.PUBLIC_DB_CONNECTION!;
 const client = new MongoClient(uri);

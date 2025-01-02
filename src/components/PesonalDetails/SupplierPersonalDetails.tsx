@@ -2,7 +2,7 @@
 
 import { Category } from "@/types/Generaltypes";
 import styles from "@/styles/PersonalDetails/PersonalDetails.module.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MdOutlineModeEditOutline, MdOutlineEditOff } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,13 +14,11 @@ import {
 } from "@/utils/sweet-alerts";
 import { useFetchSuppliers } from "@/hooks/useFetchSuppliers";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
-import { getbranchesByBusinessName } from "@/services/branchesService";
 import {
   CldUploadWidget,
   CloudinaryUploadWidgetResults,
 } from "next-cloudinary";
 import { Supplier, supplierSchema } from "@/types/SupplierTypes";
-import { Branch } from "@/types/BenefitsTypes";
 
 interface SupplierPersonalDetailsProps {
   currentSupplier: Supplier;
