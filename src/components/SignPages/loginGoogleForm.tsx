@@ -22,7 +22,6 @@ const LoginGoogleForm = () => {
       const exitedUser =
         (await returnUserCheckEmailService(session.user.email || "---")) ||
         null;
-      console.log("exitedUser", exitedUser);
       if (exitedUser) {
         setCurrentUser(exitedUser);
         setClientMode(ClientMode.user);

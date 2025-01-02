@@ -5,7 +5,6 @@ export async function getAllContactForms(): Promise<ContactForm[]> {
   try {
     const response = await my_http.post("/contact/get");
     const allForms: ContactForm[] = response.data.data;
-    console.log("allForms: ", allForms);
     return allForms;
   } catch (error) {
     console.error("Error fetching contact forms:", error);

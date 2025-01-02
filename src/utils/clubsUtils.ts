@@ -2,7 +2,6 @@ import { getAllSuppliers } from "@/services/suppliersServices";
 import { getAllBenefitsApi, addBenefitApi } from "@/services/BenefitApiServices";
 import { Benefit, BenefitInput, BenefitApi } from "@/types/BenefitsTypes";
 import { Club } from "@/types/ClubTypes";
-import { counter } from "@fortawesome/fontawesome-svg-core";
 
 export const getActiveClubs = (clubs: Club[]) => {
   return clubs.filter((c: Club) => c.clubStatus == "פעיל");

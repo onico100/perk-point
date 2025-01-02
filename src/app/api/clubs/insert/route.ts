@@ -7,7 +7,6 @@ import nodemailer from "nodemailer";
 
 export async function POST(request: Request) {
   let client;
-  console.log("request: ", request);
   try {
     client = await connectDatabase();
     if (!client) {

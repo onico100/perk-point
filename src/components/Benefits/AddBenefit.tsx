@@ -41,10 +41,8 @@ export default function AddBenefit() {
     },
   });
 
-  console.log(errors)
 
   const onSubmit = (data: any) => {
-    console.log(errors)
     const selectedBranches = selectAll
       ? branches
       : branches.filter((b: any) => data.branches.includes(b.nameBranch));
@@ -60,7 +58,6 @@ export default function AddBenefit() {
       counter: 0,
     } as Benefit;
 
-    console.log(newBenefit);
 
     addBenefit(newBenefit);
     router.push(`/benefits/${id}`);

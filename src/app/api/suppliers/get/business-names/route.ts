@@ -15,11 +15,10 @@ export async function GET() {
     }
     const db = client.db("benefits-site");
 
-    // Fetch the business names and convert the cursor to an array
     const businessNames = await db
       .collection("suppliers_collection")
       .find({}, { projection: { businessName: 1, _id: 0 } })
-      .toArray(); // Convert cursor to array
+      .toArray(); 
 
     return NextResponse.json(businessNames);
   } catch (error: unknown) {
