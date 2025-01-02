@@ -1,5 +1,5 @@
 import { connectDatabase, updateDocumentById } from "@/services/mongo";
-import { clubSchema } from "@/types/ClubTypes";
+import { ClubAnotherFieldsSchema, clubSchema } from "@/types/ClubTypes";
 import { isActiveSchema, ValidationError } from "@/types/Generaltypes";
 import { NextResponse } from "next/server";
 
@@ -18,50 +18,58 @@ export async function PATCH(
     }
 
     const data = await request.json();
-        let dataToCheck = {
-          clubName: data?.clubName,
-          clubLink: data?.clubLink,
-          clubLogo: data?.clubLogo,
-          email: "aaa@gmail.com",
-        };
+    let dataToCheck = {
+      clubName: data?.clubName,
+      clubLink: data?.clubLink,
+      clubLogo: data?.clubLogo,
+      email: "aaa@gmail.com",
+    };
 
-        const UpdateSchema = clubSchema.partial();
-        
-        const validationResult = UpdateSchema.safeParse(dataToCheck);
-        const errors: ValidationError[] = [];
-    
-        if (!validationResult.success) {
-          validationResult.error.errors.map((err) => (errors.push({
-            field: err.path.join("."),
-            message: err.message,
-          })));
-        }
-    
-      const isActiveValidationResult = isActiveSchema.safeParse({
+    const UpdateSchema = clubSchema.partial();
+
+    const validationResult = UpdateSchema.safeParse(dataToCheck);
+    const errors: ValidationError[] = [];
+
+    if (!validationResult.success) {
+      validationResult.error.errors.map((err) =>
+        errors.push({
+          field: err.path.join("."),
+          message: err.message,
+        })
+      );
+    }
+
+
+      let isActiveSchema2=isActiveSchema.partial()
+      const isActiveValidationResult = isActiveSchema2.safeParse({
         isActive: data.isActive,
       });
-      
+
       if (!isActiveValidationResult.success) {
         errors.push({
           field: "isActive",
           message: isActiveValidationResult.error.errors[0].message,
         });
       }
-    
-        if (data.APIData == null)
+
+
+    let ClubAnotherFieldsSchema2=ClubAnotherFieldsSchema.partial();
+      const ClubAnotherFieldsSchemaValidationResult = ClubAnotherFieldsSchema2.safeParse({
+        APIData: data.APIData,
+        clubStatus: data.clubStatus
+      });
+
+      if (!ClubAnotherFieldsSchemaValidationResult.success) {
+        ClubAnotherFieldsSchemaValidationResult.error.errors.map((err) =>
           errors.push({
-            field: "APIData",
-            message: "API data is required",
-          });
-    
-        if (data.clubStatus==null)
-          errors.push({
-            field: "clubStatus",
-            message: "club status is required",
-          });
-    
-        if (errors.length > 0)
-          return NextResponse.json({ errors }, { status: 400 });
+            field: err.path.join("."),
+            message: err.message,
+          })
+        );
+      }
+
+    if (errors.length > 0)
+      return NextResponse.json({ errors }, { status: 400 });
 
     const result = await updateDocumentById(
       client,
@@ -74,7 +82,10 @@ export async function PATCH(
       return NextResponse.json({ error: "Benefit not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ modifiedCount: result.modifiedCount , result: result} );
+    return NextResponse.json({
+      modifiedCount: result.modifiedCount,
+      result: result,
+    });
   } catch (error: unknown) {
     console.error("Error in PATCH request:", error);
     const errorMessage =

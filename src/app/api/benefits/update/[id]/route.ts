@@ -21,8 +21,10 @@ export async function PATCH(
     const UpdateSchema = benefitSchema.partial();
 
     let dataToCheck = { ...data };
-    dataToCheck.branches =
-      data?.branches?.length > 0 ? [data.branches[0].city] : [];
+    if (data.hasOwnProperty("branches")) {
+      dataToCheck.branches =
+        data?.branches?.length > 0 ? [data.branches[0].city] : [];
+    }
 
     const validationResult = UpdateSchema.safeParse(dataToCheck);
     const errors: ValidationError[] = [];
