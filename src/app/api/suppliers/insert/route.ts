@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     }
 
     const data = await request.json();
-   
+  
     let dataToCheck = { ...data };
     dataToCheck.branches =
       data?.branches?.length > 0 ? [data.branches[0].city] : [];

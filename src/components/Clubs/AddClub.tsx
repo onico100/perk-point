@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import styles from "@/styles/Clubs/AddClub.module.css";
 import { useRouter } from "next/navigation";
 import SenddingAnimate from "@/components/Loading/SenddingAnimate";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CldUploadWidget, CloudinaryUploadWidgetResults } from "next-cloudinary";

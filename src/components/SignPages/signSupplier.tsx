@@ -39,7 +39,6 @@ export default function SignSupplierComponent() {
   const {
     register,
     handleSubmit,
-    //watch,
     setValue,
     clearErrors,
     trigger,
@@ -78,14 +77,6 @@ export default function SignSupplierComponent() {
     }
   };
 
-  //const businessName = watch("businessName");
-
-  // useEffect(() => {
-  //   if (businessName) {
-  //     // fetchBranches(businessName, 0);
-  //     fetchGoogleSuggestions(businessName || "");
-  //   }
-  // }, [businessName]);
 
   const handleLogoUpload = async (result: CloudinaryUploadWidgetResults) => {
     setUploading(true);
@@ -173,7 +164,6 @@ export default function SignSupplierComponent() {
   };
 
   const toggleGoogleSuggestion = (branch: Branch) => {
-    console.log("selected branches before: ", selectedBranches);
 
     const isSelected = selectedBranches.some(
       (b) => b.nameBranch == branch.nameBranch
@@ -185,7 +175,6 @@ export default function SignSupplierComponent() {
     } else {
       setSelectedBranches((prev) => [...prev, branch]);
     }
-    console.log("selected branches after: ", selectedBranches);
   };
 
   return (

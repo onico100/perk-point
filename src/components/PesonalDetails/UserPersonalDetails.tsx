@@ -1,5 +1,4 @@
 "use client";
-
 import styles from "@/styles/PersonalDetails/PersonalDetails.module.css";
 import { User, userSchema } from "@/types/Generaltypes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +11,6 @@ import {
   successAlert,
 } from "@/utils/sweet-alerts";
 import { useUpdateUserById } from "@/hooks/useFetchUsers";
-import Password from "antd/es/input/Password";
 
 interface UserPersonalDetailsProps {
   currentUser: User;
@@ -77,7 +75,6 @@ export default function UserPersonalDetails({
       setEditMode(false);
     }
   };
-console.log(errors)
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>פרטי משתמש</h2>

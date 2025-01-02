@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
           <p>קיבלנו בקשה לאיפוס סיסמה. לחץ על הקישור הבא כדי לאפס את הסיסמה שלך:</p>
           <p style=" margin: 20px 0;">
             <a href="${resetLink}" 
-               style="display: inline-block; background-color:rgb(97, 76, 175); color: white; padding: 10px 20px; 
+              style="display: inline-block; background-color:rgb(97, 76, 175); color: white; padding: 10px 20px; 
                       text-decoration: none; border-radius: 5px; font-weight: bold;">
               איפוס סיסמה
             </a>

@@ -10,7 +10,6 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
         const { status } = await request.json();
         const db = client.db("benefits-site");
         const collection = db.collection("contact_addClub_collection");
-        console.log("status: " + status);
 
         const result= status == "נדחה" ?  
             await collection.updateOne( { _id: new ObjectId(id) },  { $set: { status , isActive:false} },
