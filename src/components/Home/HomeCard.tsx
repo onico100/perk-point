@@ -21,12 +21,10 @@ const Card: React.FC<CardProps> = ({
     window.location.href = buttonLink;
   };
   return (
-    <div className={styles.card} style={style}>
-      <a href={buttonLink}>
-        <h2>{title}</h2>
-        <DotLottieReact src={image} loop autoplay />
-        <button onClick={gotoLink}>{buttonText}</button>
-      </a>
+    <div onClick={gotoLink} className={styles.card} style={style}>
+      <h2>{title}</h2>
+      <DotLottieReact src={image} loop autoplay />
+      <button onClick={gotoLink}>{buttonText}</button>
     </div>
   );
 };
