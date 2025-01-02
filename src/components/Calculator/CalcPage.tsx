@@ -88,7 +88,7 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
 
   const applyDiscount4 = () => {
     const discounts = discountInputs.discount4
-      .split(",") // Example input: "0:10,2:15"
+      .split(",") 
       .map((entry) => {
         const [index, percentage] = entry.split(":").map(Number);
         return { index, percentage };
@@ -120,6 +120,8 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
 
   const applyDiscounts = async (Inputs: DiscountInputs) => {
     setDiscountInputs(Inputs);
+    setDiscountSectionOpen(false);
+    setProductListOpen(true);
   };
 
   const handleDelete = (productName: string) => {
@@ -181,11 +183,10 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
         </Dropdown>
         {isProductSectionOpen && <AddProduct onAddProduct={addProduct} />}
       </StyledAddProduct>
-
       <DiscountSection>
         <Dropdown onClick={toggleDiscountSection}>
           <h2>הוספת הנחות</h2>
-          {isProductSectionOpen ? <IconDown /> : <IconRight />} 
+          {isDiscountSectionOpen ? <IconDown /> : <IconRight />} 
         </Dropdown>
         {isDiscountSectionOpen && (
           <Discount onApplyDiscounts={applyDiscounts} />
@@ -193,7 +194,7 @@ export default function CalcPage({ onClose }: { onClose: () => void }) {
       </DiscountSection>
       <Dropdown onClick={toggleProductList}>
         <h2>רשימת מוצרים הסופית</h2>
-        {isProductSectionOpen ? <IconDown /> : <IconRight />} 
+        {isProductListOpen ? <IconDown /> : <IconRight />} 
       </Dropdown>
       {isProductListOpen && (
           <ProductList products={products} handleDelete={handleDelete} />
