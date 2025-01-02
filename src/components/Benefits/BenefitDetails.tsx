@@ -134,7 +134,7 @@ const BenefitsDetails: React.FC<BenefitsDetailsProps> = ({
         {(clientMode == "ADMIN" || isCurrentSupplierBenefit) && (
           <div>
             <div className={styles.counterLabel}>
-              מספר האנשים שצפו בהטבה: {counter}
+              מספר הצפיות בהטבה: {counter}
             </div>
           </div>
         )}
