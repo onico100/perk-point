@@ -55,6 +55,7 @@ export const useFetchSuppliers = () => {
       if (context?.previousSuppliers) {
         const { setSuppliers } = useSupplierStore.getState();
         setSuppliers(context.previousSuppliers);
+        queryClient.setQueryData<Supplier[]>(["suppliers"], context.previousSuppliers);
         errorAlert("הוספת משתמש נכשלה");
       }
     },
@@ -103,6 +104,8 @@ export const useFetchSuppliers = () => {
     },
     onError: (_error, _variables, context: any) => {
       setSuppliers(context.previousSuppliers);
+      queryClient.setQueryData<Supplier[]>(["suppliers"], context.previousSuppliers);
+
       setCurrentSupplier(context.oldSupplier);
       errorAlert("עדכון ספק נכשל");
     },
