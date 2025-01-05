@@ -35,13 +35,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ errors }, { status: 400 });
 
 
-    const { email, password, providerName, businessName, phoneNumber } = data;
-    if (!email || !password || !providerName || !businessName || !phoneNumber) {
-      return NextResponse.json(
-        { error: "All required fields must be provided" },
-        { status: 400 }
-      );
-    }
+    const {password} = data;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
