@@ -35,7 +35,7 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
       }));
     } catch (error) {
       console.error(
-        `Failed to fetch benefits for club: ${club._id}. Error: ${error}`
+        `Failed to fetch benefits for club: ${club.clubName}. Error: ${error}`
       );
       return [];
     }
@@ -126,10 +126,12 @@ export async function addBenefit(newBenefit: Benefit): Promise<Benefit> {
 
 export async function increaseBenefit(
   id: string,
-  isAPI:boolean,
+  isAPI: boolean
 ): Promise<Benefit> {
   try {
-    const response = await my_http.patch(`/benefits/increaseCounter/${id}`,{isAPI: isAPI});
+    const response = await my_http.patch(`/benefits/increaseCounter/${id}`, {
+      isAPI: isAPI,
+    });
     return response.data;
   } catch (error) {
     console.error(`Error increase benefit counter with ID ${id}:`, error);
