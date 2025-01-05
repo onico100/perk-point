@@ -8,13 +8,13 @@
   padding: 30px;
   font-family: Arial, sans-serif;
   position: relative;
-  margin-right: 1vw;
+
   margin-bottom: 1vw;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  font-family: 'Rubik';
+  font-family: "Rubik";
   font-weight: 800;
 }
 
@@ -76,7 +76,7 @@
   position: absolute;
   bottom: 20px;
   left: 30px;
-  font-family: 'Assistant';
+  font-family: "Assistant";
   font-weight: 600;
 }
 

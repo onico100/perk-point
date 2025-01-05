@@ -18,7 +18,9 @@ export async function PATCH(
 
     const data = await request.json();
 
-    const validationResult = benefitApiSchema.safeParse(data);
+    const benefitApiUpdateSchema = benefitApiSchema.partial();
+
+    const validationResult = benefitApiUpdateSchema.safeParse(data);
 
     if (!validationResult.success) {
       const errors = validationResult.error.errors.map((err) => ({

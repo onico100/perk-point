@@ -4,7 +4,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useBenefitStore } from "@/stores/benefitsStore";
 import { Benefit } from "@/types/BenefitsTypes";
 import {
-  //getAllBenefits,
   addBenefit,
   deleteBenefitById,
   updateBenefitById,
@@ -58,7 +57,9 @@ export const useFetchBenefits = () => {
     },
     onError: (error, _, context: any) => {
       if (context?.previousBenefits) {
-        setBenefits(context.previousBenefits.filter((b: Benefit) => b._id !== "temp-id"));
+        let benefitsToFill:Benefit[]=context.previousBenefits.filter((b: Benefit) => b._id !== "temp-id")
+        setBenefits(benefitsToFill);
+        queryClient.setQueryData<Benefit[]>(["benefits"], benefitsToFill);
       }
       errorAlert("הוספת הטבה נכשלה.");
     },
@@ -89,7 +90,12 @@ export const useFetchBenefits = () => {
     onSuccess: (_error, _data, context) => {
       successAlert("הטבה עודכנה בהצלחה!");
     },
-    onError: (_error, _data, context) => {
+    onError: (_error, _data, context:any) => {
+      const { previousBenefits } = context;
+
+      queryClient.setQueryData<Benefit[]>(["benefits"], previousBenefits);
+      const { setBenefits } = useBenefitStore.getState();
+
       errorAlert("עדכון הטבה נכשל");
     },
   });

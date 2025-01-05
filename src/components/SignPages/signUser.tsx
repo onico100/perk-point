@@ -8,6 +8,7 @@ import { checkEmailService } from "@/services/emailServices";
 import { useState } from "react";
 import { errorAlert } from "@/utils/sweet-alerts";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SignUserComponent() {
   const { mutate: addUser, isPending } = useAddUser();
@@ -108,11 +109,14 @@ export default function SignUserComponent() {
         )}
         <button
           type="submit"
-          className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition"
+          className={styles.loginPageButton}
           disabled={isPending}
         >
           {isPending ? "רושם משתמש..." : "הרשם"}
         </button>
+        <div className={styles.noAccountLink}>
+          <Link href={"/login-user"}>יש לך כבר משתמש? התחברות</Link>
+        </div>
       </form>
     </div>
   );

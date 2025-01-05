@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
 
 const uri = process.env.PUBLIC_DB_CONNECTION!;

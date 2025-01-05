@@ -41,3 +41,14 @@ export const clubSchema = z.object({
   email: z.string().email("כתובת אימייל לא חוקית."),
 });
 
+const ClubStatusEnum = z.enum(["פעיל", "בוטל", "ממתין"]);
+
+
+export const ClubAnotherFieldsSchema = z.object({
+  APIData: z.boolean({
+    required_error: "API data is required",
+  }),
+  clubStatus: ClubStatusEnum.refine((status) => !!status, {
+    message: "club status is required",
+  }),
+});

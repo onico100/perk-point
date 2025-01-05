@@ -10,10 +10,9 @@
   margin-bottom: 20px;
   text-align: center;
   text-transform: uppercase;
-  background: linear-gradient(to right, #a74caf, #3ea6f9);
+  background: linear-gradient(to bottom right, #b346e8, #87cdfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .container h4 {
@@ -58,19 +57,18 @@
 }
 
 .customCheckbox:checked {
-  background-color: #3ea6f9;
   border-color: #3ea6f9;
 }
 
 .customCheckbox:checked::after {
   content: "✔";
   color: white;
-  font-size: 14px;
+  font-size: 18px;
   display: block;
   text-align: center;
   position: absolute;
-  top: 0;
-  left: 0;
+  bottom: 5px;
+  left: 5px;
   width: 100%;
   height: 100%;
   line-height: 20px;
@@ -91,7 +89,7 @@
 
 .saveButton {
   margin-top: 40px;
-  background-color: #4caf50;
+  background: linear-gradient(to bottom right, #b346e8, #87cdfa);
   color: white;
   padding: 12px 24px;
   border: none;

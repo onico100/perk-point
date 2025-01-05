@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import styles from "@/styles/contact.module.css";
-import { useRouter } from "next/navigation";
 import SenddingAnimate from "@/components/Loading/SenddingAnimate";
 
 interface ContactProps {
@@ -18,7 +17,6 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
-  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -48,7 +46,6 @@ const Contact: React.FC<ContactProps> = ({ isPopupOpen, setIsPopupOpen }) => {
         setTimeout(() => {
           setIsPopupOpen(false);
           setSent(false);
-          router.push("/");
         }, 1500);
       } else {
         const data = await response.json();

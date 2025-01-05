@@ -1,85 +1,86 @@
 .dashboard {
   font-family: "Assistant";
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    padding-bottom: 40px;
-  }
-  
-  .dashboard h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .dashboardButton:active {
-    transform: scale(1);
-  }
-  
-  .dashboardButton:focus {
-    outline: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  padding-bottom: 40px;
+}
 
-  .sidebar {
-    font-family: "Assistant";
-    position: fixed;
-    top: 70px;
-    right: 0;
-    height: 100%;
-    width: 200px;
-    background-color: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 10px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
-  
-  .dashboardButton {
-    width: 150px;
-    margin-bottom: 20px;
-    background: linear-gradient(to bottom, #932ccb, #5826cc);
-    color: white;
-    border: none;
-    border-radius:3px;
-    padding: 15px 15px;
-    cursor: pointer;
-    font-size: 1rem;
-    text-align: center;
-    transition: all 0.3s ease;
-  }
-  
-  .dashboardButton:hover {
-    background: linear-gradient(to bottom, #6f2199, #411b9b);
-    transform: scale(1.05);
-  }
-  
-  .contentContainer {
-    margin-right: 220px;
-    padding: 20px;
-  }
-  
-  .welcomeMessage {
-    text-align: center;
-    margin-top: 20%;
-    color: #2c3e50;
-  }
-  
-  .welcomeMessage h1 {
-    font-family: "Assistant";
-    font-weight: bold;
-    font-size: 2.5rem;
-    color: #5c18a6;
-    margin-bottom: 20px;
-  }
-  
-  .welcomeMessage p {
-    font-family: "Assistant";
-    font-size: 1.2rem;
-    color: #7f8c8d;
-  }
+.dashboard h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.dashboardButton:active {
+  transform: scale(1);
+}
+
+.dashboardButton:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar {
+  font-family: "Assistant";
+  position: fixed;
+  top: 70px;
+  right: 0;
+  height: 100%;
+  width: 200px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 10px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.dashboardButton {
+  margin-top: 20px;
+  background: linear-gradient(to bottom right, #b346e8, #87cdfa);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  min-width: 150px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.dashboardButton:hover {
+  background: linear-gradient(to bottom, #6f2199, #411b9b);
+  transform: scale(1.05);
+}
+
+.contentContainer {
+  margin-right: 220px;
+  padding: 20px;
+}
+
+.welcomeMessage {
+  text-align: center;
+  margin-top: 20%;
+  color: #2c3e50;
+}
+
+.welcomeMessage h1 {
+  font-family: "Assistant";
+  font-weight: bold;
+  font-size: 2.5rem;
+  color: #5c18a6;
+  margin-bottom: 20px;
+}
+
+.welcomeMessage p {
+  font-family: "Assistant";
+  font-size: 1.2rem;
+  color: #7f8c8d;
+}

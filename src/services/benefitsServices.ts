@@ -21,7 +21,6 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
 
   const allApiBenefits: Benefit[] = [];
 
-  // Fetch benefits for all clubs concurrently
   const benefitsPromises = clubsWithApi.map(async (club) => {
     try {
       const clubBenefits = await fetchBenefits(
@@ -30,30 +29,26 @@ export async function getAllBenefitsFormAll(): Promise<Benefit[]> {
       );
       const mappedBenefits = await getBenefitsClubsWithSupplierId(clubBenefits);
 
-      // Map clubId to each benefit
       return mappedBenefits.map((benefit) => ({
         ...benefit,
         clubId: club._id || " ",
       }));
     } catch (error) {
       console.error(
-        `Failed to fetch benefits for club: ${club._id}. Error: ${error}`
+        `Failed to fetch benefits for club: ${club.clubName}. Error: ${error}`
       );
-      return []; // Return an empty array on failure
+      return [];
     }
   });
 
-  // Wait for all promises to resolve (success or failure)
   const benefitsResults = await Promise.allSettled(benefitsPromises);
 
-  // Extract successful results
   for (const result of benefitsResults) {
     if (result.status === "fulfilled") {
       allApiBenefits.push(...result.value);
     }
   }
 
-  // Merge and sort the benefits
   return sortBenefitsByCounter([...dataBaseBenefits, ...allApiBenefits]);
 }
 
@@ -69,7 +64,7 @@ const fetchBenefits = async (
     return await response.json();
   } catch (error: any) {
     console.error(`Fetch error: ${error.message}`);
-    throw error; // Rethrow error to be handled in the caller
+    throw error;
   }
 };
 
@@ -130,10 +125,12 @@ export async function addBenefit(newBenefit: Benefit): Promise<Benefit> {
 
 export async function increaseBenefit(
   id: string,
-  isAPI:boolean,
+  isAPI: boolean
 ): Promise<Benefit> {
   try {
-    const response = await my_http.patch(`/benefits/increaseCounter/${id}`,{isAPI: isAPI});
+    const response = await my_http.patch(`/benefits/increaseCounter/${id}`, {
+      isAPI: isAPI,
+    });
     return response.data;
   } catch (error) {
     console.error(`Error increase benefit counter with ID ${id}:`, error);
