@@ -21,10 +21,12 @@
 
 .cardsContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 200px);
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, 240px);
   width: 100%;
   box-sizing: border-box;
-  gap: 50px;
+  gap: 25px;
 }
 
 .title {
