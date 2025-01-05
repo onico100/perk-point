@@ -59,6 +59,7 @@ export default function PasswordReset() {
         setMessage(data.message || "שגיאה באיפוס הסיסמה");
       }
     } catch (error) {
+      ///dfxdrxrx
       console.error("Error resetting password:", error);
       setMessage("שגיאה באיפוס הסיסמה. נסה שוב מאוחר יותר.");
     }
