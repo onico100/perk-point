@@ -18,7 +18,7 @@ export async function PATCH(
     }
 
     const data = await request.json();
-console.log(data)
+    console.log("----------------",data)
         let dataToCheck = {
           clubName: data?.clubName,
           clubLink: data?.clubLink,
