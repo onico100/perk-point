@@ -37,7 +37,8 @@ export const getBenefitsClubsWithSupplierId = async (
     const supplierMap = new Map(
       suppliers.map((supplier) => [supplier.businessName, supplier._id])
     );
-
+    
+  //fetch benfits from our data base- whis the counter
     const allBenefitsAPI = await getAllBenefitsApi();
     const benefitCounterMap = new Map(
       allBenefitsAPI.map((benefitApi) => [benefitApi.benefitId, benefitApi.counter])
