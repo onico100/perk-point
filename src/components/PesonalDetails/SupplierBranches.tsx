@@ -94,7 +94,7 @@ const SupplierBranches: React.FC<SupplierBranchesProps> = ({
       );
       setGoogleSuggestions(updatedSuggestions);
 
-      successAlert("השינויים נשמרו בהצלחה!");
+      //successAlert("השינויים נשמרו בהצלחה!");
     } catch (error) {
       errorAlert("שגיאה בשמירת השינויים.");
     }
